@@ -8,6 +8,9 @@
 #include <iomanip>
 #include <ctime>
 #include <exception>
+#include <map>
+#include <fstream>
+#include <sstream>
 
 // Global variables
 extern bool	g_shutdown;
@@ -26,5 +29,14 @@ extern bool	g_shutdown;
 #define SHUTDOWN_MSG				"Webserv is shutting down..."
 #define SET_SERVER_MSG(host, port)	"Server " + host + ":" + port + " setup complete"
 #define LAUNCH_MSG					"Launching servers..."
+
+// Parser check input errors
+#define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
+#define ERR_FILE						" is a invalid file\n\tFile must have a name and must be .conf"
+#define ERR_OPEN						"Couldn't open file "
+
+// Default settings
+#define DEFAULT_CONF		"system/default.conf"
+
 
 #endif

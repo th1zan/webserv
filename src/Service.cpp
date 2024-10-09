@@ -9,14 +9,14 @@ Service::Service(int argc, int argv){
 	std:signal(SIGPIPE, SIG_IGN); //ne rien faire avec SIGPIPE (erreur de socket)
 	std:(SIGINT, signalHandler);
 
-	//transmission du fichier de conf.
-	// Parser (input(argc, argv))
+	//instancie un Parser avec le fichier ".conf"
+	Parser(input(argc, argv))
 
 	// this->_servers = input.getServerConfigs();
 	// this->defautlServers = this->_countDefaultServers();
 }
 
-Service::~Service(){
+Service::~Service(){	
 
 	//fermer tous les socket de poll
 	for (size_t i = 0; i < this->pollingRequests.size; i++)

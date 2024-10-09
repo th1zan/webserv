@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:55:53 by thibault          #+#    #+#             */
-/*   Updated: 2024/09/30 15:05:13 by thibault         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:00:00 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int main(int argc, char **argv)
 {
 	try
 	{
+		//Instancie un Service sw (webserver)
 		Service webserv(argc, argv);
 		//webserv.printServerInfo();
 		webserv.setup();
