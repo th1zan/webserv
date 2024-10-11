@@ -26,92 +26,202 @@ Parser::~Parser(){
 
 void Parser::_parseFile() {
 	std::string line;
+	size_t _nbLine = 0;
 
 	// Read confFile line by line
 	while (std::getline(this->_confFile, line)) {
 		std::istringstream iss(line);
 		std::string word;
-		std::vector<std::string> words;
+		std::vector<std::string> wordsVect;
 		
-		if (line.empty())
-			continue;
-
-		// Read each word in the current line
+		// Read each word in the current line and push it in a vector
 		while (iss >> word)
-			words.push_back(word);
+			wordsVect.push_back(word);
 
-		//Analyze token's words to define token's category and push it to _tokensList
-		if (words.size() == 0) //
-			continue;
-		else if (words[0][0] == '#')
-			this->_tokensVector.push_back({COMMENT, line});
-		else if (words[0] == "server") {
-			if (words.size() == 2 && words[1] == "{")
-				this->_tokensVector.push_back({SERVER, line});
-			else
-				this->_tokensVector.push_back({ERROR, line});
-		}
-		else if (words[0] == "location") {
-			if (words.size() == 3 && words[2] == "{")
-			this->	_tokensVector.push_back({LOCATION, line});
-			else
-				this->_tokensVector.push_back({ERROR, line});
-		}
-		else if (words[0] == "}")
-			this->_tokensVector.push_back({CLOSE_BRACKET, line});
-		else if (words.size() == 2 && line.back() == ';')
-			this->_tokensVector.push_back({TOKEN, line});
-		else if (words.size() == 3 && line.back() == ';')
-			this->_tokensVector.push_back({TOKEN, line});
+		//Analyze token's wordsVect to define token's category and push it to _tokensList
+		if (wordsVect.empty())
+				_tokensVector.push_back({TK_EMPTY, ""});
+		else if (wordsVect[0][0] == '#')
+				this->_tokensVector.push_back({TK_COMMENT, line});
+		else if ((wordsVect.size() == 2 && wordsVect[0] == "server" && wordsVect[1] == "{")
+			|| (wordsVect.size() == 1 && wordsVect[0] == "server{"))
+				this->_tokensVector.push_back({TK_SERVER, line});
+		else if ((wordsVect.size() == 2 && wordsVect[0] == "location" && wordsVect[1].back() == "{")
+			|| (wordsVect.size() == 3 && wordsVect[0] == "server" && wordsVect[3] == "{"))
+			// ||	(wordsVect.size() == 1 && wordsVect[0].substr(0, 8) == "location" && wordsVect[1].back() == "{"
+				this->_tokensVector.push_back({TK_LOCATION, line});
+		else if (wordsVect[0] == "}")
+				this->_tokensVector.push_back({TK_CLOSE_BRACKET, line});
+		else if ((wordsVect.size() == 2 && line.back() == ';')
+			|| (wordsVect.size() == 3 && line.back() == ';'))
+				this->_tokensVector.push_back({TK_TOKEN, line});
 		else
-			this->_tokensVector.push_back({ERROR, line});
+				throw std::runtime_error(ERR_INVALID_KEY(this->_nbLine, line));
+	}
+	this->_checkBracket()
+	this->_getConfigAndInitServers();
 	
-	}
-
-	this->_checkTokens();
-	this->_getServerConfigFromTokens();
-	this->_checkConfigs();
-
 }
 
-void Parser::_getServerConfigFromTokens(){
-	size_t n = 0;
-	for (size_t i = 0; i < this->__tokensVector.size(); ++i) {
+void Parser::_checkBracket() {
+	std::vector<eToken> stack;
+
+	for (size_t i = 0; i < _tokensVector.size(); ++i) {
 		const Token& token = this->_tokensVector[i];
-		if (token.type == TOKEN){}
-			this->_serversVector[n];
-		if (token.type == LOCATION)
-			_getLocationConfig;
+
+		//add token to the stack if it is an "opening token"
+		if (token.type == TK_SERVER || token.type == TK_LOCATION) {
+			stack.push_back(token.type); 
+		} else if (token.type == TK_CLOSE_BRACKET) {
+			//check the stack is empty in cas of a "closing token"
+			if (stack.empty())
+				throw std::runtime_error(ERR_CLOSING_BRACKETS);
+			stack.pop_back();
+		}
 	}
 
+	// check if the stack is not empty (so unclosed bracket)
+	if (!stack.empty()) {
+		throw std::runtime_error(ERR_OPENING_BRACKET);
+	}
 }
+void Parser::_getConfigAndInitServers(){
+	this->_nServer = 0;
+	this->_nbLine = 0;
 
-void Parser::_checkTokens(){
-	int serverCount = 0;
-	int locationCount = 0;
-	int closeBracketCount = 0;
+	//for each line
+	for (; this->_nbLine < this->_tokensVector.size(); this->_nbLine++) {
+		
+		//when a SERVER token encounterd we enter in a bloc server
+		if (this->_tokensVector[this->_nbLine].type == TK_SERVER){
+			
+			//Get server configuration (= directives names / values) 
+			this->_getConfigFromTokens();
 
-	// iteration on each token to count the open and closing bracket
-	for (size_t i = 0; i < _tokensList.size(); ++i) {
-		const Token& token = _tokensList[i];
-		if (token.type == ERROR)
-			throw std::runtime_error(ERR_NO_SERVER_CONFIG);
-		if (token.type == SERVER)
-			++serverCount;
-		if (token.type == LOCATION)
-			++locationCount;
-		if (token.type == CLOSE_BRACKET)
-			++closeBracketCount;
+			//Check configuaration
+			this->_checkServerConfigs() 
+
+			//Server instanciation with their parametres (include their location(s))
+			this->_serversVector.push_back(Server(this->_serversVector,  this->_tempServerConfigMap, this->_tempLocationMap));
+
+			this->_nServer++;
+		}
 	}
-
-	// Check opening and closing parenthesis
-	if (serverCount + locationCount != closeBracketCount)
-		throw std::runtime_error(ERR_UNCLOSED_BRACKETS);
-
-	// Check if there is at least one server
-	if (serverCount == 0)
+	if (this->_nServer++ == 0)
 		throw std::runtime_error(ERR_NO_SERVER_CONFIG);
 }
+
+void Parser::_getConfigFromTokens(){
+	this->_nbLine++;
+	//in a bloc server, we seeks TOKEN or LOCATION
+	for (;this->_nbLine< this->_tokensVector.size(); this->_nbLine++) {
+		if (this->_tokensVector[this->_nbLine].type == TK_TOKEN)
+			this->_getServerParam()
+			this->_getParamFromToken(TK_SERVER);
+		else if (this->_tokensVector[this->_nbLine].type == TK_LOCATION){
+			this->_getLocationParam();
+
+			//add the struct Location to the _tempServerConfigMap.LocationMap 
+			this->_serversVector
+
+
+		}
+		else if (this->_tokensVector[this->_nbLine].type == TK_SERVER)
+			break;//end of server bloc
+		this->_nbLine++;
+
+
+	}
+	
+	
+}
+
+void Parser::_getLocationParam(){
+	for (;this->_nbLine< this->_tokensVector.size(); ++this->_nbLine) {
+				//put the parameters in a map
+				this->_getParamFromToken(TK_LOCATION);
+
+				//check Location param
+				this->_checkLocationParam();
+
+				if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET)
+					break;//end of Location bloc
+			}
+	
+
+}
+
+void	Parser::_checkLocationParam(){
+
+// if (dirValue.back() != ';')
+	// 	throw std::runtime_error(ERR_SEMICOLON(this->_nbLine, line));
+
+	// // delete last character (;)
+	// if (!dirValue.empty() && dirValue.back() == ';')
+	// 		dirValue.pop_back();
+
+}
+
+
+void Parser::_getServerParam(){
+	for (;this->_nbLine< this->_tokensVector.size(); ++this->_nbLine) {
+				//put the parameters in a map
+				this->_getParamFromToken(TK_SERVER);
+
+				//check Server param
+				this->_checkServerParam();
+
+				if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET
+					|| this->_tokensVector[this->_nbLine].type == TK_LOCATION)
+					break;//end of Server bloc
+			}
+	
+
+}
+
+void	Parser::_checkServerParam(){
+
+	// if (dirValue.back() != ';')
+	// 	throw std::runtime_error(ERR_SEMICOLON(this->_nbLine, line));
+
+	// // delete last character (;)
+	// if (!dirValue.empty() && dirValue.back() == ';')
+	// 		dirValue.pop_back();
+
+}
+
+void Parser::_getParamFromToken(int enumToken){
+	std::string line = this->_tokensVector[this->_nbLine];
+	std::istringstream iss(line);
+	std::string dirName, dirValue;
+	
+	//!!! There is at least a space between parameters, included "location .py {"
+
+	//get first and second word (of each line) as a directives' name and value
+	iss >> dirName;
+	iss >> dirValue;
+
+
+	//check each directives'name
+	if (dirName != ALLOW_M || dirName != AUTOID || dirName != CGI_E || dirName == CGI_P
+		|| dirName != MAX_SIZE || dirName != ERROR_P || dirName != HOST || dirName != INDEX
+		|| dirName != LISTEN || dirName != LOCATION || dirName != RETURN || dirName != ROOT
+		|| dirName != SERVER_N || dirName != TRY || dirName != UPLOAD || dirName != SERVER)
+		{
+			throw std::runtime_error(ERR_INVALID_KEY(this->_nbLine, line));
+		}
+
+
+	
+
+	//map each token in a _tempServerConfigMap or a _tempLocationConfigMap
+	if (enumToken == TK_SERVER)
+		this->_tempServerConfigMap[dirName] = value;
+	else if (enumToken == TK_LOCATION)
+		this->_tempLocationConfigMap[dirName] = value;
+}
+
+
 
 
 void Parser::_checkInputArg(int argc, char **argv){

@@ -3,6 +3,7 @@
 
 #include "defines.hpp"
 
+/* === String === */
 
 /* === Time === */
 std::string		getTime();
