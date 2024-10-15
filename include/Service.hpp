@@ -8,9 +8,9 @@
 class Service
 {
 	private:
-			serverVector	_servers;
-			clientVector	_clients;
-			pollfdVector	_pollingRequests;
+			std::vector<Server>	_serversVector;
+			std::vector<Client>	_clients;
+			std::vector<pollfd>	_pollingRequests;
 			size_t			_defaultServers;
 			serviceInfo		_tmp;
 

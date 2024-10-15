@@ -1,6 +1,10 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+#include "defines.hpp"
+#include "Parser.hpp"
+#include "utils.hpp"
+
 typedef struct location_s
 {
 	std::string					root;
@@ -29,7 +33,22 @@ class Server{
 			int					_socket;
 
 
+			
+
+
+			//Servers
+			// std::vector<Server>					_serversVector;
+			std::map<std::string, std::string>	_ServerConfigMap;
+
+
+			//Location
+			std::vector<std::map<std::string, std::string>>		_LocationMapVector;
+			std::map<std::string, std::string>					_LocationConfigMap;
+			std::vector<Server::location_t>						_LocationVector;
+			void				_getLocationStruct();
+
 	public:
+		Server():
 		
 
 		///verifier que les noms de servers ne sont pas les memes !

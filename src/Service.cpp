@@ -12,7 +12,7 @@ Service::Service(int argc, int argv){
 	//instancie un Parser avec le fichier ".conf"
 	Parser(input(argc, argv))
 
-	// this->_servers = input.getServerConfigs();
+	this->_serv_serversVector = input.getServersVector();
 	// this->defautlServers = this->_countDefaultServers();
 }
 

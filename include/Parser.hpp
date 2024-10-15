@@ -1,4 +1,4 @@
-#ifndef PARSER_HPP
+	#ifndef PARSER_HPP
 #define PARSER
 
 
@@ -16,6 +16,7 @@ enum eToken {
 	TK_EMPTY,
 	TK_COMMENT
 };
+
 
 struct Token
 {
@@ -42,9 +43,11 @@ class Parser{
 			void	_checkLocDirValue();
 			void	_checkConfigs();
 			void	_evalDelEndSemiColon(std::string& s);
+			void	_checkPath(std::string& dirValue, bool isDir, bool hasWPerm);
 
 			//Directives checking functions:
 			void	_checkListen(std::string& dirValue);
+			
 			void	_checkHost(std::string& dirValue);
 			void	_checkRoot(std::string& dirValue);
 			void	_checkIndex(std::string& dirValue);
@@ -80,11 +83,13 @@ class Parser{
 			std::map<std::string, std::string>					_tempLocationConfigMap;
 			std::vector<Server::location_t>						_tempLocationVector;
 			location_t											_tempLocation;
+			
 
 
 	public:
 			Parser(int argc, char **argv);
 			~Parser();
+			std::vector<Server>& getServersVector();
 
 			
 

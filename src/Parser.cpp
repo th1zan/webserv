@@ -24,6 +24,10 @@ Parser::~Parser(){
 
 }
 
+std::vector<Server>& Parser::getServersVector(){
+	return(this->_serversVector);
+}
+
 void Parser::_parseFile() {
 	std::string line;
 	size_t _nbLine = 0;
@@ -110,10 +114,10 @@ void Parser::_getConfigAndInitServers(){
 			this->_getConfigFromTokens();
 
 			//Check configuration (Server and Location)
-			this->_checkConfigs() 
+			this->_checkConfigs();
 
 			//Server instanciation with their parametres (include their location(s))
-			this->_serversVector.push_back(Server(this->_serversVector,  this->_tempServerConfigMap, this->_tempLocationMap));
+			this->_serversVector.push_back(Server(this->_tempServerConfigMap, this->_tempLocationMapVector));
 
 			this->_nServer++;
 		}
@@ -294,19 +298,52 @@ void Parser::_checkHost(std::string& dirValue) {
 		}
 }
 
+
 void Parser::_checkRoot(std::string& dirValue) {
-		// delete ending ';' if necessary to get a cleaner string later
-		this->_evalDelEndSemiColon(dirValue);
 
-		// Try to open the path
-		int fd = open(dirValue.c_str(), O_RDONLY);
-		if (fd < 0) {
-			throw std::runtime_error(ERR_DIRECTORY(dirValue));
-		}
+	/*function seems identical to _checkReturn !!! probably possible to use it*/ 
 
-		// Si l'ouverture a réussi, nous devons fermer le descripteur de fichier
-		close(fd);
+	// Delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+
+	this->_checkPath(dirValue, true);
 }
+
+void Parser::_checkPath(std::string& path, bool isDir, bool hasWPerm = false) {
+	struct stat info;
+
+	// Check for existence
+	if (access(path.c_str(), F_OK) != 0) {
+		throw std::runtime_error(ERR_DIRECTORY(path));
+	}
+
+	// throw std::runtime_error(ERR_DIRECTORY(dirValue));
+
+	// Get file information
+	if (stat(path.c_str(), &info) != 0) {
+		throw std::runtime_error(ERR_FILE_INFO(path));
+	}
+
+	// Check if it's a directory or a file
+	if ((info.st_mode & S_IFDIR) != 0) { // It's a directory
+		if (!isDir) {
+			throw std::runtime_error(ERR_DIRECTORY(path));
+		}
+	} else if ((info.st_mode & S_IFREG) != 0) { // It's a regular file
+		if (isDir) {
+			throw std::runtime_error(ERR_FILE(path)); 
+		}
+	} else {
+		throw std::runtime_error(ERR_NOT_FILE_NOT_DIR(path));
+	}
+	
+	// Check for write access
+	// Check for write access if hasWPerm is true
+	if (hasWPerm && access(path.c_str(), W_OK) != 0) {
+		throw std::runtime_error(ERR_PATH(path));
+	}
+}
+
 
 void	Parser::_checkIndex(std::string& dirValue) {
 		// delete ending ';' if necessary to get a cleaner string later
@@ -329,10 +366,9 @@ void	Parser::_checkIndex(std::string& dirValue) {
 		if (fd < 0) {
 			throw std::runtime_error(ERR_FILE(fullPath));
 		}
-
-		// Fermer le descripteur de fichier si l'ouverture a réussi
 		close(fd);
 }
+
 void Parser::_checkMaxSize(std::string& dirValue) {
 		// Remove the ending semicolon
 		this->_evalDelEndSemiColon(dirValue);
@@ -522,10 +558,170 @@ void Parser::_checkAllowM(std::string& dirValue) {
 
 }
 
-void Parser::_checkLocation(std::string& dirValue) {
-		if (dirValue.empty() || dirValue[0] != '/') {
-			throw std::runtime_error(ERR_LOCATION(dirValue));
+void Parser::_checkTry(std::string& dirValue) {
+
+	/*function seems identical to _checkIndex !!! probably possible to use it*/ 
+
+	// delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+
+	// find 'root' path in the map
+	auto it = _tempServerConfigMap.find(ROOT);
+	if (it == _tempServerConfigMap.end()) {
+		throw std::runtime_error(ERR_DIRECTIVE_MISSING(ROOT));
+	}
+	
+	// Get path
+	std::string rootDir = it->second; 
+
+	// make fullPath to the file
+	std::string fullPath = rootDir + "/" + dirValue;
+
+	// Vérifier si le fichier existe
+	int fd = open(fullPath.c_str(), O_RDONLY);
+	if (fd < 0) {
+		throw std::runtime_error(ERR_FILE(fullPath));
+	}
+
+	// Fermer le descripteur de fichier si l'ouverture a réussi
+	close(fd);
+}
+
+
+void Parser::_checkReturn(std::string& dirValue) {
+
+	/*function seems identical to _checkRoot !!! probably possible to use it*/ 
+
+	// Delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+	this->_checkPath(dirValue, false);
+}
+
+bool isValidUrl(const std::string& url) {
+	//regex pattern for a valid URL
+	const std::regex pattern(R"((http|https)://([a-zA-Z0-9.-]+)(:[0-9]+)?(/.*)?)");
+	/*
+		`R"(...)"`: Use of a raw string to facilitate writing the regex.
+		`(http|https)`: Checks that the URL starts with `http` or `https`.
+		`://`: Checks that the URL contains `://`.
+		`([a-zA-Z0-9.-]+)`: Checks that the domain name consists of letters, digits, dots, or hyphens.
+		`(:[0-9]+)?`: Checks that the port (optional) can be present in the form `:port`.
+		`(/.*)?`: Checks that the path (optional) can follow.
+	*/
+
+	
+	// Use std::regex_match to check if the URL matches the pattern
+	return std::regex_match(url, pattern);
+}
+
+
+/*
+// Function probably not needed
+
+#include <curl/curl.h>
+
+
+bool urlExists(const std::string& url) {
+	CURL* curl = curl_easy_init();
+	if (!curl) return false;
+
+	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(curl, CURLOPT_NOBODY, 1L); // don't need the body of the response
+	curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L); // Timeout 10 sec
+
+	// delete request
+	CURLcode res = curl_easy_perform(curl);
+
+	// check the answer
+	long responseCode;
+	curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
+	
+	curl_easy_cleanup(curl);
+	
+	// check if answer is 200 (OK)
+	return (res == CURLE_OK && responseCode == 200);
+}
+*/
+
+void Parser::_checkAutoID(std::string& dirValue) {
+	// Delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+
+	if (dirValue != "on" && dirValue != "off")
+		throw std::runtime_error(ERR_LOCATION(dirValue));
+}
+
+void Parser::_checkRootLoc(std::string& dirValue) {
+	// Delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+	this->_checkPath(dirValue, true);
+}
+
+void Parser::_checkUpload(std::string& dirValue) {
+	// Delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+	this->_checkPath(dirValue, true, true);
+}
+
+
+void Parser::_checkCgiP(std::string& dirValue) {
+	// Delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+
+	// check directory
+	this->_checkPath(dirValue, true);
+
+	//  open directory
+	DIR* dir = opendir(dirValue.c_str());
+	if (!dir) {
+		throw std::runtime_error(ERR_OPEN_DIR(dirValue));
+	}
+
+	struct dirent* entry;
+	bool hasCgi = false;
+
+	// loop to list the files in the directory and check CGI
+	while ((entry = readdir(dir)) != nullptr) {
+		// ignore the special files '.' and '..'
+		if (entry->d_name[0] == '.') {
+			continue;
 		}
+
+		// get the filePath
+		std::string filePath = dirValue + "/" + entry->d_name;
+		struct stat fileInfo;
+
+		// Get info
+		if (stat(filePath.c_str(), &fileInfo) == 0) {
+			// check if the file is regular (not a directory and not a link/alias) AND executable
+			if ((fileInfo.st_mode & S_IFREG) && (fileInfo.st_mode & S_IXUSR)) {
+				this->_tempLocationConfigMap["hasCgi"] = "true";
+				break;
+			}
+		}
+	}
+	closedir(dir);
+
+}
+
+
+
+void Parser::_checkCgiE(std::string& dirValue) {
+	// Delete ending ';' if necessary to get a cleaner string later
+	this->_evalDelEndSemiColon(dirValue);
+
+	//list of supported extension
+	const std::set<std::string> supportedExtensions = {".cgi", ".pl", ".py", ".sh", ".php"};
+	
+	//check if there is a '.'
+	if (dirValue.empty() || dirValue.front() != '.') {
+		throw std::runtime_error("Extension must start with a point (.)");
+	}
+
+	// //check if the extension is supported (in the list)
+	if (supportedExtensions.find(dirValue) == supportedExtensions.end()) {
+		throw std::runtime_error("Unsupported CGI extension: " + dirValue);
+	}
 }
 
 
@@ -539,11 +735,6 @@ void Parser::_evalDelEndSemiColon(std::string& s){
 		if (!s.empty() && s.back() == ';')
 				s.pop_back();
 }
-
-
-
-
-
 
 
 
@@ -579,14 +770,12 @@ void Parser::_getParamFromToken(int enumToken){
 }
 
 
-
-
 void Parser::_checkInputArg(int argc, char **argv){
 	//1.check argument
 	if (argc > 2)
 		throw std::runtime_error(ERR_ARG);
-	else if (argv == 2)
-		this->_confFilePath = av[1];
+	else if (argc == 2)
+		this->_confFilePath = argv[1];
 	else
 		this->_confFilePath = DEFAULT_CONF;
 
@@ -609,6 +798,6 @@ void Parser::_checkInputArg(int argc, char **argv){
 	else
 		extension = "";
 	if(extension != "conf")
-		throw std::runtime_error("'" + confFilename + "'" + ERR_FILE);
+		throw std::runtime_error(ERR_FILE_CONF(confFilename));
 	
 }
