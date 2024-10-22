@@ -1,8 +1,9 @@
 #include "Service.hpp"
 #include "Parser.hpp"
+#include "Client.hpp"
 #include "utils.hpp"
 
-Service::Service(int argc, int argv){
+Service::Service(int argc, char **argv){
 	printInfo(START_MSG, GREEN);
 
 	//interception des signaux
@@ -10,25 +11,405 @@ Service::Service(int argc, int argv){
 	std:(SIGINT, signalHandler);
 
 	//instancie un Parser avec le fichier ".conf"
-	Parser(input(argc, argv))
+	Parser	input(argc, argv);
 
-	this->_serv_serversVector = input.getServersVector();
+	this->_serversVector = input.getServersVector();
 	// this->defautlServers = this->_countDefaultServers();
 }
 
 Service::~Service(){	
 
 	//fermer tous les socket de poll
-	for (size_t i = 0; i < this->pollingRequests.size; i++)
-		close(this->_pollingRequests.at(i).fd);
+	for (size_t i = 0; i < this->_pollingFdVector.size; i++)
+		close(this->_pollingFdVector.at(i).fd);
 	printInfo(END_MSG, GREEN);
 }
 
 
-void Service::printServersInfo(){
-	serverVector::iterator server = this_server.begin();
-	for (; server != this->_servers.end() server++){
-		std::cout << *server << std::endl;
-	}
+// Setup functions //
+void Service::setup()
+{
+	// printInfo(SETUP_MSG, BLUE);
 
+	this->_initServiceInfo();
+
+	std::vector<Server>::iterator server = this->_serversVector.begin();
+	for(; server != this->_serversVector.end(); server++)
+	{
+		if (!server->getIsDefault())
+			continue;
+
+		this->_getSetupInfo(server);
+		this->_setReuseableAddress();
+		this->_convertHostToAddress();
+		this->_bindAddressToSocket();
+		this->_setSocketListening();
+		this->_addSocketToPollSockVec();
+
+	// 	printInfo(SET_SERVER_MSG(this->_tmp.host, this->_tmp.port), BLUE);
+
+		this->_resetTmpServiceInfo();
+	}
 }
+
+void Service::_initServiceInfo()
+{
+	std::memset(&this->_tmpServiceInfo.parameters, 0, sizeof(this->_tmpServiceInfo.parameters));
+	this->_tmpServiceInfo.parameters.ai_family = AF_INET;			// IPv4
+	this->_tmpServiceInfo.parameters.ai_socktype = SOCK_STREAM;	// TCP
+	this->_tmpServiceInfo.parameters.ai_protocol = IPPROTO_TCP;	// TCP
+	this->_tmpServiceInfo.address = NULL;
+}
+
+void Service::_getSetupInfo(std::vector<Server>::iterator server)
+{
+	server->createSocket();
+	this->_tmpServiceInfo.listeningSocket = server->getSocket();
+	this->_tmpServiceInfo.host = server->getHost();
+	this->_tmpServiceInfo.port = server->getPort();
+	this->_tmpServiceInfo.launch = false;
+}
+
+void Service::_setReuseableAddress()
+{
+	int active = 1;
+
+	//set socket's options (see documentation of 'setsockopt'). SO_REUSEADDR allow to re-use the socket after its closing 
+	if (setsockopt(this->_tmpServiceInfo.listeningSocket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
+	{
+		this->_resetTmpServiceInfo();
+		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
+	}
+}
+
+
+void Service::_resetTmpServiceInfo()
+{
+	if (this->_tmpServiceInfo.address)
+	{
+		freeaddrinfo(this->_tmpServiceInfo.address);
+		this->_tmpServiceInfo.address = NULL;
+	}
+	std::memset(&this->_tmpServiceInfo.parameters, 0, sizeof(this->_tmpServiceInfo.parameters));
+	this->_tmpServiceInfo.host.clear();
+	this->_tmpServiceInfo.port.clear();
+	this->_tmpServiceInfo.pollID = 0;
+	this->_tmpServiceInfo.clientID = 0;
+	this->_tmpServiceInfo.serverID = 0;
+	this->_tmpServiceInfo.listeningSocket = 0;
+	this->_tmpServiceInfo.mode = 0;
+	this->_tmpServiceInfo.connectionSocket = 0;
+	this->_tmpServiceInfo.launch = false;
+}
+
+void Service::_convertHostToAddress()
+{
+	
+	//convert hostname to IP adress for sockets (see documentation of 'getaddrinfo')
+	if (getaddrinfo(this->_tmpServiceInfo.host.c_str(), this->_tmpServiceInfo.port.c_str(), &this->_tmpServiceInfo.parameters, &this->_tmpServiceInfo.address) != 0)
+	{
+		this->_resetTmpServiceInfo();
+		throw std::runtime_error(ERR_GET_ADDR_INFO + std::string(std::strerror(errno)));
+	}
+}
+
+
+void Service::_bindAddressToSocket()
+{
+	//bind host's adress to the socket (after getting the address from the hostname)
+	if (this->_tmpServiceInfo.address)
+	{
+		if (bind(this->_tmpServiceInfo.listeningSocket, this->_tmpServiceInfo.address->ai_addr, this->_tmpServiceInfo.address->ai_addrlen) < 0)
+		{
+			this->_resetTmpServiceInfo();
+			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
+		}
+	}
+}
+
+void Service::_setSocketListening()
+{
+	//set the socket for listening
+	if (listen(this->_tmpServiceInfo.listeningSocket, MAX_PENDING) < 0)
+	{
+		this->_resetTmpServiceInfo();
+		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
+	}
+}
+
+
+void Service::_addSocketToPollSockVec()
+{
+	pollfd pollSocket;
+
+	if (this->_tmpServiceInfo.launch == true) //we are surveying a Client socket
+	{
+		//the 'connection Socket' is set to listen or read (POLLIN | POLLOUT)" 
+		pollSocket.fd = this->_tmpServiceInfo.connectionSocket;
+		pollSocket.events = POLLIN | POLLOUT;
+	}
+	else //we are surveying a Server socket
+	{
+		//the 'listeningSocket' is  set to listen (POLLIN)" (aka wait for new connections )
+		pollSocket.fd = this->_tmpServiceInfo.listeningSocket;
+		pollSocket.events = POLLIN;
+	}
+	pollSocket.revents = 0;
+	//the socket is added to the poll
+	this->_pollingFdVector.push_back(pollSocket);
+}
+
+//********* Launch functions */
+void Service::launch()
+{
+	printInfo(LAUNCH_MSG, BLUE);
+
+	while (g_shutdown == false)
+	{
+		this->_initPollingVector(); //init the list (table) of polling sockets
+		this->_pollingManager(); //loop on each socket of the list to check if there is a signal (something to read, send, error). Note: each Service (aka Server bloc) has a socket
+	}
+}
+
+void Service::_initPollingVector()
+{
+	//poll() is used to survey file descriptors (=sockets) without blocking the main process. It sends a signal when a socket is ready to read, listen or get an error
+	if (poll(this->_pollingFdVector.data(), this->_pollingFdVector.size(), POLL_TIME_OUT) < 0 && g_shutdown == false)
+		throw std::runtime_error(ERR_POLL_FAIL + std::string(std::strerror(errno)));
+}
+
+
+//!!! OLD FASHIONNED
+// void Service::_pollingManager()
+// {
+// 	//loop on each service (each socket)
+// 	for (size_t i = 0; i < this->_pollingFdVector.size(); i++)
+// 	{
+		
+// 		this->_resetTmpServiceInfo();
+// 		//get the info of the current (i) server
+// 		this->_getLaunchInfo(i);
+
+// 		if (this->_hasDataToRead())
+// 			continue;
+// 		if (this->_hasBadRequest())
+// 			continue;
+// 		if (this->_isServerSocket()) //if server socket -> accept connection, if client socket->readData 
+// 			continue;
+
+// 		this->_hasDataToSend();
+// 	}
+// }
+
+void Service::_pollingManager()
+{
+	// Loop on each socket in the polling vector
+	for (size_t i = 0; i < this->_pollingFdVector.size(); i++)
+	{
+		this->_resetTmpServiceInfo();
+		this->_getLaunchInfo(i);
+
+		// Handle errors first
+		if (this->_hasBadRequest())
+			continue;
+
+		// Check if there's data to read (POLLIN) or data to send (POLLOUT)
+		if (this->_tmpServiceInfo.mode & POLLIN) 
+		{
+			if (this->_isServerSocket()) // If server socket, accept connection
+			{
+				this->_acceptConnection();
+			}
+			else // If client socket, read data
+			{
+				this->_readData();
+			}
+		}
+		else if (this->_tmpServiceInfo.mode & POLLOUT) // Ready to send data (POLLOUT)
+		{
+			this->_hasDataToSend();
+		}
+	}
+}
+
+void Service::_getLaunchInfo(int const i)
+{
+	this->_tmpServiceInfo.pollID = i;
+	this->_tmpServiceInfo.clientID = i - this->_defaultServers;
+	this->_tmpServiceInfo.listeningSocket = this->_pollingFdVector.at(i).fd;
+	this->_tmpServiceInfo.mode = this->_pollingFdVector.at(i).revents;
+	this->_tmpServiceInfo.serverID = this->_getServerIndex();
+	this->_tmpServiceInfo.launch = true;
+}
+
+//OLD FASHIONNED
+// bool Service::_hasDataToRead()
+// {
+// 	//if the socket has data to read then:
+// 	if (this->_tmpServiceInfo.mode & POLLIN) //bitwise comparison -> POLLIN is present but POLLOUT could be present (or not)
+// 	{
+// 		// if tmpServiceInfo is a SERVER (we compare the socket to the server's socket list) -> we acceptConnection(). 
+// 		if (this->_isServerSocket())
+// 			this->_acceptConnection();
+// 		else // so tmpServiceInfo is a CLIENT's socket and we readData))
+// 			this->_readData();
+// 		return true;
+// 	}
+// 	return false;
+// }
+
+bool Service::_isServerSocket()
+{
+
+	//th socket can be a server or a client socket. We compare the socket to the server's list sockets
+	std::vector<Server>::iterator server = this->_serversVector.begin();
+	for (; server != this->_serversVector.end(); server++)
+	{
+		if (server->getSocket() == this->_tmpServiceInfo.listeningSocket)
+			return true;
+	}
+	return false;
+}
+
+void Service::_acceptConnection()
+{
+	//accept() create a new connectionSocket for the client . The (listening) socket is still waiting (listening) for new client's connexion
+	this->_tmpServiceInfo.connectionSocket = accept(this->_tmpServiceInfo.listeningSocket, NULL, NULL);
+
+	if (this->_tmpServiceInfo.connectionSocket < 0)
+		throw std::runtime_error(ERR_ACCEPT_SOCKET);
+	
+	fcntl(this->_tmpServiceInfo.connectionSocket, F_SETFL, O_NONBLOCK);	// set socket to non-blocking
+	
+	//create a new (instance) Client "linked" to the server (serverID)
+	this->_clientVector.push_back(Client(this->_serversVector.at(this->_tmpServiceInfo.serverID), this->_tmpServiceInfo.connectionSocket));
+
+	this->_addSocketToPollSockVec(); //update the list of socket with the first client
+}
+
+void Service::_readData()
+{
+	
+	char	buffer[BUFFER_SIZE] = {0};
+	//the buffer is filled with the content passing the listeningSocket with the rcv function
+	int		bytes = recv(this->_tmpServiceInfo.listeningSocket, buffer, BUFFER_SIZE, 0);
+
+	//if the buffer is not empty, its content is append to the Client's _request variable 
+	if (bytes > 0)
+		this->_clientVector.at(this->_tmpServiceInfo.clientID).appendRequest(buffer, bytes);
+	else
+		this->_closeConnection(EMPTY_MSG);
+}
+
+
+
+bool Service::_hasBadRequest()
+{
+	//check if the socket send an error
+	if (this->_tmpServiceInfo.mode & POLLERR)	// POLLERR: error condition
+	{
+		this->_closeConnection(POLLERR_MSG);
+		return true;
+	}
+	else if (this->_tmpServiceInfo.mode & POLLHUP)		// POLLHUP: hang up
+	{
+		this->_closeConnection(POLLHUP_MSG);
+		return true;
+	}
+	else if (this->_tmpServiceInfo.mode & POLLNVAL)	// POLLNVAL: invalid request
+	{
+		this->_closeConnection(POLLNVAL_MSG);
+		return true;
+	}
+	return false;
+}
+
+void Service::_hasDataToSend()
+{
+	//check if the client's socket is ready to send datas (POLLOUT mode) 
+	if (this->_tmpServiceInfo.mode & POLLOUT)
+	{
+		if (this->_clientVector.at(this->_tmpServiceInfo.clientID).isTimeout())
+		{
+			this->_closeConnection(TIMEOUT_MSG);
+			return;	
+		}
+
+		//check if the client is ready to send
+		if (!this->_clientVector.at(this->_tmpServiceInfo.clientID).isReadyToSend())
+			return;
+	
+		//chek if the server is available
+		this->_checkRequestedServer();
+
+		//send
+		this->_clientVector.at(this->_tmpServiceInfo.clientID).sendResponse();
+
+		this->_closeConnection(EMPTY_MSG);
+	}
+}
+
+void Service::_checkRequestedServer()
+{
+	std::string	request = this->_clientVector.at(this->_tmpServiceInfo.clientID).getRequest();
+	std::string	requestedServer;
+	size_t 		pos;
+
+	if ((pos = request.find(REQUEST_HOST)))
+	{
+		requestedServer = request.substr(pos + std::strlen(REQUEST_HOST));
+		if ((pos = requestedServer.find(CURSOR_NEWLINE)))
+			requestedServer = requestedServer.substr(0, pos);
+	}
+	else
+		return;
+
+	if ((pos = requestedServer.find(":")))
+		requestedServer = requestedServer.substr(0, pos);
+	
+	Server	defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
+	if (requestedServer == defaultServer.getServerName())
+		return;
+
+	std::vector<Server>::iterator server = this->_servers.begin();
+	for (; server != this->_serversVector.end(); server++)
+	{
+		if (requestedServer == server->getServerName() && server->getHost() == defaultServer.getHost())
+			this->_clientVector.at(this->_tmpServiceInfo.clientID).changeServer(*server);
+	}
+}
+
+
+
+void Service::_closeConnection(std::string const &msg)
+{
+	close(this->_tmpServiceInfo.listeningSocket);
+	this->_pollingFdVector.erase(this->_pollingFdVector.begin() + this->_tmpServiceInfo.pollID);
+	this->_clientVector.erase(this->_clientVector.begin() + this->_tmpServiceInfo.clientID);
+	if (!msg.empty())
+		printInfo(msg, RED);
+}
+
+
+
+int Service::_getServerIndex()
+{
+	//get un SERVER index for for each SERVER serviceInfo. There is a CLIENT index for CLIENT Service Info.
+	//To know if the ServiceInfo is a SERVER, we compare its socket to the socket in ServersVector.
+	std::vector<Server>::iterator server = this->_serversVector.begin();
+	for (; server != this->_serversVector.end(); server++)
+	{
+		
+		if (server->getSocket() == this->_tmpServiceInfo.listeningSocket)
+			return server - this->_serversVector.begin();
+	}
+	return 0;
+}
+
+// void Service::printServersInfo(){
+// 	serverVector::iterator server = this_server.begin();
+// 	for (; server != this->_servers.end() server++){
+// 		std::cout << *server << std::endl;
+// 	}
+
+// }

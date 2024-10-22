@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-Server::Server(std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string>> tempLocationMapVector) {
+Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string>> tempLocationMapVector) {
 
 	this->_ServerConfigMap = tempServerConfigMap;
 	this->_LocationMapVector = tempLocationMapVector;
@@ -9,11 +9,11 @@ Server::Server(std::map<std::string, std::string> tempServerConfigMap, std::vect
 	//server bloc param
 	this->_serverName = this->_ServerConfigMap[SERVER_N];
 	this->_host = this->_ServerConfigMap[HOST];
-	this->_root = this->_ServerConfigMap[ROOT]);
+	this->_root = this->_ServerConfigMap[ROOT];
 	this->_index = this->_ServerConfigMap[INDEX];
 	this->_errorPage = this->_ServerConfigMap[ERROR_P];
 	this->_port = this->_ServerConfigMap[LISTEN];
-	this->_clientMaxBodySize = this->_getConvertedMaxSize(configs[MAX_SIZE]);
+	this->_clientMaxBodySize = this->_getConvertedMaxSize(_ServerConfigMap[MAX_SIZE]);
 	
 	//get location bloc param to a vector of location_t struct
 	this->_getLocationStruct();
@@ -22,8 +22,19 @@ Server::Server(std::map<std::string, std::string> tempServerConfigMap, std::vect
 	// this->_errorResponse = this->_generateErrorResponse();
 
 
-	//if the server is made with default parameters because there is no config file as argument, the default config file is loaded
-	// this->_isDefault = 
+	this->_isDefault = this->_checkDefaultServer(_serversVector);
+}
+
+long long _getConvertedMaxSize(const std::string& maxSizeStr) {
+	// Utiliser std::stoll pour convertir la chaîne en long long
+	try {
+		long long value = std::stoll(maxSizeStr);
+		return value;
+	} catch (const std::invalid_argument& e) {
+		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION(maxSizeStr));
+	} catch (const std::out_of_range& e) {
+		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION_LONG(maxSizeStr));
+	}
 }
 
 /*
@@ -39,6 +50,16 @@ Location map keywords:
 	CGI_E
 */
 
+bool Server::_checkDefaultServer(std::vector<Server>&	_serversVector)
+{
+	std::vector<Server>::const_iterator previous = _serversVector.begin();
+	for (; previous != _serversVector.end(); previous++)
+	{
+		if (previous->_host == this->_host && previous->_port == this->_port)
+			return false;
+	}
+	return true;
+}
 
 void Server::_getLocationStruct() {
 	// Iterate through each map in the _LocationMapVector
@@ -103,3 +124,39 @@ void Server::_getLocationStruct() {
 
 
 Server::~Server(){}
+
+/******* Public Functions called by Service during Setup() *******/
+
+
+// ---> Getters ---------------------------------------------------------------
+bool Server::getIsDefault(){return (this->_isDefault);}
+std::string const	&Server::getHost() const{return this->_host;}
+std::string const	&Server::getPort() const{return this->_port;}
+int					Server::getSocket() const{return this->_socket;}
+
+// std::string const	&Server::getServerName() const{return this->_serverName;}
+// std::string const	&Server::getHost() const{return this->_host;}
+
+// std::string const	&Server::getRoot() const{return this->_root;}
+// std::string const	&Server::getIndex() const{return this->_index;}
+// std::string const	&Server::getErrorPage() const{return this->_errorPage;}
+// std::string const	&Server::getErrorResponse() const{return this->_errorResponse;}
+// size_t				Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+
+// locationMap const	&Server::getLocations() const{return this->_locations;}
+
+void Server::createSocket()
+{
+	if (!this->_socket)
+	{
+		this->_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+		if (this->_socket < 0)
+			throw std::runtime_error(ERR_SOCKET(this->_serverName));
+	}
+}
+
+// void Server::addLocation(locationPair location)
+// {
+// 	this->_locations.insert(location);
+// }

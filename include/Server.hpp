@@ -25,14 +25,14 @@ class Server{
 			std::string 		_host;
 			std::string 		_root;
 			std::string 		_index;
-			size_t				_clientMaxBodySize;
+			long long				_clientMaxBodySize;
 			std::string 		_errorPage;
 			std::string 		_errorResponse;
 			std::vector<location_t>	_tempLocationVector;
 			bool				_isDefault;
 			int					_socket;
-
-
+			bool				_checkDefaultServer(std::vector<Server>& _serversVector);
+			long long 			_getConvertedMaxSize(std::string maxSizeStr);
 			
 
 
@@ -48,9 +48,16 @@ class Server{
 			void				_getLocationStruct();
 
 	public:
-		Server():
-		
+			Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string>> tempLocationMapVector);
+			
+			//called from Service
+			void	createSocket();
 
+			//getters
+			bool				getIsDefault();
+			std::string const	&Server::getHost() const;
+			std::string const	&Server::getPort() const;
+			int					Server::getSocket() const;
 		///verifier que les noms de servers ne sont pas les memes !
 
 };

@@ -21,9 +21,23 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <poll.h>
 
+//Defaut settings
+
+#define POLL_TIME_OUT		200	// 200ms
+#define MAX_PENDING			10	// Maximum number of pending connections
+#define BUFFER_SIZE			2048	// 2KB
+#define SENT_TIMEOUT		60	// 60s
+
+// Charset 
+#define REQUEST_END			"\r\n\r\n"
 
 // Global variables
+
 extern bool	g_shutdown;
 
 // Custom Outputs
@@ -40,6 +54,12 @@ extern bool	g_shutdown;
 #define SHUTDOWN_MSG				"Webserv is shutting down..."
 #define SET_SERVER_MSG(host, port)	"Server " + host + ":" + port + " setup complete"
 #define LAUNCH_MSG					"Launching servers..."
+#define EMPTY_MSG					""
+#define POLLERR_MSG					"Connection closed. Error: POLLERR"
+#define POLLHUP_MSG					"Connection closed. Error: POLLHUP"
+#define POLLNVAL_MSG				"Connection closed. Error: POLLNVAL"
+#define CLOSE_MSG					"Connection closed"
+#define TIMEOUT_MSG					"Connection closed. Timeout"
 
 // Parser check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
@@ -69,6 +89,8 @@ extern bool	g_shutdown;
 #define ERR_FILE(file)						"Couldn't open file '" + file + "' ."
 #define ERR_MAX_SIZE_INPUT(size)			"'" + size + "' is not a valid size. Size must be a number positive or a number followed by a sufix (b - B, k - K, m - M, g - G)"
 #define ERR_MAX_SIZE_RANGE(size)			"'" + size + "' is not a valid size. The max value allowed is 10G (10737418240 bytes)"
+#define ERR_MAX_SIZE_CONVERSION(size)			"'" + size + "' is not a valid number."
+#define ERR_MAX_SIZE_CONVERSION_LONG(size)			"'" + size + "' is a number too large for long long."
 #define ERR_INVALID_SERVER_NAME(server)		"'"+ server + "' is not a valid server name, only alphanumeric, hyphens, and periods are allowed "
 
 //Bloc Location Error
@@ -79,10 +101,22 @@ extern bool	g_shutdown;
 #define ERR_ERR_CGI_EXT(extension)			"Unsupported CGI extension: '" + extension + "'" 
 
 
+//Setup Error
+#define ERR_SOCKET(server)				"failed to create network socket for server " + server
+
+
+// Service setServersAddress errors
+#define ERR_SET_SOCKET					"setsockopt() failed: "
+#define ERR_GET_ADDR_INFO				"getaddrinfo() failed: "
+#define ERR_BIND_SOCKET					"bind() failed: "
+#define ERR_LISTEN_SOCKET				"listen() failed: "
+
 // Default settings
 #define DEFAULT_CONF		"system/default.conf"
 
-
+// Service launch errors
+#define ERR_POLL_FAIL					"poll() failed"
+#define ERR_ACCEPT_SOCKET				"accept() failed"
 
 // Server parameters
 #define SERVER		"server"

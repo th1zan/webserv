@@ -117,7 +117,7 @@ void Parser::_getConfigAndInitServers(){
 			this->_checkConfigs();
 
 			//Server instanciation with their parametres (include their location(s))
-			this->_serversVector.push_back(Server(this->_tempServerConfigMap, this->_tempLocationMapVector));
+			this->_serversVector.push_back(Server(this->_serversVector, this->_tempServerConfigMap, this->_tempLocationMapVector));
 
 			this->_nServer++;
 		}
@@ -428,7 +428,11 @@ void Parser::_checkMaxSize(std::string& dirValue) {
 			throw std::runtime_error(ERR_MAX_SIZE_RANGE(dirValue));
 		}
 
-		std::cout << "Valid size: " << dirValue << " (in bytes: " << sizeValue << ")" << std::endl;
+		// std::cout << "Valid size: " << dirValue << " (in bytes: " << sizeValue << ")" << std::endl;
+
+		 // Convert the number to long long
+		long long sizeValue = std::stoll(numberStr);
+		dirValue = numberStr;
 	}
 
 void Parser::_checkServerN(std::string& dirValue) {
