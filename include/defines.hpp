@@ -28,13 +28,15 @@
 
 //Defaut settings
 
-#define POLL_TIME_OUT		200	// 200ms
-#define MAX_PENDING			10	// Maximum number of pending connections
+#define POLL_TIME_OUT		200		// 200ms
+#define MAX_PENDING			10		// Maximum number of pending connections
 #define BUFFER_SIZE			2048	// 2KB
-#define SENT_TIMEOUT		60	// 60s
+#define SENT_TIMEOUT		60		// 60s
 
-// Charset 
+// Charset 	
 #define REQUEST_END			"\r\n\r\n"
+#define CURSOR_NEWLINE		"\r\n"
+#define REQUEST_HOST		"Host: "
 
 // Global variables
 

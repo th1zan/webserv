@@ -130,11 +130,11 @@ Server::~Server(){}
 
 // ---> Getters ---------------------------------------------------------------
 bool Server::getIsDefault(){return (this->_isDefault);}
-std::string const	&Server::getHost() const{return this->_host;}
-std::string const	&Server::getPort() const{return this->_port;}
+const std::string&	Server::getHost() const{return this->_host;}
+const std::string&	Server::getPort() const{return this->_port;}
 int					Server::getSocket() const{return this->_socket;}
+const std::string&	Server::getServerName() const{return this->_serverName;}
 
-// std::string const	&Server::getServerName() const{return this->_serverName;}
 // std::string const	&Server::getHost() const{return this->_host;}
 
 // std::string const	&Server::getRoot() const{return this->_root;}

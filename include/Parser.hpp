@@ -1,4 +1,4 @@
-	#ifndef PARSER_HPP
+#ifndef PARSER_HPP
 #define PARSER
 
 
@@ -72,16 +72,16 @@ class Parser{
 			size_t		_nbLine;
 
 
-			std::string							_confFilePath;
-			std::ifstream						_confFile;
-			std::vector<Token>					_tokensVector;
+			std::string											_confFilePath;
+			std::ifstream										_confFile;
+			std::vector<Token>									_tokensVector;
 
-			std::vector<Server>					_serversVector;
-			std::map<std::string, std::string>	_tempServerConfigMap;
+			std::vector<Server>									_serversVector;
+			std::map<std::string, std::string>					_tempServerConfigMap;
 
 			std::vector<std::map<std::string, std::string>>		_tempLocationMapVector;
 			std::map<std::string, std::string>					_tempLocationConfigMap;
-			std::vector<Server::location_t>						_tempLocationVector;
+			std::vector<location_t>								_tempLocationVector;
 			location_t											_tempLocation;
 			
 

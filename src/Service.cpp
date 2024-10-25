@@ -20,7 +20,7 @@ Service::Service(int argc, char **argv){
 Service::~Service(){	
 
 	//fermer tous les socket de poll
-	for (size_t i = 0; i < this->_pollingFdVector.size; i++)
+	for (size_t i = 0; i < this->_pollingFdVector.size(); i++)
 		close(this->_pollingFdVector.at(i).fd);
 	printInfo(END_MSG, GREEN);
 }
@@ -64,7 +64,7 @@ void Service::_initServiceInfo()
 void Service::_getSetupInfo(std::vector<Server>::iterator server)
 {
 	server->createSocket();
-	this->_tmpServiceInfo.listeningSocket = server->getSocket();
+	this->_tmpServiceInfo.listeningSocketFd = server->getSocket();
 	this->_tmpServiceInfo.host = server->getHost();
 	this->_tmpServiceInfo.port = server->getPort();
 	this->_tmpServiceInfo.launch = false;
@@ -75,7 +75,7 @@ void Service::_setReuseableAddress()
 	int active = 1;
 
 	//set socket's options (see documentation of 'setsockopt'). SO_REUSEADDR allow to re-use the socket after its closing 
-	if (setsockopt(this->_tmpServiceInfo.listeningSocket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
+	if (setsockopt(this->_tmpServiceInfo.listeningSocketFd, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
 	{
 		this->_resetTmpServiceInfo();
 		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
@@ -96,9 +96,9 @@ void Service::_resetTmpServiceInfo()
 	this->_tmpServiceInfo.pollID = 0;
 	this->_tmpServiceInfo.clientID = 0;
 	this->_tmpServiceInfo.serverID = 0;
-	this->_tmpServiceInfo.listeningSocket = 0;
+	this->_tmpServiceInfo.listeningSocketFd = 0;
 	this->_tmpServiceInfo.mode = 0;
-	this->_tmpServiceInfo.connectionSocket = 0;
+	this->_tmpServiceInfo.connectionSocketFd = 0;
 	this->_tmpServiceInfo.launch = false;
 }
 
@@ -119,7 +119,7 @@ void Service::_bindAddressToSocket()
 	//bind host's adress to the socket (after getting the address from the hostname)
 	if (this->_tmpServiceInfo.address)
 	{
-		if (bind(this->_tmpServiceInfo.listeningSocket, this->_tmpServiceInfo.address->ai_addr, this->_tmpServiceInfo.address->ai_addrlen) < 0)
+		if (bind(this->_tmpServiceInfo.listeningSocketFd, this->_tmpServiceInfo.address->ai_addr, this->_tmpServiceInfo.address->ai_addrlen) < 0)
 		{
 			this->_resetTmpServiceInfo();
 			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
@@ -130,7 +130,7 @@ void Service::_bindAddressToSocket()
 void Service::_setSocketListening()
 {
 	//set the socket for listening
-	if (listen(this->_tmpServiceInfo.listeningSocket, MAX_PENDING) < 0)
+	if (listen(this->_tmpServiceInfo.listeningSocketFd, MAX_PENDING) < 0)
 	{
 		this->_resetTmpServiceInfo();
 		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
@@ -145,13 +145,13 @@ void Service::_addSocketToPollSockVec()
 	if (this->_tmpServiceInfo.launch == true) //we are surveying a Client socket
 	{
 		//the 'connection Socket' is set to listen or read (POLLIN | POLLOUT)" 
-		pollSocket.fd = this->_tmpServiceInfo.connectionSocket;
+		pollSocket.fd = this->_tmpServiceInfo.connectionSocketFd;
 		pollSocket.events = POLLIN | POLLOUT;
 	}
 	else //we are surveying a Server socket
 	{
-		//the 'listeningSocket' is  set to listen (POLLIN)" (aka wait for new connections )
-		pollSocket.fd = this->_tmpServiceInfo.listeningSocket;
+		//the 'listeningSocketFd' is  set to listen (POLLIN)" (aka wait for new connections )
+		pollSocket.fd = this->_tmpServiceInfo.listeningSocketFd;
 		pollSocket.events = POLLIN;
 	}
 	pollSocket.revents = 0;
@@ -203,7 +203,7 @@ void Service::_initPollingVector()
 
 void Service::_pollingManager()
 {
-	// Loop on each socket in the polling vector
+	// Loop on each socket in the polling vector containign the socket's fd
 	for (size_t i = 0; i < this->_pollingFdVector.size(); i++)
 	{
 		this->_resetTmpServiceInfo();
@@ -216,11 +216,11 @@ void Service::_pollingManager()
 		// Check if there's data to read (POLLIN) or data to send (POLLOUT)
 		if (this->_tmpServiceInfo.mode & POLLIN) 
 		{
-			if (this->_isServerSocket()) // If server socket, accept connection
+			if (this->_isServerSocket()) // If SERVER's socket, accept connection
 			{
 				this->_acceptConnection();
 			}
-			else // If client socket, read data
+			else // If CLIENT's socket, read data
 			{
 				this->_readData();
 			}
@@ -236,7 +236,7 @@ void Service::_getLaunchInfo(int const i)
 {
 	this->_tmpServiceInfo.pollID = i;
 	this->_tmpServiceInfo.clientID = i - this->_defaultServers;
-	this->_tmpServiceInfo.listeningSocket = this->_pollingFdVector.at(i).fd;
+	this->_tmpServiceInfo.listeningSocketFd = this->_pollingFdVector.at(i).fd;
 	this->_tmpServiceInfo.mode = this->_pollingFdVector.at(i).revents;
 	this->_tmpServiceInfo.serverID = this->_getServerIndex();
 	this->_tmpServiceInfo.launch = true;
@@ -261,11 +261,11 @@ void Service::_getLaunchInfo(int const i)
 bool Service::_isServerSocket()
 {
 
-	//th socket can be a server or a client socket. We compare the socket to the server's list sockets
+	//the socket can be a server or a client socket. We compare the socket to the server's list sockets to know if it's a server or a client
 	std::vector<Server>::iterator server = this->_serversVector.begin();
 	for (; server != this->_serversVector.end(); server++)
 	{
-		if (server->getSocket() == this->_tmpServiceInfo.listeningSocket)
+		if (server->getSocket() == this->_tmpServiceInfo.listeningSocketFd)
 			return true;
 	}
 	return false;
@@ -273,16 +273,19 @@ bool Service::_isServerSocket()
 
 void Service::_acceptConnection()
 {
-	//accept() create a new connectionSocket for the client . The (listening) socket is still waiting (listening) for new client's connexion
-	this->_tmpServiceInfo.connectionSocket = accept(this->_tmpServiceInfo.listeningSocket, NULL, NULL);
+	//accept() a connection on the server side means create a new connectionSocketFd for the client .
+	//accept() return a new file descriptor
+	//The (listening) socket is still waiting (listening) for new client's connexion
 
-	if (this->_tmpServiceInfo.connectionSocket < 0)
+	this->_tmpServiceInfo.connectionSocketFd = accept(this->_tmpServiceInfo.listeningSocketFd, NULL, NULL);
+
+	if (this->_tmpServiceInfo.connectionSocketFd < 0)
 		throw std::runtime_error(ERR_ACCEPT_SOCKET);
 	
-	fcntl(this->_tmpServiceInfo.connectionSocket, F_SETFL, O_NONBLOCK);	// set socket to non-blocking
+	fcntl(this->_tmpServiceInfo.connectionSocketFd, F_SETFL, O_NONBLOCK);	// fctnl() can set socket to non-blocking
 	
-	//create a new (instance) Client "linked" to the server (serverID)
-	this->_clientVector.push_back(Client(this->_serversVector.at(this->_tmpServiceInfo.serverID), this->_tmpServiceInfo.connectionSocket));
+	//push a new (instance of) Client "linked" to the server (with the serverID and the socket fd) in the Client vector
+	this->_clientVector.push_back(Client(this->_serversVector.at(this->_tmpServiceInfo.serverID), this->_tmpServiceInfo.connectionSocketFd));
 
 	this->_addSocketToPollSockVec(); //update the list of socket with the first client
 }
@@ -291,8 +294,8 @@ void Service::_readData()
 {
 	
 	char	buffer[BUFFER_SIZE] = {0};
-	//the buffer is filled with the content passing the listeningSocket with the rcv function
-	int		bytes = recv(this->_tmpServiceInfo.listeningSocket, buffer, BUFFER_SIZE, 0);
+	//the buffer is filled with the content passing to the listeningSocketFd then the content is "read" with recv()
+	int		bytes = recv(this->_tmpServiceInfo.listeningSocketFd, buffer, BUFFER_SIZE, 0);
 
 	//if the buffer is not empty, its content is append to the Client's _request variable 
 	if (bytes > 0)
@@ -326,37 +329,38 @@ bool Service::_hasBadRequest()
 
 void Service::_hasDataToSend()
 {
-	//check if the client's socket is ready to send datas (POLLOUT mode) 
-	if (this->_tmpServiceInfo.mode & POLLOUT)
+	//check the timeout (= if the connection and the server are fast enough)
+	if (this->_clientVector.at(this->_tmpServiceInfo.clientID).isTimeout())
 	{
-		if (this->_clientVector.at(this->_tmpServiceInfo.clientID).isTimeout())
-		{
-			this->_closeConnection(TIMEOUT_MSG);
-			return;	
-		}
-
-		//check if the client is ready to send
-		if (!this->_clientVector.at(this->_tmpServiceInfo.clientID).isReadyToSend())
-			return;
-	
-		//chek if the server is available
-		this->_checkRequestedServer();
-
-		//send
-		this->_clientVector.at(this->_tmpServiceInfo.clientID).sendResponse();
-
-		this->_closeConnection(EMPTY_MSG);
+		this->_closeConnection(TIMEOUT_MSG);
+		return;	
 	}
+
+	//check if the server is ready to send (= the client has already sent something)
+	if (!this->_clientVector.at(this->_tmpServiceInfo.clientID).isReadyToSend())
+		return;
+
+	//chek if the server is available for the request
+	this->_checkRequestedServer();
+
+	//send
+	this->_clientVector.at(this->_tmpServiceInfo.clientID).sendResponse();
+
+	this->_closeConnection(EMPTY_MSG);
 }
+
 
 void Service::_checkRequestedServer()
 {
-	std::string	request = this->_clientVector.at(this->_tmpServiceInfo.clientID).getRequest();
-	std::string	requestedServer;
-	size_t 		pos;
+	// Get the client's request .
+	std::string request = this->_clientVector.at(this->_tmpServiceInfo.clientID).getRequest();
+	std::string requestedServer;
+	size_t pos;
 
+	// Get the host in the request
 	if ((pos = request.find(REQUEST_HOST)))
 	{
+		// Get the server name
 		requestedServer = request.substr(pos + std::strlen(REQUEST_HOST));
 		if ((pos = requestedServer.find(CURSOR_NEWLINE)))
 			requestedServer = requestedServer.substr(0, pos);
@@ -364,16 +368,21 @@ void Service::_checkRequestedServer()
 	else
 		return;
 
+	// remove port number from the server name
 	if ((pos = requestedServer.find(":")))
 		requestedServer = requestedServer.substr(0, pos);
 	
-	Server	defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
+	// Get the DEFAULT server associated with the client.
+	Server defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
+	// no change if the requested server is the same as the default server
 	if (requestedServer == defaultServer.getServerName())
 		return;
 
-	std::vector<Server>::iterator server = this->_servers.begin();
+	// Go through the list of servers
+	std::vector<Server>::iterator server = this->_serversVector.begin();
 	for (; server != this->_serversVector.end(); server++)
 	{
+		// If a server name and host is found, update the client's server.
 		if (requestedServer == server->getServerName() && server->getHost() == defaultServer.getHost())
 			this->_clientVector.at(this->_tmpServiceInfo.clientID).changeServer(*server);
 	}
@@ -383,7 +392,7 @@ void Service::_checkRequestedServer()
 
 void Service::_closeConnection(std::string const &msg)
 {
-	close(this->_tmpServiceInfo.listeningSocket);
+	close(this->_tmpServiceInfo.listeningSocketFd);
 	this->_pollingFdVector.erase(this->_pollingFdVector.begin() + this->_tmpServiceInfo.pollID);
 	this->_clientVector.erase(this->_clientVector.begin() + this->_tmpServiceInfo.clientID);
 	if (!msg.empty())
@@ -400,11 +409,13 @@ int Service::_getServerIndex()
 	for (; server != this->_serversVector.end(); server++)
 	{
 		
-		if (server->getSocket() == this->_tmpServiceInfo.listeningSocket)
-			return server - this->_serversVector.begin();
+		if (server->getSocket() == this->_tmpServiceInfo.listeningSocketFd)
+			return static_cast<int>(server - this->_serversVector.begin());
 	}
 	return 0;
 }
+
+
 
 // void Service::printServersInfo(){
 // 	serverVector::iterator server = this_server.begin();

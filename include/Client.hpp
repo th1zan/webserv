@@ -22,12 +22,15 @@ class Client
 		Client(Server server, int socket);
 		~Client();
 
-		void	appendRequest(char const *buffer, size_t size);
+		void		appendRequest(char const *buffer, size_t size);
 		bool		isTimeout() const;
 		bool		isReadyToSend() const;
-		bool		sendResponse() const;
+		void		sendResponse() const;
 		
-		
+
+		const std::string& 	getRequest() const;
+		const Server& 		getServer() const;
+		void 				changeServer(Server server);
 };
 
 #endif

@@ -12,14 +12,16 @@ struct serviceInfo
 	addrinfo	*address;
 	std::string	host;
 	std::string	port;
-	int			listeningSocket; //to listen - for server
+	int			listeningSocketFd; //to listen - for server
 	int			clientID; 
 	int			serverID;
-	int			connectionSocket; //to connect - for client
+	int			connectionSocketFd; //to connect - for client
 	int			pollID;
 	short		mode;
 	bool		launch;
 };
+
+
 
 /*
 For information:

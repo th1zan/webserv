@@ -20,32 +20,32 @@ typedef struct location_s
 
 class Server{
 	private:
-			std::string 		_serverName;
-			std::string 		_port;
-			std::string 		_host;
-			std::string 		_root;
-			std::string 		_index;
-			long long				_clientMaxBodySize;
-			std::string 		_errorPage;
-			std::string 		_errorResponse;
-			std::vector<location_t>	_tempLocationVector;
-			bool				_isDefault;
-			int					_socket;
-			bool				_checkDefaultServer(std::vector<Server>& _serversVector);
-			long long 			_getConvertedMaxSize(std::string maxSizeStr);
+			std::string 					_serverName;
+			std::string 					_port;
+			std::string 					_host;
+			std::string 					_root;
+			std::string 					_index;
+			long long						_clientMaxBodySize;
+			std::string 					_errorPage;
+			std::string 					_errorResponse;
+			std::vector<location_t>			_tempLocationVector;
+			bool							_isDefault;
+			int								_socket;
+			bool							_checkDefaultServer(std::vector<Server>& _serversVector);
+			long long 						_getConvertedMaxSize(std::string maxSizeStr);
 			
 
 
 			//Servers
 			// std::vector<Server>					_serversVector;
-			std::map<std::string, std::string>	_ServerConfigMap;
+			std::map<std::string, std::string>					_ServerConfigMap;
 
 
 			//Location
 			std::vector<std::map<std::string, std::string>>		_LocationMapVector;
 			std::map<std::string, std::string>					_LocationConfigMap;
-			std::vector<Server::location_t>						_LocationVector;
-			void				_getLocationStruct();
+			std::vector<location_t>								_LocationVector;
+			void												_getLocationStruct();
 
 	public:
 			Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string>> tempLocationMapVector);
@@ -55,9 +55,10 @@ class Server{
 
 			//getters
 			bool				getIsDefault();
-			std::string const	&Server::getHost() const;
-			std::string const	&Server::getPort() const;
+			const std::string& Server::getHost() const;
+			const std::string& Server::getPort() const;
 			int					Server::getSocket() const;
+			const std::string& Server::getServerName() const;
 		///verifier que les noms de servers ne sont pas les memes !
 
 };
