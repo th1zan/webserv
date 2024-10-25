@@ -25,7 +25,7 @@ class Client
 		void		appendRequest(char const *buffer, size_t size);
 		bool		isTimeout() const;
 		bool		isReadyToSend() const;
-		void		sendResponse() const;
+		void		sendResponse();
 		
 
 		const std::string& 	getRequest() const;
