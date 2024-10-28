@@ -2,13 +2,14 @@
 #include "Parser.hpp"
 #include "Client.hpp"
 #include "utils.hpp"
+#include "defines.hpp"
 
 Service::Service(int argc, char **argv){
 	printInfo(START_MSG, GREEN);
 
 	//interception des signaux
-	std:signal(SIGPIPE, SIG_IGN); //ne rien faire avec SIGPIPE (erreur de socket)
-	std:(SIGINT, signalHandler);
+	std::signal(SIGPIPE, SIG_IGN); //ne rien faire avec SIGPIPE (erreur de socket)
+	std::signal(SIGINT, signalHandler);
 
 	//instancie un Parser avec le fichier ".conf"
 	Parser	input(argc, argv);
@@ -34,22 +35,38 @@ void Service::setup()
 	this->_initServiceInfo();
 
 	std::vector<Server>::iterator server = this->_serversVector.begin();
+	std::cout << "TEST 0" << std::endl;
 	for(; server != this->_serversVector.end(); server++)
 	{
-		if (!server->getIsDefault())
-			continue;
+		server->printServers();
+		// if (!server->getIsDefault())
+		// 	continue;
+		std::cout << "TEST 1" << std::endl;
 
 		this->_getSetupInfo(server);
+		std::cout << "TEST 2" << std::endl;
+
+		this->printServiceInfo();
 		this->_setReuseableAddress();
+		std::cout << "TEST 3" << std::endl;
+
 		this->_convertHostToAddress();
+		std::cout << "TEST 4" << std::endl;
+
 		this->_bindAddressToSocket();
+		std::cout << "TEST 5" << std::endl;
+
 		this->_setSocketListening();
+		std::cout << "TEST 6" << std::endl;
+		
 		this->_addSocketToPollSockVec();
+		std::cout << "TEST 7" << std::endl;
 
 	// 	printInfo(SET_SERVER_MSG(this->_tmp.host, this->_tmp.port), BLUE);
 
 		this->_resetTmpServiceInfo();
 	}
+	
 }
 
 void Service::_initServiceInfo()
@@ -197,7 +214,7 @@ void Service::_initPollingVector()
 // 		if (this->_isServerSocket()) //if server socket -> accept connection, if client socket->readData 
 // 			continue;
 
-// 		this->_hasDataToSend();
+// 		this->_sendDataToClient();
 // 	}
 // }
 
@@ -222,12 +239,12 @@ void Service::_pollingManager()
 			}
 			else // If CLIENT's socket, read data
 			{
-				this->_readData();
+				this->_readDataFromClient();
 			}
 		}
 		else if (this->_tmpServiceInfo.mode & POLLOUT) // Ready to send data (POLLOUT)
 		{
-			this->_hasDataToSend();
+			this->_sendDataToClient();
 		}
 	}
 }
@@ -252,7 +269,7 @@ void Service::_getLaunchInfo(int const i)
 // 		if (this->_isServerSocket())
 // 			this->_acceptConnection();
 // 		else // so tmpServiceInfo is a CLIENT's socket and we readData))
-// 			this->_readData();
+// 			this->_readDataFromClient();
 // 		return true;
 // 	}
 // 	return false;
@@ -290,7 +307,7 @@ void Service::_acceptConnection()
 	this->_addSocketToPollSockVec(); //update the list of socket with the first client
 }
 
-void Service::_readData()
+void Service::_readDataFromClient()
 {
 	
 	char	buffer[BUFFER_SIZE] = {0};
@@ -327,7 +344,7 @@ bool Service::_hasBadRequest()
 	return false;
 }
 
-void Service::_hasDataToSend()
+void Service::_sendDataToClient()
 {
 	//check the timeout (= if the connection and the server are fast enough)
 	if (this->_clientVector.at(this->_tmpServiceInfo.clientID).isTimeout())
@@ -336,15 +353,16 @@ void Service::_hasDataToSend()
 		return;	
 	}
 
-	//check if the server is ready to send (= the client has already sent something)
-	if (!this->_clientVector.at(this->_tmpServiceInfo.clientID).isReadyToSend())
+	//check if the client is ready to receive datas from server (=has finish to send)
+	if (!this->_clientVector.at(this->_tmpServiceInfo.clientID).clientIsReadyToReceive())
 		return;
 
-	//chek if the server is available for the request
+	//chek if the server is available to send the request
 	this->_checkRequestedServer();
 
 	//send
-	this->_clientVector.at(this->_tmpServiceInfo.clientID).sendResponse();
+	// this->_clientVector.at(this->_tmpServiceInfo.clientID).sendResponseToClient();
+	this->_clientVector.at(this->_tmpServiceInfo.clientID).handleClientRequest();
 
 	this->_closeConnection(EMPTY_MSG);
 }
@@ -352,15 +370,15 @@ void Service::_hasDataToSend()
 
 void Service::_checkRequestedServer()
 {
-	// Get the client's request .
+	//1. Get the client's request (to know who is the requested server)
 	std::string request = this->_clientVector.at(this->_tmpServiceInfo.clientID).getRequest();
 	std::string requestedServer;
 	size_t pos;
 
-	// Get the host in the request
+	// 2. Get the "host key" in the request
 	if ((pos = request.find(REQUEST_HOST)))
 	{
-		// Get the server name
+		// 3. Get the server name in the "host key"
 		requestedServer = request.substr(pos + std::strlen(REQUEST_HOST));
 		if ((pos = requestedServer.find(CURSOR_NEWLINE)))
 			requestedServer = requestedServer.substr(0, pos);
@@ -424,3 +442,24 @@ int Service::_getServerIndex()
 // 	}
 
 // }
+
+
+void Service::printServiceInfo(){
+	std::cout << "Service Info:" << std::endl;
+	std::cout << "Host: " << _tmpServiceInfo.host << std::endl;
+	std::cout << "Port: " << _tmpServiceInfo.port << std::endl;
+	std::cout << "Listening Socket FD: " << _tmpServiceInfo.listeningSocketFd << std::endl;
+	std::cout << "Client ID: " << _tmpServiceInfo.clientID << std::endl;
+	std::cout << "Server ID: " << _tmpServiceInfo.serverID << std::endl;
+	std::cout << "Connection Socket FD: " << _tmpServiceInfo.connectionSocketFd << std::endl;
+	std::cout << "Poll ID: " << _tmpServiceInfo.pollID << std::endl;
+	std::cout << "Mode: " << _tmpServiceInfo.mode << std::endl;
+	std::cout << "Launch: " << (_tmpServiceInfo.launch ? "true" : "false") << std::endl;
+	
+	// Affichage des détails d'addrinfo (parameters)
+	std::cout << "Parameters (addrinfo):" << std::endl;
+	std::cout << "  Family: " << _tmpServiceInfo.parameters.ai_family << std::endl;
+	std::cout << "  Socket Type: " << _tmpServiceInfo.parameters.ai_socktype << std::endl;
+	std::cout << "  Protocol: " << _tmpServiceInfo.parameters.ai_protocol << std::endl;
+	std::cout << "  Flags: " << _tmpServiceInfo.parameters.ai_flags << std::endl;
+}

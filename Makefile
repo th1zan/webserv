@@ -6,14 +6,18 @@
 #    By: thibault <thibault@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/30 11:36:55 by wcorrea-          #+#    #+#              #
-#    Updated: 2024/09/30 14:38:16 by thibault         ###   ########.fr        #
+#    Updated: 2024/10/25 20:33:05 by thibault         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = webserv
 
 SRC = src/main.cpp \
+		src/Service.cpp \
+		src/Parser.cpp \
 		src/Server.cpp \
+		src/Client.cpp \
+		src/utils.cpp
 
 OBJS = ${SRC:.cpp=.o}
 

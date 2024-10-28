@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:24:20 by thibault          #+#    #+#             */
-/*   Updated: 2024/09/30 15:06:56 by thibault         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:48:48 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #define WEBSERV_HPP
 
 #include "Service.hpp"
+#include "Parser.hpp"
+#include "Server.hpp"
 
 
 #endif

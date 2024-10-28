@@ -1,4 +1,8 @@
 #include "utils.hpp"
+#include "defines.hpp"
+#include "Server.hpp"
+
+bool g_shutdown = false;
 
 /* === Time === */
 std::string getTime()
@@ -32,3 +36,11 @@ void signalHandler(int signum){
 		printInfo(SHUTDOWN_MSG, GREEN);
 	}
 }
+
+/* === PrintInfo === */
+void printMap(const std::map<std::string, std::string>& mapToPrint){
+	for (std::map<std::string, std::string>::const_iterator it = mapToPrint.begin(); it != mapToPrint.end(); ++it) {
+		std::cout << "Key: '" << it->first << "', Value: '" << it->second << "'" << std::endl;
+	}
+}
+

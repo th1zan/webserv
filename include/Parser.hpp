@@ -1,7 +1,5 @@
 #ifndef PARSER_HPP
-#define PARSER
-
-
+#define PARSER_HPP
 
 #include "defines.hpp"
 #include "Server.hpp"
@@ -17,12 +15,16 @@ enum eToken {
 	TK_COMMENT
 };
 
+class Server;
+// struct location_t;
 
 struct Token
 {
 	eToken type;
 	std::string value;
 };
+
+typedef std::vector<Server> serverVector;
 
 class Parser{
 
@@ -42,13 +44,15 @@ class Parser{
 			void	_checkLocDirName();
 			void	_checkLocDirValue();
 			void	_checkConfigs();
-			void	_evalDelEndSemiColon(std::string& s);
-			void	_checkPath(std::string& dirValue, bool isDir, bool hasWPerm);
+			void	_delEndSemiColon(std::string& s);
+			void	_checkPath(std::string& dirValue, bool isDir, bool hasWPer = false);
 
 			//Directives checking functions:
 			void	_checkListen(std::string& dirValue);
 			
 			void	_checkHost(std::string& dirValue);
+			bool	_isValidIpAddress(const std::string& str);
+			bool	_isValidHostName(const std::string& str);
 			void	_checkRoot(std::string& dirValue);
 			void	_checkIndex(std::string& dirValue);
 			void	_checkMaxSize(std::string& dirValue);
@@ -74,15 +78,16 @@ class Parser{
 
 			std::string											_confFilePath;
 			std::ifstream										_confFile;
-			std::vector<Token>									_tokensVector;
+			std::vector<Token>										_tokensVector;
 
 			std::vector<Server>									_serversVector;
 			std::map<std::string, std::string>					_tempServerConfigMap;
 
-			std::vector<std::map<std::string, std::string>>		_tempLocationMapVector;
+			std::vector<std::map<std::string, std::string> >	_tempLocationMapVector;
 			std::map<std::string, std::string>					_tempLocationConfigMap;
 			std::vector<location_t>								_tempLocationVector;
 			location_t											_tempLocation;
+			std::string											_tempRootDirPath;
 			
 
 
@@ -90,10 +95,8 @@ class Parser{
 			Parser(int argc, char **argv);
 			~Parser();
 			std::vector<Server>& getServersVector();
-
-			
+			std::set<std::string> getSupportedExtensions();
 
 
 };
-
 #endif

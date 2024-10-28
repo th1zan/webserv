@@ -4,6 +4,8 @@
 #include "defines.hpp"
 #include "Parser.hpp"
 #include "Client.hpp"
+// #include "Service.hpp"
+// #include "utils.hpp"
 
 
 struct serviceInfo
@@ -63,10 +65,10 @@ class Service
 			bool			_hasDataToRead();
 			bool			_isServerSocket();
 			void			_acceptConnection();
-			void			_readData();
+			void			_readDataFromClient();
 			void			_closeConnection(std::string const &msg);
 			bool			_hasBadRequest();
-			void			_hasDataToSend();
+			void			_sendDataToClient();
 			void			_checkRequestedServer();
 
 
@@ -77,6 +79,7 @@ class Service
 			void	setup();
 			void	launch();
 			void	printServersInfo();
+			void	printServiceInfo();
 	
 };
 

@@ -9,9 +9,15 @@
 std::string		getTime();
 
 /* === Logs === */
-void	printInfo(std::string const &s, std::string const &color);
 
 /* === Signal === */
 void	signalHandler(int signum);
+
+/* === PrintInfo === */
+
+void printMap(const std::map<std::string, std::string>& mapToPrint);
+void printInfo(std::string const &s, std::string const &color);
+
+
 
 #endif

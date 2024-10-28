@@ -6,8 +6,9 @@ Parser::Parser(int argc, char **argv){
 
 	//open confFile as ifstream object
 	this->_confFile.open(this->_confFilePath.c_str());
-	if (!this->_confFile.is_open());
+	if (!this->_confFile.is_open())
 		throw std::runtime_error(ERR_OPEN + this->_confFilePath);
+
 
 	//init Parser instance variable
 	// this->_line = 1;
@@ -17,7 +18,15 @@ Parser::Parser(int argc, char **argv){
 	//parse config file
 	this->_parseFile();
 
-
+	
+	//DEBUG
+// 	size_t i = 0;
+// 	for (std::vector<Server>::iterator it = this->_serversVector.begin(); it != this->_serversVector.end(); ++it){
+// 		std::cout <<std::endl << "------ SERVERS PARAM AFTER PARSING -----" << std::endl;
+// 		std::cout << "Serveur n°: " << i << std::endl;
+// 		it->printServers();
+// 		i++;
+// 	}
 }
 
 Parser::~Parser(){
@@ -30,7 +39,7 @@ std::vector<Server>& Parser::getServersVector(){
 
 void Parser::_parseFile() {
 	std::string line;
-	size_t _nbLine = 0;
+	// size_t _nbLine = 0; //not used for the moment
 
 	// Read confFile line by line
 	while (std::getline(this->_confFile, line)) {
@@ -38,42 +47,60 @@ void Parser::_parseFile() {
 		std::string word;
 		std::vector<std::string> wordsVect;
 		
+		//DEBUG
+		// std::cout << "parsed line: '" << line << "'" <<std::endl;
+
 		// Read each word in the current line and push it in a vector
 		while (iss >> word)
 			wordsVect.push_back(word);
 
 		//Analyze token's wordsVect to define token's category and push it to _tokensList
-		if (wordsVect.empty())
-		{
-				_tokensVector.push_back({TK_EMPTY, ""});
+		Token tmpToken;
+
+		if (wordsVect.empty()) {
+			tmpToken.type = TK_EMPTY;
+			tmpToken.value = "";
+			this->_tokensVector.push_back(tmpToken);
 		}
-		else if (wordsVect[0][0] == '#')
-		{
-				this->_tokensVector.push_back({TK_COMMENT, line});
+		else if (wordsVect[0][0] == '#') {
+			tmpToken.type = TK_COMMENT;
+			tmpToken.value = line;
+			this->_tokensVector.push_back(tmpToken);
 		}
-		else if ((wordsVect.size() == 2 && wordsVect[0] == "server" && wordsVect[1] == "{")
-			|| (wordsVect.size() == 1 && wordsVect[0] == "server{"))
-		{
-				this->_tokensVector.push_back({TK_SERVER, line});
+		else if ((wordsVect.size() == 2 && wordsVect[0] == "server" && wordsVect[1] == "{") ||
+				(wordsVect.size() == 1 && wordsVect[0] == "server{")) {
+			tmpToken.type = TK_SERVER;
+			tmpToken.value = line;
+			this->_tokensVector.push_back(tmpToken);
 		}
-		else if ((wordsVect.size() == 2 && wordsVect[0] == "location" && wordsVect[1].back() == "{")
-			|| (wordsVect.size() == 3 && wordsVect[0] == "server" && wordsVect[3] == "{"))
-		{
-			// ||	(wordsVect.size() == 1 && wordsVect[0].substr(0, 8) == "location" && wordsVect[1].back() == "{"
-				this->_tokensVector.push_back({TK_LOCATION, line});
+		else if ((wordsVect.size() == 2 && wordsVect[0] == "location" && wordsVect[1].back() == '{') ||
+				(wordsVect.size() == 3 && wordsVect[0] == "location" && wordsVect[2] == "{")) {
+			tmpToken.type = TK_LOCATION;
+			tmpToken.value = line;
+			this->_tokensVector.push_back(tmpToken);
 		}
-		else if (wordsVect[0] == "}"){
-				this->_tokensVector.push_back({TK_CLOSE_BRACKET, line});
+		else if (wordsVect[0] == "}") {
+			tmpToken.type = TK_CLOSE_BRACKET;
+			tmpToken.value = line;
+			this->_tokensVector.push_back(tmpToken);
 		}
-		else if ((wordsVect.size() == 2 && line.back() == ';')
-			|| (wordsVect.size() == 3 && line.back() == ';'))
-		{
-				this->_tokensVector.push_back({TK_TOKEN, line});
+		else if ((wordsVect.size() == 2)
+				||(wordsVect.size() == 3)
+				||(wordsVect.size() == 4)) {
+			tmpToken.type = TK_TOKEN;
+			tmpToken.value = line;
+			if (line.back() != ';')
+				throw std::runtime_error(ERR_SEMICOLON(line));
+			this->_tokensVector.push_back(tmpToken);
 		}
-		else
-				throw std::runtime_error(ERR_INVALID_KEY(this->_nbLine, line));
+
+		else{
+			std::cout << "in: '_parseFile'" << std::endl;
+			throw std::runtime_error(ERR_INVALID_KEY(line));
+		}
+				
 	}
-	this->_checkBracket()
+	this->_checkBracket();
 	this->_getConfigAndInitServers();
 	
 }
@@ -100,38 +127,84 @@ void Parser::_checkBracket() {
 		throw std::runtime_error(ERR_OPENING_BRACKET);
 	}
 }
+
 void Parser::_getConfigAndInitServers(){
+	//DEBUG
+	// std::cout << "in :: '_getConfigAndInitServers': " << std::endl;
+	
 	this->_nServer = 0;
 	this->_nbLine = 0;
 
 	//for each line
 	for (; this->_nbLine < this->_tokensVector.size(); this->_nbLine++) {
-		
+
+		//DEBUG
+		std::cout << "print _nbline: " << this->_nbLine 
+		<< ", _tokensVector[this->_nbLine].type: " << _tokensVector[this->_nbLine].type
+		<< ", _tokensVector[this->_nbLine].value: " << _tokensVector[this->_nbLine].value
+		<< std::endl;
+	
 		//when a SERVER token encounterd we enter in a bloc server
 		if (this->_tokensVector[this->_nbLine].type == TK_SERVER){
 			
 			//Get server configuration (= directives names / values) 
 			this->_getConfigFromTokens();
-
+			
 			//Check configuration (Server and Location)
 			this->_checkConfigs();
 
-			//Server instanciation with their parametres (include their location(s))
-			this->_serversVector.push_back(Server(this->_serversVector, this->_tempServerConfigMap, this->_tempLocationMapVector));
+			
 
+			// DEBUG
+			// std::cout << std::endl << "in :: '_getConfigAndInitServers': " << std::endl;
+			// std::cout << "Server n°: " << this->_nServer << std::endl;
+			// printMap(_tempServerConfigMap);
+			// for (std::vector<std::map<std::string, std::string> >::iterator it = _tempLocationMapVector.begin(); it != _tempLocationMapVector.end(); ++it) {
+			// 	std::cout << std::endl;
+			// 	std::cout << "new Location:" << std::endl;
+			// 	printMap(*it);
+			// }
+
+			//Server instanciation with their parametres (include their location(s))
+			// Server tmpServ(this->_serversVector, this->_tempServerConfigMap, this->_tempLocationMapVector);
+			
+			// this->_serversVector.push_back(tmpServ);
+			this->_serversVector.push_back(Server(this->_serversVector, this->_tempServerConfigMap, this->_tempLocationMapVector));
+			
+			//DEBUG
+			// std::cout << "in _getConfigAndInitServers:: " << this->_nServer<< " server(s) initialized" << std::endl;
+			
+			this->_tempLocationMapVector.clear();
+			this->_tempServerConfigMap.clear();
+			this->_tempRootDirPath.clear();
 			this->_nServer++;
+			
 		}
+		this->_nbLine = this->_nbLine - 1;
 	}
 	if (this->_nServer++ == 0)
 		throw std::runtime_error(ERR_NO_SERVER_CONFIG);
+	//DEBUG
+	std::cout << this->_nServer<< "server(s) initialized" << std::endl;
 }
 
 void Parser::_getConfigFromTokens(){
+	//DEBUG
+	// std::cout << "in :: '_getConfigFromTokens': " << std::endl;
+
 	this->_nbLine++;
 	//We are afer a SERVER token so in a server bloc. Now we seeks TOKEN or LOCATION
 	for (;this->_nbLine< this->_tokensVector.size(); this->_nbLine++) {
+		
+		//DEBUG
+		// std::cout << "print _nbline: " << this->_nbLine 
+		// << ", _tokensVector[this->_nbLine].type: " << _tokensVector[this->_nbLine].type
+		// << ", _tokensVector[this->_nbLine].value: " << _tokensVector[this->_nbLine].value
+		// << std::endl;
+		
 		if (this->_tokensVector[this->_nbLine].type == TK_TOKEN)
 		{
+			
 			this->_getServerParam();
 		}
 		else if (this->_tokensVector[this->_nbLine].type == TK_LOCATION)
@@ -140,6 +213,14 @@ void Parser::_getConfigFromTokens(){
 
 			//add the _tempServerConfigMap.LocationMap to _tempLocationMapVector
 			this->_tempLocationMapVector.push_back(this->_tempLocationConfigMap);
+			
+			
+			//DEBUG
+			// std::cout << "new _tempLocationConfigMap:" << std::endl;
+			// printMap(_tempLocationConfigMap);
+
+
+			this->_tempLocationConfigMap.clear();
 		}
 		else if (this->_tokensVector[this->_nbLine].type == TK_SERVER)
 			break;//end of server bloc
@@ -151,22 +232,28 @@ void Parser::_getConfigFromTokens(){
 
 void Parser::_getServerParam(){
 	for (;this->_nbLine< this->_tokensVector.size(); ++this->_nbLine) {
-				//put the parameters in a map . 
-				this->_getParamFromToken(TK_SERVER);
-				if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET
-					|| this->_tokensVector[this->_nbLine].type == TK_LOCATION)
-					break;//end of Server bloc
-			}
+				
+		if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET
+			|| this->_tokensVector[this->_nbLine].type == TK_LOCATION)
+		{
+				this->_nbLine = this->_nbLine-2;
+				return;//end of Server bloc
+		}
+
+		//put the parameters in a map . 
+		this->_getParamFromToken(TK_SERVER);
+	}
 }
 
 void Parser::_getLocationParam(){
 	for (;this->_nbLine< this->_tokensVector.size(); ++this->_nbLine) {
-				//put the parameters in a map
-				this->_getParamFromToken(TK_LOCATION);
+			
+		if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET)
+			break;//end of Location bloc
 
-				if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET)
-					break;//end of Location bloc
-			}
+		//put the parameters in a map
+		this->_getParamFromToken(TK_LOCATION);
+	}
 
 }
 
@@ -174,6 +261,13 @@ void Parser::_getLocationParam(){
 void Parser::_checkConfigs(){
 	this->_checkServerParam();
 	this->_checkLocationParam();
+
+
+	//DEBUG
+	// std::cout << "in :: '_checkConfigs': print _tempServerConfigMap" << std::endl;
+	// printMap(this->_tempServerConfigMap);
+	// printMap(*this->_tempLocationMapVector.begin());
+	
 }
 
 
@@ -181,60 +275,80 @@ void	Parser::_checkServerParam(){
 
 	this->_checkDirectiveName();
 	this->_checkDirectiveValue();
-	
 
 }
 
 void	Parser::_checkDirectiveName(){
+	//DEBUG
+	// std::cout << "in :: '_checkDirectiveName'" << std::endl;
 
-	std::string const mandatoryParam[] = {LISTEN, HOST, ROOT, INDEX, MAX_SIZE};
+	std::string const mandatoryParam[] = {LISTEN, HOST, ROOT_LOC, INDEX, MAX_SIZE};
 	//forbiden = Location parameter
 	std::string const forbiddenParam[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
 
 	for (int i = 0; i < 5; i++)
 	{
-		if (_tempServerConfigMap.find(mandatoryParam[i]) == _tempServerConfigMap.end())
-			throw std::runtime_error(ERR_DIRECTIVE_MISSING(mandatoryParam[i]));
+		
+		if (this->_tempServerConfigMap.find(mandatoryParam[i]) == this->_tempServerConfigMap.end())
+			throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(mandatoryParam[i]));
 	}
 
 	for (int i = 0; i < 6; i++)
 	{
-		if (_tempServerConfigMap.find(forbiddenParam[i]) != _tempServerConfigMap.end())
-			throw std::runtime_error(ERR_FORBIDDEN_DIRECTIVE(forbiddenParam[i]));
+		if (this->_tempServerConfigMap.find(forbiddenParam[i]) != this->_tempServerConfigMap.end())
+			throw std::runtime_error(ERR_SERV_FORBIDDEN_DIRECTIVE(forbiddenParam[i]));
 	}
 
 }
 
 void	Parser::_checkDirectiveValue(){
 
+	//DEBUG
+	// std::cout << "in :: '_checkDirectiveValue'" << std::endl;
+
+	//first check and get the 'root' directive because this path is needed for further checks
+	// find 'root' path in the map, check it and put it in a '_tempRootDirPath'
+	std::map<std::string, std::string>::iterator it = _tempServerConfigMap.find(ROOT_LOC);
+	if (it == _tempServerConfigMap.end()) {
+		throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(std::string(ROOT_LOC)));
+	}
+	this->_checkRoot(it->second);
+	this->_tempRootDirPath = it->second;
+
+
+
+	//then check other directive
 	for (std::map<std::string, std::string>::iterator it = _tempServerConfigMap.begin(); it != _tempServerConfigMap.end(); ++it) {
 		if (it->second == SERVER) {
 			//_checkServer should chekcthe closing parenthesis, but it's already done before
 			// this->_checkServer();
 			continue;
 		}
-		else if (it->second == LISTEN) {
+		else if (it->first == LISTEN) {
 			this->_checkListen(it->second);
 		}
-		else if (it->second == HOST) {
+		else if (it->first == HOST) {
 			this->_checkHost(it->second);
 		}
-		else if (it->second == ROOT) {
-			this->_checkRoot(it->second);
+		else if (it->first == ROOT_LOC) {
+			//nothing, already done;
 		}
-		else if (it->second == INDEX) {
+		else if (it->first == INDEX) {
 			this->_checkIndex(it->second);
 		}
-		else if (it->second == MAX_SIZE) {
+		else if (it->first == MAX_SIZE) {
 			this->_checkMaxSize(it->second);
 		}
-		else if (it->second == SERVER_N) {
+		else if (it->first == SERVER_N) {
 			this->_checkServerN(it->second);
 		}
-		else if (it->second == ERROR_P) {
+		else if (it->first == ERROR_P) {
 			this->_checkErrorP(it->second);
 		}
-	}
+		//DEBUG
+		// std::cout << "in :: '_checkDirectiveValue'" << std::endl;
+		// std::cout << "it->second = " << it->second <<std::endl;
+	}	
 }
 
 void	Parser::_checkLocationParam(){
@@ -248,7 +362,7 @@ void	Parser::_checkLocationParam(){
 
 void Parser::_checkListen(std::string& dirValue) {
 		// delete ending ';' if necessary to get a cleaner string later
-		this->_evalDelEndSemiColon(dirValue);
+		this->_delEndSemiColon(dirValue);
 
 		// check if integer
 		char* dirValueStr;
@@ -261,42 +375,50 @@ void Parser::_checkListen(std::string& dirValue) {
 }
 
 void Parser::_checkHost(std::string& dirValue) {
-		// delete ending ';' if necessary to get a cleaner string later
-		this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 
-
-		// check if hostname or IP adress is valid using a regex
-		std::regex host_regex(R"(^[a-zA-Z0-9.-]+$)");
-		std::regex ip_regex(R"(^(\d{1,3}\.){3}\d{1,3}$)");
-
-		if (!std::regex_match(dirValue, host_regex) && !std::regex_match(dirValue, ip_regex))
-		{
-			throw std::runtime_error(ERR_HOST_INPUT(dirValue));
-		}
-
-		//not really necessary ?!?
-
-		// Check if each number in the ip adresse is between 0 and 255 (for ipV4)
-		if (std::regex_match(dirValue, ip_regex)) {
-			size_t pos = 0;
-			int octet;
-			int count = 0;
-
-			while ((pos = dirValue.find('.', pos)) != std::string::npos) {
-				octet = std::atoi(dirValue.substr(count, pos - count).c_str());
-				if (octet < 0 || octet > 255) {
-					throw std::runtime_error(ERR_HOST_INPUT(dirValue));
-				}
-				count = ++pos;
-			}
-
-			//check last octet
-			octet = std::atoi(dirValue.substr(count).c_str());
-			if (octet < 0 || octet > 255) {
-				throw std::runtime_error(ERR_HOST_INPUT(dirValue));
-			}
-		}
+	if (!this->_isValidHostName(dirValue) && !this->_isValidIpAddress(dirValue)) {
+		throw std::runtime_error(ERR_HOST_INPUT(dirValue));
+	}
 }
+
+bool Parser::_isValidHostName(const std::string& str) {
+	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it) {
+		if (!std::isalnum(*it) && *it != '.' && *it != '-') {
+			return false;
+		}
+	}
+	return !str.empty();
+}
+
+bool Parser::_isValidIpAddress(const std::string& str) {
+	size_t pos = 0;
+	int octet;
+	int count = 0;
+
+	while (count < 4) {
+		size_t nextPos = str.find('.', pos);
+		std::string segment = (nextPos == std::string::npos) ? str.substr(pos) : str.substr(pos, nextPos - pos);
+
+		// Vérifie que chaque segment est composé uniquement de chiffres et est compris entre 0 et 255
+		for (size_t i = 0; i < segment.size(); ++i) {
+			if (!std::isdigit(segment[i])) return false;
+		}
+
+		octet = std::atoi(segment.c_str());
+		if (octet < 0 || octet > 255) {
+			return false;
+		}
+
+		if (nextPos == std::string::npos) break;
+		pos = nextPos + 1;
+		count++;
+	}
+	return (count == 3);
+}
+
+
+
 
 
 void Parser::_checkRoot(std::string& dirValue) {
@@ -304,74 +426,69 @@ void Parser::_checkRoot(std::string& dirValue) {
 	/*function seems identical to _checkReturn !!! probably possible to use it*/ 
 
 	// Delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 
 	this->_checkPath(dirValue, true);
 }
 
-void Parser::_checkPath(std::string& path, bool isDir, bool hasWPerm = false) {
+void Parser::_checkPath(std::string& path, bool isDir, bool hasWPerm) {
 	struct stat info;
 
+	std::string fullPath = this->_tempRootDirPath + path;
+
 	// Check for existence
-	if (access(path.c_str(), F_OK) != 0) {
-		throw std::runtime_error(ERR_DIRECTORY(path));
+	if (access(fullPath.c_str(), F_OK) != 0) {
+		throw std::runtime_error(ERR_DIRECTORY(fullPath));
 	}
 
 	// throw std::runtime_error(ERR_DIRECTORY(dirValue));
 
 	// Get file information
-	if (stat(path.c_str(), &info) != 0) {
-		throw std::runtime_error(ERR_FILE_INFO(path));
+	if (stat(fullPath.c_str(), &info) != 0) {
+		throw std::runtime_error(ERR_FILE_INFO(fullPath));
 	}
 
 	// Check if it's a directory or a file
 	if ((info.st_mode & S_IFDIR) != 0) { // It's a directory
 		if (!isDir) {
-			throw std::runtime_error(ERR_DIRECTORY(path));
+			throw std::runtime_error(ERR_DIRECTORY(fullPath));
 		}
 	} else if ((info.st_mode & S_IFREG) != 0) { // It's a regular file
 		if (isDir) {
-			throw std::runtime_error(ERR_FILE(path)); 
+			throw std::runtime_error(ERR_FILE(fullPath)); 
 		}
 	} else {
-		throw std::runtime_error(ERR_NOT_FILE_NOT_DIR(path));
+		throw std::runtime_error(ERR_NOT_FILE_NOT_DIR(fullPath));
 	}
 	
 	// Check for write access
 	// Check for write access if hasWPerm is true
-	if (hasWPerm && access(path.c_str(), W_OK) != 0) {
-		throw std::runtime_error(ERR_PATH(path));
+	if (hasWPerm && access(fullPath.c_str(), W_OK) != 0) {
+		throw std::runtime_error(ERR_PATH(fullPath));
 	}
 }
 
 
-void	Parser::_checkIndex(std::string& dirValue) {
-		// delete ending ';' if necessary to get a cleaner string later
-		this->_evalDelEndSemiColon(dirValue);
+void Parser::_checkIndex(std::string& dirValue) {
+	// delete ending ';' if necessary to get a cleaner string later
+	this->_delEndSemiColon(dirValue);
 
-		// find 'root' path in the map
-		auto it = _tempServerConfigMap.find(ROOT);
-		if (it == _tempServerConfigMap.end()) {
-			throw std::runtime_error(ERR_DIRECTIVE_MISSING(ROOT));
-		}
-		
-		// Get path
-		std::string rootDir = it->second; 
+	// make fullPath to the file
+	std::string fullPath = this->_tempRootDirPath + "/" + dirValue;
+	// std::cout << fullPath << std::endl;
 
-		// make fullPath to the file
-		std::string fullPath = rootDir + "/" + dirValue;
-
-		// Vérifier si le fichier existe
-		int fd = open(fullPath.c_str(), O_RDONLY);
-		if (fd < 0) {
-			throw std::runtime_error(ERR_FILE(fullPath));
-		}
-		close(fd);
+	// check if the file exists
+	int fd = open(fullPath.c_str(), O_RDONLY);
+	if (fd < 0) {
+		throw std::runtime_error(ERR_FILE(fullPath));
+	}
+	close(fd);
 }
+
 
 void Parser::_checkMaxSize(std::string& dirValue) {
 		// Remove the ending semicolon
-		this->_evalDelEndSemiColon(dirValue);
+		this->_delEndSemiColon(dirValue);
 
 		std::string units = "KMG"; // Accepted units
 		size_t length = dirValue.length();
@@ -410,8 +527,8 @@ void Parser::_checkMaxSize(std::string& dirValue) {
 			throw std::runtime_error(ERR_MAX_SIZE_RANGE(dirValue));
 		}
 
-		// Convert the number to long long
-		long long sizeValue = std::stoll(numberStr);
+		// Convert the number to long 
+		long sizeValue = std::stoll(numberStr); 
 
 		// Apply the factor based on the unit (if provided)
 		if (unit == 'K') {
@@ -422,51 +539,61 @@ void Parser::_checkMaxSize(std::string& dirValue) {
 			sizeValue *= 1024 * 1024 * 1024; // Giga
 		}
 
-		// Check that the size does not exceed 10G
-		const long long max_size = 10LL * 1024 * 1024 * 1024; // 10G in bytes
-		if (sizeValue > max_size) {
+		//long long doesn't exist in CPP98
+		// const long long max_size = 10LL * 1024 * 1024 * 1024; // 10G in bytes
+		// if (sizeValue > max_size) {
+		// 	throw std::runtime_error(ERR_MAX_SIZE_RANGE(dirValue));
+		// }
+
+		// Check that the size does not exceed 10G (= 5 * 2 GB)
+		const long max_chunk_size = 2L * 1024L * 1024L * 1024L; // 2 GB in bytes
+		const int num_chunks = 5;
+		if (sizeValue > max_chunk_size * num_chunks) {
 			throw std::runtime_error(ERR_MAX_SIZE_RANGE(dirValue));
 		}
 
+
 		// std::cout << "Valid size: " << dirValue << " (in bytes: " << sizeValue << ")" << std::endl;
 
-		 // Convert the number to long long
-		long long sizeValue = std::stoll(numberStr);
+		 // Convert the number to long 
 		dirValue = numberStr;
 	}
 
 void Parser::_checkServerN(std::string& dirValue) {
 		// Remove the ending semicolon
-		this->_evalDelEndSemiColon(dirValue);
+		this->_delEndSemiColon(dirValue);
 
 		// Check that the server name is valid (alphanumeric, hyphens, and periods)
 		if (dirValue.empty()) {
 			throw std::runtime_error(ERR_INVALID_SERVER_NAME(dirValue));
 		}
 
-		for (char c : dirValue) {
+		for (size_t i = 0; i < dirValue.length(); ++i) {
+			char c = dirValue[i]; // Get the character at index i
 			// Check for valid characters
 			if (!std::isalnum(c) && c != '-' && c != '.') {
 				throw std::runtime_error(ERR_INVALID_SERVER_NAME(dirValue));
 			}
 		}
+
 }
 
 void Parser::_checkErrorP(std::string& dirValue) {
 		// delete ending ';' if necessary to get a cleaner string later
-		this->_evalDelEndSemiColon(dirValue);
+		this->_delEndSemiColon(dirValue);
 
+		//OLD FASHIONED for root
 		// find 'root' path in the map
-		auto it = _tempServerConfigMap.find(ERROR_P);
-		if (it == _tempServerConfigMap.end()) {
-			throw std::runtime_error(ERR_DIRECTIVE_MISSING(ERROR_P));
-		}
-		
-		// Get path
-		std::string rootDir = it->second; 
+		// std::map<std::string, std::string>::const_iterator it = _tempServerConfigMap.find(ERROR_P);
+		// if (it == _tempServerConfigMap.end()) {
+		// 	throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(dirValue));
+		// }
+		// // Get path
+		// std::string rootDir = it->second; 
 
 		// make fullPath to the file
-		std::string fullPath = rootDir + "/" + dirValue;
+		std::string fullPath = this->_tempRootDirPath + "/" + dirValue;
+		// std::cout << fullPath << std::endl;
 
 		// Vérifier si le fichier existe
 		int fd = open(fullPath.c_str(), O_RDONLY);
@@ -482,74 +609,118 @@ void Parser::_checkErrorP(std::string& dirValue) {
 
 
 void	Parser::_checkLocDirName(){
+	
+	for(std::vector<std::map<std::string, std::string> >::const_iterator itVec = this->_tempLocationMapVector.begin(); itVec != this->_tempLocationMapVector.end(); itVec++){
+		_tempLocationConfigMap = *itVec;
+		//DEBUG
+		// std::cout << "in :: '_checkLocDirName'" << std::endl;
+		// printMap(*it);
 
-	std::string const mandatoryParam[] = {LOCATION};
-	//forbiden = Location parameter
-	std::string const forbiddenParam[] = {LISTEN, HOST, ROOT, INDEX, MAX_SIZE, SERVER_N, ERROR_P};
+		//No need to control location
+		// std::string const mandatoryParam[] = {LOCATION};
 
-	for (int i = 0; i < 1; i++)
-	{
-		if (_tempServerConfigMap.find(mandatoryParam[i]) == _tempServerConfigMap.end())
-			throw std::runtime_error(ERR_DIRECTIVE_MISSING(mandatoryParam[i]));
+		//forbiden = Location parameter
+		std::string const forbiddenParam[] = {LISTEN, HOST, ROOT_LOC, INDEX, MAX_SIZE, SERVER_N, ERROR_P};
+
+		// for (int i = 0; i < 1; i++)
+		// {
+		// 	if (_tempLocationConfigMap.find(mandatoryParam[i]) == _tempLocationConfigMap.end())
+		// 		throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(mandatoryParam[i]));
+		// }
+		
+		for (int i = 0; i < 7; i++)
+		{
+			if (this->_tempLocationConfigMap.find(forbiddenParam[i]) != this->_tempLocationConfigMap.end())
+				throw std::runtime_error(ERR_LOC_FORBIDDEN_DIRECTIVE(forbiddenParam[i]));
+		}
 	}
-
-	for (int i = 0; i < 7; i++)
-	{
-		if (_tempServerConfigMap.find(forbiddenParam[i]) != _tempServerConfigMap.end())
-			throw std::runtime_error(ERR_FORBIDDEN_DIRECTIVE(forbiddenParam[i]));
-	}
-
 }
 
-void	Parser::_checkLocDirValue(){
 
-	for (std::map<std::string, std::string>::iterator it = _tempLocationConfigMap.begin(); it != _tempLocationConfigMap.end(); ++it) {
-		if (it->second == LOCATION) {
-			this->_checkLocation(it->second);
-		}
-		else if (it->second == ALLOW_M) {
-			this->_checkAllowM(it->second);
-		}
-		else if (it->second == TRY) {
-			this->_checkTry(it->second);
-		}
-		else if (it->second == RETURN) {
-			this->_checkReturn(it->second);
-		}
-		else if (it->second == AUTOID) {
-			this->_checkAutoID(it->second);
-		}
-		else if (it->second == ROOT_LOC) {
-			this->_checkRootLoc(it->second);
-		}
-		else if (it->second == UPLOAD) {
-			this->_checkUpload(it->second);
-		}
-		else if (it->second == CGI_P) {
-			this->_checkCgiP(it->second);
-		}
-		else if (it->second == CGI_E) {
-			this->_checkCgiE(it->second);
+void	Parser::_checkLocDirValue(){
+	//DEBUG
+	// std::cout << "in _checkLocDirValue::" << std::endl;
+	
+
+	for(std::vector<std::map<std::string, std::string> >::iterator itVec = this->_tempLocationMapVector.begin(); itVec != this->_tempLocationMapVector.end(); itVec++){
+
+		//DEBUG
+		// std::cout << "New Location" << std::endl;
+		// printMap(*itVec);
+		
+		for (std::map<std::string, std::string>::iterator itMap = itVec->begin(); itMap != itVec->end(); ++itMap) {
+			//DEBUG
+			// std::cout << "itMap->first:" << itMap->first << std::endl;
+			
+			if (itMap->first == LOCATION) {
+				this->_checkLocation(itMap->second);
+			}
+			else if (itMap->first == ALLOW_M) {
+				this->_checkAllowM(itMap->second);
+			}
+			else if (itMap->first == TRY) {
+				this->_checkTry(itMap->second);
+			}
+			else if (itMap->first == RETURN) {
+				this->_checkReturn(itMap->second);
+			}
+			else if (itMap->first == AUTOID) {
+				this->_checkAutoID(itMap->second);
+			}
+			else if (itMap->first == ROOT_LOC) {
+				this->_checkRootLoc(itMap->second);
+			}
+			else if (itMap->first == UPLOAD) {
+				this->_checkUpload(itMap->second);
+			}
+			else if (itMap->first == CGI_P) {
+				this->_checkCgiP(itMap->second);
+			}
+			else if (itMap->first == CGI_E) {
+				this->_checkCgiE(itMap->second);
+			}
+
+			//DEBUG
+			// std::cout << " in _checkLocDirValue:: itMap->first:" << itMap->first << ", itMap->second: " << itMap->second << std::endl;
 		}
 	}
-	
 
 }
 
 
 //------ Directives' Location checking functions:
 void Parser::_checkLocation(std::string& dirValue) {
-		if (dirValue.empty() || dirValue[0] != '/') {
-			throw std::runtime_error(ERR_LOCATION(dirValue));
-		}
+		//DEBUG
+		// std::cout << "in: _checkLocation:: dirValue = " << dirValue << std::endl;
+
+		
+		/*
+		The value after `location` determines which segment of a URL or which type of file the block applies to.
+		 It can be a specific path, a file extension, or a regex pattern.
+		*/
+
+		//ANY verification for now, only delete the ending '{'
+
+		 while (!dirValue.empty() && (std::isspace(dirValue.back()) || dirValue.back() == '{')) {
+			dirValue.erase(dirValue.size() - 1);
+		 }
+		// if (dirValue.empty() || dirValue[0] != '/') {
+		// 	throw std::runtime_error(ERR_LOCATION(dirValue));
+		// }
 }
 
 void Parser::_checkAllowM(std::string& dirValue) {
+	// std::cout << " in _checkAllowM:: BEFORE dirValue:" << dirValue << std::endl;
 	// delete ending ';' if necessary to get a cleaner string later
-		this->_evalDelEndSemiColon(dirValue);
+		this->_delEndSemiColon(dirValue);
+
+	// std::cout << " in _checkAllowM:: AFTER dirValue:" << dirValue <<std::endl;
 
 	// Set of allowed methods
-	std::set<std::string> allowedMethods = {"GET", "POST", "DELETE"}; //"PUT", "PATCH", "OPTIONS", "HEAD"
+	std::set<std::string> allowedMethods;
+	allowedMethods.insert("GET");
+	allowedMethods.insert("POST");
+	allowedMethods.insert("DELETE");
 
 	// Split the methods by space and check validity
 	std::stringstream ss(dirValue);
@@ -567,26 +738,26 @@ void Parser::_checkTry(std::string& dirValue) {
 	/*function seems identical to _checkIndex !!! probably possible to use it*/ 
 
 	// delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 
+	//OLD FASHIONED
 	// find 'root' path in the map
-	auto it = _tempServerConfigMap.find(ROOT);
-	if (it == _tempServerConfigMap.end()) {
-		throw std::runtime_error(ERR_DIRECTIVE_MISSING(ROOT));
-	}
-	
-	// Get path
-	std::string rootDir = it->second; 
+	// std::map<std::string, std::string>::const_iterator it = _tempServerConfigMap.find(ROOT_LOC);
+	// if (it == _tempServerConfigMap.end()) {
+	// 	throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(dirValue));
+	// }
+	// // Get path
+	// std::string rootDir = it->second; 
+	// this->_delEndSemiColon(rootDir);
 
 	// make fullPath to the file
-	std::string fullPath = rootDir + "/" + dirValue;
+	std::string fullPath = this->_tempRootDirPath + "/" + dirValue;
 
 	// Vérifier si le fichier existe
 	int fd = open(fullPath.c_str(), O_RDONLY);
 	if (fd < 0) {
 		throw std::runtime_error(ERR_FILE(fullPath));
 	}
-
 	// Fermer le descripteur de fichier si l'ouverture a réussi
 	close(fd);
 }
@@ -597,25 +768,48 @@ void Parser::_checkReturn(std::string& dirValue) {
 	/*function seems identical to _checkRoot !!! probably possible to use it*/ 
 
 	// Delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 	this->_checkPath(dirValue, false);
 }
 
 bool isValidUrl(const std::string& url) {
-	//regex pattern for a valid URL
-	const std::regex pattern(R"((http|https)://([a-zA-Z0-9.-]+)(:[0-9]+)?(/.*)?)");
-	/*
-		`R"(...)"`: Use of a raw string to facilitate writing the regex.
-		`(http|https)`: Checks that the URL starts with `http` or `https`.
-		`://`: Checks that the URL contains `://`.
-		`([a-zA-Z0-9.-]+)`: Checks that the domain name consists of letters, digits, dots, or hyphens.
-		`(:[0-9]+)?`: Checks that the port (optional) can be present in the form `:port`.
-		`(/.*)?`: Checks that the path (optional) can follow.
-	*/
+	// Check if the URL starts with "http://" or "https://"
+	if (url.substr(0, 7) != "http://" && url.substr(0, 8) != "https://") {
+		return false;
+	}
 
-	
-	// Use std::regex_match to check if the URL matches the pattern
-	return std::regex_match(url, pattern);
+	size_t pos = url.find("://");
+	if (pos == std::string::npos) {
+		return false; // "://" not found
+	}
+
+	// Check for a valid domain (simplified, allows letters, digits, dots, and hyphens)
+	size_t start = pos + 3; // Move past "://"
+	size_t end = url.find('/', start);
+	if (end == std::string::npos) {
+		end = url.length(); // No path found, use end of string
+	}
+
+	std::string domain = url.substr(start, end - start);
+	for (size_t i = 0; i < domain.length(); ++i) {
+		char c = domain[i];
+		if (!std::isalnum(c) && c != '.' && c != '-') {
+			return false; // Invalid character in domain
+		}
+	}
+
+	// Check if an optional port is present
+	size_t port_pos = domain.find(':');
+	if (port_pos != std::string::npos) {
+		std::string port = domain.substr(port_pos + 1);
+		for (size_t i = 0; i < port.length(); ++i) {
+			if (!std::isdigit(port[i])) {
+				return false; // Port contains non-digit characters
+			}
+		}
+	}
+
+	return true; // URL is valid
 }
 
 
@@ -649,40 +843,45 @@ bool urlExists(const std::string& url) {
 
 void Parser::_checkAutoID(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 
+	std::transform(dirValue.begin(), dirValue.end(), dirValue.begin(), ::tolower);
 	if (dirValue != "on" && dirValue != "off")
-		throw std::runtime_error(ERR_LOCATION(dirValue));
+		throw std::runtime_error(ERR_AUTOINDEX);
+	
+	//DEBUG
+	// std::cout << "in _checkAutoID:: dirValue = " << dirValue << std::endl;
 }
 
 void Parser::_checkRootLoc(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 	this->_checkPath(dirValue, true);
 }
 
 void Parser::_checkUpload(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 	this->_checkPath(dirValue, true, true);
 }
 
 
 void Parser::_checkCgiP(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 
 	// check directory
 	this->_checkPath(dirValue, true);
 
+	std::string fullPath = this->_tempRootDirPath + dirValue;
 	//  open directory
-	DIR* dir = opendir(dirValue.c_str());
+	DIR* dir = opendir(fullPath.c_str());
 	if (!dir) {
 		throw std::runtime_error(ERR_OPEN_DIR(dirValue));
 	}
 
 	struct dirent* entry;
-	bool hasCgi = false;
+	// bool hasCgi = false; //not used for now
 
 	// loop to list the files in the directory and check CGI
 	while ((entry = readdir(dir)) != nullptr) {
@@ -692,7 +891,7 @@ void Parser::_checkCgiP(std::string& dirValue) {
 		}
 
 		// get the filePath
-		std::string filePath = dirValue + "/" + entry->d_name;
+		std::string filePath = fullPath + "/" + entry->d_name;
 		struct stat fileInfo;
 
 		// Get info
@@ -712,11 +911,13 @@ void Parser::_checkCgiP(std::string& dirValue) {
 
 void Parser::_checkCgiE(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
-	this->_evalDelEndSemiColon(dirValue);
+	this->_delEndSemiColon(dirValue);
 
-	//list of supported extension
-	const std::set<std::string> supportedExtensions = {".cgi", ".pl", ".py", ".sh", ".php"};
-	
+	//list of supported extension (created in a dedicated function 'getSupportedExtensions')
+	// const std::set<std::string> supportedExtensions = {".cgi", ".pl", ".py", ".sh", ".php"}; //initilisation list not possible in CPP98
+	const std::set<std::string>& supportedExtensions = getSupportedExtensions();
+
+
 	//check if there is a '.'
 	if (dirValue.empty() || dirValue.front() != '.') {
 		throw std::runtime_error("Extension must start with a point (.)");
@@ -729,48 +930,86 @@ void Parser::_checkCgiE(std::string& dirValue) {
 }
 
 
+std::set<std::string> Parser::getSupportedExtensions() {
+	std::set<std::string> extensions;
+	extensions.insert(".cgi");
+	extensions.insert(".pl");
+	extensions.insert(".py");
+	extensions.insert(".sh");
+	extensions.insert(".php");
+	return extensions;
+}
 
 
-void Parser::_evalDelEndSemiColon(std::string& s){
-	if (s.back() != ';')
-			throw std::runtime_error(ERR_SEMICOLON(this->_nbLine, line));
 
-		// delete last character (;)
-		if (!s.empty() && s.back() == ';')
-				s.pop_back();
+void Parser::_delEndSemiColon(std::string& s){
+	// delete last character (;)
+	if (!s.empty() && s.back() == ';')
+			s.pop_back();
 }
 
 
 
 
 void Parser::_getParamFromToken(int enumToken){
-	std::string line = this->_tokensVector[this->_nbLine];
+	
+	//DEBUG
+	// std::cout << "in :: '_getParamFromToken'::" << std::endl;
+
+	if (this->_tokensVector[this->_nbLine].type == TK_EMPTY || this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET)
+		return;
+
+	std::string line = this->_tokensVector[this->_nbLine].value;
+	 //DEBUG
+	// std::cout << "print _nbline: " << this->_nbLine 
+	// << ", enumToken: " << enumToken
+	// << ", _tokensVector[this->_nbLine].type: " << _tokensVector[this->_nbLine].type
+	// << ", _tokensVector[this->_nbLine].value: " << _tokensVector[this->_nbLine].value
+	// << std::endl;
+
+
+
 	std::istringstream iss(line);
 	std::string dirName, dirValue;
 	
-	//!!! There is at least a space between parameters. Ex: "location_space_.py_space_{"
+	//!!! Hypothesis: There is at least a space between parameters. Ex: "location_space_.py_space_{"
 
 	//get first and second word (of each line) as a directives' name and value
 	iss >> dirName;
-	iss >> dirValue;
+	// iss >> dirValue;
 
+	//go through the spaces
+	while (iss.peek() == ' ')
+		iss.get();
+	// get the rest of the line (the value)
+	std::getline(iss, dirValue);
+
+	//DEBUG
+	// std::cout << "in: '_getParamFromToken': dirName= '" << dirName << "', dirValue= '" << dirValue << "'" <<std::endl;
 
 	//check each directives'name
-	if (dirName != ALLOW_M || dirName != AUTOID || dirName != CGI_E || dirName == CGI_P
-		|| dirName != MAX_SIZE || dirName != ERROR_P || dirName != HOST || dirName != INDEX
-		|| dirName != LISTEN || dirName != LOCATION || dirName != RETURN || dirName != ROOT
-		|| dirName != SERVER_N || dirName != TRY || dirName != UPLOAD || dirName != SERVER)
-		{
-			throw std::runtime_error(ERR_INVALID_KEY(this->_nbLine, line));
-		}
+	if (dirName != ALLOW_M && dirName != AUTOID && dirName != CGI_E && dirName != CGI_P &&
+	dirName != MAX_SIZE && dirName != ERROR_P && dirName != HOST && dirName != INDEX &&
+	dirName != LISTEN && dirName != LOCATION && dirName != RETURN && dirName != ROOT_LOC &&
+	dirName != SERVER_N && dirName != TRY && dirName != UPLOAD && dirName != SERVER)
+	{
+		throw std::runtime_error(ERR_INVALID_KEY(line));
+	}
+
 
 	//No more checks here.	
 
+	//DEBUG
+	// std::cout << "in: '_getParamFromToken':: enumToken: " << enumToken << ", dirName= '"<< dirName << "', dirValue= '" << dirValue << "'" <<std::endl;
+
 	//map each token in a _tempServerConfigMap or a _tempLocationConfigMap
 	if (enumToken == TK_SERVER)
-		this->_tempServerConfigMap[dirName] = value;
-	else if (enumToken == TK_LOCATION)
-		this->_tempLocationConfigMap[dirName] = value;
+		this->_tempServerConfigMap[dirName] = dirValue;
+	else if (enumToken == TK_LOCATION){
+		this->_tempLocationConfigMap[dirName] = dirValue;
+	}
+	dirName.clear();
+	dirValue.clear();
 }
 
 

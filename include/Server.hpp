@@ -2,7 +2,6 @@
 #define SERVER_HPP
 
 #include "defines.hpp"
-#include "Parser.hpp"
 #include "utils.hpp"
 
 typedef struct location_s
@@ -16,7 +15,7 @@ typedef struct location_s
 	std::string					cgiPath;
 	std::string					cgiExtension;
 	std::string					uploadTo;
-}					location_t;
+} location_t;
 
 class Server{
 	private:
@@ -25,14 +24,15 @@ class Server{
 			std::string 					_host;
 			std::string 					_root;
 			std::string 					_index;
-			long long						_clientMaxBodySize;
+			long							_clientMaxBodySize;
 			std::string 					_errorPage;
 			std::string 					_errorResponse;
 			std::vector<location_t>			_tempLocationVector;
 			bool							_isDefault;
 			int								_socket;
+
 			bool							_checkDefaultServer(std::vector<Server>& _serversVector);
-			long long 						_getConvertedMaxSize(std::string maxSizeStr);
+			long 							_getConvertedMaxSize(std::string& maxSizeStr);
 			
 
 
@@ -42,23 +42,37 @@ class Server{
 
 
 			//Location
-			std::vector<std::map<std::string, std::string>>		_LocationMapVector;
+			std::vector<std::map<std::string, std::string> >		_LocationMapVector;
 			std::map<std::string, std::string>					_LocationConfigMap;
-			std::vector<location_t>								_LocationVector;
+			std::map<std::string, location_t>					_LocationMap;
 			void												_getLocationStruct();
 
 	public:
-			Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string>> tempLocationMapVector);
-			
+			Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string> > tempLocationMapVector);
+			~Server();
 			//called from Service
 			void	createSocket();
 
 			//getters
 			bool				getIsDefault();
-			const std::string& Server::getHost() const;
-			const std::string& Server::getPort() const;
-			int					Server::getSocket() const;
-			const std::string& Server::getServerName() const;
+			const std::string& 	getHost() const;
+			const std::string& 	getPort() const;
+			int					getSocket() const;
+			const std::string& 	getServerName() const;
+			const std::string&	getRoot() const;
+			const std::string&	getIndex() const;
+			const std::string&	getErrorPage() const;
+			const std::string&	getErrorResponse() const;
+			size_t				getClientMaxBodySize() const;
+
+
+
+			//utils
+			void 				printServers();
+			void 				printLocation(location_t loc);
+
+
+
 		///verifier que les noms de servers ne sont pas les memes !
 
 };
