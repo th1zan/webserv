@@ -35,16 +35,8 @@ bool	Client::clientIsReadyToReceive() const
 
 void Client::handleClientRequest()
 {
-	char buffer[BUFFER_SIZE] = {0};
-	ssize_t bytesRead = read(this->_socket, buffer, sizeof(buffer) - 1);
-
-	if (bytesRead < 0)
-	{
-		std::cerr << "Error reading request from client." << std::endl;
-		return;
-	}
-
-	std::istringstream requestStream(buffer);
+	
+	std::istringstream requestStream(this->_request);
 	std::string method, path, version;
 	requestStream >> method >> path >> version;
 	

@@ -15,7 +15,10 @@ Service::Service(int argc, char **argv){
 	Parser	input(argc, argv);
 
 	this->_serversVector = input.getServersVector();
-	// this->defautlServers = this->_countDefaultServers();
+
+	//to make it simple at first, _defaultServers = 1
+	this->_defaultServers = 1;
+	// this->_defaultServers = this->_countDefaultServers();
 }
 
 Service::~Service(){	
@@ -35,32 +38,32 @@ void Service::setup()
 	this->_initServiceInfo();
 
 	std::vector<Server>::iterator server = this->_serversVector.begin();
-	std::cout << "TEST 0" << std::endl;
 	for(; server != this->_serversVector.end(); server++)
 	{
+		
 		server->printServers();
 		// if (!server->getIsDefault())
 		// 	continue;
-		std::cout << "TEST 1" << std::endl;
+		// std::cout << "TEST 1" << std::endl;
 
 		this->_getSetupInfo(server);
-		std::cout << "TEST 2" << std::endl;
+		// std::cout << "TEST 2" << std::endl;
 
 		this->printServiceInfo();
 		this->_setReuseableAddress();
-		std::cout << "TEST 3" << std::endl;
+		// std::cout << "TEST 3" << std::endl;
 
 		this->_convertHostToAddress();
-		std::cout << "TEST 4" << std::endl;
+		// std::cout << "TEST 4" << std::endl;
 
 		this->_bindAddressToSocket();
-		std::cout << "TEST 5" << std::endl;
+		// std::cout << "TEST 5" << std::endl;
 
 		this->_setSocketListening();
-		std::cout << "TEST 6" << std::endl;
+		// std::cout << "TEST 6" << std::endl;
 		
 		this->_addSocketToPollSockVec();
-		std::cout << "TEST 7" << std::endl;
+		// std::cout << "TEST 7" << std::endl;
 
 	// 	printInfo(SET_SERVER_MSG(this->_tmp.host, this->_tmp.port), BLUE);
 
@@ -185,6 +188,10 @@ void Service::launch()
 	{
 		this->_initPollingVector(); //init the list (table) of polling sockets
 		this->_pollingManager(); //loop on each socket of the list to check if there is a signal (something to read, send, error). Note: each Service (aka Server bloc) has a socket
+		
+		
+		//DEBUG
+		// std::cout << "server is launched" << std::endl;
 	}
 }
 
@@ -236,21 +243,32 @@ void Service::_pollingManager()
 			if (this->_isServerSocket()) // If SERVER's socket, accept connection
 			{
 				this->_acceptConnection();
+				// // DEBUG
+				std::cout << "accept connection" << std::endl;
 			}
 			else // If CLIENT's socket, read data
 			{
 				this->_readDataFromClient();
+				// DEBUG
+				std::cout << "read data from client " << std::endl;
 			}
 		}
 		else if (this->_tmpServiceInfo.mode & POLLOUT) // Ready to send data (POLLOUT)
 		{
 			this->_sendDataToClient();
+
+			// DEBUGG
+			std::cout << "read data from client " << std::endl;
+			// std::cout << "in '_readDataFromClient:: this->_tmpServiceInfo.clientID : " << this->_tmpServiceInfo.clientID << std::endl;
 		}
+		// DEBUG
+		// std::cout << "loop in polling manager" << std::endl;
 	}
 }
 
 void Service::_getLaunchInfo(int const i)
 {
+	
 	this->_tmpServiceInfo.pollID = i;
 	this->_tmpServiceInfo.clientID = i - this->_defaultServers;
 	this->_tmpServiceInfo.listeningSocketFd = this->_pollingFdVector.at(i).fd;
@@ -310,13 +328,32 @@ void Service::_acceptConnection()
 void Service::_readDataFromClient()
 {
 	
+	// DEBUGG
+	// std::cout << "in '_readDataFromClient:: this->_tmpServiceInfo.listeningSocketFd : " << this->_tmpServiceInfo.listeningSocketFd << std::endl;
+	// printServiceInfo();
+
 	char	buffer[BUFFER_SIZE] = {0};
 	//the buffer is filled with the content passing to the listeningSocketFd then the content is "read" with recv()
 	int		bytes = recv(this->_tmpServiceInfo.listeningSocketFd, buffer, BUFFER_SIZE, 0);
 
+		// DEBUGG
+		// std::cout << "in '_readDataFromClient:: buffer : " << std::endl << buffer << std::endl;
+		// std::cout << "in '_readDataFromClient:: bytes : " << bytes << std::endl;
+
+
 	//if the buffer is not empty, its content is append to the Client's _request variable 
-	if (bytes > 0)
+	if (bytes > 0){
+		// DEBUGG
+		// std::cout << "in '_readDataFromClient:: this->_tmpServiceInfo.clientID : " << this->_tmpServiceInfo.clientID << std::endl;
+
+
 		this->_clientVector.at(this->_tmpServiceInfo.clientID).appendRequest(buffer, bytes);
+
+		// DEBUGG
+		std::cout << "in '_readDataFromClient:: buffer : " << buffer << std::endl;
+
+		
+	}
 	else
 		this->_closeConnection(EMPTY_MSG);
 }
@@ -445,7 +482,7 @@ int Service::_getServerIndex()
 
 
 void Service::printServiceInfo(){
-	std::cout << "Service Info:" << std::endl;
+	std::cout << "----- Service::printServiceInfo() ----" << std::endl;
 	std::cout << "Host: " << _tmpServiceInfo.host << std::endl;
 	std::cout << "Port: " << _tmpServiceInfo.port << std::endl;
 	std::cout << "Listening Socket FD: " << _tmpServiceInfo.listeningSocketFd << std::endl;
@@ -462,4 +499,7 @@ void Service::printServiceInfo(){
 	std::cout << "  Socket Type: " << _tmpServiceInfo.parameters.ai_socktype << std::endl;
 	std::cout << "  Protocol: " << _tmpServiceInfo.parameters.ai_protocol << std::endl;
 	std::cout << "  Flags: " << _tmpServiceInfo.parameters.ai_flags << std::endl;
+	std::cout << "----- /END Service::printServiceInfo() ----" << std::endl;
+	std::cout << std::endl;
+
 }

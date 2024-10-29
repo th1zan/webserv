@@ -139,10 +139,10 @@ void Parser::_getConfigAndInitServers(){
 	for (; this->_nbLine < this->_tokensVector.size(); this->_nbLine++) {
 
 		//DEBUG
-		std::cout << "print _nbline: " << this->_nbLine 
-		<< ", _tokensVector[this->_nbLine].type: " << _tokensVector[this->_nbLine].type
-		<< ", _tokensVector[this->_nbLine].value: " << _tokensVector[this->_nbLine].value
-		<< std::endl;
+		// std::cout << "print _nbline: " << this->_nbLine 
+		// << ", _tokensVector[this->_nbLine].type: " << _tokensVector[this->_nbLine].type
+		// << ", _tokensVector[this->_nbLine].value: " << _tokensVector[this->_nbLine].value
+		// << std::endl;
 	
 		//when a SERVER token encounterd we enter in a bloc server
 		if (this->_tokensVector[this->_nbLine].type == TK_SERVER){
@@ -185,7 +185,7 @@ void Parser::_getConfigAndInitServers(){
 	if (this->_nServer++ == 0)
 		throw std::runtime_error(ERR_NO_SERVER_CONFIG);
 	//DEBUG
-	std::cout << this->_nServer<< "server(s) initialized" << std::endl;
+	// std::cout << this->_nServer<< "server(s) initialized" << std::endl;
 }
 
 void Parser::_getConfigFromTokens(){

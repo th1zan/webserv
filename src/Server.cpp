@@ -15,8 +15,11 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_port = this->_ServerConfigMap[LISTEN];
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(_ServerConfigMap[MAX_SIZE]);
 	
-	//get location bloc param to a vector of location_t struct
+	// this->_errorResponse = this->_generateErrorResponse();
+	// this->_isDefault = this->_checkDefaultServer(servers);
+	this->_socket = 0;
 	
+	//get location bloc param to a vector of location_t struct
 	if (!tempLocationMapVector.empty())
 	{
 		this->_getLocationStruct();
@@ -31,7 +34,7 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_isDefault = this->_checkDefaultServer(_serversVector);
 	
 	//DEBUG
-	std::cout << "Server constructor called" << std::endl;
+	// std::cout << "Server constructor called" << std::endl;
 }
 
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
@@ -138,7 +141,7 @@ void Server::_getLocationStruct() {
 
 
 Server::~Server(){
-	std::cout << "Server destructor called" <<std::endl;
+	// std::cout << "Server destructor called" <<std::endl;
 }
 
 
@@ -165,10 +168,14 @@ void Server::createSocket()
 	if (!this->_socket)
 	{
 		this->_socket = socket(AF_INET, SOCK_STREAM, 0);
+		// DEBUG
+		// std::cout << "in 'createSocket' :: this->_socket: " << this->_socket << std::endl;
 
 		if (this->_socket < 0)
 			throw std::runtime_error(ERR_SOCKET(this->_serverName));
 	}
+	// DEBUG
+	// std::cout << "in 'createSocket' :: socket exists and is this->_socket: " << this->_socket << std::endl;
 }
 
 // void Server::addLocation(locationPair location)
@@ -181,6 +188,7 @@ void Server::createSocket()
 void Server::printServers() {
 	
 		std::cout << std::endl;
+		std::cout << "----- Server::printServers()----" << std::endl;
 		std::cout << "Server Name: " << this->_serverName << std::endl;
 		std::cout << "Host: " << this->_host << std::endl;
 		std::cout << "Root: " << this->_root << std::endl;
@@ -210,13 +218,14 @@ void Server::printServers() {
 			}
 			std::cout << std::endl;
 		}
-		std::cout << "----------------------------------------" << std::endl;
+		std::cout << "----- /END Server::printServers() ----" << std::endl;
+		std::cout << std::endl;
 }
 
 void Server::printLocation(location_t loc) {
 	
 		std::cout << std::endl;
-		std::cout << "Print Location: " << std::endl;
+		std::cout << "----- Server::printLocation() ----" << std::endl;
 			std::cout << std::endl;
 			std::cout << "  Location Root: " << loc.root << std::endl;
 			std::cout << "  Redirect: " << loc.redirect << std::endl;
@@ -231,5 +240,6 @@ void Server::printLocation(location_t loc) {
 			for (std::vector<std::string>::const_iterator methodIt = loc.methods.begin(); methodIt != loc.methods.end(); ++methodIt) {
 				std::cout << *methodIt << " ";
 			}
+			std::cout << "----- /END Server::printLocation() ----" << std::endl;
 			std::cout << std::endl;
 }

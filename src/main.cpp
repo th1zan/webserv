@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:55:53 by thibault          #+#    #+#             */
-/*   Updated: 2024/10/25 20:38:57 by thibault         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:28:31 by tsanglar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int main(int argc, char **argv)
 	try
 	{
 		//Instancie un Service sw (webserver)
+		//DEBUG
+		std::cout << " !!! don't forget to change the path 'root /PATH_TO/..../webserv/webSites/main;' in the 'default.conf' file " << std::endl;
+			
 		Service webserv(argc, argv);
 		//webserv.printServerInfo();
 		webserv.setup();
