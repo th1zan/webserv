@@ -16,6 +16,7 @@
 		- [Step 3: Launch](#step-3-launch)
 		- [Step 3: PollingManager() - Socket Event Management](#step-3-pollingmanager---socket-event-management)
 		- [Step 3: Request Processing and Sending Data](#step-3-request-processing-and-sending-data)
+- [Diagram](#Diagram)
 
 # En Français
 ## Comment Webserv fonctionne, bref aperçu
@@ -223,4 +224,49 @@ Content-Length: 138
 <h1>Hello, World!</h1>
 </body>
 </html>
+```
+
+# Diagram
+
+```mermaid
+flowchart TD
+    subgraph Parsing
+        A1[Start] --> B[Parse Configuration File]
+        B --> C[Create Service Instance]
+        C --> D[Create Parser Instance]
+        D --> E[Parse .conf File & Create Server Instances]
+        E --> F[Store Server Instances in serverVector]
+        F --> G[Retrieve serverVector in Service]
+    end
+    
+    subgraph Setup
+        G --> H[Setup Sockets for Each Server]
+        H --> I[Get Server Address Info]
+        I --> J[Create Socket]
+        J --> K[Bind Socket to Port]
+        K --> L[Set Socket to Listening Mode]
+        L --> M[Add Socket to pollingFdVector]
+    end
+    
+    subgraph Launch
+        M --> N[Launch Servers]
+        N --> O[Start Infinite Loop]
+        O --> P[Poll Sockets]
+        P --> Q[Check for Events]
+    end
+    
+    subgraph Event_Handling
+        Q -->|Error| R[Handle Error & Close Connection]
+        Q -->|Ready to Read| S[Accept Connection or Read Data]
+        S --> T[Create Client Instance or Read to Client Request]
+        Q -->|Ready to Write| U[Prepare Data to Send]
+        U --> V[Send Data to Client]
+    end
+    
+    subgraph Request_Processing
+        V --> W[Process Client Request]
+        W --> X[Parse Request: Identify Host & Method]
+        X --> Y[Send HTTP Response]
+        Y --> Z[End]
+    end
 ```
