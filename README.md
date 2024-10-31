@@ -1,23 +1,5 @@
-- [En Français](#en-fran%C3%A7ais)
-	- [Comment Webserv fonctionne, bref aperçu](#comment-webserv-fonctionne-bref-aper%C3%A7u)
-	- [Structure du projet](#structure-du-projet)
-- [Plus en détails, plus proche du code](#plus-en-d%C3%A9tails-plus-proche-du-code)
-	- [Step 1: Parsing](#step-1-parsing)
-	- [Step 2: Setup](#step-2-setup)
-	- [Step 3: Launch](#step-3-launch)
-		- [Step 3: PollingManager() - gestion des événements des sockets](#step-3-pollingmanager---gestion-des-%C3%A9v%C3%A9nements-des-sockets)
-		- [Step 3: Traitement de la requête et envoie de données](#step-3-traitement-de-la-requ%C3%AAte-et-envoie-de-donn%C3%A9es)
-- [In english (thanks chatGPT)](#in-english-thanks-chatgpt)
-	- [How Webserv Works: Quick Overview](#how-webserv-works-quick-overview)
-	- [Project Structure](#project-structure)
-	- [In Detail, Closer to Code](#in-detail-closer-to-code)
-		- [Step 1: Parsing](#step-1-parsing)
-		- [Step 2: Setup](#step-2-setup)
-		- [Step 3: Launch](#step-3-launch)
-		- [Step 3: PollingManager() - Socket Event Management](#step-3-pollingmanager---socket-event-management)
-		- [Step 3: Request Processing and Sending Data](#step-3-request-processing-and-sending-data)
-- [Diagram](#Diagram)
-
+```table-of-contents
+```
 # En Français
 ## Comment Webserv fonctionne, bref aperçu
 
@@ -45,13 +27,13 @@ Le projet comporte 4 classes:
 	- le socket du client
 	- la requête du client
 
-# Plus en détails, plus proche du code
-## Step 1: Parsing
+## Plus en détails, plus proche du code
+### Step 1: Parsing
 1. Main instancie `Service` avec le fichier`server.conf` 
 2. Le constructeur de `Service` instancie un `Parser` qui lit le fichier `.conf` pour analyser chaque bloc `server{}`. 
 3. `Parser` créé une instance de `Serveur` pour chaque bloc `server{}`. Ces instances sont stockées dans le `serverVector`.
 4. `Service` récupère le `serverVector` en provenance de `Parser`.
-## Step 2: Setup
+### Step 2: Setup
 
 1. `main` appelle la méthode `setup()` de `Service`.
 2. L'instance de `Service` exécute pour **chaque serveur** se trouvant dans `serverVector`, :
@@ -60,7 +42,7 @@ Le projet comporte 4 classes:
 	c. `bind` pour lier le socket à un port.
 	d. `listen()` pour mettre le socket en mode écoute.
 	e. puis ajoute le socket au vecteur `pollingFdVector` pour le surveiller ultérieurement.
-## Step 3: Launch
+### Step 3: Launch
 1. `main` appelle la méthode `launch()` de `Service` 
 2. `launch()` exécute **en boucle** (en attendant le signal d'extinction) :
 	a.`poll()` pour lancer la surveillance des sockets (plus précisément des files descriptors liées au socket). 
@@ -69,7 +51,7 @@ Le projet comporte 4 classes:
 	- `poll()` se débloque et permet d'exécuter la suite des instructions mais **il ne dit pas quel est le socket ni quel est le type d'événement qui s'est produit**.
 	b.`PollingManager()` pour parcourir les sockets afin de déterminer quel socket a remonté quel type d'événement afin d'envoyer des données ou de recevoir des données.
 
-### Step 3: PollingManager() - gestion des événements des sockets
+#### Step 3: PollingManager() - gestion des événements des sockets
 
 Il y a 3 types d'événements pouvant être remonté par un socket: erreur, prêt à lire, prêt à écrire.
 
@@ -84,7 +66,7 @@ B. Le socket annonce qu'il est prêt pour la **lecture de données** (_POLLIN_).
 
 C. Si le socket du serveur est prêt pour l'**envoi de données** (_POLLOUT_) cela signifie que le buffer est vide et donc prêt à être remplie avec des informations à transmettre au client. 
 
-### Step 3: Traitement de la requête et envoie de données
+#### Step 3: Traitement de la requête et envoie de données
 
 Le principe est le suivant.
 1. Le client envoie une requête HTML, par exemple:
@@ -177,7 +159,7 @@ The project has four classes:
    - `poll()` unblocks but **doesn't specify which socket or event type occurred**.
    - `PollingManager()` checks sockets to determine which socket triggered which event to handle data sending or receiving.
 
-### Step 3: PollingManager() - Socket Event Management
+#### Step 3: PollingManager() - Socket Event Management
 
 Three event types can be reported by a socket: error, ready to read, ready to write.
 
@@ -192,7 +174,7 @@ B. If a socket is ready for **data reading** (_POLLIN_), it has data in its buff
 
 C. If a server socket is ready for **data sending** (_POLLOUT_), the buffer is empty and ready to be filled with information to send to the client.
 
-### Step 3: Request Processing and Sending Data
+#### Step 3: Request Processing and Sending Data
 
 The process is as follows:
 
@@ -225,6 +207,7 @@ Content-Length: 138
 </body>
 </html>
 ```
+
 
 # Diagram
 
