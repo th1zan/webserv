@@ -1,0 +1,105 @@
+\doxysection{/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/rays.h File Reference}
+\hypertarget{rays_8h}{}\label{rays_8h}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/rays.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/rays.h}}
+{\ttfamily \#include "{}matrices.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs__ray}{s\+\_\+ray}}
+\begin{DoxyCompactList}\small\item\em The struct of type t\+\_\+ray represents a ray, which is the foundation for ray casting. Ray casting is the process of creating a ray, or line, and finding the intersections of that ray with the objects in a scene. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structs__ray}{s\+\_\+ray}} \mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}}
+\begin{DoxyCompactList}\small\item\em The struct of type t\+\_\+ray represents a ray, which is the foundation for ray casting. Ray casting is the process of creating a ray, or line, and finding the intersections of that ray with the objects in a scene. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} \mbox{\hyperlink{rays_8h_a6cb809a8804280e876c95e2be4a059fd}{new\+\_\+ray}} (\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}} origin, \mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}} direction)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{rays_8h_a6cb809a8804280e876c95e2be4a059fd}{new\+\_\+ray()} creates and queries a ray with the given origin and direction passed as parameter. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}} \mbox{\hyperlink{rays_8h_a5d7a97da2e8b83700aab8015f9356446}{position}} (\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} ray, float distance)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{rays_8h_a5d7a97da2e8b83700aab8015f9356446}{position()} finds the position of a given ray and a given time or distance. To find a ray\textquotesingle{}s position, it\textquotesingle{}s necessary to multiply the ray direction by time or distance to find the total distance traveled and add the result to the ray\textquotesingle{}s origin. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} \mbox{\hyperlink{rays_8h_a038747afd14aea4ffed4dce434ecc7d8}{transform}} (\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} ray, \mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} matrix)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{rays_8h_a038747afd14aea4ffed4dce434ecc7d8}{transform()} multiplies a given ray by a given matrix, which results in an unnormalized ray. In other words, whatever wanted transformation to be applied to a world\textquotesingle{}s object is applied instead in the ray by the inverse of the operation intended on a world\textquotesingle{}s object. For more information, refer to the book TRTC on page 66. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{rays_8h_a249ca701a99a7da39d83c6270adac2ec}\index{rays.h@{rays.h}!t\_ray@{t\_ray}}
+\index{t\_ray@{t\_ray}!rays.h@{rays.h}}
+\doxysubsubsection{\texorpdfstring{t\_ray}{t\_ray}}
+{\footnotesize\ttfamily \label{rays_8h_a249ca701a99a7da39d83c6270adac2ec} 
+typedef struct \mbox{\hyperlink{structs__ray}{s\+\_\+ray}} \mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}}}
+
+
+
+The struct of type t\+\_\+ray represents a ray, which is the foundation for ray casting. Ray casting is the process of creating a ray, or line, and finding the intersections of that ray with the objects in a scene. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em origin} & Stores the starting point of a ray. \\
+\hline
+{\em direction} & Stores the vector which says where a ray points to. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{rays_8h_a6cb809a8804280e876c95e2be4a059fd}\index{rays.h@{rays.h}!new\_ray@{new\_ray}}
+\index{new\_ray@{new\_ray}!rays.h@{rays.h}}
+\doxysubsubsection{\texorpdfstring{new\_ray()}{new\_ray()}}
+{\footnotesize\ttfamily \label{rays_8h_a6cb809a8804280e876c95e2be4a059fd} 
+\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} new\+\_\+ray (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}}}]{origin}{, }\item[{\mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}}}]{direction}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{rays_8h_a6cb809a8804280e876c95e2be4a059fd}{new\+\_\+ray()} creates and queries a ray with the given origin and direction passed as parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em origin} & Receives a point tuple, which is starting point of the ray. \\
+\hline
+{\em direction} & Receives a vector tuple, which is the direction where the ray points to. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Sucessfully returns a new ray with the given origin and direction passed as parameter to the function. 
+\end{DoxyReturn}
+\Hypertarget{rays_8h_a5d7a97da2e8b83700aab8015f9356446}\index{rays.h@{rays.h}!position@{position}}
+\index{position@{position}!rays.h@{rays.h}}
+\doxysubsubsection{\texorpdfstring{position()}{position()}}
+{\footnotesize\ttfamily \label{rays_8h_a5d7a97da2e8b83700aab8015f9356446} 
+\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}} position (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}}}]{ray}{, }\item[{float}]{distance}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{rays_8h_a5d7a97da2e8b83700aab8015f9356446}{position()} finds the position of a given ray and a given time or distance. To find a ray\textquotesingle{}s position, it\textquotesingle{}s necessary to multiply the ray direction by time or distance to find the total distance traveled and add the result to the ray\textquotesingle{}s origin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ray} & Receives a ray as reference. \\
+\hline
+{\em distance} & Receives a float value which is the time or distance that the ray must travel. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the ray\textquotesingle{}s coordinates after it traveled for a given time or after it gone through a given distance. 
+\end{DoxyReturn}
+\Hypertarget{rays_8h_a038747afd14aea4ffed4dce434ecc7d8}\index{rays.h@{rays.h}!transform@{transform}}
+\index{transform@{transform}!rays.h@{rays.h}}
+\doxysubsubsection{\texorpdfstring{transform()}{transform()}}
+{\footnotesize\ttfamily \label{rays_8h_a038747afd14aea4ffed4dce434ecc7d8} 
+\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} transform (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}}}]{ray}{, }\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{matrix}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{rays_8h_a038747afd14aea4ffed4dce434ecc7d8}{transform()} multiplies a given ray by a given matrix, which results in an unnormalized ray. In other words, whatever wanted transformation to be applied to a world\textquotesingle{}s object is applied instead in the ray by the inverse of the operation intended on a world\textquotesingle{}s object. For more information, refer to the book TRTC on page 66. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ray} & Receives a ray to the transformed. \\
+\hline
+{\em matrix} & Reveives the matrix transformation to be applied in the ray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Successfully returns a new unnormalized and transformed ray. 
+\end{DoxyReturn}

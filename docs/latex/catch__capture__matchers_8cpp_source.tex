@@ -1,0 +1,30 @@
+\doxysection{catch\+\_\+capture\+\_\+matchers.\+cpp}
+\hypertarget{catch__capture__matchers_8cpp_source}{}\label{catch__capture__matchers_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_capture\_matchers.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_capture\_matchers.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 9/8/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2017\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_capture\_matchers.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_registry\_hub.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{using\ }StringMatcher\ =\ Matchers::Impl::MatcherBase<std::string>;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ general\ overload\ that\ takes\ a\ any\ string\ matcher}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ There\ is\ another\ overload,\ in\ catch\_assertionhandler.h/.cpp,\ that\ only\ takes\ a\ string\ and\ infers}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//\ the\ Equals\ matcher\ (so\ the\ header\ does\ not\ mention\ matchers)}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ handleExceptionMatchExpr(\ AssertionHandler\&\ handler,\ StringMatcher\ \textcolor{keyword}{const}\&\ matcher,\ StringRef\ \textcolor{keyword}{const}\&\ matcherString\ \ )\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ std::string\ exceptionMessage\ =\ Catch::translateActiveException();}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ MatchExpr<std::string,\ StringMatcher\ const\&>\ expr(\ exceptionMessage,\ matcher,\ matcherString\ );}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ handler.handleExpr(\ expr\ );}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+
+\end{DoxyCode}

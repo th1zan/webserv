@@ -1,0 +1,125 @@
+\chapter{tostring}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef}\index{tostring@{tostring}}
+\label{_top}%
+ \hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md617}{}\doxysection{\texorpdfstring{String conversions}{String conversions}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md617}
+{\bfseries{Contents}}~\newline
+ operator \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} overload for std\+::ostream~\newline
+ Catch\+::String\+Maker specialisation~\newline
+ Catch\+::is\+\_\+range specialisation~\newline
+ Exceptions~\newline
+ Enums~\newline
+ Floating point precision~\newline
+
+
+Catch needs to be able to convert types you use in assertions and logging expressions into strings (for logging and reporting purposes). Most built-\/in or std types are supported out of the box but there are two ways that you can tell Catch how to convert your own types (or other, third-\/party types) into strings.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md618}{}\doxysubsection{\texorpdfstring{operator \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} overload for std\+::ostream}{operator \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} overload for std\+::ostream}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md618}
+This is the standard way of providing string conversions in C++ -\/ and the chances are you may already provide this for your own purposes. If you\textquotesingle{}re not familiar with this idiom it involves writing a free function of the form\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::ostream\&\ operator\ <<\ (\ std::ostream\&\ os,\ T\ \textcolor{keyword}{const}\&\ value\ )\ \{}
+\DoxyCodeLine{\ \ \ \ os\ <<\ convertMyTypeToString(\ value\ );}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+(where {\ttfamily T} is your type and {\ttfamily convert\+My\+Type\+To\+String} is where you\textquotesingle{}ll write whatever code is necessary to make your type printable -\/ it doesn\textquotesingle{}t have to be in another function).
+
+You should put this function in the same namespace as your type, or the global namespace, and have it declared before including Catch\textquotesingle{}s header.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md619}{}\doxysubsection{\texorpdfstring{Catch\+::\+String\+Maker specialisation}{Catch\+::\+String\+Maker specialisation}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md619}
+If you don\textquotesingle{}t want to provide an {\ttfamily operator \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<}} overload, or you want to convert your type differently for testing purposes, you can provide a specialization for {\ttfamily \doxylink{struct_catch_1_1_string_maker}{Catch\+::\+String\+Maker}\texorpdfstring{$<$}{<}T\texorpdfstring{$>$}{>}}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{struct\ }StringMaker<T>\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\ T\ \textcolor{keyword}{const}\&\ value\ )\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ convertMyTypeToString(\ value\ );}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \};}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md620}{}\doxysubsection{\texorpdfstring{Catch\+::is\+\_\+range specialisation}{Catch\+::is\+\_\+range specialisation}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md620}
+As a fallback, Catch attempts to detect if the type can be iterated ({\ttfamily begin(\+T)} and {\ttfamily end(\+T)} are valid) and if it can be, it is stringified as a range. For certain types this can lead to infinite recursion, so it can be disabled by specializing {\ttfamily \doxylink{struct_catch_1_1is__range}{Catch\+::is\+\_\+range}} like so\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{struct\ }is\_range<T>\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ value\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\ \ \ \ \};}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md621}{}\doxysubsection{\texorpdfstring{Exceptions}{Exceptions}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md621}
+By default all exceptions deriving from {\ttfamily std\+::exception} will be translated to strings by calling the {\ttfamily what()} method. For exception types that do not derive from {\ttfamily std\+::exception} -\/ or if {\ttfamily what()} does not return a suitable string -\/ use {\ttfamily CATCH\+\_\+\+TRANSLATE\+\_\+\+EXCEPTION}. This defines a function that takes your exception type, by reference, and returns a string. It can appear anywhere in the code -\/ it doesn\textquotesingle{}t have to be in the same translation unit. For example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{CATCH\_TRANSLATE\_EXCEPTION(\ MyType\&\ ex\ )\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ ex.message();}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md622}{}\doxysubsection{\texorpdfstring{Enums}{Enums}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md622}
+\begin{quote}
+Introduced in Catch 2.\+8.\+0. \end{quote}
+Enums that already have a {\ttfamily \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<}} overload for {\ttfamily std\+::ostream} will convert to strings as expected. If you only need to convert enums to strings for test reporting purposes you can provide a {\ttfamily String\+Maker} specialisations as any other type. However, as a convenience, Catch provides the {\ttfamily REGISTER\+\_\+\+ENUM} helper macro that will generate the {\ttfamily String\+Maker} specialiation for you with minimal code. Simply provide it the (qualified) enum name, followed by all the enum values, and you\textquotesingle{}re done!
+
+E.\+g.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{enum\ class}\ Fruits\ \{\ Banana,\ Apple,\ Mango\ \};}
+\DoxyCodeLine{}
+\DoxyCodeLine{CATCH\_REGISTER\_ENUM(\ Fruits,\ Fruits::Banana,\ Fruits::Apple,\ Fruits::Mango\ )}
+\DoxyCodeLine{}
+\DoxyCodeLine{TEST\_CASE()\ \{}
+\DoxyCodeLine{\ \ \ \ REQUIRE(\ Fruits::Mango\ ==\ Fruits::Apple\ );}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+... or if the enum is in a namespace\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{namespace\ }Bikeshed\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{enum\ class}\ Colours\ \{\ Red,\ Green,\ Blue\ \};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Important!:\ This\ macro\ must\ appear\ at\ top\ level\ scope\ -\/\ not\ inside\ a\ namespace}}
+\DoxyCodeLine{\textcolor{comment}{//\ You\ can\ fully\ qualify\ the\ names,\ or\ use\ a\ using\ if\ you\ prefer}}
+\DoxyCodeLine{CATCH\_REGISTER\_ENUM(\ Bikeshed::Colours,}
+\DoxyCodeLine{\ \ \ \ Bikeshed::Colours::Red,}
+\DoxyCodeLine{\ \ \ \ Bikeshed::Colours::Green,}
+\DoxyCodeLine{\ \ \ \ Bikeshed::Colours::Blue\ )}
+\DoxyCodeLine{}
+\DoxyCodeLine{TEST\_CASE()\ \{}
+\DoxyCodeLine{\ \ \ \ REQUIRE(\ Bikeshed::Colours::Red\ ==\ Bikeshed::Colours::Blue\ );}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md623}{}\doxysubsection{\texorpdfstring{Floating point precision}{Floating point precision}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu32d8b32df52c0b752076fa926524f9ef_autotoc_md623}
+\begin{quote}
+\href{https://github.com/catchorg/Catch2/issues/1614}{\texttt{ Introduced}} in Catch 2.\+8.\+0. \end{quote}
+Catch provides a built-\/in {\ttfamily String\+Maker} specialization for both {\ttfamily float} and {\ttfamily double}. By default, it uses what we think is a reasonable precision, but you can customize it by modifying the {\ttfamily precision} static variable inside the {\ttfamily String\+Maker} specialization, like so\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_catch_1_1_string_maker}{Catch::StringMaker<float>::precision}}\ =\ 15;}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ testFloat1\ =\ 1.12345678901234567899f;}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ testFloat2\ =\ 1.12345678991234567899f;}
+\DoxyCodeLine{REQUIRE(testFloat1\ ==\ testFloat2);}
+
+\end{DoxyCode}
+
+
+This assertion will fail and print out the {\ttfamily test\+Float1} and {\ttfamily test\+Float2} to 15 decimal places.
+
+\DoxyHorRuler{0}
+
+
+\href{Readme.md\#top}{\texttt{ Home}} 

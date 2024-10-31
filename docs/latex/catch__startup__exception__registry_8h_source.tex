@@ -1,0 +1,35 @@
+\doxysection{catch\+\_\+startup\+\_\+exception\+\_\+registry.\+h}
+\hypertarget{catch__startup__exception__registry_8h_source}{}\label{catch__startup__exception__registry_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_startup\_exception\_registry.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_startup\_exception\_registry.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 04/06/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2017\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_STARTUP\_EXCEPTION\_REGISTRY\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_STARTUP\_EXCEPTION\_REGISTRY\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <exception>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_catch_1_1_startup_exception_registry}{StartupExceptionRegistry}}\ \{}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#if\ !defined(CATCH\_CONFIG\_DISABLE\_EXCEPTIONS)}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ add(std::exception\_ptr\ \textcolor{keyword}{const}\&\ exception)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ std::vector<std::exception\_ptr>\ \textcolor{keyword}{const}\&\ getExceptions()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::vector<std::exception\_ptr>\ m\_exceptions;}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ \ \ \ \ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_STARTUP\_EXCEPTION\_REGISTRY\_H\_INCLUDED}}
+
+\end{DoxyCode}

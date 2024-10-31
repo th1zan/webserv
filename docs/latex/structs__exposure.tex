@@ -1,0 +1,68 @@
+\doxysection{s\+\_\+exposure Struct Reference}
+\hypertarget{structs__exposure}{}\label{structs__exposure}\index{s\_exposure@{s\_exposure}}
+
+
+The struct \doxylink{structs__exposure}{s\+\_\+exposure} contains the necessary fields to calculate the a scene\textquotesingle{}s lighting. Exposure is a technical term from photography that means exposition to light.  
+
+
+
+
+{\ttfamily \#include $<$materials.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structs__exposure_af60b6f18c413892cebecc4e84746e99c}\label{structs__exposure_af60b6f18c413892cebecc4e84746e99c} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} {\bfseries effective\+\_\+color}
+\item 
+\Hypertarget{structs__exposure_a0418229f7422c2af4f4e9dad029fe718}\label{structs__exposure_a0418229f7422c2af4f4e9dad029fe718} 
+\mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}} {\bfseries lightv}
+\item 
+\Hypertarget{structs__exposure_aaa73dab80759164b1560f26414dc8cf5}\label{structs__exposure_aaa73dab80759164b1560f26414dc8cf5} 
+\mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}} {\bfseries reflectv}
+\item 
+\Hypertarget{structs__exposure_a6115d616dc6d31a06cde2e637c93a85e}\label{structs__exposure_a6115d616dc6d31a06cde2e637c93a85e} 
+float {\bfseries light\+\_\+dot\+\_\+normal}
+\item 
+\Hypertarget{structs__exposure_ab0535c49c1c3ef2182bc62333d7851c7}\label{structs__exposure_ab0535c49c1c3ef2182bc62333d7851c7} 
+float {\bfseries reflect\+\_\+dot\+\_\+eye}
+\item 
+\Hypertarget{structs__exposure_a14f3d9e397b2add578895bd71a4a77df}\label{structs__exposure_a14f3d9e397b2add578895bd71a4a77df} 
+float {\bfseries factor}
+\item 
+\Hypertarget{structs__exposure_a0418229f7422c2af4f4e9dad029fe718}\label{structs__exposure_a0418229f7422c2af4f4e9dad029fe718} 
+\mbox{\hyperlink{structs__vec3}{t\+\_\+vec3}} {\bfseries lightv}
+\item 
+\Hypertarget{structs__exposure_aaa73dab80759164b1560f26414dc8cf5}\label{structs__exposure_aaa73dab80759164b1560f26414dc8cf5} 
+\mbox{\hyperlink{structs__vec3}{t\+\_\+vec3}} {\bfseries reflectv}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The struct \doxylink{structs__exposure}{s\+\_\+exposure} contains the necessary fields to calculate the a scene\textquotesingle{}s lighting. Exposure is a technical term from photography that means exposition to light. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em effective\+\_\+color} & Combines the surface colo with light\textquotesingle{}s color/ intensity. \\
+\hline
+{\em lightv} & Finds the direction to the light source. \\
+\hline
+{\em reflectv} & Finds the direction to the light reflection. \\
+\hline
+{\em light\+\_\+dot\+\_\+normal} & Represents the cosine of the angle between the light vector and the normal vector. \doxylink{class_a}{A} negative number means the light is on the other side of the surface. \\
+\hline
+{\em reflect\+\_\+dot\+\_\+eye} & Represents the cosine of the angle between the reflection vector and the eye vector. \doxylink{class_a}{A} negative number means the light reflects away from the eye. \\
+\hline
+{\em factor} & Computes the specular contribution. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/\mbox{\hyperlink{materials_8h}{materials.\+h}}\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240311/src/header/material.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240322/src/header/material.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240403/src/header/material.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240408/src/header/material.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/src/header/material.\+h\end{DoxyCompactItemize}

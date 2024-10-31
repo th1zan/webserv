@@ -1,0 +1,31 @@
+\doxysection{Intern.\+hpp}
+\hypertarget{_c_p_p05_2ex03_2_intern_8hpp_source}{}\label{_c_p_p05_2ex03_2_intern_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP05/ex03/Intern.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP05/ex03/Intern.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ INTERN\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ INTERN\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}AForm.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_intern}{Intern}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{class_intern}{Intern}}();}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_intern}{Intern}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_intern}{Intern}}\&\ src);}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_intern}{\string~Intern}}();}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_intern}{Intern}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_intern}{Intern}}\&\ rhs);}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_a_form}{AForm}}*\ makeForm(\textcolor{keyword}{const}\ std::string\&\ formName,\ \textcolor{keyword}{const}\ std::string\&\ target);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_a_form}{AForm}}*\ \_createPresidentialPardonForm(\textcolor{keyword}{const}\ std::string\&\ target);\ \textcolor{comment}{//pointeur\ sur\ fonction}}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{class_a_form}{AForm}}*\ \_createRobotomyRequestForm(\textcolor{keyword}{const}\ std::string\&\ target);}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_a_form}{AForm}}*\ \_createShrubberyCreationForm(\textcolor{keyword}{const}\ std::string\&\ target);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{class_a_form}{AForm}}*\ (\mbox{\hyperlink{class_intern}{Intern}}::*FormCreator)(\textcolor{keyword}{const}\ std::string\&\ target);}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

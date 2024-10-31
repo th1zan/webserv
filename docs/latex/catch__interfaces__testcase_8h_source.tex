@@ -1,0 +1,44 @@
+\doxysection{catch\+\_\+interfaces\+\_\+testcase.\+h}
+\hypertarget{catch__interfaces__testcase_8h_source}{}\label{catch__interfaces__testcase_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_interfaces\_testcase.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_interfaces\_testcase.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 07/01/2011.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2011\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_INTERFACES\_TESTCASE\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_INTERFACES\_TESTCASE\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{class\ }TestSpec;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{struct\ }ITestInvoker\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ invoke\ ()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~ITestInvoker();}
+\DoxyCodeLine{00020\ \ \ \ \ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{class\ }TestCase;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{struct\ }IConfig;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{struct\ }ITestCaseRegistry\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~ITestCaseRegistry();}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ getAllTests()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ getAllTestsSorted(\ IConfig\ \textcolor{keyword}{const}\&\ config\ )\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00029\ \ \ \ \ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{bool}\ isThrowSafe(\ TestCase\ \textcolor{keyword}{const}\&\ testCase,\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{bool}\ matchTest(\ TestCase\ \textcolor{keyword}{const}\&\ testCase,\ TestSpec\ \textcolor{keyword}{const}\&\ testSpec,\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00033\ \ \ \ \ std::vector<TestCase>\ filterTests(\ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ testCases,\ TestSpec\ \textcolor{keyword}{const}\&\ testSpec,\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00034\ \ \ \ \ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ getAllTestCasesSorted(\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_INTERFACES\_TESTCASE\_H\_INCLUDED}}
+
+\end{DoxyCode}

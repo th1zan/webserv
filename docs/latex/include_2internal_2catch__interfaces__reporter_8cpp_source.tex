@@ -1,0 +1,120 @@
+\doxysection{catch\+\_\+interfaces\+\_\+reporter.\+cpp}
+\hypertarget{include_2internal_2catch__interfaces__reporter_8cpp_source}{}\label{include_2internal_2catch__interfaces__reporter_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_interfaces\_reporter.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_interfaces\_reporter.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 19/07/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_reporter.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../reporters/catch\_reporter\_listening.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ ReporterConfig::ReporterConfig(\ IConfigPtr\ \textcolor{keyword}{const}\&\ \_fullConfig\ )}
+\DoxyCodeLine{00014\ \ \ \ \ :\ \ \ m\_stream(\ \&\_fullConfig-\/>stream()\ ),\ m\_fullConfig(\ \_fullConfig\ )\ \{\}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ ReporterConfig::ReporterConfig(\ IConfigPtr\ \textcolor{keyword}{const}\&\ \_fullConfig,\ std::ostream\&\ \_stream\ )}
+\DoxyCodeLine{00017\ \ \ \ \ :\ \ \ m\_stream(\ \&\_stream\ ),\ m\_fullConfig(\ \_fullConfig\ )\ \{\}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ std::ostream\&\ ReporterConfig::stream()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ *m\_stream;\ \}}
+\DoxyCodeLine{00020\ \ \ \ \ IConfigPtr\ ReporterConfig::fullConfig()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_fullConfig;\ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ TestRunInfo::TestRunInfo(\ std::string\ \textcolor{keyword}{const}\&\ \_name\ )\ :\ name(\ \_name\ )\ \{\}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ GroupInfo::GroupInfo(\ \ std::string\ \textcolor{keyword}{const}\&\ \_name,}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ \_groupIndex,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ \_groupsCount\ )}
+\DoxyCodeLine{00028\ \ \ \ \ :\ \ \ name(\ \_name\ ),}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ groupIndex(\ \_groupIndex\ ),}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ groupsCounts(\ \_groupsCount\ )}
+\DoxyCodeLine{00031\ \ \ \ \ \{\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ AssertionStats::AssertionStats(\ AssertionResult\ \textcolor{keyword}{const}\&\ \_assertionResult,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<MessageInfo>\ \textcolor{keyword}{const}\&\ \_infoMessages,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Totals\ \textcolor{keyword}{const}\&\ \_totals\ )}
+\DoxyCodeLine{00036\ \ \ \ \ :\ \ \ assertionResult(\ \_assertionResult\ ),}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ infoMessages(\ \_infoMessages\ ),}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ totals(\ \_totals\ )}
+\DoxyCodeLine{00039\ \ \ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ assertionResult.m\_resultData.lazyExpression.m\_transientExpression\ =\ \_assertionResult.m\_resultData.lazyExpression.m\_transientExpression;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ assertionResult.hasMessage()\ )\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Copy\ message\ into\ messages\ list.}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ !TBD\ This\ should\ have\ been\ done\ earlier,\ somewhere}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ MessageBuilder\ builder(\ assertionResult.getTestMacroName(),\ assertionResult.getSourceInfo(),\ assertionResult.getResultType()\ );}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ builder\ <<\ assertionResult.getMessage();}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ builder.m\_info.message\ =\ builder.m\_stream.str();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ infoMessages.push\_back(\ builder.m\_info\ );}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ AssertionStats::\string~AssertionStats()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ SectionStats::SectionStats(\ \ SectionInfo\ \textcolor{keyword}{const}\&\ \_sectionInfo,}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Counts\ \textcolor{keyword}{const}\&\ \_assertions,}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \_durationInSeconds,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_missingAssertions\ )}
+\DoxyCodeLine{00059\ \ \ \ \ :\ \ \ sectionInfo(\ \_sectionInfo\ ),}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ assertions(\ \_assertions\ ),}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ durationInSeconds(\ \_durationInSeconds\ ),}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ missingAssertions(\ \_missingAssertions\ )}
+\DoxyCodeLine{00063\ \ \ \ \ \{\}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ SectionStats::\string~SectionStats()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ TestCaseStats::TestCaseStats(\ \ TestCaseInfo\ \textcolor{keyword}{const}\&\ \_testInfo,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Totals\ \textcolor{keyword}{const}\&\ \_totals,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ \_stdOut,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ \_stdErr,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_aborting\ )}
+\DoxyCodeLine{00073\ \ \ \ \ :\ testInfo(\ \_testInfo\ ),}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ totals(\ \_totals\ ),}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ stdOut(\ \_stdOut\ ),}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ stdErr(\ \_stdErr\ ),}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ aborting(\ \_aborting\ )}
+\DoxyCodeLine{00078\ \ \ \ \ \{\}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ TestCaseStats::\string~TestCaseStats()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ TestGroupStats::TestGroupStats(\ GroupInfo\ \textcolor{keyword}{const}\&\ \_groupInfo,}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Totals\ \textcolor{keyword}{const}\&\ \_totals,}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_aborting\ )}
+\DoxyCodeLine{00086\ \ \ \ \ :\ \ \ groupInfo(\ \_groupInfo\ ),}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ totals(\ \_totals\ ),}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ aborting(\ \_aborting\ )}
+\DoxyCodeLine{00089\ \ \ \ \ \{\}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ TestGroupStats::TestGroupStats(\ GroupInfo\ \textcolor{keyword}{const}\&\ \_groupInfo\ )}
+\DoxyCodeLine{00092\ \ \ \ \ :\ \ \ groupInfo(\ \_groupInfo\ ),}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ aborting(\ false\ )}
+\DoxyCodeLine{00094\ \ \ \ \ \{\}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ TestGroupStats::\string~TestGroupStats()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ TestRunStats::TestRunStats(\ \ \ TestRunInfo\ \textcolor{keyword}{const}\&\ \_runInfo,}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Totals\ \textcolor{keyword}{const}\&\ \_totals,}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \_aborting\ )}
+\DoxyCodeLine{00101\ \ \ \ \ :\ \ \ runInfo(\ \_runInfo\ ),}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ totals(\ \_totals\ ),}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ aborting(\ \_aborting\ )}
+\DoxyCodeLine{00104\ \ \ \ \ \{\}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ TestRunStats::\string~TestRunStats()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ IStreamingReporter::fatalErrorEncountered(\ StringRef\ )\ \{\}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{bool}\ IStreamingReporter::isMulti()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ IReporterFactory::\string~IReporterFactory()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00112\ \ \ \ \ IReporterRegistry::\string~IReporterRegistry()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+
+\end{DoxyCode}

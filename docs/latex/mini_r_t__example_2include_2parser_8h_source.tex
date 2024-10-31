@@ -1,0 +1,157 @@
+\doxysection{parser.\+h}
+\hypertarget{mini_r_t__example_2include_2parser_8h_source}{}\label{mini_r_t__example_2include_2parser_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/parser.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/parser.h}}
+\mbox{\hyperlink{mini_r_t__example_2include_2parser_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ parser.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ yde-\/goes\ <yde-\/goes@student.42sp.org.br>\ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/05/10\ 12:11:15\ by\ mdias-\/ma\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/06/16\ 13:40:10\ by\ yde-\/goes\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ PARSER\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#\ include\ <fcntl.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#\ include\ <stdlib.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#\ include\ <string.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{mini_r_t__example_2include_2world_8h}{world.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{canvas_8h}{canvas.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#\ define\ BUFFER\ 1024}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#\ define\ ERROR\_UNEXPECTED\_ELEMENT\ "{}Unexpected\ element"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#\ define\ ERROR\_EXPECTED\_NUMBER\ "{}Expected\ a\ number"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#\ define\ ERROR\_EXPECTED\_NEWLINE\ "{}Expected\ newline"{}}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#\ define\ ERROR\_EXPECTED\_COMMA\ "{}Expected\ a\ comma"{}}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#\ define\ INVALID\_NUMBER\ "{}Invalid\ number"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#\ define\ INVALID\_VECTOR\ "{}Vector\ components\ must\ be\ between\ -\/1\ and\ 1.\(\backslash\)n"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#\ define\ INVALID\_COLOR\ "{}Color\ values\ must\ be\ between\ 0\ and\ 255.\(\backslash\)n"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#\ define\ INVALID\_LIGHT\ "{}Light\ ratio\ must\ be\ between\ 0\ and\ 1.\(\backslash\)n"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#\ define\ INVALID\_FOV\ "{}Field\ of\ view\ must\ be\ between\ 0\ and\ 180.\(\backslash\)n"{}}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#\ define\ INVALID\_DIMENSION\ "{}Dimensions\ should\ be\ positive.\(\backslash\)n"{}}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#\ define\ INVALID\_FILE\ "{}Invalid\ texture\ file"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#\ define\ NON\_NORMALIZED\ "{}Vector\ should\ be\ normalized"{}}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#\ define\ ERROR\_CAMERA\ "{}Only\ one\ camera\ allowed.\(\backslash\)n"{}}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#\ define\ ERROR\_AMBIENT\ "{}Only\ one\ ambient\ light\ allowed.\(\backslash\)n"{}}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ e\_token}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ TOKEN\_AMBIENT\_LIGHT,}
+\DoxyCodeLine{00045\ \ \ \ \ TOKEN\_CAMERA,}
+\DoxyCodeLine{00046\ \ \ \ \ TOKEN\_LIGHT,}
+\DoxyCodeLine{00047\ \ \ \ \ TOKEN\_SPHERE,}
+\DoxyCodeLine{00048\ \ \ \ \ TOKEN\_PLANE,}
+\DoxyCodeLine{00049\ \ \ \ \ TOKEN\_CYLINDER,}
+\DoxyCodeLine{00050\ \ \ \ \ TOKEN\_CONE,}
+\DoxyCodeLine{00051\ \ \ \ \ TOKEN\_NEWLINE,}
+\DoxyCodeLine{00052\ \ \ \ \ TOKEN\_COMMENT,}
+\DoxyCodeLine{00053\ \ \ \ \ TOKEN\_ERROR,}
+\DoxyCodeLine{00054\ \ \ \ \ TOKEN\_COUNT}
+\DoxyCodeLine{00055\ \}\ \ \ t\_token;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__scanner}{s\_scanner}}}
+\DoxyCodeLine{00076\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ line;}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ *start;}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ *consume;}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ *current;}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ *message;}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \ *sync;}
+\DoxyCodeLine{00083\ \}\ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_ab694c688a490b83cb6b08135d189ac6b}{t\_scanner}};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00096\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_aaefc60cf1a5dcce3c44f395e1de6a4aa}{init\_scanner}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *source);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00107\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a3ebd42c178fd168342208fe88c285ab4}{scan\_integer}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00118\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a89d46ed84792315ae396bdfa9c82b14e}{scan\_double}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00128\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_accc0e6dbb6292328088d063315d9b751}{scan\_comma}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00138\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a9be1c87ee58b5bb6e5a1f5cc4ab877ae}{scan\_newline}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00151\ t\_token\ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_ab17f86ef319ecd6faee5f7540c1b0165}{parse\_type}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00164\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a7f2f841c36d41114c13ac9da79466c33}{advance}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00174\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a5c955daeaebee421045e1b7e6169adee}{skip\_whitespace}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00184\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a8282fa60f31ae83dc787c37ee598fb14}{is\_sign}}(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00197\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a07534df88a48279b9b942e724bd4595c}{save\_position}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00209\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a0dacca25f7c4555ff42c6f8b9e4deba5}{sync\_position}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00224\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a387e2a04c5bf1048075c437b63a3cfe9}{parse}}(\textcolor{keywordtype}{char}\ *filename,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00241\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a5093f9522f1affcca08e009a3a073803}{check\_extension}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *extension);}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00258\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a56ee6d5ab7702b7df52e82bd603c5d32}{parse\_element}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene,\ \textcolor{keywordtype}{int}\ totals[]);}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00266\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_afc875164769e7ea9e465342fd3b612b5}{parse\_comment}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00274\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a71219bd101318d415003da89493374ce}{add\_object\_to\_world}}(\mbox{\hyperlink{structt__shape}{t\_shape}}\ *shape,\ \mbox{\hyperlink{structs__world}{t\_world}}\ *world);}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00282\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a409f1331c94c0b6af80a6e6265dd8600}{add\_light\_to\_world}}(\mbox{\hyperlink{structs__light}{t\_light}}\ *light,\ \mbox{\hyperlink{structs__world}{t\_world}}\ *world);}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00294\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_accda4ee6ed4fe9cb767e1d4da9356248}{parse\_double}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \textcolor{keywordtype}{double}\ *result);}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00310\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_abf246a0f4ec7becfc938232c375b5591}{parse\_light\_ratio}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \textcolor{keywordtype}{double}\ *light);}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00328\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a712f8e6f895aa32e196474aacc1dc97c}{parse\_field\_of\_view}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \textcolor{keywordtype}{int}\ *fov);}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00345\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a202766c6921a76a31a9ea05937c8335d}{parse\_dimension}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \textcolor{keywordtype}{double}\ *dimension);}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00366\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a38d5988ca5a7bedebec135be4dfe8f0b}{parse\_color}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__color}{t\_color}}\ *result);}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00376\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a3c2d2ea4793a2ae68e532766f90767ec}{parse\_position}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__tuple}{t\_point}}\ *\mbox{\hyperlink{rays_8h_a5d7a97da2e8b83700aab8015f9356446}{position}});}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00394\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a89354a32b834fd2f652d6563601bbb2b}{parse\_direction}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__tuple}{t\_vector}}\ *direction);}
+\DoxyCodeLine{00395\ }
+\DoxyCodeLine{00404\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a813407666cdca848f7f4151ed7b2d00b}{parse\_pattern}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structt__shape}{t\_shape}}\ *shape);}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00416\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_ac23544c8ffb34ad898865bbaf281ef39}{parse\_ambient\_light}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00425\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a61dcc66b52c72b44d9fd6dc2e2540610}{parse\_camera}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00434\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a1c379d487ee8bb6fc1f572e42f37273c}{parse\_light}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00452\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_ac571a85f2ae2c0228f0be2059a11ef89}{parse\_sphere}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00467\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_ae68792bbd566a0fbe8a510e7798ce133}{parse\_plane}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00483\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_acf6c37d9497e6795de64d1b224a43d03}{parse\_cylinder}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00499\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a116084b8b24efaeb0db06c42c2130715}{parse\_cone}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structs__scene}{t\_scene}}\ *scene);}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00511\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_adea89a3573f33ed37d8d6505002df4d2}{report\_error}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00512\ }
+\DoxyCodeLine{00524\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_af4629e607016a7453d7dd289c480ccce}{validate\_range}}(\textcolor{keywordtype}{double}\ value,\ \textcolor{keywordtype}{double}\ start,\ \textcolor{keywordtype}{double}\ end);}
+\DoxyCodeLine{00525\ }
+\DoxyCodeLine{00538\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a80c48ea8c5eacdaee66a9a435af632c5}{get\_error\_column}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner);}
+\DoxyCodeLine{00539\ }
+\DoxyCodeLine{00551\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_a2220beab1237ebc17277014e6ca831dc}{set\_error\_state}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *error\_message);}
+\DoxyCodeLine{00552\ }
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00572\ t\_bool\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2parser_8h_acaffd5b1c8637f2266cc4e11f5d34d6c}{parse\_texture}}(\mbox{\hyperlink{structs__scanner}{t\_scanner}}\ *scanner,\ \mbox{\hyperlink{structt__shape}{t\_shape}}\ *shape);}
+\DoxyCodeLine{00573\ }
+\DoxyCodeLine{00574\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !PARSER\_H}}
+
+\end{DoxyCode}

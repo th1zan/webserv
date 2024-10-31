@@ -1,0 +1,296 @@
+\doxysection{catch\+\_\+reporter\+\_\+compact.\+cpp}
+\hypertarget{catch__reporter__compact_8cpp_source}{}\label{catch__reporter__compact_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/reporters/catch\_reporter\_compact.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/reporters/catch\_reporter\_compact.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 2017-\/11-\/14.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_reporter\_compact.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../internal/catch\_reporter\_registrars.hpp"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../internal/catch\_console\_colour.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifdef\ CATCH\_PLATFORM\_MAC}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ failedString()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}FAILED"{}};\ \}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ passedString()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}PASSED"{}};\ \}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ failedString()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}failed"{}};\ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ passedString()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}passed"{}};\ \}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ Colour::LightGrey}}
+\DoxyCodeLine{00024\ \ \ \ \ Catch::Colour::Code\ dimColour()\ \{\ \textcolor{keywordflow}{return}\ Catch::Colour::FileName;\ \}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ std::string\ bothOrAll(\ std::size\_t\ count\ )\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ count\ ==\ 1\ ?\ std::string()\ :}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ count\ ==\ 2\ ?\ \textcolor{stringliteral}{"{}both\ "{}}\ :\ \textcolor{stringliteral}{"{}all\ "{}}\ ;}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \}\ \textcolor{comment}{//\ anon\ namespace}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00035\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Colour,\ message\ variants:}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ -\/\ white:\ No\ tests\ ran.}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ -\/\ \ \ red:\ Failed\ [both/all]\ N\ test\ cases,\ failed\ [both/all]\ M\ assertions.}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ -\/\ white:\ Passed\ [both/all]\ N\ test\ cases\ (no\ assertions).}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ -\/\ \ \ red:\ Failed\ N\ tests\ cases,\ failed\ M\ assertions.}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ -\/\ green:\ Passed\ [both/all]\ N\ tests\ cases\ with\ M\ assertions.}}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}\ printTotals(std::ostream\&\ out,\ \textcolor{keyword}{const}\ Totals\&\ totals)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{if}\ (totals.testCases.total()\ ==\ 0)\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ out\ <<\ \textcolor{stringliteral}{"{}No\ tests\ ran."{}};}
+\DoxyCodeLine{00045\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (totals.testCases.failed\ ==\ totals.testCases.total())\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ Colour\ colour(Colour::ResultError);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ qualify\_assertions\_failed\ =}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ totals.assertions.failed\ ==\ totals.assertions.total()\ ?}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ bothOrAll(totals.assertions.failed)\ :\ std::string();}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ out\ <<}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ "{}}\ <<\ bothOrAll(totals.testCases.failed)}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ pluralise(totals.testCases.failed,\ \textcolor{stringliteral}{"{}test\ case"{}})\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ "{}}\ <<\ qualify\_assertions\_failed\ <<}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ pluralise(totals.assertions.failed,\ \textcolor{stringliteral}{"{}assertion"{}})\ <<\ \textcolor{charliteral}{'.'};}
+\DoxyCodeLine{00055\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (totals.assertions.total()\ ==\ 0)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ out\ <<}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Passed\ "{}}\ <<\ bothOrAll(totals.testCases.total())}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ pluralise(totals.testCases.total(),\ \textcolor{stringliteral}{"{}test\ case"{}})}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ (no\ assertions)."{}};}
+\DoxyCodeLine{00060\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (totals.assertions.failed)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ Colour\ colour(Colour::ResultError);}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ out\ <<}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ "{}}\ <<\ pluralise(totals.testCases.failed,\ \textcolor{stringliteral}{"{}test\ case"{}})\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ "{}}\ <<\ pluralise(totals.assertions.failed,\ \textcolor{stringliteral}{"{}assertion"{}})\ <<\ \textcolor{charliteral}{'.'};}
+\DoxyCodeLine{00065\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ Colour\ colour(Colour::ResultSuccess);}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ out\ <<}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Passed\ "{}}\ <<\ bothOrAll(totals.testCases.passed)}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ pluralise(totals.testCases.passed,\ \textcolor{stringliteral}{"{}test\ case"{}})\ <<}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ with\ "{}}\ <<\ pluralise(totals.assertions.passed,\ \textcolor{stringliteral}{"{}assertion"{}})\ <<\ \textcolor{charliteral}{'.'};}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{comment}{//\ Implementation\ of\ CompactReporter\ formatting}}
+\DoxyCodeLine{00075\ \textcolor{keyword}{class\ }AssertionPrinter\ \{}
+\DoxyCodeLine{00076\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00077\ \ \ \ \ AssertionPrinter\&\ operator=\ (AssertionPrinter\ \textcolor{keyword}{const}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00078\ \ \ \ \ AssertionPrinter(AssertionPrinter\ \textcolor{keyword}{const}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00079\ \ \ \ \ AssertionPrinter(std::ostream\&\ \_stream,\ AssertionStats\ \textcolor{keyword}{const}\&\ \_stats,\ \textcolor{keywordtype}{bool}\ \_printInfoMessages)}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ :\ stream(\_stream)}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ ,\ result(\_stats.assertionResult)}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ ,\ messages(\_stats.infoMessages)}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ ,\ itMessage(\_stats.infoMessages.begin())}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ ,\ printInfoMessages(\_printInfoMessages)\ \{\}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ print()\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ printSourceInfo();}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ itMessage\ =\ messages.begin();}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (result.getResultType())\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::Ok:}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::ResultSuccess,\ passedString());}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ printOriginalExpression();}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ printReconstructedExpression();}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.hasExpression())}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages(Colour::None);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages();}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::ExpressionFailed:}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.isOk())}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::ResultSuccess,\ failedString()\ +\ std::string(\textcolor{stringliteral}{"{}\ -\/\ but\ was\ ok"{}}));}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::Error,\ failedString());}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ printOriginalExpression();}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ printReconstructedExpression();}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages();}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::ThrewException:}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::Error,\ failedString());}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ printIssue(\textcolor{stringliteral}{"{}unexpected\ exception\ with\ message:"{}});}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ printMessage();}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ printExpressionWas();}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages();}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::FatalErrorCondition:}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::Error,\ failedString());}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ printIssue(\textcolor{stringliteral}{"{}fatal\ error\ condition\ with\ message:"{}});}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ printMessage();}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ printExpressionWas();}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages();}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::DidntThrowException:}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::Error,\ failedString());}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ printIssue(\textcolor{stringliteral}{"{}expected\ exception,\ got\ none"{}});}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ printExpressionWas();}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages();}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::Info:}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::None,\ \textcolor{stringliteral}{"{}info"{}});}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ printMessage();}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages();}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::Warning:}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::None,\ \textcolor{stringliteral}{"{}warning"{}});}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ printMessage();}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages();}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::ExplicitFailure:}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::Error,\ failedString());}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ printIssue(\textcolor{stringliteral}{"{}explicitly"{}});}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ printRemainingMessages(Colour::None);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ These\ cases\ are\ here\ to\ prevent\ compiler\ warnings}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::Unknown:}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::FailureBit:}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::Exception:}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ printResultType(Colour::Error,\ \textcolor{stringliteral}{"{}**\ internal\ error\ **"{}});}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{void}\ printSourceInfo()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ Colour\ colourGuard(Colour::FileName);}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ stream\ <<\ result.getSourceInfo()\ <<\ \textcolor{charliteral}{':'};}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordtype}{void}\ printResultType(Colour::Code\ colour,\ std::string\ \textcolor{keyword}{const}\&\ passOrFail)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!passOrFail.empty())\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Colour\ colourGuard(colour);}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{'\ '}\ <<\ passOrFail;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{':'};}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{void}\ printIssue(std::string\ \textcolor{keyword}{const}\&\ issue)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{'\ '}\ <<\ issue;}
+\DoxyCodeLine{00172\ \ \ \ \ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordtype}{void}\ printExpressionWas()\ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.hasExpression())\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{';'};}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Colour\ colour(dimColour());}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\ expression\ was:"{}};}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ printOriginalExpression();}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{void}\ printOriginalExpression()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.hasExpression())\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{'\ '}\ <<\ result.getExpression();}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{void}\ printReconstructedExpression()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.hasExpandedExpression())\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Colour\ colour(dimColour());}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\ for:\ "{}};}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ result.getExpandedExpression();}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{void}\ printMessage()\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itMessage\ !=\ messages.end())\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\ '"{}}\ <<\ itMessage-\/>message\ <<\ \textcolor{charliteral}{'\(\backslash\)''};}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ ++itMessage;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{void}\ printRemainingMessages(Colour::Code\ colour\ =\ dimColour())\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itMessage\ ==\ messages.end())}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ itEnd\ =\ messages.cend();}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ N\ =\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(std::distance(itMessage,\ itEnd));}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ Colour\ colourGuard(colour);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\ with\ "{}}\ <<\ pluralise(N,\ \textcolor{stringliteral}{"{}message"{}})\ <<\ \textcolor{charliteral}{':'};}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (itMessage\ !=\ itEnd)\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ this\ assertion\ is\ a\ warning\ ignore\ any\ INFO\ messages}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (printInfoMessages\ ||\ itMessage-\/>type\ !=\ ResultWas::Info)\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printMessage();}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itMessage\ !=\ itEnd)\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Colour\ colourGuard(dimColour());}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\ and"{}};}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ ++itMessage;}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00232\ \ \ \ \ \}}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00235\ \ \ \ \ std::ostream\&\ stream;}
+\DoxyCodeLine{00236\ \ \ \ \ AssertionResult\ \textcolor{keyword}{const}\&\ result;}
+\DoxyCodeLine{00237\ \ \ \ \ std::vector<MessageInfo>\ messages;}
+\DoxyCodeLine{00238\ \ \ \ \ std::vector<MessageInfo>::const\_iterator\ itMessage;}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordtype}{bool}\ printInfoMessages;}
+\DoxyCodeLine{00240\ \};}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \}\ \textcolor{comment}{//\ anon\ namespace}}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ std::string\ CompactReporter::getDescription()\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Reports\ test\ results\ on\ a\ single\ line,\ suitable\ for\ IDEs"{}};}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ CompactReporter::noMatchingTestCases(\ std::string\ \textcolor{keyword}{const}\&\ spec\ )\ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}No\ test\ cases\ matched\ '"{}}\ <<\ spec\ <<\ \textcolor{charliteral}{'\(\backslash\)''}\ <<\ std::endl;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ CompactReporter::assertionStarting(\ AssertionInfo\ \textcolor{keyword}{const}\&\ )\ \{\}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ CompactReporter::assertionEnded(\ AssertionStats\ \textcolor{keyword}{const}\&\ \_assertionStats\ )\ \{}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionResult\ \textcolor{keyword}{const}\&\ result\ =\ \_assertionStats.assertionResult;}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ printInfoMessages\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Drop\ out\ if\ result\ was\ successful\ and\ we're\ not\ printing\ those}}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !m\_config-\/>includeSuccessfulResults()\ \&\&\ result.isOk()\ )\ \{}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ result.getResultType()\ !=\ ResultWas::Warning\ )}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printInfoMessages\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionPrinter\ printer(\ stream,\ \_assertionStats,\ printInfoMessages\ );}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ printer.print();}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ std::endl;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ CompactReporter::sectionEnded(SectionStats\ \textcolor{keyword}{const}\&\ \_sectionStats)\ \{}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ dur\ =\ \_sectionStats.durationInSeconds;}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ shouldShowDuration(\ *m\_config,\ dur\ )\ )\ \{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ getFormattedDuration(\ dur\ )\ <<\ \textcolor{stringliteral}{"{}\ s:\ "{}}\ <<\ \_sectionStats.sectionInfo.name\ <<\ std::endl;}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ CompactReporter::testRunEnded(\ TestRunStats\ \textcolor{keyword}{const}\&\ \_testRunStats\ )\ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ printTotals(\ stream,\ \_testRunStats.totals\ );}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{charliteral}{'\(\backslash\)n'}\ <<\ std::endl;}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ StreamingReporterBase::testRunEnded(\ \_testRunStats\ );}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ CompactReporter::\string~CompactReporter()\ \{\}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \ \ CATCH\_REGISTER\_REPORTER(\ \textcolor{stringliteral}{"{}compact"{}},\ CompactReporter\ )}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+
+\end{DoxyCode}

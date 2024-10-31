@@ -1,0 +1,64 @@
+\doxysection{matrix.\+h}
+\hypertarget{src_2header_2matrix_8h_source}{}\label{src_2header_2matrix_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/src/header/matrix.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/src/header/matrix.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ matrix.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ tsanglar\ <tsanglar@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/06\ 12:29:09\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/04/15\ 17:53:45\ by\ tsanglar\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ MATRIX\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ MATRIX\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__canevas}{s\_canevas}}\ \ \ \mbox{\hyperlink{structs__canevas}{t\_canevas}};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__matrix}{s\_matrix}}}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{double}\ \ mx[4][4];}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ dim;}
+\DoxyCodeLine{00022\ \}\ \ \ \mbox{\hyperlink{structs__matrix}{t\_matrix}};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__shearing}{s\_shearing}}}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{double}\ \ p1;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{double}\ \ p2;}
+\DoxyCodeLine{00028\ \}\ \ \ \mbox{\hyperlink{structs__shearing}{t\_shearing}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{/*matrix\_op\_1.c*/}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ t\_matrix\ mx\_rotation(t\_vec3\ vector);}}
+\DoxyCodeLine{00032\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_rotation(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \mbox{\hyperlink{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064}{vector}});}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ calculate\_rotation\_angles(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ vec,\ \textcolor{keywordtype}{double}\ *x,\ \textcolor{keywordtype}{double}\ *z);}
+\DoxyCodeLine{00034\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_create(\textcolor{keywordtype}{double}\ mx\_tab[MAX\_DIM][MAX\_DIM],\ \textcolor{keywordtype}{int}\ dimension);}
+\DoxyCodeLine{00035\ \mbox{\hyperlink{structs__shearing}{t\_shearing}}\ \ \ \ mx\_shearing\_create(\textcolor{keywordtype}{double}\ param1,\ \textcolor{keywordtype}{double}\ param2);}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ mx\_print(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ mx);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{comment}{/*matrix\_op\_2.c*/}}
+\DoxyCodeLine{00039\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_mx\_multiply(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m1,\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m2);}
+\DoxyCodeLine{00040\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ \ \ \ \ mx\_vec3\_multiply(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v);}
+\DoxyCodeLine{00041\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_transpose(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m);}
+\DoxyCodeLine{00042\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ \mbox{\hyperlink{matrices_8h_ab7df591ed1926b001ac7e2714b46a1db}{get\_submatrix}}(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m,\ \textcolor{keywordtype}{int}\ del\_li,\ \textcolor{keywordtype}{int}\ del\_col);}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{double}\ \ \ \ \ \ mx\_get\_minor(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m,\ \textcolor{keywordtype}{int}\ li,\ \textcolor{keywordtype}{int}\ col);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{comment}{/*matrix\_op\_3.c*/}}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{double}\ \ \ \ \ \ mx\_get\_cofactor(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m,\ \textcolor{keywordtype}{int}\ li,\ \textcolor{keywordtype}{int}\ col);}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{double}\ \ \ \ \ \ mx\_get\_deter(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m);}
+\DoxyCodeLine{00048\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_identity\_matrix(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00049\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_inverse(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ m);}
+\DoxyCodeLine{00050\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_translation(\textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y,\ \textcolor{keywordtype}{double}\ z);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{comment}{/*matrix\_op\_4.c*/}}
+\DoxyCodeLine{00053\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_scaling(\textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y,\ \textcolor{keywordtype}{double}\ z);}
+\DoxyCodeLine{00054\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_x\_rotation(\textcolor{keywordtype}{double}\ radian);}
+\DoxyCodeLine{00055\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_y\_rotation(\textcolor{keywordtype}{double}\ radian);}
+\DoxyCodeLine{00056\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_z\_rotation(\textcolor{keywordtype}{double}\ radian);}
+\DoxyCodeLine{00057\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ mx\_shearing(\mbox{\hyperlink{structs__shearing}{t\_shearing}}\ x,\ \mbox{\hyperlink{structs__shearing}{t\_shearing}}\ y,\ \mbox{\hyperlink{structs__shearing}{t\_shearing}}\ z);}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

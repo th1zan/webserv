@@ -1,0 +1,473 @@
+\doxysection{/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/tuples.h File Reference}
+\hypertarget{tuples_8h}{}\label{tuples_8h}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/tuples.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/tuples.h}}
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs__tuple}{s\+\_\+tuple}}
+\begin{DoxyCompactList}\small\item\em Tuple means a list of ordered things. The struct t\+\_\+tuple stores coordinates for a left-\/handed coordinate system, i.\+e, the thumb of your left hand points to x in the right direction, the fingers point to y and curling the fingers towards the palm point to z. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structs__color}{s\+\_\+color}}
+\begin{DoxyCompactList}\small\item\em The struct \doxylink{structs__color}{s\+\_\+color} stores the color values of ray tracing. It contains a field for red, green and blue values. If all components are 1, the final color is white. Otherwise, if all of them are 0, the resulting color is black. Therefore, each field has a range between 0 and 1. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structs__tuple}{s\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}
+\begin{DoxyCompactList}\small\item\em Tuple means a list of ordered things. The struct t\+\_\+tuple stores coordinates for a left-\/handed coordinate system, i.\+e, the thumb of your left hand points to x in the right direction, the fingers point to y and curling the fingers towards the palm point to z. \end{DoxyCompactList}\item 
+\Hypertarget{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}\label{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40} 
+typedef \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} {\bfseries t\+\_\+point}
+\begin{DoxyCompactList}\small\item\em The type t\+\_\+point is a syntatic sugar for any structure t\+\_\+tuple whose w\textquotesingle{}s field equals to 1, i.\+e., the tuple is a point. \end{DoxyCompactList}\item 
+\Hypertarget{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}\label{tuples_8h_aea609bcc1e9134165bc86014c7974ec7} 
+typedef \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} {\bfseries t\+\_\+vector}
+\begin{DoxyCompactList}\small\item\em The type t\+\_\+point is a syntatic sugar for any structure t\+\_\+tuple whose w\textquotesingle{}s field equals to 0, i.\+e., the tuple is a vector. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structs__color}{s\+\_\+color}} \mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}
+\begin{DoxyCompactList}\small\item\em The struct \doxylink{structs__color}{s\+\_\+color} stores the color values of ray tracing. It contains a field for red, green and blue values. If all components are 1, the final color is white. Otherwise, if all of them are 0, the resulting color is black. Therefore, each field has a range between 0 and 1. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple}} (double x, double y, double z, double w)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple()} instances a new material of struct type t\+\_\+tuple with the given values passed as parameter. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_abd0ad1d76c573e7816318b2d5a9efe64}{point}} (double x, double y, double z)
+\begin{DoxyCompactList}\small\item\em This function is a simplification of the function \doxylink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple()}. It will create a point with the given coordinates passed as parameter and set the field w to 1. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064}{vector}} (double x, double y, double z)
+\begin{DoxyCompactList}\small\item\em This function is a simplification of the function \doxylink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple()}. It will create a point with the given coordinates passed as parameter and set the field w to 0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_aaf01ab17525ee6d57129c5ba5c94c448}{add}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} a, \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} b)
+\begin{DoxyCompactList}\small\item\em The \doxylink{tuples_8h_aaf01ab17525ee6d57129c5ba5c94c448}{add()} function sums two tuples. \doxylink{class_a}{A} vector plus a point results in a point (w values\+: 1 + 0 = 1). \doxylink{class_a}{A} point plus a point results in a point (w values\+: 0 + 0 = 0). \doxylink{class_a}{A} tuple plus a tuple results in neither a vector or a point (w values\+: 1 + 1 = 2). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_aa7e4408a46cea1573bfa077bc0b3f3c3}{subtract}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} a, \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} b)
+\begin{DoxyCompactList}\small\item\em The \doxylink{tuples_8h_aa7e4408a46cea1573bfa077bc0b3f3c3}{subtract()} function subtract two tuples. \doxylink{class_a}{A} vector minus a point results in a point (w values\+: 1 -\/ 0 = 1). \doxylink{class_a}{A} point minus a point results in a point (w values\+: 0 -\/ 0 = 0). \doxylink{class_a}{A} tuple minus a tuple results in a tuple with a w of 0, which is another vector representing the change in direction between the two vectors. \doxylink{class_a}{A} point minus a vector results in a w of -\/1 (0 -\/ 1 = 1), which is neither a point or a vector. When this case happens, it\textquotesingle{}s necessary to use counterpart function \doxylink{tuples_8h_a9da14e746e44eb96c9a43b9ad7972c4f}{negate()}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a9da14e746e44eb96c9a43b9ad7972c4f}{negate}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} a)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a9da14e746e44eb96c9a43b9ad7972c4f}{negate()} returns the opposite vector of a given vector passed as parameter. If a vector poins from a surface toward a light source, the opposite vector points from the light source back to the surface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_adb90ae888436ed8b2c127b75e98292a6}{multiply}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} a, double scalar)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_adb90ae888436ed8b2c127b75e98292a6}{multiply()} multiplies a vector by a scalar value, i.\+e., it changes the vector length uniformly. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a9b129eae1933bf3bed7af0d939296d56}{divide}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} a, double scalar)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a9b129eae1933bf3bed7af0d939296d56}{divide()} divides a vector by a scalar value, i.\+e., it changes the vector length uniformly. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{tuples_8h_acd9350f4296b7f51461048564f7fa07f}{magnitude}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064}{vector}})
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_acd9350f4296b7f51461048564f7fa07f}{magnitude()} gets the magnitude or length of a given vector passed as parameter. Vectors with magnitudes of 1 are called unit vectors or direction vectors. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a4b6e6a5e1ac158f7d3504130d2bccd44}{normalize}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064}{vector}})
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a4b6e6a5e1ac158f7d3504130d2bccd44}{normalize()} takes an arbitrary vector and converts it into a unit vector. It keeps the calculations anchored relative to a common scale, i.\+e., keeps all vectors speaking the same language. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{tuples_8h_afbdf6db5149d7efd4ba550624feeda00}{dot}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} a, \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} b)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_afbdf6db5149d7efd4ba550624feeda00}{dot()} computes the sum of the products of the corresponding components of each vector. The smaller the dot product, the larger the angle between the vectors. \doxylink{class_a}{A} dot product of 1 means the vectors are identical and a dot product of -\/1 means they point in opposite directions. Thus, if the two vectors are unit vectors, the dot product is the cosine of them. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a8eaa25e6f960107d31c18e55d423bef9}{cross}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} a, \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} b)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a8eaa25e6f960107d31c18e55d423bef9}{cross()} multiplies vectors, instead of tuples. After all, the ray traces only needs a three-\/dimensional value anyway. The order of the operands matters and the result is a vector perpendicular to both of the original vectors. Changes to the operand order changes the direction of the resulting perpendicular vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_ab6b63350165cbd8cb181657b296f6583}{reflect}} (\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} in, \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} normal)
+\begin{DoxyCompactList}\small\item\em This function returns the result of reflecting the in vector around the normal vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} \mbox{\hyperlink{tuples_8h_a699bdcc97a6ea92a458d81c5ef198950}{new\+\_\+color}} (double red, double green, double blue)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a699bdcc97a6ea92a458d81c5ef198950}{new\+\_\+color()} instances a new color of struct type \doxylink{structs__color}{s\+\_\+color} with the given values passed as parameter. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} \mbox{\hyperlink{tuples_8h_a91b7ed8096607dc1b097a08aa80c8b97}{add\+\_\+color}} (\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} a, \mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} b)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a91b7ed8096607dc1b097a08aa80c8b97}{add\+\_\+color()} combines the intensity of each RGB color component of a and b. Adding (1, 0, 0) to (0, 1, 0) results in (1, 1, 0), i.\+e., adding red to green results in yellow. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} \mbox{\hyperlink{tuples_8h_a0454ae7e68d2dfc2d477696a93b43c71}{subtract\+\_\+color}} (\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} a, \mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} b)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a0454ae7e68d2dfc2d477696a93b43c71}{subtract\+\_\+color()} decreases the intensity of each RGB color component of a and b. Subtracting (1, 0, 0) to (0, 1, 0) results in (1, 0, 0), i.\+e., subtracting red from green results in red. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} \mbox{\hyperlink{tuples_8h_ab688dce91569b246792e32fb2108077c}{multiply\+\_\+color}} (\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} color, double scalar)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_ab688dce91569b246792e32fb2108077c}{multiply\+\_\+color()} scales the intensities of each RGB color component of the parameter color by a constant parameter scalar. For example, multiplying (1, 0, 0) by 0.\+5 or 1.\+5 result in (0.\+5, 0, 0) or (1.\+5, 0, 0). In other words, the red components were halved or doubled. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} \mbox{\hyperlink{tuples_8h_a5872e0d11701b91a3b75d5664278a2b2}{hadamard\+\_\+product}} (\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} a, \mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} b)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{tuples_8h_a5872e0d11701b91a3b75d5664278a2b2}{hadamard\+\_\+product()} blends two color together by multiplying corresponding components of each color. This process is known as Hadamard product or Schur product. For example, to view a yellow-\/green surface under reddish-\/purple light would result in a red-\/like color because the red component would be highest among the RGB values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}\index{tuples.h@{tuples.h}!t\_color@{t\_color}}
+\index{t\_color@{t\_color}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{t\_color}{t\_color}}
+{\footnotesize\ttfamily \label{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf} 
+typedef struct \mbox{\hyperlink{structs__color}{s\+\_\+color}} \mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}
+
+
+
+The struct \doxylink{structs__color}{s\+\_\+color} stores the color values of ray tracing. It contains a field for red, green and blue values. If all components are 1, the final color is white. Otherwise, if all of them are 0, the resulting color is black. Therefore, each field has a range between 0 and 1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em red} & Represents the red value of the RGB scale. \\
+\hline
+{\em green} & Represents the green value of the RGB scale. \\
+\hline
+{\em blue} & Represents the blue value of the RGB scale. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}\index{tuples.h@{tuples.h}!t\_tuple@{t\_tuple}}
+\index{t\_tuple@{t\_tuple}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{t\_tuple}{t\_tuple}}
+{\footnotesize\ttfamily \label{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af} 
+typedef struct \mbox{\hyperlink{structs__tuple}{s\+\_\+tuple}} \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}
+
+
+
+Tuple means a list of ordered things. The struct t\+\_\+tuple stores coordinates for a left-\/handed coordinate system, i.\+e, the thumb of your left hand points to x in the right direction, the fingers point to y and curling the fingers towards the palm point to z. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Represents the value of the x-\/axis coordinate. \\
+\hline
+{\em y} & Represents the value of the y-\/axis coordinate. \\
+\hline
+{\em z} & Represents the value of the z-\/axis coordinate. \\
+\hline
+{\em w} & Distinguishes the t\+\_\+tuple between a vector or a point. If w = 0, then the tuple is a vector. Otherwise, if w = 1, the tuple is a point. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{tuples_8h_aaf01ab17525ee6d57129c5ba5c94c448}\index{tuples.h@{tuples.h}!add@{add}}
+\index{add@{add}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily \label{tuples_8h_aaf01ab17525ee6d57129c5ba5c94c448} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The \doxylink{tuples_8h_aaf01ab17525ee6d57129c5ba5c94c448}{add()} function sums two tuples. \doxylink{class_a}{A} vector plus a point results in a point (w values\+: 1 + 0 = 1). \doxylink{class_a}{A} point plus a point results in a point (w values\+: 0 + 0 = 0). \doxylink{class_a}{A} tuple plus a tuple results in neither a vector or a point (w values\+: 1 + 1 = 2). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first tuple to sum. \\
+\hline
+{\em b} & Receives the second tuple to sum. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new tuple by adding the corresponding components of each of the operands. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a91b7ed8096607dc1b097a08aa80c8b97}\index{tuples.h@{tuples.h}!add\_color@{add\_color}}
+\index{add\_color@{add\_color}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{add\_color()}{add\_color()}}
+{\footnotesize\ttfamily \label{tuples_8h_a91b7ed8096607dc1b097a08aa80c8b97} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} add\+\_\+color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a91b7ed8096607dc1b097a08aa80c8b97}{add\+\_\+color()} combines the intensity of each RGB color component of a and b. Adding (1, 0, 0) to (0, 1, 0) results in (1, 1, 0), i.\+e., adding red to green results in yellow. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first color to sum. \\
+\hline
+{\em b} & Receives the second color to sum. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new color with combined intensity resultant of the sum of each RGB color component of a and b. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a8eaa25e6f960107d31c18e55d423bef9}\index{tuples.h@{tuples.h}!cross@{cross}}
+\index{cross@{cross}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{cross()}{cross()}}
+{\footnotesize\ttfamily \label{tuples_8h_a8eaa25e6f960107d31c18e55d423bef9} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} cross (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a8eaa25e6f960107d31c18e55d423bef9}{cross()} multiplies vectors, instead of tuples. After all, the ray traces only needs a three-\/dimensional value anyway. The order of the operands matters and the result is a vector perpendicular to both of the original vectors. Changes to the operand order changes the direction of the resulting perpendicular vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first vector to be multiplied. \\
+\hline
+{\em b} & Receives the second vector to be multiplied. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new vector which is perpendicular to both vectors passed as parameter to the function. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a9b129eae1933bf3bed7af0d939296d56}\index{tuples.h@{tuples.h}!divide@{divide}}
+\index{divide@{divide}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{divide()}{divide()}}
+{\footnotesize\ttfamily \label{tuples_8h_a9b129eae1933bf3bed7af0d939296d56} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} divide (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{a}{, }\item[{double}]{scalar}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a9b129eae1933bf3bed7af0d939296d56}{divide()} divides a vector by a scalar value, i.\+e., it changes the vector length uniformly. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the t\+\_\+tuple vector to be scaled by division. \\
+\hline
+{\em scalar} & Receives a double value to shrink the vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new vector with each component of the given tuple divided by the given scalar passed as parameter. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_afbdf6db5149d7efd4ba550624feeda00}\index{tuples.h@{tuples.h}!dot@{dot}}
+\index{dot@{dot}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily \label{tuples_8h_afbdf6db5149d7efd4ba550624feeda00} 
+double dot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_afbdf6db5149d7efd4ba550624feeda00}{dot()} computes the sum of the products of the corresponding components of each vector. The smaller the dot product, the larger the angle between the vectors. \doxylink{class_a}{A} dot product of 1 means the vectors are identical and a dot product of -\/1 means they point in opposite directions. Thus, if the two vectors are unit vectors, the dot product is the cosine of them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first vector for the dot product. \\
+\hline
+{\em b} & Receives the second vector for the dot product. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a value which is the dot product that states the relationship between two vectors in terms of direction. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a5872e0d11701b91a3b75d5664278a2b2}\index{tuples.h@{tuples.h}!hadamard\_product@{hadamard\_product}}
+\index{hadamard\_product@{hadamard\_product}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{hadamard\_product()}{hadamard\_product()}}
+{\footnotesize\ttfamily \label{tuples_8h_a5872e0d11701b91a3b75d5664278a2b2} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} hadamard\+\_\+product (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a5872e0d11701b91a3b75d5664278a2b2}{hadamard\+\_\+product()} blends two color together by multiplying corresponding components of each color. This process is known as Hadamard product or Schur product. For example, to view a yellow-\/green surface under reddish-\/purple light would result in a red-\/like color because the red component would be highest among the RGB values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first color to be blended. \\
+\hline
+{\em b} & Receives the second color to be blended. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new blended color from Schur product of a and b. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_acd9350f4296b7f51461048564f7fa07f}\index{tuples.h@{tuples.h}!magnitude@{magnitude}}
+\index{magnitude@{magnitude}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{magnitude()}{magnitude()}}
+{\footnotesize\ttfamily \label{tuples_8h_acd9350f4296b7f51461048564f7fa07f} 
+double magnitude (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{vector}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_acd9350f4296b7f51461048564f7fa07f}{magnitude()} gets the magnitude or length of a given vector passed as parameter. Vectors with magnitudes of 1 are called unit vectors or direction vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & Receives the vector to its magnitude value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the magnitude value of the length. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_adb90ae888436ed8b2c127b75e98292a6}\index{tuples.h@{tuples.h}!multiply@{multiply}}
+\index{multiply@{multiply}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{multiply()}{multiply()}}
+{\footnotesize\ttfamily \label{tuples_8h_adb90ae888436ed8b2c127b75e98292a6} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} multiply (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{a}{, }\item[{double}]{scalar}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_adb90ae888436ed8b2c127b75e98292a6}{multiply()} multiplies a vector by a scalar value, i.\+e., it changes the vector length uniformly. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the t\+\_\+tuple vector to be scaled by multiplication. \\
+\hline
+{\em scalar} & Receives a double value to stretch out the vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new vector with each component of the given tuple multiplied by the given scalar passed as parameter. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_ab688dce91569b246792e32fb2108077c}\index{tuples.h@{tuples.h}!multiply\_color@{multiply\_color}}
+\index{multiply\_color@{multiply\_color}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{multiply\_color()}{multiply\_color()}}
+{\footnotesize\ttfamily \label{tuples_8h_ab688dce91569b246792e32fb2108077c} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} multiply\+\_\+color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{color}{, }\item[{double}]{scalar}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_ab688dce91569b246792e32fb2108077c}{multiply\+\_\+color()} scales the intensities of each RGB color component of the parameter color by a constant parameter scalar. For example, multiplying (1, 0, 0) by 0.\+5 or 1.\+5 result in (0.\+5, 0, 0) or (1.\+5, 0, 0). In other words, the red components were halved or doubled. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & Receives the color to be scaled. \\
+\hline
+{\em scalar} & Receives the scale factor to be applied for each color value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new color with halved or intensified RGB color values resulting from the scalar multiplication. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a9da14e746e44eb96c9a43b9ad7972c4f}\index{tuples.h@{tuples.h}!negate@{negate}}
+\index{negate@{negate}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{negate()}{negate()}}
+{\footnotesize\ttfamily \label{tuples_8h_a9da14e746e44eb96c9a43b9ad7972c4f} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} negate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{a}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a9da14e746e44eb96c9a43b9ad7972c4f}{negate()} returns the opposite vector of a given vector passed as parameter. If a vector poins from a surface toward a light source, the opposite vector points from the light source back to the surface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the vector to be negated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the negated vector of the vector passed as parameter by doing vector a minus a vector with zero values. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a699bdcc97a6ea92a458d81c5ef198950}\index{tuples.h@{tuples.h}!new\_color@{new\_color}}
+\index{new\_color@{new\_color}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{new\_color()}{new\_color()}}
+{\footnotesize\ttfamily \label{tuples_8h_a699bdcc97a6ea92a458d81c5ef198950} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} new\+\_\+color (\begin{DoxyParamCaption}\item[{double}]{red}{, }\item[{double}]{green}{, }\item[{double}]{blue}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a699bdcc97a6ea92a458d81c5ef198950}{new\+\_\+color()} instances a new color of struct type \doxylink{structs__color}{s\+\_\+color} with the given values passed as parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em red} & Receives a red color value for the RGB scale. \\
+\hline
+{\em green} & Receives a green color value for the RGB scale. \\
+\hline
+{\em blue} & Receives a blue color value for the RGB scale. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an instance of a color with the values passed as parameter. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a4b6e6a5e1ac158f7d3504130d2bccd44}\index{tuples.h@{tuples.h}!normalize@{normalize}}
+\index{normalize@{normalize}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{normalize()}{normalize()}}
+{\footnotesize\ttfamily \label{tuples_8h_a4b6e6a5e1ac158f7d3504130d2bccd44} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} normalize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{vector}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a4b6e6a5e1ac158f7d3504130d2bccd44}{normalize()} takes an arbitrary vector and converts it into a unit vector. It keeps the calculations anchored relative to a common scale, i.\+e., keeps all vectors speaking the same language. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & Receives the vector to be normalized to a unit vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new vector that was normalized. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_abd0ad1d76c573e7816318b2d5a9efe64}\index{tuples.h@{tuples.h}!point@{point}}
+\index{point@{point}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{point()}{point()}}
+{\footnotesize\ttfamily \label{tuples_8h_abd0ad1d76c573e7816318b2d5a9efe64} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} point (\begin{DoxyParamCaption}\item[{double}]{x}{, }\item[{double}]{y}{, }\item[{double}]{z}{}\end{DoxyParamCaption})}
+
+
+
+This function is a simplification of the function \doxylink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple()}. It will create a point with the given coordinates passed as parameter and set the field w to 1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Receives a value for x-\/axis coordinate. \\
+\hline
+{\em y} & Receives a value for y-\/axis coordinate. \\
+\hline
+{\em z} & Receives a value for z-\/axis coordinate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an instance of a point with the given coordinates passed as parameter and w set to 1. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_ab6b63350165cbd8cb181657b296f6583}\index{tuples.h@{tuples.h}!reflect@{reflect}}
+\index{reflect@{reflect}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{reflect()}{reflect()}}
+{\footnotesize\ttfamily \label{tuples_8h_ab6b63350165cbd8cb181657b296f6583} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} reflect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{in}{, }\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{normal}{}\end{DoxyParamCaption})}
+
+
+
+This function returns the result of reflecting the in vector around the normal vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & \doxylink{class_a}{A} struct of type t\+\_\+tuple containing the vector to be reflected. \\
+\hline
+{\em normal} & \doxylink{class_a}{A} struct of type t\+\_\+tuple storing the normal vector to be used as reference for the reflection of the in vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the reflected vector from in and out as reference orientation. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_aa7e4408a46cea1573bfa077bc0b3f3c3}\index{tuples.h@{tuples.h}!subtract@{subtract}}
+\index{subtract@{subtract}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{subtract()}{subtract()}}
+{\footnotesize\ttfamily \label{tuples_8h_aa7e4408a46cea1573bfa077bc0b3f3c3} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} subtract (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The \doxylink{tuples_8h_aa7e4408a46cea1573bfa077bc0b3f3c3}{subtract()} function subtract two tuples. \doxylink{class_a}{A} vector minus a point results in a point (w values\+: 1 -\/ 0 = 1). \doxylink{class_a}{A} point minus a point results in a point (w values\+: 0 -\/ 0 = 0). \doxylink{class_a}{A} tuple minus a tuple results in a tuple with a w of 0, which is another vector representing the change in direction between the two vectors. \doxylink{class_a}{A} point minus a vector results in a w of -\/1 (0 -\/ 1 = 1), which is neither a point or a vector. When this case happens, it\textquotesingle{}s necessary to use counterpart function \doxylink{tuples_8h_a9da14e746e44eb96c9a43b9ad7972c4f}{negate()}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first tuple to subtract. \\
+\hline
+{\em b} & Receives the second tuple to subtract. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new tuple by subtracting the corresponding components of each of the operands. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a0454ae7e68d2dfc2d477696a93b43c71}\index{tuples.h@{tuples.h}!subtract\_color@{subtract\_color}}
+\index{subtract\_color@{subtract\_color}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{subtract\_color()}{subtract\_color()}}
+{\footnotesize\ttfamily \label{tuples_8h_a0454ae7e68d2dfc2d477696a93b43c71} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} subtract\+\_\+color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a0454ae7e68d2dfc2d477696a93b43c71}{subtract\+\_\+color()} decreases the intensity of each RGB color component of a and b. Subtracting (1, 0, 0) to (0, 1, 0) results in (1, 0, 0), i.\+e., subtracting red from green results in red. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first color to decrease. \\
+\hline
+{\em b} & Receives the second color to decrease. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new color with decreased intensity resultant of the subtraction of each RGB color component of a and b. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}\index{tuples.h@{tuples.h}!tuple@{tuple}}
+\index{tuple@{tuple}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{tuple()}{tuple()}}
+{\footnotesize\ttfamily \label{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} tuple (\begin{DoxyParamCaption}\item[{double}]{x}{, }\item[{double}]{y}{, }\item[{double}]{z}{, }\item[{double}]{w}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple()} instances a new material of struct type t\+\_\+tuple with the given values passed as parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Receives a value for x-\/axis coordinate. \\
+\hline
+{\em y} & Receives a value for y-\/axis coordinate. \\
+\hline
+{\em z} & Receives a value for z-\/axis coordinate. \\
+\hline
+{\em w} & Receives 1 if the tuple is point or 0 if the tuple is a vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an instance of a tuple with the values passed as parameter. 
+\end{DoxyReturn}
+\Hypertarget{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064}\index{tuples.h@{tuples.h}!vector@{vector}}
+\index{vector@{vector}!tuples.h@{tuples.h}}
+\doxysubsubsection{\texorpdfstring{vector()}{vector()}}
+{\footnotesize\ttfamily \label{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} vector (\begin{DoxyParamCaption}\item[{double}]{x}{, }\item[{double}]{y}{, }\item[{double}]{z}{}\end{DoxyParamCaption})}
+
+
+
+This function is a simplification of the function \doxylink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple()}. It will create a point with the given coordinates passed as parameter and set the field w to 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Receives a value for x-\/axis coordinate. \\
+\hline
+{\em y} & Receives a value for y-\/axis coordinate. \\
+\hline
+{\em z} & Receives a value for z-\/axis coordinate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an instance of a point with the given coordinates passed as parameter and w set to 0. 
+\end{DoxyReturn}

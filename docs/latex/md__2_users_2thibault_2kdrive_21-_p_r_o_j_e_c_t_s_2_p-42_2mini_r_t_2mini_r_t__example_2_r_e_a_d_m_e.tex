@@ -1,0 +1,221 @@
+\chapter{README}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e}\index{README@{README}}
+
+
+ 
+
+
+
+    \hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md42}{}\doxysubsection{\texorpdfstring{📣 Introduction}{📣 Introduction}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md42}
+The 11th project of 42\textquotesingle{}s curriculum is an introduction to the beautiful world of Raytracing and it asks students to render simple Computer-\/\+Generated-\/\+Images so that they will never be afraid of implementing mathematical formulas again. This project makes possible to create scenes such as the one below, an image of our beautiful pale blue bot called Earth.
+
+🚨🚨 \href{https://ygor-sena.github.io/42cursus-miniRT/}{\texttt{ The detailed Doxygen documentation of this project can be read here}}. 🚨🚨
+
+The aforementioned Doxygen documentation of this project was created with love and care. We hope that it can be a great asset to assist the 42 students currently working on this project. If you have any doubts, feel free to reach out to us!
+
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md43}{}\doxysubsection{\texorpdfstring{⚒️ How to compile and run the project}{⚒️ How to compile and run the project}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md43}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md44}{}\doxysubsubsubsection{\texorpdfstring{1) Copy this repository to your local workstation}{1) Copy this repository to your local workstation}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md44}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/ygor-\/sena/42cursus-\/miniRT.git}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md45}{}\doxysubsubsubsection{\texorpdfstring{2) Install the required libraries to run the project and the unit tests}{2) Install the required libraries to run the project and the unit tests}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md45}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt-\/get\ install\ libcriterion-\/dev\ libbsd-\/dev\ -\/y}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md46}{}\doxysubsubsubsection{\texorpdfstring{3) Compile the project with Makefile}{3) Compile the project with Makefile}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md46}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md47}{}\doxysubsubsubsection{\texorpdfstring{4) Launch the executable file with a configuration file of extension .rt}{4) Launch the executable file with a configuration file of extension .rt}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md47}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./miniRT\ configuration\(\backslash\)\_sample.rt}
+
+\end{DoxyCode}
+
+
+If you want to run the scenes we\textquotesingle{}ve used to defend the project, it\textquotesingle{}s possible to use any file between {\ttfamily img00.\+rt} and {\ttfamily img19.\+rt} located inside the folder {\ttfamily images}. For example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./miniRT\ images/img18.rt}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md48}{}\doxysubsection{\texorpdfstring{⚙️ How to configure a {\ttfamily .rt} file to render an image}{⚙️ How to configure a {\ttfamily .rt} file to render an image}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md48}
+Every line will have an {\ttfamily \texorpdfstring{$<$}{<}id\texorpdfstring{$>$}{>}}, an {\ttfamily \texorpdfstring{$<$}{<}object\+\_\+type\texorpdfstring{$>$}{>}} and one or more corresponding {\ttfamily \texorpdfstring{$<$}{<}parameters\texorpdfstring{$>$}{>}} to the given object type, in this order. The following table sums up how to build and render images and it also provides usage examples.
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ ID   }&\cellcolor{\tableheadbgcolor}\textbf{ Object type   }&\cellcolor{\tableheadbgcolor}\textbf{ Parameter (arguments)   }&\cellcolor{\tableheadbgcolor}\textbf{ Usage example    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ ID   }&\cellcolor{\tableheadbgcolor}\textbf{ Object type   }&\cellcolor{\tableheadbgcolor}\textbf{ Parameter (arguments)   }&\cellcolor{\tableheadbgcolor}\textbf{ Usage example    }\\\cline{1-4}
+\endhead
+{\ttfamily \doxylink{class_a}{A}}   &Ambient lighting   &Lighting ratio (0-\/1)   &{\ttfamily 1}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&RGB color (red, green, blue)(0-\/255)   &{\ttfamily 255,255,255}    \\\cline{1-4}
+{\ttfamily \doxylink{class_c}{C}}   &Camera   &Coordinates of the view point (x, y, z)   &{\ttfamily 0,15,-\/5}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&3D normalized orientation vector (x, y, z)(-\/1-\/1)   &{\ttfamily 1,0,0}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&Horizontal point of view in degrees (x, y, z)(0-\/180)   &{\ttfamily 10}    \\\cline{1-4}
+{\ttfamily L}   &Light source   &Coordinates of the light point (x, y, z)   &{\ttfamily 0,0,5}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&Brightness ratio (0-\/1)   &{\ttfamily 0.\+5}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&RGB color (red, green, blue)(0-\/255)   &{\ttfamily 0,255,0}    \\\cline{1-4}
+{\ttfamily sp}   &Sphere   &Coordinates of the sphere center (x, y, z)   &{\ttfamily 0,0,0}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&The sphere diameter (greater than 0)   &{\ttfamily 2}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&RGB color (red, green, blue)(0-\/255)   &{\ttfamily 255,55,255}    \\\cline{1-4}
+{\ttfamily pl}   &Plane   &Coordinates of a point in the plane (x, y, z)   &{\ttfamily 0,0,0}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&3D normalized origin vector (x, y, z)(-\/1-\/1)   &{\ttfamily 0,1,0}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&RGB color (red, green, blue)(0-\/255)   &{\ttfamily 98,130,229}    \\\cline{1-4}
+{\ttfamily cy}   &Cylinder   &Coordinates of the center of the cylinder (x, y, z)   &{\ttfamily 1,3,1}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&3D normalized vector of axis of cylinder (x, y, z)(-\/1-\/1)   &{\ttfamily 0,1,0}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&The cylinder diameter (greater than 0)   &{\ttfamily 4}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&The cylinder height   &{\ttfamily 2}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&RGB color (red, green, blue)(0-\/255)   &{\ttfamily 40,220,55}    \\\cline{1-4}
+{\ttfamily cn}   &Cone   &Coordinates of the center of the cone (x, y, z)   &{\ttfamily 1,3,1}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&3D normalized vector of axis of cone (x, y, z)   &{\ttfamily 0,1,0}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&The cone diameter (greater than 0)   &{\ttfamily 4}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&The cone height   &{\ttfamily 2}    \\\cline{1-4}
+\multicolumn{2}{|l|}{}&RGB color (red, green, blue)(0-\/255)   &{\ttfamily 122,23,230}   \\\cline{1-4}
+\end{longtabu}
+
+
+If the user wants to create a blue ({\ttfamily 0,0,255}) light source ({\ttfamily L}) located at {\ttfamily -\/10,10-\/10} with maximum brightness ({\ttfamily 1}), the configuration is as follows\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{L\ \ \ -\/10,10,-\/10\ \ \ \ 1\ \ \ 0,0,255}
+
+\end{DoxyCode}
+
+
+{\bfseries{‼️\+Important notes\+:}} after the mandatory parameters above, it\textquotesingle{}s possible to pass some extra parameters to any given shape (sphere, cylinder, cone or plane) so that it can have a checkerboard pattern or a bumpmap applied to its surface. To assign a checkerboard pattern to a given shape, the extra parameters are\+:
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Pattern type   }&\cellcolor{\tableheadbgcolor}\textbf{ 1st color square   }&\cellcolor{\tableheadbgcolor}\textbf{ 2nd color square    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Pattern type   }&\cellcolor{\tableheadbgcolor}\textbf{ 1st color square   }&\cellcolor{\tableheadbgcolor}\textbf{ 2nd color square    }\\\cline{1-3}
+\endhead
+{\ttfamily checkered}   &{\ttfamily 0,0,0}   &{\ttfamily 255,255,255}   \\\cline{1-3}
+\end{longtabu}
+
+
+For example, to render a sphere ({\ttfamily sp}) at origin position ({\ttfamily 0,0,0}), with diameter value of {\ttfamily 1} and a black-\/white checkerboard applied to its surface, the setting is\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sp\ \ \ 1.5,0.5,-\/0.5\ \ \ 1\ \ \ 255,255,255\ \ \ checkered\ \ \ 0,0,0\ \ \ 255,255,255}
+
+\end{DoxyCode}
+ Note that when a bumpmap or a pattern is applied, the fourth parameter (RGB value) is ignored.
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Pattern type   }&\cellcolor{\tableheadbgcolor}\textbf{ Path to {\ttfamily .xpm} file    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Pattern type   }&\cellcolor{\tableheadbgcolor}\textbf{ Path to {\ttfamily .xpm} file    }\\\cline{1-2}
+\endhead
+{\ttfamily bumpmap}   &{\ttfamily textures/earth.\+xpm}   \\\cline{1-2}
+\end{longtabu}
+
+
+For instance, to render a sphere with the same configurations and a bumpmap applied to its surface instead, the setting is\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sp\ \ \ 1.5,0.5,-\/0.5\ \ \ 1\ \ \ 255,255,255\ \ \ bumpmap\ textures/earth.xpm}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md49}{}\doxysubsection{\texorpdfstring{📜 Requirements}{📜 Requirements}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md49}
+
+
+{\bfseries{This project has a lot of requeriments that needs to be stricly followed. To easily remember them all, we created a diagram that sums up both mandatory and bonus project features with the help of Effie, an amazing software for ideas annotation. To visualize the diagram, just click on this paragraph.}}\begin{adjustwidth}{1em}{0em}
+
+
+ \end{adjustwidth}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md50}{}\doxysubsection{\texorpdfstring{📈 About how we implemented the project}{📈 About how we implemented the project}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md50}
+To develop this project, we closely followed the book \href{http://raytracerchallenge.com/}{\texttt{ The Ray Tracer Challenge\+: a test-\/driven guide to your first 3D Renderer}}. The unit tests were created using \href{https://github.com/Snaipe/Criterion}{\texttt{ Criterion}}, a dead-\/simple, yet extensible, \doxylink{class_c}{C} and C++ unit testing framework. Lastly, to generate an automated documentation we used Doxygen, which is the {\itshape de facto} standard tool for generating documentation from annotated \doxylink{class_c}{C} sources and many other languages.
+
+There are seven main folders at projects\textquotesingle{}s root directory, they are\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily include}\+: contains all the necessary headers for the project
+\item {\ttfamily images}\+: contains the scenes used to defend the project during the final evaluation
+\item {\ttfamily lib}\+: stores our own \doxylink{class_c}{C} library with some helpful auxiliary functions, such as ft\+\_\+strlen. Thus, it contains mini\+LibX files, which is the X-\/window programming API in \doxylink{class_c}{C} used at School 42
+\item {\ttfamily textures}\+: contains bump map files that can be applied to the surface of geometric shapes during renderization process
+\item {\ttfamily tests}\+: contains unit tests created with \href{https://github.com/Snaipe/Criterion}{\texttt{ Criterion}} testing framework to evaluate functions in {\ttfamily src}
+\item {\ttfamily documentation}\+: contains the Doxygen documentation of the project generated from header comments
+\item {\ttfamily src}\+: contains the whole project implementation
+\begin{DoxyItemize}
+\item {\ttfamily camera}\+: contains all functions regarding camera implementation
+\item {\ttfamily canvas}\+: contains all functions that works directly or indirectly with graphic data and MLX\textquotesingle{}s library manipulation
+\item {\ttfamily helpers}\+: contains utils function used on the project as a whole
+\item {\ttfamily lights}\+: stores all the necessary files to render a light source
+\item {\ttfamily materials}\+: stores all the necessary files to render a material that has a surface color, shininess and some other characteristics
+\item {\ttfamily matrices}\+: contains the files that are responsible for matrix calculations
+\item {\ttfamily parser}\+: consists of functions that implement an analyzer of .rt file extension and its syntax validation
+\item {\ttfamily patterns}\+: stores files that apply a striped pattern, a checkerboard pattern or a bumpmap texture on a given geometric shape
+\item {\ttfamily rays}\+: stores all the necessary files for ray calculations and intersections
+\item {\ttfamily shapes}\+: consists all files that stores and calculates every operation regarding the geometric shapes implemented in the project
+\item {\ttfamily tuples}\+: contains the files that are responsible for vector and point calculations
+\item {\ttfamily world}\+: contains everything related to the building of a ray tracing\textquotesingle{}s world. The world has objects (or shapes), point lights and an ambient color. Together, these elements makes the scene rendering possible
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md51}{}\doxysubsection{\texorpdfstring{🚀 Optimizations}{🚀 Optimizations}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md51}
+The program underwent several optimizations to improve performance and efficiency. Two of these optimizations include\+:\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md52}{}\doxysubsubsection{\texorpdfstring{1) Memory Pool for Intersection Storage}{1) Memory Pool for Intersection Storage}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md52}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md53}{}\doxysubsubsubsection{\texorpdfstring{Problem}{Problem}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md53}
+Previously, the linked list of ray intersections with objects was dynamically allocated using {\ttfamily malloc} and freed with {\ttfamily free} when no longer needed. This approach resulted in repeated system calls, negatively impacting the program\textquotesingle{}s performance.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md54}{}\doxysubsubsubsection{\texorpdfstring{Solution}{Solution}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md54}
+To avoid the repeated calls to {\ttfamily malloc} and {\ttfamily free}, we implemented a memory pool. The memory pool consists of a pre-\/allocated block of memory used to store the nodes of the linked list. When a new list of intersections needs to be stored, the corresponding nodes are obtained from the memory pool, eliminating the need for additional memory allocation.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md55}{}\doxysubsubsubsection{\texorpdfstring{Result}{Result}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md55}
+This optimization significantly reduced the time spent on memory allocation and deallocation. In a test using a standard image containing a sphere, ambient light, and a focal point light, the intersection recording was called an average of 149,000 times. Prior to the optimization, each call resulted in a {\ttfamily malloc} and {\ttfamily free} call for each node, negatively impacting the program\textquotesingle{}s performance. With the implementation of the memory pool, the {\ttfamily malloc} and {\ttfamily free} calls were eliminated, resulting in a significant performance improvement.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md56}{}\doxysubsubsection{\texorpdfstring{2) Matrix Cache for Object Transformations}{2) Matrix Cache for Object Transformations}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md56}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md57}{}\doxysubsubsubsection{\texorpdfstring{Problem}{Problem}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md57}
+\doxylink{struct_matrix}{Matrix} operations, such as inverse and transpose calculations, accounted for a significant portion of the program\textquotesingle{}s execution time, consuming approximately 40\% of the total time. This resulted in a high performance cost, especially considering that the object transformation matrices remain constant during the rendering of static images.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md58}{}\doxysubsubsubsection{\texorpdfstring{Solution}{Solution}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md58}
+To optimize performance, we implemented a matrix cache. When assigning a transformation matrix to an object, we immediately perform the necessary calculations, such as matrix inverse and transpose, and store the results in the cache. This eliminates the need to recalculate these matrices repeatedly during the rendering process.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md59}{}\doxysubsubsubsection{\texorpdfstring{Result}{Result}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md59}
+With the implementation of the matrix cache, the time spent on matrix calculations was significantly reduced. The calculations are now performed only once, and the results are stored in the cache, improving the efficiency of object transformation calculations. This optimization contributed to an overall improvement in program performance, especially in scenes with multiple transformations.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md60}{}\doxysubsection{\texorpdfstring{📖 References}{📖 References}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md60}
+
+\begin{DoxyItemize}
+\item General references\+:
+\begin{DoxyItemize}
+\item \href{http://raytracerchallenge.com/}{\texttt{ BUCK, Jamis. The Ray Tracer Challenge\+: a test-\/driven guide to your first 3D Renderer}}.
+\item \href{http://raytracerchallenge.com/bonus/texture-mapping.html}{\texttt{ BUCK, Jamis. Bonus chapter\+: Texture Mapping}}.
+\item Forum discussion of the book above\+: both the \href{https://devtalk.com/books/the-ray-tracer-challenge}{\texttt{ the new forum on Dev\+Talk}} and the \href{https://forum.raytracerchallenge.com/}{\texttt{ old one}}.
+\end{DoxyItemize}
+\item References that complement mathematical background presented by the aforementioned book\+:
+\begin{DoxyItemize}
+\item The wonderful free educational site \href{https://www.scratchapixel.com/index.html}{\texttt{ Scratchapixel}}.
+\item \href{https://www.youtube.com/watch?v=xGEDQXBMdV4&list=PLy68GuC77sUTyOUvDhVboQoOlHoa4XrSO}{\texttt{ The Ray Tracer Challenge in Rust}} by \href{https://www.youtube.com/@MrJakob}{\texttt{ Mr\+Jacob}}.
+\end{DoxyItemize}
+\item Other interesting references\+:
+\begin{DoxyItemize}
+\item About bump mapping\+: \href{https://www.youtube.com/watch?v=cM7RjEtZGHw}{\texttt{ Interactive Graphics 19 -\/ Bump, Normal, Displacement, and Parallax Mapping}} by Professor \href{https://www.youtube.com/@cem_yuksel}{\texttt{ Cem Yuksel}} from School of Computing, University of Utah.
+\item About mini\+LibX\+: \href{https://github.com/andreyvdl/MiniLibX_my_docs}{\texttt{ My unnoficial documentation of 42\textquotesingle{}s mini\+LibX}} by \href{https://github.com/andreyvdl}{\texttt{ andreyvdl}}.
+\item \href{https://private-tungsten-357.notion.site/miniRT-stack-vs-heap-eaab52ce792047b5b71e2fcb59074ffb}{\texttt{ mini\+RT\+: stack vs. heap}} by \href{https://github.com/araggohnxd}{\texttt{ Matheus Oliveira}}.
+\item \href{https://github.com/marceFrasson/The-Ray-Tracer-Challenge-Pt/blob/main/Jamis\%20Buck\%20-\%20The\%20Ray\%20Tracer\%20Challenge\%20Traduzido.pdf}{\texttt{ The Ray Tracer Challenge (traduced to Brazilian Portuguese)}} by \href{https://github.com/marceFrasson}{\texttt{ Marce Frasson}}.
+\end{DoxyItemize}
+\item Important specific references\+:
+\begin{DoxyItemize}
+\item \href{https://www.scratchapixel.com/lessons/3d-basic-rendering/phong-shader-BRDF/phong-illumination-models-brdf.html}{\texttt{ The Phong Model, Introduction to the Concepts of Shader, Reflection Models and BRDF}} by \href{https://www.scratchapixel.com/index.html}{\texttt{ Scratchapixel}}.
+\item Jamis Buck\textquotesingle{}s book various errata\+: \href{https://forum.devtalk.com/t/the-ray-tracer-challenge-various-errata/3554}{\texttt{ The Ray Tracer Challenge\+: various errata}} in \href{https://devtalk.com/books/the-ray-tracer-challenge}{\texttt{ Dev\+Talk}}.
+\end{DoxyItemize}
+\item Doxygen references\+:
+\begin{DoxyItemize}
+\item \href{https://www.doxygen.nl/manual/starting.html}{\texttt{ Doxygen Official Documentation}} by Doxygen.
+\item \href{https://embeddedinventor.com/guide-to-configure-doxygen-to-document-c-source-code-for-beginners/}{\texttt{ Complete Guide On Using Doxygen To Document C Source Code}} by Balaji Gunasekaran.
+\item \href{https://opensource.com/article/22/5/document-source-code-doxygen-linux}{\texttt{ Document your source code with Doxygen on Linux}} by Stephan Avenwedde.
+\end{DoxyItemize}
+\item Other mini\+RT done by fellow students at 42 São Paulo\+:
+\begin{DoxyItemize}
+\item \href{https://github.com/rodrigo-br/miniRT_42}{\texttt{ mini\+RT}} by \href{https://github.com/rodrigo-br}{\texttt{ rodrigo-\/br}} and \href{https://github.com/araggohnxd}{\texttt{ araggonhnxd}}.
+\item \href{https://github.com/appinha/42cursus-02-miniRT}{\texttt{ mini\+RT}} by \href{https://github.com/appinha}{\texttt{ appinha}}.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md61}{}\doxysubsection{\texorpdfstring{🫂 Acknowledgements}{🫂 Acknowledgements}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2mini_r_t_2mini_r_t__example_2_r_e_a_d_m_e_autotoc_md61}
+Thanks to \href{https://github.com/leaozim}{\texttt{ Larissa Silva}}, \href{https://github.com/rodrigo-br}{\texttt{ Rodrigo Alves}} and \href{https://github.com/araggohnxd}{\texttt{ Matheus Oliveira}} for being so helpful when we needed it. Last but not least, a huge thanks to \href{https://github.com/jamis}{\texttt{ Jamis Buck}}, who wrote the amazing book \href{http://raytracerchallenge.com/}{\texttt{ The Ray Tracer Challenge}} and made the development of this project joyful. 

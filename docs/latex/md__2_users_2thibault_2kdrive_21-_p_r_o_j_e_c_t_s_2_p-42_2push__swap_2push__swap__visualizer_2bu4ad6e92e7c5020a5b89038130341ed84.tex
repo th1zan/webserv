@@ -1,0 +1,262 @@
+\chapter{Im\+Gui-\/\+SFML v2.3}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84}\index{ImGui-\/SFML v2.3@{ImGui-\/SFML v2.3}}
+\href{https://github.com/eliasdaler/imgui-sfml/actions}{\texttt{ }}
+
+Library which allows you to use \href{https://github.com/ocornut/imgui}{\texttt{ Dear Im\+Gui}} with \href{https://github.com/SFML/SFML}{\texttt{ SFML}}
+
+
+
+Based on \href{https://github.com/Mischa-Alff/imgui-backends}{\texttt{ this repository}} with big improvements and changes.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md645}{}\doxysection{\texorpdfstring{Dependencies}{Dependencies}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md645}
+
+\begin{DoxyItemize}
+\item \href{https://github.com/SFML/SFML}{\texttt{ SFML}} \texorpdfstring{$>$}{>}= 2.\+5.\+0
+\item \href{https://github.com/ocornut/imgui}{\texttt{ Dear Im\+Gui}} \texorpdfstring{$>$}{>}= 1.\+80
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md646}{}\doxysection{\texorpdfstring{Contributing}{Contributing}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md646}
+
+\begin{DoxyItemize}
+\item The code is written in C++03. See \href{https://github.com/eliasdaler/imgui-sfml/issues/7}{\texttt{ \#7}}
+\item The code should be formatted via \href{https://clang.llvm.org/docs/ClangFormat.html}{\texttt{ Clang\+Format}} using {\ttfamily .clang-\/format} provided in the root of this repository
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md647}{}\doxysection{\texorpdfstring{How-\/to}{How-\/to}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md647}
+
+\begin{DoxyItemize}
+\item \href{https://eliasdaler.github.io/using-imgui-with-sfml-pt1}{\texttt{ {\bfseries{Detailed tutorial on my blog}}}}
+\item \href{https://eliasdaler.github.io/using-imgui-with-sfml-pt2/}{\texttt{ {\bfseries{Using Im\+Gui with modern C++ and STL}}}}
+\item \href{https://en.sfml-dev.org/forums/index.php?topic=20137.0}{\texttt{ {\bfseries{Thread on SFML forums}}}}. Feel free to ask your questions there.
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md648}{}\doxysection{\texorpdfstring{Building and integrating into your CMake project}{Building and integrating into your CMake project}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md648}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cmake\ <ImGui-\/SFML\ repo\ folder>\ -\/DIMGUI\_DIR=<ImGui\ repo\ folder>\ -\/DSFML\_DIR=<path\ with\ built\ SFML>}
+
+\end{DoxyCode}
+
+
+If you have SFML installed on your system, you don\textquotesingle{}t need to set SFML\+\_\+\+DIR during configuration.
+
+You can also specify {\ttfamily BUILD\+\_\+\+SHARED\+\_\+\+LIBS=ON} to build Im\+Gui-\/\+SFML as a shared library. To build Im\+Gui-\/\+SFML examples, set {\ttfamily IMGUI\+\_\+\+SFML\+\_\+\+BUILD\+\_\+\+EXAMPLES=ON}. To build imgui-\/demo.\+cpp (to be able to use {\ttfamily Im\+Gui\+::\+Show\+Demo\+Window}), set {\ttfamily IMGUI\+\_\+\+SFML\+\_\+\+IMGUI\+\_\+\+DEMO=ON}.
+
+After the building, you can install the library on your system by running\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cmake\ -\/-\/build\ .\ -\/-\/target\ install}
+
+\end{DoxyCode}
+
+
+If you set {\ttfamily CMAKE\+\_\+\+INSTALL\+\_\+\+PREFIX} during configuration, you can install Im\+Gui-\/\+SFML locally.
+
+Integrating into your project is simple. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{find\_package(ImGui-\/SFML\ REQUIRED)}
+\DoxyCodeLine{target\_link\_libraries(my\_target\ PRIVATE\ ImGui-\/SFML::ImGui-\/SFML)}
+
+\end{DoxyCode}
+
+
+If CMake can\textquotesingle{}t find Im\+Gui-\/\+SFML on your system, just define {\ttfamily Im\+Gui-\/\+SFML\+\_\+\+DIR} before calling {\ttfamily find\+\_\+package}.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md649}{}\doxysection{\texorpdfstring{Integrating into your project manually}{Integrating into your project manually}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md649}
+
+\begin{DoxyItemize}
+\item Download \href{https://github.com/ocornut/imgui}{\texttt{ Im\+Gui}}
+\item Add Im\+Gui folder to your include directories
+\item Add {\ttfamily imgui.\+cpp}, {\ttfamily imgui\+\_\+widgets.\+cpp}, {\ttfamily imgui\+\_\+draw.\+cpp} and {\ttfamily imgui\+\_\+tables.\+cpp} to your build/project
+\item Copy the contents of {\ttfamily \doxylink{imconfig-_s_f_m_l_8h_source}{imconfig-\/\+SFML.\+h}} to your {\ttfamily \doxylink{imconfig_8h_source}{imconfig.\+h}} file. (to be able to cast {\ttfamily \doxylink{struct_im_vec2}{Im\+Vec2}} to {\ttfamily sf\+::\+Vector2f} and vice versa)
+\item Add a folder which contains {\ttfamily \doxylink{imgui-_s_f_m_l_8h_source}{imgui-\/\+SFML.\+h}} to your include directories
+\item Add {\ttfamily imgui-\/\+SFML.\+cpp} to your build/project
+\item Link Open\+GL if you get linking errors
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md650}{}\doxysection{\texorpdfstring{Other ways to add to your project(won\textquotesingle{}t recommend as the versions tend to lag behind and are not}{Other ways to add to your project(won\textquotesingle{}t recommend as the versions tend to lag behind and are not}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md650}
+Not recommended, as they\textquotesingle{}re not maintained officially. Tend to lag behind and stay on older versions.
+
+
+\begin{DoxyItemize}
+\item \href{https://github.com/bincrafters/community/tree/main/recipes/imgui-sfml}{\texttt{ Conan}}
+\item \href{https://github.com/microsoft/vcpkg/tree/master/ports/imgui-sfml}{\texttt{ vcpkg}}
+\item \href{https://github.com/zpervan/ImguiSFMLBazel}{\texttt{ Bazel}}
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md651}{}\doxysection{\texorpdfstring{Using Im\+Gui-\/\+SFML in your code}{Using Im\+Gui-\/\+SFML in your code}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md651}
+
+\begin{DoxyItemize}
+\item Call {\ttfamily Im\+Gui\+::\+SFML\+::\+Init} and pass your {\ttfamily \doxylink{classsf_1_1_window}{sf\+::\+Window}} + {\ttfamily \doxylink{classsf_1_1_render_target}{sf\+::\+Render\+Target}} or {\ttfamily \doxylink{classsf_1_1_render_window}{sf\+::\+Render\+Window}} there. You can create your font atlas and pass the pointer in Init too, otherwise the default internal font atlas will be created for you.
+\item For each iteration of a game loop\+:
+\begin{DoxyItemize}
+\item Poll and process events\+:
+
+{\ttfamily cpp \doxylink{classsf_1_1_event}{sf\+::\+Event} event; while (window.\+poll\+Event(event)) \{ Im\+Gui\+::\+SFML\+::\+Process\+Event(event); ... \} }
+\item Call {\ttfamily Im\+Gui\+::\+SFML\+::\+Update(window, delta\+Time)} where {\ttfamily delta\+Time} is {\ttfamily \doxylink{classsf_1_1_time}{sf\+::\+Time}}. You can also pass mouse\+Position and display\+Size yourself instead of passing the window.
+\item Call Im\+Gui functions ({\ttfamily Im\+Gui\+::\+Begin()}, {\ttfamily Im\+Gui\+::\+Button()}, etc.)
+\item Call {\ttfamily Im\+Gui\+::\+End\+Frame} after the last {\ttfamily Im\+Gui\+::\+End} in your update function, if you update more than once before rendering. (e.\+g. fixed delta game loops)
+\item Call {\ttfamily Im\+Gui\+::\+SFML\+::\+Render(window)}
+\end{DoxyItemize}
+\item Call {\ttfamily Im\+Gui\+::\+SFML\+::\+Shutdown()} after {\ttfamily window.\+close()} has been called
+\end{DoxyItemize}
+
+{\bfseries{If you only draw Im\+Gui widgets without any SFML stuff, then you\textquotesingle{}ll have to call window.\+reset\+GLStates() before rendering anything. You only need to do it once.}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md652}{}\doxysection{\texorpdfstring{Example code}{Example code}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md652}
+See example file \href{examples/main.cpp}{\texttt{ here}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}imgui-\/SFML.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <SFML/Graphics/CircleShape.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <SFML/Graphics/RenderWindow.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <SFML/System/Clock.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <SFML/Window/Event.hpp>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{classsf_1_1_render_window}{sf::RenderWindow}}\ window(\mbox{\hyperlink{classsf_1_1_video_mode}{sf::VideoMode}}(640,\ 480),\ \textcolor{stringliteral}{"{}ImGui\ +\ SFML\ =\ <3"{}});}
+\DoxyCodeLine{\ \ \ \ window.setFramerateLimit(60);}
+\DoxyCodeLine{\ \ \ \ ImGui::SFML::Init(window);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{classsf_1_1_circle_shape}{sf::CircleShape}}\ shape(100.f);}
+\DoxyCodeLine{\ \ \ \ shape.setFillColor(\mbox{\hyperlink{classsf_1_1_color_a95629b30de8c6856aa7d3afed12eb865}{sf::Color::Green}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{classsf_1_1_clock}{sf::Clock}}\ deltaClock;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}\ (window.isOpen())\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{classsf_1_1_event}{sf::Event}}\ event;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (window.pollEvent(event))\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ImGui::SFML::ProcessEvent(event);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ \mbox{\hyperlink{classsf_1_1_event_af41fa9ed45c02449030699f671331d4aa316e4212e083f1dce79efd8d9e9c0a95}{sf::Event::Closed}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ window.close();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ImGui::SFML::Update(window,\ deltaClock.\mbox{\hyperlink{classsf_1_1_clock_a123e2627f2943e5ecaa1db0c7df3231b}{restart}}());}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ImGui::Begin(\textcolor{stringliteral}{"{}Hello,\ world!"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ImGui::Button(\textcolor{stringliteral}{"{}Look\ at\ this\ pretty\ button"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ImGui::End();}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ window.clear();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ window.draw(shape);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ImGui::SFML::Render(window);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ window.display();}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ ImGui::SFML::Shutdown();}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md653}{}\doxysection{\texorpdfstring{Fonts how-\/to}{Fonts how-\/to}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md653}
+Default font is loaded if you don\textquotesingle{}t pass {\ttfamily false} in {\ttfamily Im\+Gui\+::\+SFML\+::\+Init}. Call {\ttfamily Im\+Gui\+::\+SFML\+::\+Init(window, false);} if you don\textquotesingle{}t want default font to be loaded.
+
+
+\begin{DoxyItemize}
+\item Load your fonts like this\+:
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{IO.Fonts-\/>Clear();\ \textcolor{comment}{//\ clear\ fonts\ if\ you\ loaded\ some\ before\ (even\ if\ only\ default\ one\ was\ loaded)}}
+\DoxyCodeLine{\textcolor{comment}{//\ IO.Fonts-\/>AddFontDefault();\ //\ this\ will\ load\ default\ font\ as\ well}}
+\DoxyCodeLine{IO.Fonts-\/>AddFontFromFileTTF(\textcolor{stringliteral}{"{}font1.ttf"{}},\ 8.f);}
+\DoxyCodeLine{IO.Fonts-\/>AddFontFromFileTTF(\textcolor{stringliteral}{"{}font2.ttf"{}},\ 12.f);}
+\DoxyCodeLine{}
+\DoxyCodeLine{ImGui::SFML::UpdateFontTexture();\ \textcolor{comment}{//\ important\ call:\ updates\ font\ texture}}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item And use them like this\+:
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ImGui::PushFont(ImGui::GetIO().Fonts-\/>Fonts[0]);}
+\DoxyCodeLine{ImGui::Button(\textcolor{stringliteral}{"{}Look\ at\ this\ pretty\ button"{}});}
+\DoxyCodeLine{ImGui::PopFont();}
+\DoxyCodeLine{}
+\DoxyCodeLine{ImGui::PushFont(ImGui::GetIO().Fonts-\/>Fonts[1]);}
+\DoxyCodeLine{ImGui::TextUnformatted(\textcolor{stringliteral}{"{}IT\ WORKS!"{}});}
+\DoxyCodeLine{ImGui::PopFont();}
+
+\end{DoxyCode}
+
+
+The first loaded font is treated as the default one and doesn\textquotesingle{}t need to be pushed with {\ttfamily Im\+Gui\+::\+Push\+Font}.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md654}{}\doxysection{\texorpdfstring{SFML related Im\+Gui overloads / new widgets}{SFML related Im\+Gui overloads / new widgets}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md654}
+There are some useful overloads implemented for SFML objects (see {\ttfamily \doxylink{imgui-_s_f_m_l_8h_source}{imgui-\/\+SFML.\+h}} for other overloads)\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ImGui::Image(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsf_1_1_sprite}{sf::Sprite}}\&\ sprite);}
+\DoxyCodeLine{ImGui::Image(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsf_1_1_texture}{sf::Texture}}\&\ texture);}
+\DoxyCodeLine{ImGui::Image(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsf_1_1_render_texture}{sf::RenderTexture}}\&\ texture);}
+\DoxyCodeLine{}
+\DoxyCodeLine{ImGui::ImageButton(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsf_1_1_sprite}{sf::Sprite}}\&\ sprite);}
+\DoxyCodeLine{ImGui::ImageButton(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsf_1_1_texture}{sf::Texture}}\&\ texture);}
+\DoxyCodeLine{ImGui::ImageButton(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsf_1_1_render_texture}{sf::RenderTexture}}\&\ texture);}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md655}{}\doxysection{\texorpdfstring{A note about sf\+::\+Render\+Texture}{A note about sf\+::\+Render\+Texture}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md655}
+{\ttfamily \doxylink{classsf_1_1_render_texture}{sf\+::\+Render\+Texture}}\textquotesingle{}s texture is stored with pixels flipped upside down. To display it properly when drawing {\ttfamily Im\+Gui\+::\+Image} or {\ttfamily Im\+Gui\+::\+Image\+Button}, use overloads for {\ttfamily \doxylink{classsf_1_1_render_texture}{sf\+::\+Render\+Texture}}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classsf_1_1_render_texture}{sf::RenderTexture}}\ texture;}
+\DoxyCodeLine{\mbox{\hyperlink{classsf_1_1_sprite}{sf::Sprite}}\ sprite(texture.getTexture());}
+\DoxyCodeLine{ImGui::Image(texture);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ OK}}
+\DoxyCodeLine{ImGui::Image(sprite);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ NOT\ OK}}
+\DoxyCodeLine{ImGui::Image(texture.getTexture());\ \textcolor{comment}{//\ NOT\ OK}}
+
+\end{DoxyCode}
+
+
+If you want to draw only a part of {\ttfamily \doxylink{classsf_1_1_render_texture}{sf\+::\+Render\+Texture}} and you\textquotesingle{}re trying to use {\ttfamily \doxylink{classsf_1_1_sprite}{sf\+::\+Sprite}} the texture will be displayed upside-\/down. To prevent this, you can do this\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ make\ a\ normal\ sf::Texture\ from\ sf::RenderTexture's\ flipped\ texture}}
+\DoxyCodeLine{\mbox{\hyperlink{classsf_1_1_texture}{sf::Texture}}\ texture(renderTexture.getTexture());}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{classsf_1_1_sprite}{sf::Sprite}}\ sprite(texture);}
+\DoxyCodeLine{ImGui::Image(sprite);\ \textcolor{comment}{//\ the\ texture\ is\ displayed\ properly}}
+
+\end{DoxyCode}
+
+
+For more notes see \href{https://github.com/eliasdaler/imgui-sfml/issues/35}{\texttt{ this issue}}.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md656}{}\doxysection{\texorpdfstring{Mouse cursors}{Mouse cursors}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md656}
+You can change your cursors in Im\+Gui like this\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ImGui::SetMouseCursor(ImGuiMouseCursor\_TextInput);}
+
+\end{DoxyCode}
+
+
+By default, your system cursor will change and will be rendered by your system. If you want SFML to draw your cursor with default Im\+Gui cursors (the system cursor will be hidden), do this\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{io.MouseDrawCursor\ =\ \textcolor{keyword}{true};}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md657}{}\doxysection{\texorpdfstring{Keyboard/\+Gamepad navigation}{Keyboard/\+Gamepad navigation}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md657}
+Starting with \href{https://github.com/ocornut/imgui/releases/tag/v1.60}{\texttt{ Im\+Gui 1.\+60}}, there\textquotesingle{}s a feature to control Im\+Gui with keyboard and gamepad. To use keyboard navigation, you just need to do this\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableKeyboard;}
+
+\end{DoxyCode}
+
+
+Gamepad navigation requires more work, unless you have XInput gamepad, in which case the mapping is automatically set for you. But you can still set it up for your own gamepad easily, just take a look how it\textquotesingle{}s done for the default mapping \href{https://github.com/eliasdaler/imgui-sfml/blob/navigation/imgui-SFML.cpp\#L697}{\texttt{ here}}. And then you need to do this\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_im_gui_i_o}{ImGuiIO}}\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableKeyboard;}
+
+\end{DoxyCode}
+ By default, the first active joystick is used for navigation, but you can set joystick id explicitly like this\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ImGui::SFML::SetActiveJoystickId(5);}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md658}{}\doxysection{\texorpdfstring{High DPI screens}{High DPI screens}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md658}
+As SFML is not currently DPI aware, your window/gui may show at the incorrect scale. This is particularly noticeable on Apple systems with Retina displays.
+
+To fix this on mac\+OS, you can create an app bundle (as opposed to just the exe) then modify the info.\+plist so that "{}\+High Resolution Capable"{} is set to "{}\+NO"{}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md659}{}\doxysection{\texorpdfstring{License}{License}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu4ad6e92e7c5020a5b89038130341ed84_autotoc_md659}
+This library is licensed under the MIT License, see LICENSE for more information. 

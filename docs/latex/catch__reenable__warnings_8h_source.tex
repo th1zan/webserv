@@ -1,0 +1,27 @@
+\doxysection{catch\+\_\+reenable\+\_\+warnings.\+h}
+\hypertarget{catch__reenable__warnings_8h_source}{}\label{catch__reenable__warnings_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_reenable\_warnings.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_reenable\_warnings.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Copyright\ 2014\ Two\ Blue\ Cubes\ Ltd}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_REENABLE\_WARNINGS\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_REENABLE\_WARNINGS\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#\ \ \ \ ifdef\ \_\_ICC\ }\textcolor{comment}{//\ icpc\ defines\ the\ \_\_clang\_\_\ macro}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ \ pragma\ warning(pop)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ \ \ \ else}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ \ pragma\ clang\ diagnostic\ pop}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#\ \ \ \ endif}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#elif\ defined\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ pop}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_REENABLE\_WARNINGS\_H\_INCLUDED}}
+
+\end{DoxyCode}

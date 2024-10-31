@@ -1,0 +1,61 @@
+\doxysection{catch\+\_\+result\+\_\+type.\+h}
+\hypertarget{catch__result__type_8h_source}{}\label{catch__result__type_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_result\_type.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_result\_type.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 07/01/2011.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2011\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_RESULT\_TYPE\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_RESULT\_TYPE\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ ResultWas::OfType\ enum}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{struct\ }ResultWas\ \{\ \textcolor{keyword}{enum}\ OfType\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ Unknown\ =\ -\/1,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ Ok\ =\ 0,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ Info\ =\ 1,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ Warning\ =\ 2,}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ FailureBit\ =\ 0x10,}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ ExpressionFailed\ =\ FailureBit\ |\ 1,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ ExplicitFailure\ =\ FailureBit\ |\ 2,}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ Exception\ =\ 0x100\ |\ FailureBit,}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ ThrewException\ =\ Exception\ |\ 1,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ DidntThrowException\ =\ Exception\ |\ 2,}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ FatalErrorCondition\ =\ 0x200\ |\ FailureBit}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \};\ \};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ isOk(\ ResultWas::OfType\ resultType\ );}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{bool}\ isJustInfo(\ \textcolor{keywordtype}{int}\ flags\ );}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//\ ResultDisposition::Flags\ enum}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{struct\ }ResultDisposition\ \{\ \textcolor{keyword}{enum}\ Flags\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ Normal\ =\ 0x01,}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ ContinueOnFailure\ =\ 0x02,\ \ \ \textcolor{comment}{//\ Failures\ fail\ test,\ but\ execution\ continues}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ FalseTest\ =\ 0x04,\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Prefix\ expression\ with\ !}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ SuppressFail\ =\ 0x08\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Failures\ are\ reported\ but\ do\ not\ fail\ the\ test}}
+\DoxyCodeLine{00045\ \ \ \ \ \};\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ ResultDisposition::Flags\ operator\ |\ (\ ResultDisposition::Flags\ lhs,\ ResultDisposition::Flags\ rhs\ );}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldContinueOnFailure(\ \textcolor{keywordtype}{int}\ flags\ );}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ isFalseTest(\ \textcolor{keywordtype}{int}\ flags\ )\ \{\ \textcolor{keywordflow}{return}\ (\ flags\ \&\ ResultDisposition::FalseTest\ )\ !=\ 0;\ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldSuppressFailure(\ \textcolor{keywordtype}{int}\ flags\ );}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_RESULT\_TYPE\_H\_INCLUDED}}
+
+\end{DoxyCode}

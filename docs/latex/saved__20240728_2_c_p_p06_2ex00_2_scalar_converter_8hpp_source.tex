@@ -1,0 +1,45 @@
+\doxysection{Scalar\+Converter.\+hpp}
+\hypertarget{saved__20240728_2_c_p_p06_2ex00_2_scalar_converter_8hpp_source}{}\label{saved__20240728_2_c_p_p06_2ex00_2_scalar_converter_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP06/ex00/ScalarConverter.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP06/ex00/ScalarConverter.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SCALARCONVERTER\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SCALARCONVERTER\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_scalar_converter}{ScalarConverter}}\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \_fValue;}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \_iValue;}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \_cValue;}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \ \_dValue;}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \_decimal;}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \_intLenghtVerif;}
+\DoxyCodeLine{00014\ \ \ \ \ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_scalar_converter}{ScalarConverter}}();}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_scalar_converter}{ScalarConverter}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_scalar_converter}{ScalarConverter}}\&\ src);}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_scalar_converter}{ScalarConverter}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_scalar_converter}{ScalarConverter}}\&\ rhs);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_scalar_converter}{\string~ScalarConverter}}();}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ convert(std::string\&\ str);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isDouble(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setDouble(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isFloat(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setFloat(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isInt(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setInt(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isChar(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setChar(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isInfinite(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setInfinite(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isNan(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setNan(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ printScalar();}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

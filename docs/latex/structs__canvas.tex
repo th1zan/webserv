@@ -1,0 +1,76 @@
+\doxysection{s\+\_\+canvas Struct Reference}
+\hypertarget{structs__canvas}{}\label{structs__canvas}\index{s\_canvas@{s\_canvas}}
+
+
+The struct of type t\+\_\+canvas contains the necessary fields for graphic initialization and window rendering.  
+
+
+
+
+{\ttfamily \#include $<$canvas.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structs__canvas_ae44f33b5a61c88a094ed9a720893499f}\label{structs__canvas_ae44f33b5a61c88a094ed9a720893499f} 
+void \texorpdfstring{$\ast$}{*} {\bfseries mlx\+\_\+ptr}
+\item 
+\Hypertarget{structs__canvas_ac72e2f2ebd2160de4ff1dfe1fedb6822}\label{structs__canvas_ac72e2f2ebd2160de4ff1dfe1fedb6822} 
+void \texorpdfstring{$\ast$}{*} {\bfseries win\+\_\+ptr}
+\item 
+\Hypertarget{structs__canvas_a80840be9862118a28df8cd75df86a3d7}\label{structs__canvas_a80840be9862118a28df8cd75df86a3d7} 
+void \texorpdfstring{$\ast$}{*} {\bfseries img\+\_\+ptr}
+\item 
+\Hypertarget{structs__canvas_adeaebcef4e8359ba1b05461082836229}\label{structs__canvas_adeaebcef4e8359ba1b05461082836229} 
+char \texorpdfstring{$\ast$}{*} {\bfseries addr}
+\item 
+\Hypertarget{structs__canvas_a03095cb7f3ec807eb9e47f3b79604f94}\label{structs__canvas_a03095cb7f3ec807eb9e47f3b79604f94} 
+int {\bfseries bpp}
+\item 
+\Hypertarget{structs__canvas_a535acb4ff4db4fcbb10af56acfd16b53}\label{structs__canvas_a535acb4ff4db4fcbb10af56acfd16b53} 
+int {\bfseries line\+\_\+len}
+\item 
+\Hypertarget{structs__canvas_a08896d1f4cb8b94a1abe4ddbc8c24a24}\label{structs__canvas_a08896d1f4cb8b94a1abe4ddbc8c24a24} 
+int {\bfseries endian}
+\item 
+\Hypertarget{structs__canvas_ab07d5135c21c26dc4fda42c3766d40c3}\label{structs__canvas_ab07d5135c21c26dc4fda42c3766d40c3} 
+int {\bfseries width}
+\item 
+\Hypertarget{structs__canvas_a6cbbbaddad9b7140908f612f301a2bea}\label{structs__canvas_a6cbbbaddad9b7140908f612f301a2bea} 
+int {\bfseries height}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The struct of type t\+\_\+canvas contains the necessary fields for graphic initialization and window rendering. 
+
+ABOUT THE HEADER \doxylink{canvas_8h}{CANVAS.\+H}
+
+This header contains all functions that works directly or indirectly with graphic information and MLX\textquotesingle{}s library manipulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mlx\+\_\+ptr} & Contains the pointer to a connection with the Xserver. \\
+\hline
+{\em win\+\_\+ptr} & Contains the pointer to a window created with MLX. \\
+\hline
+{\em img\+\_\+ptr} & Contains the pointer to a image created with MLX. \\
+\hline
+{\em addr} & Stores information about how to write data on pixels from an instance of a MLX\textquotesingle{}s windows and image. \\
+\hline
+{\em bpp} & Contains the bits per pixel value from MLX. \\
+\hline
+{\em line\+\_\+len} & Contains the line length value from MLX. \\
+\hline
+{\em endian} & Stores the most significant endianess order from MLX. \\
+\hline
+{\em width} & Stores the width of the window and the image created with MLX. \\
+\hline
+{\em height} & Stores the height of the window and the image created with MLX. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/\mbox{\hyperlink{canvas_8h}{canvas.\+h}}\end{DoxyCompactItemize}

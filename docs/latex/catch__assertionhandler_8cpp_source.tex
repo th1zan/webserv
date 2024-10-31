@@ -1,0 +1,128 @@
+\doxysection{catch\+\_\+assertionhandler.\+cpp}
+\hypertarget{catch__assertionhandler_8cpp_source}{}\label{catch__assertionhandler_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_assertionhandler.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_assertionhandler.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 8/8/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2017\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_assertionhandler.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_assertionresult.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_runner.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_config.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}catch\_context.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}catch\_debugger.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_registry\_hub.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}catch\_capture\_matchers.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}catch\_run\_context.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <<(\ std::ostream\&\ os,\ ITransientExpression\ \textcolor{keyword}{const}\&\ expr\ )\ -\/>\ std::ostream\&\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ expr.streamReconstructedExpression(\ os\ );}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ LazyExpression::LazyExpression(\ \textcolor{keywordtype}{bool}\ isNegated\ )}
+\DoxyCodeLine{00030\ \ \ \ \ :\ \ \ m\_isNegated(\ isNegated\ )}
+\DoxyCodeLine{00031\ \ \ \ \ \{\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ LazyExpression::LazyExpression(\ LazyExpression\ \textcolor{keyword}{const}\&\ other\ )\ :\ m\_isNegated(\ other.m\_isNegated\ )\ \{\}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ LazyExpression::operator\ bool()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_transientExpression\ !=\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <<\ (\ std::ostream\&\ os,\ LazyExpression\ \textcolor{keyword}{const}\&\ lazyExpr\ )\ -\/>\ std::ostream\&\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ lazyExpr.m\_isNegated\ )}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}!"{}};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ lazyExpr\ )\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ lazyExpr.m\_isNegated\ \&\&\ lazyExpr.m\_transientExpression-\/>isBinaryExpression()\ )}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}("{}}\ <<\ *lazyExpr.m\_transientExpression\ <<\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ *lazyExpr.m\_transientExpression;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}\{**\ error\ -\/\ unchecked\ empty\ expression\ requested\ **\}"{}};}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ AssertionHandler::AssertionHandler}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ (\ \ \ StringRef\ \textcolor{keyword}{const}\&\ macroName,}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ SourceLineInfo\ \textcolor{keyword}{const}\&\ lineInfo,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ StringRef\ capturedExpression,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ ResultDisposition::Flags\ resultDisposition\ )}
+\DoxyCodeLine{00060\ \ \ \ \ :\ \ \ m\_assertionInfo\{\ macroName,\ lineInfo,\ capturedExpression,\ resultDisposition\ \},}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ m\_resultCapture(\ getResultCapture()\ )}
+\DoxyCodeLine{00062\ \ \ \ \ \{\}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::handleExpr(\ ITransientExpression\ \textcolor{keyword}{const}\&\ expr\ )\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ m\_resultCapture.handleExpr(\ m\_assertionInfo,\ expr,\ m\_reaction\ );}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::handleMessage(ResultWas::OfType\ resultType,\ StringRef\ \textcolor{keyword}{const}\&\ message)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ m\_resultCapture.handleMessage(\ m\_assertionInfo,\ resultType,\ message,\ m\_reaction\ );}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{auto}\ AssertionHandler::allowThrows()\ const\ -\/>\ \textcolor{keywordtype}{bool}\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ getCurrentContext().getConfig()-\/>allowThrows();}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::complete()\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ setCompleted();}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_reaction.shouldDebugBreak\ )\ \{}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ you\ find\ your\ debugger\ stopping\ you\ here\ then\ go\ one\ level\ up\ on\ the}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ call-\/stack\ for\ the\ code\ that\ caused\ it\ (typically\ a\ failed\ assertion)}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (To\ go\ back\ to\ the\ test\ and\ change\ execution,\ jump\ over\ the\ throw,\ next)}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_BREAK\_INTO\_DEBUGGER();}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_reaction.shouldThrow)\ \{}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#if\ !defined(CATCH\_CONFIG\_DISABLE\_EXCEPTIONS)}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{struct_catch_1_1_test_failure_exception}{Catch::TestFailureException}}();}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_ERROR(\ \textcolor{stringliteral}{"{}Test\ failure\ requires\ aborting\ test!"{}}\ );}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::setCompleted()\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ m\_completed\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::handleUnexpectedInflightException()\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ m\_resultCapture.handleUnexpectedInflightException(\ m\_assertionInfo,\ Catch::translateActiveException(),\ m\_reaction\ );}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::handleExceptionThrownAsExpected()\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ m\_resultCapture.handleNonExpr(m\_assertionInfo,\ ResultWas::Ok,\ m\_reaction);}
+\DoxyCodeLine{00103\ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::handleExceptionNotThrownAsExpected()\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ m\_resultCapture.handleNonExpr(m\_assertionInfo,\ ResultWas::Ok,\ m\_reaction);}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::handleUnexpectedExceptionNotThrown()\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ m\_resultCapture.handleUnexpectedExceptionNotThrown(\ m\_assertionInfo,\ m\_reaction\ );}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ AssertionHandler::handleThrowingCallSkipped()\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ m\_resultCapture.handleNonExpr(m\_assertionInfo,\ ResultWas::Ok,\ m\_reaction);}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ overload\ that\ takes\ a\ string\ and\ infers\ the\ Equals\ matcher\ from\ it}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{comment}{//\ The\ more\ general\ overload,\ that\ takes\ any\ string\ matcher,\ is\ in\ catch\_capture\_matchers.cpp}}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{void}\ handleExceptionMatchExpr(\ AssertionHandler\&\ handler,\ std::string\ \textcolor{keyword}{const}\&\ str,\ StringRef\ \textcolor{keyword}{const}\&\ matcherString\ \ )\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ handleExceptionMatchExpr(\ handler,\ Matchers::Equals(\ str\ ),\ matcherString\ );}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+
+\end{DoxyCode}

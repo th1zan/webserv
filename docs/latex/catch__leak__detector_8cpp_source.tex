@@ -1,0 +1,43 @@
+\doxysection{catch\+\_\+leak\+\_\+detector.\+cpp}
+\hypertarget{catch__leak__detector_8cpp_source}{}\label{catch__leak__detector_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_leak\_detector.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_leak\_detector.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 12/07/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\ \#include\ "{}catch\_leak\_detector.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\ \#include\ "{}catch\_interfaces\_registry\_hub.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifdef\ CATCH\_CONFIG\_WINDOWS\_CRTDBG}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <crtdbg.h>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ LeakDetector::LeakDetector()\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ flag\ =\ \_CrtSetDbgFlag(\_CRTDBG\_REPORT\_FLAG);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ flag\ |=\ \_CRTDBG\_LEAK\_CHECK\_DF;}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ flag\ |=\ \_CRTDBG\_ALLOC\_MEM\_DF;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \_CrtSetDbgFlag(flag);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \_CrtSetReportMode(\_CRT\_WARN,\ \_CRTDBG\_MODE\_FILE\ |\ \_CRTDBG\_MODE\_DEBUG);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \_CrtSetReportFile(\_CRT\_WARN,\ \_CRTDBG\_FILE\_STDERR);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Change\ this\ to\ leaking\ allocation's\ number\ to\ break\ there}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \_CrtSetBreakAlloc(-\/1);}
+\DoxyCodeLine{00026\ \ \ \ \ \}}
+\DoxyCodeLine{00027\ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ Catch::LeakDetector::LeakDetector()\ \{\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ Catch::LeakDetector::\string~LeakDetector()\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ Catch::cleanUp();}
+\DoxyCodeLine{00037\ \}}
+
+\end{DoxyCode}

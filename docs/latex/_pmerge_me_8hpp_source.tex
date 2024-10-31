@@ -1,0 +1,44 @@
+\doxysection{Pmerge\+Me.\+hpp}
+\hypertarget{_pmerge_me_8hpp_source}{}\label{_pmerge_me_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP09/ex02/PmergeMe.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP09/ex02/PmergeMe.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PMERGEME\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PMERGEME\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <list>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pmerge_me}{PmergeMe}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_pmerge_me}{PmergeMe}}();}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{class_pmerge_me}{PmergeMe}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_pmerge_me}{PmergeMe}}\&\ other);}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_pmerge_me}{PmergeMe}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_pmerge_me}{PmergeMe}}\&\ other);}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_pmerge_me}{\string~PmergeMe}}();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ addNumber(\textcolor{keywordtype}{int}\ number);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ sortVector();}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ sortList();}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ printResults()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ checkNumber(\textcolor{keyword}{const}\ std::string\&\ str)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \ \ std::list<int>\ \_unsortedList;}
+\DoxyCodeLine{00024\ \ \ \ \ std::list<int>\ \_sortedList;}
+\DoxyCodeLine{00025\ \ \ \ \ std::vector<int>\ \_unsortedVector;}
+\DoxyCodeLine{00026\ \ \ \ \ std::vector<int>\ \_sortedVector;}
+\DoxyCodeLine{00027\ \ \ \ \ clock\_t\ \_timeToSortList;}
+\DoxyCodeLine{00028\ \ \ \ \ clock\_t\ \_timeToSortVector;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ mergeSortVector(std::vector<int>\&\ vec,\ \textcolor{keywordtype}{int}\ left,\ \textcolor{keywordtype}{int}\ right);}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ mergeVector(std::vector<int>\&\ vec,\ \textcolor{keywordtype}{int}\ left,\ \textcolor{keywordtype}{int}\ mid,\ \textcolor{keywordtype}{int}\ right);}
+\DoxyCodeLine{00032\ \ \ \ \ std::list<int>\ mergeSortList(std::list<int>\&\ lst);}
+\DoxyCodeLine{00033\ \ \ \ \ std::list<int>\ mergeLists(std::list<int>\&\ left,\ std::list<int>\&\ right);\ }
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,73 @@
+\doxysection{built\+\_\+in.\+h}
+\hypertarget{minishell__clean_2src_2header_2built__in_8h_source}{}\label{minishell__clean_2src_2header_2built__in_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/built\_in.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/built\_in.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ built\_in.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/02\ 18:44:47\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/11/03\ 10:22:40\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ BUILT\_IN\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ BUILT\_IN\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*built\_in\_cd.c*/}}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{int}\ \ \ \ \ add\_new\_oldpwd(\textcolor{keywordtype}{char}\ *current\_directory);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{int}\ \ \ \ \ update\_oldpwd(\textcolor{keywordtype}{char}\ *current\_directory);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{int}\ \ \ \ \ cd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*built\_in\_echo.c*/}}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{void}\ \ \ \ print\_args(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ *tmp,\ \textcolor{keywordtype}{int}\ newline);}
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{int}\ \ \ \ \ echo(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{/*built\_in\_env\_pwd.c*/}}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ \ \ \ \ env\_built\_in(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{int}\ \ \ \ \ pwd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/*built\_in\_exit.c*/}}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ \ \ \ \ exit\_status\_error(\textcolor{keywordtype}{char}\ *arg);}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \ \ \ \ exit\_builtin(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *cmd);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_str\_with\_alpha(\textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_all\_digit(\textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{/*built\_in\_export\_1.c*/}}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{int}\ \ \ \ \ export(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_new\_var(\textcolor{keywordtype}{char}\ *new\_var);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ \ \ \ \ update\_or\_add\_env\_var(\textcolor{keywordtype}{char}\ *new\_var);}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ \ \ \ \ add\_new\_env\_var(\textcolor{keywordtype}{char}\ **env,\ \textcolor{keywordtype}{char}\ *new\_var);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ \ \ \ update\_path\_tab(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{/*built\_in\_export\_2.c*/}}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{char}\ \ \ \ *concat\_args(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00044\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *advance\_and\_free(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{int}\ \ \ \ \ find\_env\_var(\textcolor{keywordtype}{char}\ **env,\ \textcolor{keywordtype}{char}\ *var\_name);}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_valid\_env\_argument(\textcolor{keywordtype}{char}\ *arg);}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ \ \ \ \ validate\_env\_arg\_characters(\textcolor{keywordtype}{char}\ *arg);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{/*built\_in\_unset.c*/}}
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{void}\ \ \ \ remove\_env(\textcolor{keywordtype}{char}\ **env,\ \textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ \ \ \ check\_path\_var(\textcolor{keywordtype}{char}\ *var);}
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{int}\ \ \ \ \ unset(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{comment}{/*is\_built\_in\_1.c*/}}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_tk\_str(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{char}\ *fct\_name);}
+\DoxyCodeLine{00056\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_echo(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00057\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_export(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_unset(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00059\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_env(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{comment}{/*is\_built\_in\_2.c*/}}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_pwd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_cd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_exit(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_builtin\_exec(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *cmd);}
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{int}\ \ \ \ \ is\_builtin\_cmd\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *cmd);}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

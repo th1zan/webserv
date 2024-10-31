@@ -1,0 +1,31 @@
+\doxysection{whatever.\+h}
+\hypertarget{saved__20240728_2_c_p_p07_2ex00_2whatever_8h_source}{}\label{saved__20240728_2_c_p_p07_2ex00_2whatever_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP07/ex00/whatever.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP07/ex00/whatever.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ WHATEVER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ WHATEVER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00005\ T\ \textcolor{keyword}{const}\&\ max(T\ \textcolor{keyword}{const}\&\ x,\ T\ \textcolor{keyword}{const}\&\ y)\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ ==\ y)}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ y;}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordflow}{return}\ ((x\ >\ y)\ ?\ x\ :\ y);}
+\DoxyCodeLine{00009\ \}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00012\ T\ \textcolor{keyword}{const}\&\ min(T\ \textcolor{keyword}{const}\&\ x,\ T\ \textcolor{keyword}{const}\&\ y)\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ ==\ y)}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ y;}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordflow}{return}\ ((x\ <\ y)\ ?\ x\ :\ y);}
+\DoxyCodeLine{00016\ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ swap(T\&\ x,\ T\&\ y)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ T\ temp\ =\ x;}
+\DoxyCodeLine{00021\ \ \ \ \ x\ =\ y;}
+\DoxyCodeLine{00022\ \ \ \ \ y\ =\ temp;}
+\DoxyCodeLine{00023\ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

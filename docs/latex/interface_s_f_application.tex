@@ -1,0 +1,53 @@
+\doxysection{SFApplication Class Reference}
+\hypertarget{interface_s_f_application}{}\label{interface_s_f_application}\index{SFApplication@{SFApplication}}
+
+
+Event processing \& Menu bar initialization.  
+
+
+
+
+{\ttfamily \#include $<$SFApplication.\+h$>$}
+
+Inheritance diagram for SFApplication\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_s_f_application}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(void) -\/ \mbox{\hyperlink{interface_s_f_application_a9f6a0f67cfc1df9bbcc1b0534f2f0a37}{send\+Event\+:}}
+\begin{DoxyCompactList}\small\item\em Dispatch events. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Class Methods}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{interface_s_f_application_a6a40a111d573b90b8d541ecf47ad6b5d}\label{interface_s_f_application_a6a40a111d573b90b8d541ecf47ad6b5d} 
+(void) + {\bfseries process\+Event}
+\begin{DoxyCompactList}\small\item\em Event processing. \end{DoxyCompactList}\item 
+\Hypertarget{interface_s_f_application_aa4334ad4bb4165d2242cd4ea53138179}\label{interface_s_f_application_aa4334ad4bb4165d2242cd4ea53138179} 
+(void) + {\bfseries set\+Up\+Menu\+Bar}
+\begin{DoxyCompactList}\small\item\em Set up the menu bar and its items. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Event processing \& Menu bar initialization. 
+
+\doxysubsection{Method Documentation}
+\Hypertarget{interface_s_f_application_a9f6a0f67cfc1df9bbcc1b0534f2f0a37}\index{SFApplication@{SFApplication}!sendEvent:@{sendEvent:}}
+\index{sendEvent:@{sendEvent:}!SFApplication@{SFApplication}}
+\doxysubsubsection{\texorpdfstring{sendEvent:}{sendEvent:}}
+{\footnotesize\ttfamily \label{interface_s_f_application_a9f6a0f67cfc1df9bbcc1b0534f2f0a37} 
+-\/ (void) send\+Event\+: \begin{DoxyParamCaption}\item[{(NSEvent\texorpdfstring{$\ast$}{*})}]{an\+Event}{}\end{DoxyParamCaption}}
+
+
+
+Dispatch events. 
+
+This overload of -\/\mbox{[}NSApplication send\+Event\+:\mbox{]} is used to fix Key\+Release events when the command key is down. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/push\+\_\+swap/push\+\_\+swap\+\_\+visualizer/build/\+\_\+deps/sfml-\/src/src/\+SFML/\+Window/\+OSX/SFApplication.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/push\+\_\+swap/push\+\_\+swap\+\_\+visualizer/build/\+\_\+deps/sfml-\/src/src/\+SFML/\+Window/\+OSX/SFApplication.\+m\end{DoxyCompactItemize}

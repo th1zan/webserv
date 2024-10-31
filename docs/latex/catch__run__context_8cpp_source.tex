@@ -1,0 +1,601 @@
+\doxysection{catch\+\_\+run\+\_\+context.\+cpp}
+\hypertarget{catch__run__context_8cpp_source}{}\label{catch__run__context_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_run\_context.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_run\_context.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}catch\_run\_context.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}catch\_compiler\_capabilities.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}catch\_context.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}catch\_random\_number\_generator.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}catch\_stream.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}catch\_output\_redirect.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{namespace\ }Generators\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_catch_1_1_generators_1_1_generator_tracker}{GeneratorTracker}}\ :\ \mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_tracker_base}{TestCaseTracking::TrackerBase}},\ \mbox{\hyperlink{struct_catch_1_1_i_generator_tracker}{IGeneratorTracker}}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ GeneratorBasePtr\ m\_generator;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_catch_1_1_generators_1_1_generator_tracker}{GeneratorTracker}}(\ \mbox{\hyperlink{struct_catch_1_1_test_case_tracking_1_1_name_and_location}{TestCaseTracking::NameAndLocation}}\ \textcolor{keyword}{const}\&\ nameAndLocation,\ \mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_tracker_context}{TrackerContext}}\&\ ctx,\ \mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_i_tracker}{ITracker}}*\ parent\ )}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \ \ TrackerBase(\ nameAndLocation,\ ctx,\ parent\ )}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_catch_1_1_generators_1_1_generator_tracker}{\string~GeneratorTracker}}();}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_catch_1_1_generators_1_1_generator_tracker}{GeneratorTracker}}\&\ acquire(\ \mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_tracker_context}{TrackerContext}}\&\ ctx,\ \mbox{\hyperlink{struct_catch_1_1_test_case_tracking_1_1_name_and_location}{TestCaseTracking::NameAndLocation}}\ \textcolor{keyword}{const}\&\ nameAndLocation\ )\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<GeneratorTracker>\ tracker;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_i_tracker}{ITracker}}\&\ currentTracker\ =\ ctx.currentTracker();}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Under\ specific\ circumstances,\ the\ generator\ we\ want}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ to\ acquire\ is\ also\ the\ current\ tracker.\ If\ this\ is}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ case,\ we\ have\ to\ avoid\ looking\ through\ current}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tracker's\ children,\ and\ instead\ return\ the\ current}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tracker.}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ A\ case\ where\ this\ check\ is\ important\ is\ e.g.}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ for\ (int\ i\ =\ 0;\ i\ <\ 5;\ ++i)\ \{}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ int\ n\ =\ GENERATE(1,\ 2);}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ without\ it,\ the\ code\ above\ creates\ 5\ nested\ generators.}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentTracker.nameAndLocation()\ ==\ nameAndLocation)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ thisTracker\ =\ currentTracker.parent().findChild(nameAndLocation);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(thisTracker);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(thisTracker-\/>isGeneratorTracker());}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tracker\ =\ std::static\_pointer\_cast<GeneratorTracker>(thisTracker);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\ TestCaseTracking::ITrackerPtr\ childTracker\ =\ currentTracker.findChild(\ nameAndLocation\ )\ )\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ childTracker\ );}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ childTracker-\/>isGeneratorTracker()\ );}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tracker\ =\ std::static\_pointer\_cast<GeneratorTracker>(\ childTracker\ );}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tracker\ =\ std::make\_shared<GeneratorTracker>(\ nameAndLocation,\ ctx,\ \&currentTracker\ );}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentTracker.addChild(\ tracker\ );}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !tracker-\/>isComplete()\ )\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tracker-\/>open();}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *tracker;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TrackerBase\ interface}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isGeneratorTracker()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ hasGenerator()\ \textcolor{keyword}{const}\ -\/>\ \textcolor{keywordtype}{bool}\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !!m\_generator;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ close()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TrackerBase::close();}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ a\ generator\ has\ a\ child\ (it\ is\ followed\ by\ a\ section)}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ none\ of\ its\ children\ have\ started,\ then\ we\ must\ wait}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ until\ later\ to\ start\ consuming\ its\ values.}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ catches\ cases\ where\ \`{}GENERATE`\ is\ placed\ between\ two}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \`{}SECTION`s.}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ **The\ check\ for\ m\_children.empty\ cannot\ be\ removed**.}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ doing\ so\ would\ break\ \`{}GENERATE`\ \_not\_\ followed\ by\ \`{}SECTION`s.}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ should\_wait\_for\_child\ =\ [\&]()\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ children\ -\/>\ nobody\ to\ wait\ for}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ m\_children.empty()\ )\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ at\ least\ one\ child\ started\ executing,\ don't\ wait}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ std::find\_if(}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_children.begin(),}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_children.end(),}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](\ TestCaseTracking::ITrackerPtr\ tracker\ )\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ tracker-\/>hasStarted();}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ )\ !=\ m\_children.end()\ )\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ children\ have\ started.\ We\ need\ to\ check\ if\ they\ \_can\_}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ start,\ and\ thus\ we\ should\ wait\ for\ them,\ or\ they\ cannot}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ start\ (due\ to\ filters),\ and\ we\ shouldn't\ wait\ for\ them}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ parent\ =\ m\_parent;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ safe:\ there\ is\ always\ at\ least\ one\ section}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ tracker\ in\ a\ test\ case\ tracking\ tree}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\ !parent-\/>isSectionTracker()\ )\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parent\ =\ \&(\ parent-\/>parent()\ );}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ parent\ \&\&}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Missing\ root\ (test\ case)\ level\ section"{}}\ );}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ parentSection\ =}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_section_tracker}{SectionTracker}}\&\textcolor{keyword}{>}(\ *parent\ );}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ filters\ =\ parentSection.\mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_section_tracker_afd8903ed0c3f20a22465c0a4b27e1f16}{getFilters}}();}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ filters\ -\/>\ no\ restrictions\ on\ running\ sections}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ filters.empty()\ )\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ child\ :\ m\_children\ )\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ child-\/>isSectionTracker()\ \&\&}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::find(\ filters.begin(),}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filters.end(),}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_section_tracker}{SectionTracker}}\&\textcolor{keyword}{>}(\ *child\ )}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .\mbox{\hyperlink{class_catch_1_1_test_case_tracking_1_1_section_tracker_af4042edc9deb53863d75d306389d00de}{trimmedName}}()\ )\ !=}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filters.end()\ )\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ check\ is\ a\ bit\ tricky,\ because\ m\_generator-\/>next()}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ has\ a\ side-\/effect,\ where\ it\ consumes\ generator's\ current}}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ value,\ but\ we\ do\ not\ want\ to\ invoke\ the\ side-\/effect\ if}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ this\ generator\ is\ still\ waiting\ for\ any\ child\ to\ start.}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ should\_wait\_for\_child\ ||}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ m\_runState\ ==\ CompletedSuccessfully\ \&\&}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_generator-\/>next()\ )\ )\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_children.clear();}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_runState\ =\ Executing;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ IGeneratorTracker\ interface}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ getGenerator()\ \textcolor{keyword}{const}\ -\/>\ GeneratorBasePtr\ \textcolor{keyword}{const}\&\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_generator;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setGenerator(\ GeneratorBasePtr\&\&\ generator\ )\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_generator\ =\ std::move(\ generator\ );}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ GeneratorTracker::\string~GeneratorTracker()\ \{\}}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ RunContext::RunContext(IConfigPtr\ \textcolor{keyword}{const}\&\ \_config,\ IStreamingReporterPtr\&\&\ reporter)}
+\DoxyCodeLine{00146\ \ \ \ \ :\ \ \ m\_runInfo(\_config-\/>name()),}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ m\_context(getCurrentMutableContext()),}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ m\_config(\_config),}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ m\_reporter(std::move(reporter)),}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo\{\ StringRef(),\ SourceLineInfo(\textcolor{stringliteral}{"{}"{}},0),\ StringRef(),\ ResultDisposition::Normal\ \},}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ m\_includeSuccessfulResults(\ m\_config-\/>includeSuccessfulResults()\ ||\ m\_reporter-\/>getPreferences().shouldReportAllAssertions\ )}
+\DoxyCodeLine{00152\ \ \ \ \ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ m\_context.setRunner(\textcolor{keyword}{this});}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ m\_context.setConfig(m\_config);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ m\_context.setResultCapture(\textcolor{keyword}{this});}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ m\_reporter-\/>testRunStarting(m\_runInfo);}
+\DoxyCodeLine{00157\ \ \ \ \ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ RunContext::\string~RunContext()\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ m\_reporter-\/>testRunEnded(TestRunStats(m\_runInfo,\ m\_totals,\ aborting()));}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::testGroupStarting(std::string\ \textcolor{keyword}{const}\&\ testSpec,\ std::size\_t\ groupIndex,\ std::size\_t\ groupsCount)\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ m\_reporter-\/>testGroupStarting(GroupInfo(testSpec,\ groupIndex,\ groupsCount));}
+\DoxyCodeLine{00165\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::testGroupEnded(std::string\ \textcolor{keyword}{const}\&\ testSpec,\ Totals\ \textcolor{keyword}{const}\&\ totals,\ std::size\_t\ groupIndex,\ std::size\_t\ groupsCount)\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ m\_reporter-\/>testGroupEnded(TestGroupStats(GroupInfo(testSpec,\ groupIndex,\ groupsCount),\ totals,\ aborting()));}
+\DoxyCodeLine{00169\ \ \ \ \ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ Totals\ RunContext::runTest(TestCase\ \textcolor{keyword}{const}\&\ testCase)\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ Totals\ prevTotals\ =\ m\_totals;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ std::string\ redirectedCout;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ std::string\ redirectedCerr;}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ testInfo\ =\ testCase.getTestCaseInfo();}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ m\_reporter-\/>testCaseStarting(testInfo);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ m\_activeTestCase\ =\ \&testCase;}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ ITracker\&\ rootTracker\ =\ m\_trackerContext.startRun();}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ assert(rootTracker.isSectionTracker());}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}SectionTracker\&\textcolor{keyword}{>}(rootTracker).addInitialFilters(m\_config-\/>getSectionsToRun());}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ m\_trackerContext.startCycle();}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ m\_testCaseTracker\ =\ \&SectionTracker::acquire(m\_trackerContext,\ TestCaseTracking::NameAndLocation(testInfo.name,\ testInfo.lineInfo));}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ runCurrentTest(redirectedCout,\ redirectedCerr);}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (!m\_testCaseTracker-\/>isSuccessfullyCompleted()\ \&\&\ !aborting());}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ Totals\ deltaTotals\ =\ m\_totals.delta(prevTotals);}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (testInfo.expectedToFail()\ \&\&\ deltaTotals.testCases.passed\ >\ 0)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ deltaTotals.assertions.failed++;}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ deltaTotals.testCases.passed-\/-\/;}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ deltaTotals.testCases.failed++;}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ m\_totals.testCases\ +=\ deltaTotals.testCases;}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ m\_reporter-\/>testCaseEnded(TestCaseStats(testInfo,}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deltaTotals,}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ redirectedCout,}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ redirectedCerr,}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ aborting()));}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ m\_activeTestCase\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ m\_testCaseTracker\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ deltaTotals;}
+\DoxyCodeLine{00210\ \ \ \ \ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ IConfigPtr\ RunContext::config()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_config;}
+\DoxyCodeLine{00214\ \ \ \ \ \}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ IStreamingReporter\&\ RunContext::reporter()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *m\_reporter;}
+\DoxyCodeLine{00218\ \ \ \ \ \}}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::assertionEnded(AssertionResult\ \textcolor{keyword}{const}\ \&\ result)\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.getResultType()\ ==\ ResultWas::Ok)\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ m\_totals.assertions.passed++;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ m\_lastAssertionPassed\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!result.isOk())\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ m\_lastAssertionPassed\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_activeTestCase-\/>getTestCaseInfo().okToFail()\ )}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_totals.assertions.failedButOk++;}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_totals.assertions.failed++;}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ m\_lastAssertionPassed\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ have\ no\ use\ for\ the\ return\ value\ (whether\ messages\ should\ be\ cleared),\ because\ messages\ were\ made\ scoped}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ should\ be\ let\ to\ clear\ themselves\ out.}}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{void}\textcolor{keyword}{>}(m\_reporter-\/>assertionEnded(AssertionStats(result,\ m\_messages,\ m\_totals)));}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.getResultType()\ !=\ ResultWas::Warning)}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ m\_messageScopes.clear();}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reset\ working\ state}}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ resetAssertionInfo();}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ m\_lastResult\ =\ result;}
+\DoxyCodeLine{00245\ \ \ \ \ \}}
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::resetAssertionInfo()\ \{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo.macroName\ =\ StringRef();}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo.capturedExpression\ =\ \textcolor{stringliteral}{"{}\{Unknown\ expression\ after\ the\ reported\ line\}"{}}\_sr;}
+\DoxyCodeLine{00249\ \ \ \ \ \}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordtype}{bool}\ RunContext::sectionStarted(SectionInfo\ \textcolor{keyword}{const}\ \&\ sectionInfo,\ Counts\ \&\ assertions)\ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ ITracker\&\ sectionTracker\ =\ SectionTracker::acquire(m\_trackerContext,\ TestCaseTracking::NameAndLocation(sectionInfo.name,\ sectionInfo.lineInfo));}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!sectionTracker.isOpen())}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ m\_activeSections.push\_back(\&sectionTracker);}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo.lineInfo\ =\ sectionInfo.lineInfo;}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ m\_reporter-\/>sectionStarting(sectionInfo);}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ assertions\ =\ m\_totals.assertions;}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00264\ \ \ \ \ \}}
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keyword}{auto}\ RunContext::acquireGeneratorTracker(\ StringRef\ generatorName,\ SourceLineInfo\ \textcolor{keyword}{const}\&\ lineInfo\ )\ -\/>\ IGeneratorTracker\&\ \{}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ namespace\ }Generators;}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ GeneratorTracker\&\ tracker\ =\ GeneratorTracker::acquire(m\_trackerContext,}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TestCaseTracking::NameAndLocation(\ \textcolor{keyword}{static\_cast<}std::string\textcolor{keyword}{>}(generatorName),\ lineInfo\ )\ );}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo.lineInfo\ =\ lineInfo;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tracker;}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordtype}{bool}\ RunContext::testForMissingAssertions(Counts\&\ assertions)\ \{}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (assertions.total()\ !=\ 0)}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_config-\/>warnAboutMissingAssertions())}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_trackerContext.currentTracker().hasChildren())}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ m\_totals.assertions.failed++;}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ assertions.failed++;}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00283\ \ \ \ \ \}}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::sectionEnded(SectionEndInfo\ \textcolor{keyword}{const}\ \&\ endInfo)\ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ Counts\ assertions\ =\ m\_totals.assertions\ -\/\ endInfo.prevAssertions;}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ missingAssertions\ =\ testForMissingAssertions(assertions);}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_activeSections.empty())\ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ m\_activeSections.back()-\/>close();}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ m\_activeSections.pop\_back();}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ m\_reporter-\/>sectionEnded(SectionStats(endInfo.sectionInfo,\ assertions,\ endInfo.durationInSeconds,\ missingAssertions));}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ m\_messages.clear();}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ m\_messageScopes.clear();}
+\DoxyCodeLine{00297\ \ \ \ \ \}}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::sectionEndedEarly(SectionEndInfo\ \textcolor{keyword}{const}\ \&\ endInfo)\ \{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_unfinishedSections.empty())}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ m\_activeSections.back()-\/>fail();}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ m\_activeSections.back()-\/>close();}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ m\_activeSections.pop\_back();}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ m\_unfinishedSections.push\_back(endInfo);}
+\DoxyCodeLine{00307\ \ \ \ \ \}}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_BENCHMARKING)}}
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::benchmarkPreparing(std::string\ \textcolor{keyword}{const}\&\ name)\ \{}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ m\_reporter-\/>benchmarkPreparing(name);}
+\DoxyCodeLine{00312\ \ \ \ \ \}}
+\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::benchmarkStarting(\ BenchmarkInfo\ \textcolor{keyword}{const}\&\ info\ )\ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ m\_reporter-\/>benchmarkStarting(\ info\ );}
+\DoxyCodeLine{00315\ \ \ \ \ \}}
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::benchmarkEnded(\ BenchmarkStats<>\ \textcolor{keyword}{const}\&\ stats\ )\ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ m\_reporter-\/>benchmarkEnded(\ stats\ );}
+\DoxyCodeLine{00318\ \ \ \ \ \}}
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::benchmarkFailed(std::string\ \textcolor{keyword}{const}\ \&\ error)\ \{}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ m\_reporter-\/>benchmarkFailed(error);}
+\DoxyCodeLine{00321\ \ \ \ \ \}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_ENABLE\_BENCHMARKING}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::pushScopedMessage(MessageInfo\ \textcolor{keyword}{const}\ \&\ message)\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ m\_messages.push\_back(message);}
+\DoxyCodeLine{00326\ \ \ \ \ \}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::popScopedMessage(MessageInfo\ \textcolor{keyword}{const}\ \&\ message)\ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ m\_messages.erase(std::remove(m\_messages.begin(),\ m\_messages.end(),\ message),\ m\_messages.end());}
+\DoxyCodeLine{00330\ \ \ \ \ \}}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::emplaceUnscopedMessage(\ MessageBuilder\ \textcolor{keyword}{const}\&\ builder\ )\ \{}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ m\_messageScopes.emplace\_back(\ builder\ );}
+\DoxyCodeLine{00334\ \ \ \ \ \}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \ \ \ \ std::string\ RunContext::getCurrentTestName()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_activeTestCase}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ m\_activeTestCase-\/>getTestCaseInfo().name}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ :\ std::string();}
+\DoxyCodeLine{00340\ \ \ \ \ \}}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{keyword}{const}\ AssertionResult\ *\ RunContext::getLastResult()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&(*m\_lastResult);}
+\DoxyCodeLine{00344\ \ \ \ \ \}}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::exceptionEarlyReported()\ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ m\_shouldReportUnexpected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00348\ \ \ \ \ \}}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleFatalErrorCondition(\ StringRef\ message\ )\ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ First\ notify\ reporter\ that\ bad\ things\ happened}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ m\_reporter-\/>fatalErrorEncountered(message);}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ rebuild\ the\ result\ -\/-\/\ the\ stringification\ itself\ can\ cause\ more\ fatal\ errors}}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Instead,\ fake\ a\ result\ data.}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ AssertionResultData\ tempResult(\ ResultWas::FatalErrorCondition,\ \{\ \textcolor{keyword}{false}\ \}\ );}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ tempResult.message\ =\ \textcolor{keyword}{static\_cast<}std::string\textcolor{keyword}{>}(message);}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ AssertionResult\ result(m\_lastAssertionInfo,\ tempResult);}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ assertionEnded(result);}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ handleUnfinishedSections();}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Recreate\ section\ for\ test\ case\ (as\ we\ will\ lose\ the\ one\ that\ was\ in\ scope)}}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ testCaseInfo\ =\ m\_activeTestCase-\/>getTestCaseInfo();}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ SectionInfo\ testCaseSection(testCaseInfo.lineInfo,\ testCaseInfo.name);}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ Counts\ assertions;}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ assertions.failed\ =\ 1;}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ SectionStats\ testCaseSectionStats(testCaseSection,\ assertions,\ 0,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ m\_reporter-\/>sectionEnded(testCaseSectionStats);}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ testInfo\ =\ m\_activeTestCase-\/>getTestCaseInfo();}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ Totals\ deltaTotals;}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ deltaTotals.testCases.failed\ =\ 1;}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ deltaTotals.assertions.failed\ =\ 1;}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ m\_reporter-\/>testCaseEnded(TestCaseStats(testInfo,}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deltaTotals,}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string(),}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string(),}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{false}));}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ m\_totals.testCases.failed++;}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ testGroupEnded(std::string(),\ m\_totals,\ 1,\ 1);}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ m\_reporter-\/>testRunEnded(TestRunStats(m\_runInfo,\ m\_totals,\ \textcolor{keyword}{false}));}
+\DoxyCodeLine{00386\ \ \ \ \ \}}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordtype}{bool}\ RunContext::lastAssertionPassed()\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_lastAssertionPassed;}
+\DoxyCodeLine{00390\ \ \ \ \ \}}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::assertionPassed()\ \{}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ m\_lastAssertionPassed\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ ++m\_totals.assertions.passed;}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ resetAssertionInfo();}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ m\_messageScopes.clear();}
+\DoxyCodeLine{00397\ \ \ \ \ \}}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{keywordtype}{bool}\ RunContext::aborting()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_totals.assertions.failed\ >=\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(m\_config-\/>abortAfter());}
+\DoxyCodeLine{00401\ \ \ \ \ \}}
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::runCurrentTest(std::string\ \&\ redirectedCout,\ std::string\ \&\ redirectedCerr)\ \{}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ testCaseInfo\ =\ m\_activeTestCase-\/>getTestCaseInfo();}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ SectionInfo\ testCaseSection(testCaseInfo.lineInfo,\ testCaseInfo.name);}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ m\_reporter-\/>sectionStarting(testCaseSection);}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ Counts\ prevAssertions\ =\ m\_totals.assertions;}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ duration\ =\ 0;}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ m\_shouldReportUnexpected\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo\ =\ \{\ \textcolor{stringliteral}{"{}TEST\_CASE"{}}\_sr,\ testCaseInfo.lineInfo,\ StringRef(),\ ResultDisposition::Normal\ \};}
+\DoxyCodeLine{00411\ }
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ seedRng(*m\_config);}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ Timer\ timer;}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ CATCH\_TRY\ \{}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_reporter-\/>getPreferences().shouldRedirectStdOut)\ \{}
+\DoxyCodeLine{00417\ \textcolor{preprocessor}{\#if\ !defined(CATCH\_CONFIG\_EXPERIMENTAL\_REDIRECT)}}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RedirectedStreams\ redirectedStreams(redirectedCout,\ redirectedCerr);}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ timer.start();}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ invokeActiveTestCase();}
+\DoxyCodeLine{00422\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OutputRedirect\ r(redirectedCout,\ redirectedCerr);}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ timer.start();}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ invokeActiveTestCase();}
+\DoxyCodeLine{00426\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ timer.start();}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ invokeActiveTestCase();}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ duration\ =\ timer.getElapsedSeconds();}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \}\ CATCH\_CATCH\_ANON\ (TestFailureException\&)\ \{}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ just\ means\ the\ test\ was\ aborted\ due\ to\ failure}}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \}\ CATCH\_CATCH\_ALL\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Under\ CATCH\_CONFIG\_FAST\_COMPILE,\ unexpected\ exceptions\ under\ REQUIRE\ assertions}}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ are\ reported\ without\ translation\ at\ the\ point\ of\ origin.}}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_shouldReportUnexpected\ )\ \{}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AssertionReaction\ dummyReaction;}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ handleUnexpectedInflightException(\ m\_lastAssertionInfo,\ translateActiveException(),\ dummyReaction\ );}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ Counts\ assertions\ =\ m\_totals.assertions\ -\/\ prevAssertions;}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ missingAssertions\ =\ testForMissingAssertions(assertions);}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ m\_testCaseTracker-\/>close();}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ handleUnfinishedSections();}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ m\_messages.clear();}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ m\_messageScopes.clear();}
+\DoxyCodeLine{00449\ }
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ SectionStats\ testCaseSectionStats(testCaseSection,\ assertions,\ duration,\ missingAssertions);}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ m\_reporter-\/>sectionEnded(testCaseSectionStats);}
+\DoxyCodeLine{00452\ \ \ \ \ \}}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::invokeActiveTestCase()\ \{}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ FatalConditionHandlerGuard\ \_(\&m\_fatalConditionhandler);}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ m\_activeTestCase-\/>invoke();}
+\DoxyCodeLine{00457\ \ \ \ \ \}}
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleUnfinishedSections()\ \{}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ sections\ ended\ prematurely\ due\ to\ an\ exception\ we\ stored\ their}}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ infos\ here\ so\ we\ can\ tear\ them\ down\ outside\ the\ unwind\ process.}}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ it\ =\ m\_unfinishedSections.rbegin(),}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ itEnd\ =\ m\_unfinishedSections.rend();}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ !=\ itEnd;}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ ++it)}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ sectionEnded(*it);}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ m\_unfinishedSections.clear();}
+\DoxyCodeLine{00468\ \ \ \ \ \}}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleExpr(}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ AssertionInfo\ \textcolor{keyword}{const}\&\ info,}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ ITransientExpression\ \textcolor{keyword}{const}\&\ expr,}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ AssertionReaction\&\ reaction}
+\DoxyCodeLine{00474\ \ \ \ \ )\ \{}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ m\_reporter-\/>assertionStarting(\ info\ );}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ negated\ =\ isFalseTest(\ info.resultDisposition\ );}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ expr.getResult()\ !=\ negated;}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ result\ )\ \{}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_includeSuccessfulResults)\ \{}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assertionPassed();}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reportExpr(info,\ ResultWas::Ok,\ \&expr,\ negated);}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ reportExpr(info,\ ResultWas::ExpressionFailed,\ \&expr,\ negated\ );}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ populateReaction(\ reaction\ );}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00492\ \ \ \ \ \}}
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::reportExpr(}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionInfo\ \textcolor{keyword}{const}\ \&info,}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ ResultWas::OfType\ resultType,}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ ITransientExpression\ \textcolor{keyword}{const}\ *expr,}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ negated\ )\ \{}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo\ =\ info;}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ AssertionResultData\ data(\ resultType,\ LazyExpression(\ negated\ )\ );}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ AssertionResult\ assertionResult\{\ info,\ data\ \};}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ assertionResult.m\_resultData.lazyExpression.m\_transientExpression\ =\ expr;}
+\DoxyCodeLine{00504\ }
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ assertionEnded(\ assertionResult\ );}
+\DoxyCodeLine{00506\ \ \ \ \ \}}
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleMessage(}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionInfo\ \textcolor{keyword}{const}\&\ info,}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ ResultWas::OfType\ resultType,}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ StringRef\ \textcolor{keyword}{const}\&\ message,}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionReaction\&\ reaction}
+\DoxyCodeLine{00513\ \ \ \ \ )\ \{}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ m\_reporter-\/>assertionStarting(\ info\ );}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo\ =\ info;}
+\DoxyCodeLine{00517\ }
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ AssertionResultData\ data(\ resultType,\ LazyExpression(\ \textcolor{keyword}{false}\ )\ );}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ data.message\ =\ \textcolor{keyword}{static\_cast<}std::string\textcolor{keyword}{>}(message);}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ AssertionResult\ assertionResult\{\ m\_lastAssertionInfo,\ data\ \};}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ assertionEnded(\ assertionResult\ );}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !assertionResult.isOk()\ )}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ populateReaction(\ reaction\ );}
+\DoxyCodeLine{00524\ \ \ \ \ \}}
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleUnexpectedExceptionNotThrown(}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionInfo\ \textcolor{keyword}{const}\&\ info,}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionReaction\&\ reaction}
+\DoxyCodeLine{00528\ \ \ \ \ )\ \{}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ handleNonExpr(info,\ Catch::ResultWas::DidntThrowException,\ reaction);}
+\DoxyCodeLine{00530\ \ \ \ \ \}}
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleUnexpectedInflightException(}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionInfo\ \textcolor{keyword}{const}\&\ info,}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ message,}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionReaction\&\ reaction}
+\DoxyCodeLine{00536\ \ \ \ \ )\ \{}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo\ =\ info;}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ AssertionResultData\ data(\ ResultWas::ThrewException,\ LazyExpression(\ \textcolor{keyword}{false}\ )\ );}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ data.message\ =\ message;}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ AssertionResult\ assertionResult\{\ info,\ data\ \};}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ assertionEnded(\ assertionResult\ );}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ populateReaction(\ reaction\ );}
+\DoxyCodeLine{00544\ \ \ \ \ \}}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::populateReaction(\ AssertionReaction\&\ reaction\ )\ \{}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ reaction.shouldDebugBreak\ =\ m\_config-\/>shouldDebugBreak();}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ reaction.shouldThrow\ =\ aborting()\ ||\ (m\_lastAssertionInfo.resultDisposition\ \&\ ResultDisposition::Normal);}
+\DoxyCodeLine{00549\ \ \ \ \ \}}
+\DoxyCodeLine{00550\ }
+\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleIncomplete(}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionInfo\ \textcolor{keyword}{const}\&\ info}
+\DoxyCodeLine{00553\ \ \ \ \ )\ \{}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo\ =\ info;}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ AssertionResultData\ data(\ ResultWas::ThrewException,\ LazyExpression(\ \textcolor{keyword}{false}\ )\ );}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ data.message\ =\ \textcolor{stringliteral}{"{}Exception\ translation\ was\ disabled\ by\ CATCH\_CONFIG\_FAST\_COMPILE"{}};}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ AssertionResult\ assertionResult\{\ info,\ data\ \};}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ assertionEnded(\ assertionResult\ );}
+\DoxyCodeLine{00560\ \ \ \ \ \}}
+\DoxyCodeLine{00561\ \ \ \ \ \textcolor{keywordtype}{void}\ RunContext::handleNonExpr(}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionInfo\ \textcolor{keyword}{const}\ \&info,}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ ResultWas::OfType\ resultType,}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ AssertionReaction\ \&reaction}
+\DoxyCodeLine{00565\ \ \ \ \ )\ \{}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ m\_lastAssertionInfo\ =\ info;}
+\DoxyCodeLine{00567\ }
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ AssertionResultData\ data(\ resultType,\ LazyExpression(\ \textcolor{keyword}{false}\ )\ );}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ AssertionResult\ assertionResult\{\ info,\ data\ \};}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ assertionEnded(\ assertionResult\ );}
+\DoxyCodeLine{00571\ }
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !assertionResult.isOk()\ )}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ populateReaction(\ reaction\ );}
+\DoxyCodeLine{00574\ \ \ \ \ \}}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ \ \ IResultCapture\&\ getResultCapture()\ \{}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}*\ capture\ =\ getCurrentContext().getResultCapture())}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *capture;}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_INTERNAL\_ERROR(\textcolor{stringliteral}{"{}No\ result\ capture\ instance"{}});}
+\DoxyCodeLine{00582\ \ \ \ \ \}}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \ \ \textcolor{keywordtype}{void}\ seedRng(IConfig\ \textcolor{keyword}{const}\&\ config)\ \{}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (config.rngSeed()\ !=\ 0)\ \{}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ std::srand(config.rngSeed());}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ rng().seed(config.rngSeed());}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00589\ \ \ \ \ \}}
+\DoxyCodeLine{00590\ }
+\DoxyCodeLine{00591\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rngSeed()\ \{}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ getCurrentContext().getConfig()-\/>rngSeed();}
+\DoxyCodeLine{00593\ \ \ \ \ \}}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00595\ \}}
+
+\end{DoxyCode}

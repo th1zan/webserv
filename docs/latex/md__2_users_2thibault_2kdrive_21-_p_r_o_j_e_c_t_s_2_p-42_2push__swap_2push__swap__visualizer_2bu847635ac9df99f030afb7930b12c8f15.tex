@@ -1,0 +1,21 @@
+\chapter{imgui\+\_\+freetype}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15}\index{imgui\_freetype@{imgui\_freetype}}
+\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md805}%
+\Hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md805}%
+
+
+Build font atlases using Free\+Type instead of stb\+\_\+truetype (which is the default font rasterizer). ~\newline
+by @vuhdo, @mikesart, @ocornut.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md806}{}\doxysubsection{\texorpdfstring{Usage}{Usage}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md806}
+
+\begin{DoxyEnumerate}
+\item Get latest Free\+Type binaries or build yourself (under Windows you may use vcpkg with {\ttfamily vcpkg install freetype}, {\ttfamily vcpkg integrate install}).
+\item Add \doxylink{imgui__freetype_8h_source}{imgui\+\_\+freetype.\+h}/cpp alongside your project files.
+\item Add {\ttfamily \#define IMGUI\+\_\+\+ENABLE\+\_\+\+FREETYPE} in your \href{https://github.com/ocornut/imgui/blob/master/imconfig.h}{\texttt{ imconfig.\+h}} file
+\end{DoxyEnumerate}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md807}{}\doxysubsection{\texorpdfstring{About Gamma Correct Blending}{About Gamma Correct Blending}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md807}
+Free\+Type assumes blending in linear space rather than gamma space. See Free\+Type note for \href{https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html\#FT_Render_Glyph}{\texttt{ FT\+\_\+\+Render\+\_\+\+Glyph}}. For correct results you need to be using s\+RGB and convert to linear space in the pixel shader output. The default Dear Im\+Gui styles will be impacted by this change (alpha values will need tweaking).\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md808}{}\doxysubsection{\texorpdfstring{Testbed for toying with settings (for developers)}{Testbed for toying with settings (for developers)}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md808}
+See \href{https://gist.github.com/ocornut/b3a9ecf13502fd818799a452969649ad}{\texttt{ https\+://gist.\+github.\+com/ocornut/b3a9ecf13502fd818799a452969649ad}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md809}{}\doxysubsection{\texorpdfstring{Known issues}{Known issues}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md809}
+
+\begin{DoxyItemize}
+\item Oversampling settins are ignored but also not so much necessary with the higher quality rendering.
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md810}{}\doxysubsection{\texorpdfstring{Comparaison}{Comparaison}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu847635ac9df99f030afb7930b12c8f15_autotoc_md810}
+Small, thin anti-\/aliased fonts are typically benefiting a lots from Freetype\textquotesingle{}s hinting\+:  

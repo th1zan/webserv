@@ -1,0 +1,1711 @@
+\doxysection{GLLoader.\+hpp}
+\hypertarget{_g_l_loader_8hpp_source}{}\label{_g_l_loader_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/sfml-\/src/src/SFML/Graphics/GLLoader.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/sfml-\/src/src/SFML/Graphics/GLLoader.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ SFML\ -\/\ Simple\ and\ Fast\ Multimedia\ Library}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Copyright\ (C)\ 2007-\/2018\ Laurent\ Gomila\ (laurent@sfml-\/dev.org)}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ This\ software\ is\ provided\ 'as-\/is',\ without\ any\ express\ or\ implied\ warranty.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ In\ no\ event\ will\ the\ authors\ be\ held\ liable\ for\ any\ damages\ arising\ from\ the\ use\ of\ this\ software.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ Permission\ is\ granted\ to\ anyone\ to\ use\ this\ software\ for\ any\ purpose,}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ including\ commercial\ applications,\ and\ to\ alter\ it\ and\ redistribute\ it\ freely,}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ subject\ to\ the\ following\ restrictions:}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ 1.\ The\ origin\ of\ this\ software\ must\ not\ be\ misrepresented;}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ you\ must\ not\ claim\ that\ you\ wrote\ the\ original\ software.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ If\ you\ use\ this\ software\ in\ a\ product,\ an\ acknowledgment}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ in\ the\ product\ documentation\ would\ be\ appreciated\ but\ is\ not\ required.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ 2.\ Altered\ source\ versions\ must\ be\ plainly\ marked\ as\ such,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ and\ must\ not\ be\ misrepresented\ as\ being\ the\ original\ software.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ 3.\ This\ notice\ may\ not\ be\ removed\ or\ altered\ from\ any\ source\ distribution.}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifndef\ SFML\_GLLOADER\_HPP}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ SFML\_GLLOADER\_HPP}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#if\ defined(\_\_glew\_h\_\_)\ ||\ defined(\_\_GLEW\_H\_\_)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#error\ Attempt\ to\ include\ auto-\/generated\ header\ after\ including\ glew.h}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#if\ defined(\_\_gl\_h\_)\ ||\ defined(\_\_GL\_H\_\_)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#error\ Attempt\ to\ include\ auto-\/generated\ header\ after\ including\ gl.h}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#if\ defined(\_\_glext\_h\_)\ ||\ defined(\_\_GLEXT\_H\_)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#error\ Attempt\ to\ include\ auto-\/generated\ header\ after\ including\ glext.h}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#if\ defined(\_\_gltypes\_h\_)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#error\ Attempt\ to\ include\ auto-\/generated\ header\ after\ gltypes.h}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#if\ defined(\_\_gl\_ATI\_h\_)}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#error\ Attempt\ to\ include\ auto-\/generated\ header\ after\ including\ glATI.h}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ \_\_glew\_h\_\_}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ \_\_GLEW\_H\_\_}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ \_\_gl\_h\_}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ \_\_GL\_H\_\_}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ \_\_glext\_h\_}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ \_\_GLEXT\_H\_}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ \_\_gltypes\_h\_}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ \_\_gl\_ATI\_h\_}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#ifndef\ APIENTRY}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_\_MINGW32\_\_)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifndef\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ WIN32\_LEAN\_AND\_MEAN\ 1}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifndef\ NOMINMAX}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ NOMINMAX}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <windows.h>}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \#elif\ (\_MSC\_VER\ >=\ 800)\ ||\ defined(\_STDCALL\_SUPPORTED)\ ||\ defined(\_\_BORLANDC\_\_)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifndef\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ WIN32\_LEAN\_AND\_MEAN\ 1}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifndef\ NOMINMAX}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \#define\ NOMINMAX}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <windows.h>}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ APIENTRY}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ APIENTRY}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#ifndef\ GL\_FUNCPTR}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ \#define\ GL\_REMOVE\_FUNCPTR}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_WIN32)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ GL\_FUNCPTR\ APIENTRY}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ GL\_FUNCPTR}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_FUNCPTR}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#ifndef\ GLAPI}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\ \ \ \ \#define\ GLAPI\ extern}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#ifndef\ GLEXT\_64\_TYPES\_DEFINED}}
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ This\ code\ block\ is\ duplicated\ in\ glxext.h,\ so\ must\ be\ protected}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ GLEXT\_64\_TYPES\_DEFINED}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ Define\ int32\_t,\ int64\_t,\ and\ uint64\_t\ types\ for\ UST/MSC}}
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ (as\ used\ in\ the\ GL\_EXT\_timer\_query\ extension).}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#if\ defined(\_\_STDC\_VERSION\_\_)\ \&\&\ \_\_STDC\_VERSION\_\_\ >=\ 199901L}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#elif\ defined(\_\_sun\_\_)\ ||\ defined(\_\_digital\_\_)}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#if\ defined(\_\_STDC\_\_)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#if\ defined(\_\_arch64\_\_)\ ||\ defined(\_LP64)}}
+\DoxyCodeLine{00101\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int64\_t;}
+\DoxyCodeLine{00102\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ uint64\_t;}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00104\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int64\_t;}
+\DoxyCodeLine{00105\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ uint64\_t;}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_arch64\_\_}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_STDC\_\_}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#elif\ defined(\ \_\_VMS\ )\ ||\ defined(\_\_sgi)}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#elif\ defined(\_\_SCO\_\_)\ ||\ defined(\_\_USLC\_\_)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#elif\ defined(\_\_UNIXOS2\_\_)\ ||\ defined(\_\_SOL64\_\_)}}
+\DoxyCodeLine{00113\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int32\_t;}
+\DoxyCodeLine{00114\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int64\_t;}
+\DoxyCodeLine{00115\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ uint64\_t;}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#elif\ defined(\_WIN32)\ \&\&\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#elif\ defined(\_WIN32)}}
+\DoxyCodeLine{00119\ \textcolor{keyword}{typedef}\ \_\_int32\ int32\_t;}
+\DoxyCodeLine{00120\ \textcolor{keyword}{typedef}\ \_\_int64\ int64\_t;}
+\DoxyCodeLine{00121\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \_\_int64\ uint64\_t;}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00123\ \textcolor{comment}{//\ Fallback\ if\ nothing\ above\ works}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00127\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLenum;}
+\DoxyCodeLine{00128\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ GLboolean;}
+\DoxyCodeLine{00129\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLbitfield;}
+\DoxyCodeLine{00130\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ GLvoid;}
+\DoxyCodeLine{00131\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{char}\ GLbyte;}
+\DoxyCodeLine{00132\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{short}\ GLshort;}
+\DoxyCodeLine{00133\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ GLint;}
+\DoxyCodeLine{00134\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ GLubyte;}
+\DoxyCodeLine{00135\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ GLushort;}
+\DoxyCodeLine{00136\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLuint;}
+\DoxyCodeLine{00137\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ GLsizei;}
+\DoxyCodeLine{00138\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{float}\ GLfloat;}
+\DoxyCodeLine{00139\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{float}\ GLclampf;}
+\DoxyCodeLine{00140\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{double}\ GLdouble;}
+\DoxyCodeLine{00141\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{double}\ GLclampd;}
+\DoxyCodeLine{00142\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{char}\ GLchar;}
+\DoxyCodeLine{00143\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{char}\ GLcharARB;}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#ifdef\ \_\_APPLE\_\_}}
+\DoxyCodeLine{00145\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{void}\ *GLhandleARB;}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00147\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLhandleARB;}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00149\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ GLhalfARB;}
+\DoxyCodeLine{00150\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ GLhalf;}
+\DoxyCodeLine{00151\ \textcolor{keyword}{typedef}\ GLint\ GLfixed;}
+\DoxyCodeLine{00152\ \textcolor{keyword}{typedef}\ ptrdiff\_t\ GLintptr;}
+\DoxyCodeLine{00153\ \textcolor{keyword}{typedef}\ ptrdiff\_t\ GLsizeiptr;}
+\DoxyCodeLine{00154\ \textcolor{keyword}{typedef}\ int64\_t\ GLint64;}
+\DoxyCodeLine{00155\ \textcolor{keyword}{typedef}\ uint64\_t\ GLuint64;}
+\DoxyCodeLine{00156\ \textcolor{keyword}{typedef}\ ptrdiff\_t\ GLintptrARB;}
+\DoxyCodeLine{00157\ \textcolor{keyword}{typedef}\ ptrdiff\_t\ GLsizeiptrARB;}
+\DoxyCodeLine{00158\ \textcolor{keyword}{typedef}\ int64\_t\ GLint64EXT;}
+\DoxyCodeLine{00159\ \textcolor{keyword}{typedef}\ uint64\_t\ GLuint64EXT;}
+\DoxyCodeLine{00160\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_GLsync\ *GLsync;}
+\DoxyCodeLine{00161\ \textcolor{keyword}{struct\ }\_cl\_context;}
+\DoxyCodeLine{00162\ \textcolor{keyword}{struct\ }\_cl\_event;}
+\DoxyCodeLine{00163\ \textcolor{keyword}{typedef}\ void\ (APIENTRY\ *GLDEBUGPROC)(GLenum\ source,\ GLenum\ type,\ GLuint\ id,\ GLenum\ severity,\ GLsizei\ length,\ \textcolor{keyword}{const}\ GLchar*\ message,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ userParam);}
+\DoxyCodeLine{00164\ \textcolor{keyword}{typedef}\ void\ (APIENTRY\ *GLDEBUGPROCARB)(GLenum\ source,\ GLenum\ type,\ GLuint\ id,\ GLenum\ severity,\ GLsizei\ length,\ \textcolor{keyword}{const}\ GLchar*\ message,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ userParam);}
+\DoxyCodeLine{00165\ \textcolor{keyword}{typedef}\ void\ (APIENTRY\ *GLDEBUGPROCAMD)(GLuint\ id,\ GLenum\ category,\ GLenum\ severity,\ GLsizei\ length,\ \textcolor{keyword}{const}\ GLchar*\ message,\ \textcolor{keywordtype}{void}*\ userParam);}
+\DoxyCodeLine{00166\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ GLhalfNV;}
+\DoxyCodeLine{00167\ \textcolor{keyword}{typedef}\ GLintptr\ GLvdpauSurfaceNV;}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00170\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_SGIS\_texture\_edge\_clamp;}
+\DoxyCodeLine{00174\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_texture\_edge\_clamp;}
+\DoxyCodeLine{00175\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_blend\_minmax;}
+\DoxyCodeLine{00176\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_blend\_subtract;}
+\DoxyCodeLine{00177\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_multitexture;}
+\DoxyCodeLine{00178\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_blend\_func\_separate;}
+\DoxyCodeLine{00179\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_vertex\_buffer\_object;}
+\DoxyCodeLine{00180\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_shading\_language\_100;}
+\DoxyCodeLine{00181\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_shader\_objects;}
+\DoxyCodeLine{00182\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_vertex\_shader;}
+\DoxyCodeLine{00183\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_fragment\_shader;}
+\DoxyCodeLine{00184\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_texture\_non\_power\_of\_two;}
+\DoxyCodeLine{00185\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_blend\_equation\_separate;}
+\DoxyCodeLine{00186\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_texture\_sRGB;}
+\DoxyCodeLine{00187\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_framebuffer\_object;}
+\DoxyCodeLine{00188\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_packed\_depth\_stencil;}
+\DoxyCodeLine{00189\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_framebuffer\_blit;}
+\DoxyCodeLine{00190\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_EXT\_framebuffer\_multisample;}
+\DoxyCodeLine{00191\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_copy\_buffer;}
+\DoxyCodeLine{00192\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfogl\_ext\_ARB\_geometry\_shader4;}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ GL\_CLAMP\_TO\_EDGE\_SGIS\ 0x812F}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#define\ GL\_CLAMP\_TO\_EDGE\_EXT\ 0x812F}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_EQUATION\_EXT\ 0x8009}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ GL\_FUNC\_ADD\_EXT\ 0x8006}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#define\ GL\_MAX\_EXT\ 0x8008}}
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#define\ GL\_MIN\_EXT\ 0x8007}}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\#define\ GL\_FUNC\_REVERSE\_SUBTRACT\_EXT\ 0x800B}}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#define\ GL\_FUNC\_SUBTRACT\_EXT\ 0x800A}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#define\ GL\_ACTIVE\_TEXTURE\_ARB\ 0x84E0}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#define\ GL\_CLIENT\_ACTIVE\_TEXTURE\_ARB\ 0x84E1}}
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#define\ GL\_MAX\_TEXTURE\_UNITS\_ARB\ 0x84E2}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE0\_ARB\ 0x84C0}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE10\_ARB\ 0x84CA}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE11\_ARB\ 0x84CB}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE12\_ARB\ 0x84CC}}
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE13\_ARB\ 0x84CD}}
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE14\_ARB\ 0x84CE}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE15\_ARB\ 0x84CF}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE16\_ARB\ 0x84D0}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE17\_ARB\ 0x84D1}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE18\_ARB\ 0x84D2}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE19\_ARB\ 0x84D3}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE1\_ARB\ 0x84C1}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE20\_ARB\ 0x84D4}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE21\_ARB\ 0x84D5}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE22\_ARB\ 0x84D6}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE23\_ARB\ 0x84D7}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE24\_ARB\ 0x84D8}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE25\_ARB\ 0x84D9}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE26\_ARB\ 0x84DA}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE27\_ARB\ 0x84DB}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE28\_ARB\ 0x84DC}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE29\_ARB\ 0x84DD}}
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE2\_ARB\ 0x84C2}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE30\_ARB\ 0x84DE}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE31\_ARB\ 0x84DF}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE3\_ARB\ 0x84C3}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE4\_ARB\ 0x84C4}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE5\_ARB\ 0x84C5}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE6\_ARB\ 0x84C6}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE7\_ARB\ 0x84C7}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE8\_ARB\ 0x84C8}}
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE9\_ARB\ 0x84C9}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_DST\_ALPHA\_EXT\ 0x80CA}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_DST\_RGB\_EXT\ 0x80C8}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_SRC\_ALPHA\_EXT\ 0x80CB}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_SRC\_RGB\_EXT\ 0x80C9}}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#define\ GL\_ARRAY\_BUFFER\_ARB\ 0x8892}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#define\ GL\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x8894}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#define\ GL\_BUFFER\_ACCESS\_ARB\ 0x88BB}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#define\ GL\_BUFFER\_MAPPED\_ARB\ 0x88BC}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#define\ GL\_BUFFER\_MAP\_POINTER\_ARB\ 0x88BD}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#define\ GL\_BUFFER\_SIZE\_ARB\ 0x8764}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ GL\_BUFFER\_USAGE\_ARB\ 0x8765}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x8898}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#define\ GL\_DYNAMIC\_COPY\_ARB\ 0x88EA}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#define\ GL\_DYNAMIC\_DRAW\_ARB\ 0x88E8}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ GL\_DYNAMIC\_READ\_ARB\ 0x88E9}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#define\ GL\_EDGE\_FLAG\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x889B}}
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\#define\ GL\_ELEMENT\_ARRAY\_BUFFER\_ARB\ 0x8893}}
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ GL\_ELEMENT\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x8895}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#define\ GL\_FOG\_COORDINATE\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x889D}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x8899}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\#define\ GL\_NORMAL\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x8897}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ GL\_READ\_ONLY\_ARB\ 0x88B8}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ GL\_READ\_WRITE\_ARB\ 0x88BA}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#define\ GL\_SECONDARY\_COLOR\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x889C}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ GL\_STATIC\_COPY\_ARB\ 0x88E6}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ GL\_STATIC\_DRAW\_ARB\ 0x88E4}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ GL\_STATIC\_READ\_ARB\ 0x88E5}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\#define\ GL\_STREAM\_COPY\_ARB\ 0x88E2}}
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\#define\ GL\_STREAM\_DRAW\_ARB\ 0x88E0}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ GL\_STREAM\_READ\_ARB\ 0x88E1}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_COORD\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x889A}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x8896}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ATTRIB\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x889F}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\#define\ GL\_WEIGHT\_ARRAY\_BUFFER\_BINDING\_ARB\ 0x889E}}
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\#define\ GL\_WRITE\_ONLY\_ARB\ 0x88B9}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#define\ GL\_SHADING\_LANGUAGE\_VERSION\_ARB\ 0x8B8C}}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#define\ GL\_BOOL\_ARB\ 0x8B56}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#define\ GL\_BOOL\_VEC2\_ARB\ 0x8B57}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#define\ GL\_BOOL\_VEC3\_ARB\ 0x8B58}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ GL\_BOOL\_VEC4\_ARB\ 0x8B59}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\#define\ GL\_FLOAT\_MAT2\_ARB\ 0x8B5A}}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\#define\ GL\_FLOAT\_MAT3\_ARB\ 0x8B5B}}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#define\ GL\_FLOAT\_MAT4\_ARB\ 0x8B5C}}
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\#define\ GL\_FLOAT\_VEC2\_ARB\ 0x8B50}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ GL\_FLOAT\_VEC3\_ARB\ 0x8B51}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#define\ GL\_FLOAT\_VEC4\_ARB\ 0x8B52}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#define\ GL\_INT\_VEC2\_ARB\ 0x8B53}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#define\ GL\_INT\_VEC3\_ARB\ 0x8B54}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#define\ GL\_INT\_VEC4\_ARB\ 0x8B55}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_ACTIVE\_UNIFORMS\_ARB\ 0x8B86}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_ACTIVE\_UNIFORM\_MAX\_LENGTH\_ARB\ 0x8B87}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_ATTACHED\_OBJECTS\_ARB\ 0x8B85}}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_COMPILE\_STATUS\_ARB\ 0x8B81}}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_DELETE\_STATUS\_ARB\ 0x8B80}}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_INFO\_LOG\_LENGTH\_ARB\ 0x8B84}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_LINK\_STATUS\_ARB\ 0x8B82}}
+\DoxyCodeLine{00301\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_SHADER\_SOURCE\_LENGTH\_ARB\ 0x8B88}}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_SUBTYPE\_ARB\ 0x8B4F}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_TYPE\_ARB\ 0x8B4E}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_VALIDATE\_STATUS\_ARB\ 0x8B83}}
+\DoxyCodeLine{00305\ \textcolor{preprocessor}{\#define\ GL\_PROGRAM\_OBJECT\_ARB\ 0x8B40}}
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_1D\_ARB\ 0x8B5D}}
+\DoxyCodeLine{00307\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_1D\_SHADOW\_ARB\ 0x8B61}}
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_2D\_ARB\ 0x8B5E}}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_2D\_RECT\_ARB\ 0x8B63}}
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_2D\_RECT\_SHADOW\_ARB\ 0x8B64}}
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_2D\_SHADOW\_ARB\ 0x8B62}}
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_3D\_ARB\ 0x8B5F}}
+\DoxyCodeLine{00313\ \textcolor{preprocessor}{\#define\ GL\_SAMPLER\_CUBE\_ARB\ 0x8B60}}
+\DoxyCodeLine{00314\ \textcolor{preprocessor}{\#define\ GL\_SHADER\_OBJECT\_ARB\ 0x8B48}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_VERTEX\_ATTRIB\_ARB\ 0x8626}}
+\DoxyCodeLine{00317\ \textcolor{preprocessor}{\#define\ GL\_FLOAT\ 0x1406}}
+\DoxyCodeLine{00318\ \textcolor{comment}{//\ Copied\ GL\_FLOAT\_MAT2\_ARB\ From:\ ARB\_shader\_objects}}
+\DoxyCodeLine{00319\ \textcolor{comment}{//\ Copied\ GL\_FLOAT\_MAT3\_ARB\ From:\ ARB\_shader\_objects}}
+\DoxyCodeLine{00320\ \textcolor{comment}{//\ Copied\ GL\_FLOAT\_MAT4\_ARB\ From:\ ARB\_shader\_objects}}
+\DoxyCodeLine{00321\ \textcolor{comment}{//\ Copied\ GL\_FLOAT\_VEC2\_ARB\ From:\ ARB\_shader\_objects}}
+\DoxyCodeLine{00322\ \textcolor{comment}{//\ Copied\ GL\_FLOAT\_VEC3\_ARB\ From:\ ARB\_shader\_objects}}
+\DoxyCodeLine{00323\ \textcolor{comment}{//\ Copied\ GL\_FLOAT\_VEC4\_ARB\ From:\ ARB\_shader\_objects}}
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\#define\ GL\_MAX\_COMBINED\_TEXTURE\_IMAGE\_UNITS\_ARB\ 0x8B4D}}
+\DoxyCodeLine{00325\ \textcolor{preprocessor}{\#define\ GL\_MAX\_TEXTURE\_COORDS\_ARB\ 0x8871}}
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#define\ GL\_MAX\_TEXTURE\_IMAGE\_UNITS\_ARB\ 0x8872}}
+\DoxyCodeLine{00327\ \textcolor{preprocessor}{\#define\ GL\_MAX\_VARYING\_FLOATS\_ARB\ 0x8B4B}}
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\#define\ GL\_MAX\_VERTEX\_ATTRIBS\_ARB\ 0x8869}}
+\DoxyCodeLine{00329\ \textcolor{preprocessor}{\#define\ GL\_MAX\_VERTEX\_TEXTURE\_IMAGE\_UNITS\_ARB\ 0x8B4C}}
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\#define\ GL\_MAX\_VERTEX\_UNIFORM\_COMPONENTS\_ARB\ 0x8B4A}}
+\DoxyCodeLine{00331\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_ACTIVE\_ATTRIBUTES\_ARB\ 0x8B89}}
+\DoxyCodeLine{00332\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_ACTIVE\_ATTRIBUTE\_MAX\_LENGTH\_ARB\ 0x8B8A}}
+\DoxyCodeLine{00333\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ATTRIB\_ARRAY\_ENABLED\_ARB\ 0x8622}}
+\DoxyCodeLine{00334\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ATTRIB\_ARRAY\_NORMALIZED\_ARB\ 0x886A}}
+\DoxyCodeLine{00335\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ATTRIB\_ARRAY\_POINTER\_ARB\ 0x8645}}
+\DoxyCodeLine{00336\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ATTRIB\_ARRAY\_SIZE\_ARB\ 0x8623}}
+\DoxyCodeLine{00337\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ATTRIB\_ARRAY\_STRIDE\_ARB\ 0x8624}}
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ATTRIB\_ARRAY\_TYPE\_ARB\ 0x8625}}
+\DoxyCodeLine{00339\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_PROGRAM\_POINT\_SIZE\_ARB\ 0x8642}}
+\DoxyCodeLine{00340\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_PROGRAM\_TWO\_SIDE\_ARB\ 0x8643}}
+\DoxyCodeLine{00341\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_SHADER\_ARB\ 0x8B31}}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \textcolor{preprocessor}{\#define\ GL\_FRAGMENT\_SHADER\_ARB\ 0x8B30}}
+\DoxyCodeLine{00344\ \textcolor{preprocessor}{\#define\ GL\_FRAGMENT\_SHADER\_DERIVATIVE\_HINT\_ARB\ 0x8B8B}}
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\#define\ GL\_MAX\_FRAGMENT\_UNIFORM\_COMPONENTS\_ARB\ 0x8B49}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_EQUATION\_ALPHA\_EXT\ 0x883D}}
+\DoxyCodeLine{00348\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_EQUATION\_RGB\_EXT\ 0x8009}}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SLUMINANCE\_ALPHA\_EXT\ 0x8C4B}}
+\DoxyCodeLine{00351\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SLUMINANCE\_EXT\ 0x8C4A}}
+\DoxyCodeLine{00352\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SRGB\_ALPHA\_EXT\ 0x8C49}}
+\DoxyCodeLine{00353\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SRGB\_ALPHA\_S3TC\_DXT1\_EXT\ 0x8C4D}}
+\DoxyCodeLine{00354\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SRGB\_ALPHA\_S3TC\_DXT3\_EXT\ 0x8C4E}}
+\DoxyCodeLine{00355\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SRGB\_ALPHA\_S3TC\_DXT5\_EXT\ 0x8C4F}}
+\DoxyCodeLine{00356\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SRGB\_EXT\ 0x8C48}}
+\DoxyCodeLine{00357\ \textcolor{preprocessor}{\#define\ GL\_COMPRESSED\_SRGB\_S3TC\_DXT1\_EXT\ 0x8C4C}}
+\DoxyCodeLine{00358\ \textcolor{preprocessor}{\#define\ GL\_SLUMINANCE8\_ALPHA8\_EXT\ 0x8C45}}
+\DoxyCodeLine{00359\ \textcolor{preprocessor}{\#define\ GL\_SLUMINANCE8\_EXT\ 0x8C47}}
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\#define\ GL\_SLUMINANCE\_ALPHA\_EXT\ 0x8C44}}
+\DoxyCodeLine{00361\ \textcolor{preprocessor}{\#define\ GL\_SLUMINANCE\_EXT\ 0x8C46}}
+\DoxyCodeLine{00362\ \textcolor{preprocessor}{\#define\ GL\_SRGB8\_ALPHA8\_EXT\ 0x8C43}}
+\DoxyCodeLine{00363\ \textcolor{preprocessor}{\#define\ GL\_SRGB8\_EXT\ 0x8C41}}
+\DoxyCodeLine{00364\ \textcolor{preprocessor}{\#define\ GL\_SRGB\_ALPHA\_EXT\ 0x8C42}}
+\DoxyCodeLine{00365\ \textcolor{preprocessor}{\#define\ GL\_SRGB\_EXT\ 0x8C40}}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT0\_EXT\ 0x8CE0}}
+\DoxyCodeLine{00368\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT10\_EXT\ 0x8CEA}}
+\DoxyCodeLine{00369\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT11\_EXT\ 0x8CEB}}
+\DoxyCodeLine{00370\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT12\_EXT\ 0x8CEC}}
+\DoxyCodeLine{00371\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT13\_EXT\ 0x8CED}}
+\DoxyCodeLine{00372\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT14\_EXT\ 0x8CEE}}
+\DoxyCodeLine{00373\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT15\_EXT\ 0x8CEF}}
+\DoxyCodeLine{00374\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT1\_EXT\ 0x8CE1}}
+\DoxyCodeLine{00375\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT2\_EXT\ 0x8CE2}}
+\DoxyCodeLine{00376\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT3\_EXT\ 0x8CE3}}
+\DoxyCodeLine{00377\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT4\_EXT\ 0x8CE4}}
+\DoxyCodeLine{00378\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT5\_EXT\ 0x8CE5}}
+\DoxyCodeLine{00379\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT6\_EXT\ 0x8CE6}}
+\DoxyCodeLine{00380\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT7\_EXT\ 0x8CE7}}
+\DoxyCodeLine{00381\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT8\_EXT\ 0x8CE8}}
+\DoxyCodeLine{00382\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ATTACHMENT9\_EXT\ 0x8CE9}}
+\DoxyCodeLine{00383\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_ATTACHMENT\_EXT\ 0x8D00}}
+\DoxyCodeLine{00384\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_ATTACHMENT\_OBJECT\_NAME\_EXT\ 0x8CD1}}
+\DoxyCodeLine{00385\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_ATTACHMENT\_OBJECT\_TYPE\_EXT\ 0x8CD0}}
+\DoxyCodeLine{00386\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_ATTACHMENT\_TEXTURE\_3D\_ZOFFSET\_EXT\ 0x8CD4}}
+\DoxyCodeLine{00387\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_ATTACHMENT\_TEXTURE\_CUBE\_MAP\_FACE\_EXT\ 0x8CD3}}
+\DoxyCodeLine{00388\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_ATTACHMENT\_TEXTURE\_LEVEL\_EXT\ 0x8CD2}}
+\DoxyCodeLine{00389\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_BINDING\_EXT\ 0x8CA6}}
+\DoxyCodeLine{00390\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_COMPLETE\_EXT\ 0x8CD5}}
+\DoxyCodeLine{00391\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_EXT\ 0x8D40}}
+\DoxyCodeLine{00392\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_ATTACHMENT\_EXT\ 0x8CD6}}
+\DoxyCodeLine{00393\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_DIMENSIONS\_EXT\ 0x8CD9}}
+\DoxyCodeLine{00394\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_DRAW\_BUFFER\_EXT\ 0x8CDB}}
+\DoxyCodeLine{00395\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_FORMATS\_EXT\ 0x8CDA}}
+\DoxyCodeLine{00396\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_MISSING\_ATTACHMENT\_EXT\ 0x8CD7}}
+\DoxyCodeLine{00397\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_READ\_BUFFER\_EXT\ 0x8CDC}}
+\DoxyCodeLine{00398\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_UNSUPPORTED\_EXT\ 0x8CDD}}
+\DoxyCodeLine{00399\ \textcolor{preprocessor}{\#define\ GL\_INVALID\_FRAMEBUFFER\_OPERATION\_EXT\ 0x0506}}
+\DoxyCodeLine{00400\ \textcolor{preprocessor}{\#define\ GL\_MAX\_COLOR\_ATTACHMENTS\_EXT\ 0x8CDF}}
+\DoxyCodeLine{00401\ \textcolor{preprocessor}{\#define\ GL\_MAX\_RENDERBUFFER\_SIZE\_EXT\ 0x84E8}}
+\DoxyCodeLine{00402\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_ALPHA\_SIZE\_EXT\ 0x8D53}}
+\DoxyCodeLine{00403\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_BINDING\_EXT\ 0x8CA7}}
+\DoxyCodeLine{00404\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_BLUE\_SIZE\_EXT\ 0x8D52}}
+\DoxyCodeLine{00405\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_DEPTH\_SIZE\_EXT\ 0x8D54}}
+\DoxyCodeLine{00406\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_EXT\ 0x8D41}}
+\DoxyCodeLine{00407\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_GREEN\_SIZE\_EXT\ 0x8D51}}
+\DoxyCodeLine{00408\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_HEIGHT\_EXT\ 0x8D43}}
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_INTERNAL\_FORMAT\_EXT\ 0x8D44}}
+\DoxyCodeLine{00410\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_RED\_SIZE\_EXT\ 0x8D50}}
+\DoxyCodeLine{00411\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_STENCIL\_SIZE\_EXT\ 0x8D55}}
+\DoxyCodeLine{00412\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_WIDTH\_EXT\ 0x8D42}}
+\DoxyCodeLine{00413\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_ATTACHMENT\_EXT\ 0x8D20}}
+\DoxyCodeLine{00414\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_INDEX16\_EXT\ 0x8D49}}
+\DoxyCodeLine{00415\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_INDEX1\_EXT\ 0x8D46}}
+\DoxyCodeLine{00416\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_INDEX4\_EXT\ 0x8D47}}
+\DoxyCodeLine{00417\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_INDEX8\_EXT\ 0x8D48}}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \textcolor{preprocessor}{\#define\ GL\_DEPTH24\_STENCIL8\_EXT\ 0x88F0}}
+\DoxyCodeLine{00420\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_STENCIL\_EXT\ 0x84F9}}
+\DoxyCodeLine{00421\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_STENCIL\_SIZE\_EXT\ 0x88F1}}
+\DoxyCodeLine{00422\ \textcolor{preprocessor}{\#define\ GL\_UNSIGNED\_INT\_24\_8\_EXT\ 0x84FA}}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00424\ \textcolor{preprocessor}{\#define\ GL\_DRAW\_FRAMEBUFFER\_BINDING\_EXT\ 0x8CA6}}
+\DoxyCodeLine{00425\ \textcolor{preprocessor}{\#define\ GL\_DRAW\_FRAMEBUFFER\_EXT\ 0x8CA9}}
+\DoxyCodeLine{00426\ \textcolor{preprocessor}{\#define\ GL\_READ\_FRAMEBUFFER\_BINDING\_EXT\ 0x8CAA}}
+\DoxyCodeLine{00427\ \textcolor{preprocessor}{\#define\ GL\_READ\_FRAMEBUFFER\_EXT\ 0x8CA8}}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_MULTISAMPLE\_EXT\ 0x8D56}}
+\DoxyCodeLine{00430\ \textcolor{preprocessor}{\#define\ GL\_MAX\_SAMPLES\_EXT\ 0x8D57}}
+\DoxyCodeLine{00431\ \textcolor{preprocessor}{\#define\ GL\_RENDERBUFFER\_SAMPLES\_EXT\ 0x8CAB}}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \textcolor{preprocessor}{\#define\ GL\_COPY\_READ\_BUFFER\ 0x8F36}}
+\DoxyCodeLine{00434\ \textcolor{preprocessor}{\#define\ GL\_COPY\_WRITE\_BUFFER\ 0x8F37}}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00436\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_ATTACHMENT\_LAYERED\_ARB\ 0x8DA7}}
+\DoxyCodeLine{00437\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_ATTACHMENT\_TEXTURE\_LAYER\ 0x8CD4}}
+\DoxyCodeLine{00438\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_LAYER\_COUNT\_ARB\ 0x8DA9}}
+\DoxyCodeLine{00439\ \textcolor{preprocessor}{\#define\ GL\_FRAMEBUFFER\_INCOMPLETE\_LAYER\_TARGETS\_ARB\ 0x8DA8}}
+\DoxyCodeLine{00440\ \textcolor{preprocessor}{\#define\ GL\_GEOMETRY\_INPUT\_TYPE\_ARB\ 0x8DDB}}
+\DoxyCodeLine{00441\ \textcolor{preprocessor}{\#define\ GL\_GEOMETRY\_OUTPUT\_TYPE\_ARB\ 0x8DDC}}
+\DoxyCodeLine{00442\ \textcolor{preprocessor}{\#define\ GL\_GEOMETRY\_SHADER\_ARB\ 0x8DD9}}
+\DoxyCodeLine{00443\ \textcolor{preprocessor}{\#define\ GL\_GEOMETRY\_VERTICES\_OUT\_ARB\ 0x8DDA}}
+\DoxyCodeLine{00444\ \textcolor{preprocessor}{\#define\ GL\_LINES\_ADJACENCY\_ARB\ 0x000A}}
+\DoxyCodeLine{00445\ \textcolor{preprocessor}{\#define\ GL\_LINE\_STRIP\_ADJACENCY\_ARB\ 0x000B}}
+\DoxyCodeLine{00446\ \textcolor{preprocessor}{\#define\ GL\_MAX\_GEOMETRY\_OUTPUT\_VERTICES\_ARB\ 0x8DE0}}
+\DoxyCodeLine{00447\ \textcolor{preprocessor}{\#define\ GL\_MAX\_GEOMETRY\_TEXTURE\_IMAGE\_UNITS\_ARB\ 0x8C29}}
+\DoxyCodeLine{00448\ \textcolor{preprocessor}{\#define\ GL\_MAX\_GEOMETRY\_TOTAL\_OUTPUT\_COMPONENTS\_ARB\ 0x8DE1}}
+\DoxyCodeLine{00449\ \textcolor{preprocessor}{\#define\ GL\_MAX\_GEOMETRY\_UNIFORM\_COMPONENTS\_ARB\ 0x8DDF}}
+\DoxyCodeLine{00450\ \textcolor{preprocessor}{\#define\ GL\_MAX\_GEOMETRY\_VARYING\_COMPONENTS\_ARB\ 0x8DDD}}
+\DoxyCodeLine{00451\ \textcolor{preprocessor}{\#define\ GL\_MAX\_VARYING\_COMPONENTS\ 0x8B4B}}
+\DoxyCodeLine{00452\ \textcolor{preprocessor}{\#define\ GL\_MAX\_VERTEX\_VARYING\_COMPONENTS\_ARB\ 0x8DDE}}
+\DoxyCodeLine{00453\ \textcolor{preprocessor}{\#define\ GL\_PROGRAM\_POINT\_SIZE\_ARB\ 0x8642}}
+\DoxyCodeLine{00454\ \textcolor{preprocessor}{\#define\ GL\_TRIANGLES\_ADJACENCY\_ARB\ 0x000C}}
+\DoxyCodeLine{00455\ \textcolor{preprocessor}{\#define\ GL\_TRIANGLE\_STRIP\_ADJACENCY\_ARB\ 0x000D}}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ \textcolor{preprocessor}{\#define\ GL\_2D\ 0x0600}}
+\DoxyCodeLine{00458\ \textcolor{preprocessor}{\#define\ GL\_2\_BYTES\ 0x1407}}
+\DoxyCodeLine{00459\ \textcolor{preprocessor}{\#define\ GL\_3D\ 0x0601}}
+\DoxyCodeLine{00460\ \textcolor{preprocessor}{\#define\ GL\_3D\_COLOR\ 0x0602}}
+\DoxyCodeLine{00461\ \textcolor{preprocessor}{\#define\ GL\_3D\_COLOR\_TEXTURE\ 0x0603}}
+\DoxyCodeLine{00462\ \textcolor{preprocessor}{\#define\ GL\_3\_BYTES\ 0x1408}}
+\DoxyCodeLine{00463\ \textcolor{preprocessor}{\#define\ GL\_4D\_COLOR\_TEXTURE\ 0x0604}}
+\DoxyCodeLine{00464\ \textcolor{preprocessor}{\#define\ GL\_4\_BYTES\ 0x1409}}
+\DoxyCodeLine{00465\ \textcolor{preprocessor}{\#define\ GL\_ACCUM\ 0x0100}}
+\DoxyCodeLine{00466\ \textcolor{preprocessor}{\#define\ GL\_ACCUM\_ALPHA\_BITS\ 0x0D5B}}
+\DoxyCodeLine{00467\ \textcolor{preprocessor}{\#define\ GL\_ACCUM\_BLUE\_BITS\ 0x0D5A}}
+\DoxyCodeLine{00468\ \textcolor{preprocessor}{\#define\ GL\_ACCUM\_BUFFER\_BIT\ 0x00000200}}
+\DoxyCodeLine{00469\ \textcolor{preprocessor}{\#define\ GL\_ACCUM\_CLEAR\_VALUE\ 0x0B80}}
+\DoxyCodeLine{00470\ \textcolor{preprocessor}{\#define\ GL\_ACCUM\_GREEN\_BITS\ 0x0D59}}
+\DoxyCodeLine{00471\ \textcolor{preprocessor}{\#define\ GL\_ACCUM\_RED\_BITS\ 0x0D58}}
+\DoxyCodeLine{00472\ \textcolor{preprocessor}{\#define\ GL\_ADD\ 0x0104}}
+\DoxyCodeLine{00473\ \textcolor{preprocessor}{\#define\ GL\_ALL\_ATTRIB\_BITS\ 0xFFFFFFFF}}
+\DoxyCodeLine{00474\ \textcolor{preprocessor}{\#define\ GL\_ALPHA\ 0x1906}}
+\DoxyCodeLine{00475\ \textcolor{preprocessor}{\#define\ GL\_ALPHA12\ 0x803D}}
+\DoxyCodeLine{00476\ \textcolor{preprocessor}{\#define\ GL\_ALPHA16\ 0x803E}}
+\DoxyCodeLine{00477\ \textcolor{preprocessor}{\#define\ GL\_ALPHA4\ 0x803B}}
+\DoxyCodeLine{00478\ \textcolor{preprocessor}{\#define\ GL\_ALPHA8\ 0x803C}}
+\DoxyCodeLine{00479\ \textcolor{preprocessor}{\#define\ GL\_ALPHA\_BIAS\ 0x0D1D}}
+\DoxyCodeLine{00480\ \textcolor{preprocessor}{\#define\ GL\_ALPHA\_BITS\ 0x0D55}}
+\DoxyCodeLine{00481\ \textcolor{preprocessor}{\#define\ GL\_ALPHA\_SCALE\ 0x0D1C}}
+\DoxyCodeLine{00482\ \textcolor{preprocessor}{\#define\ GL\_ALPHA\_TEST\ 0x0BC0}}
+\DoxyCodeLine{00483\ \textcolor{preprocessor}{\#define\ GL\_ALPHA\_TEST\_FUNC\ 0x0BC1}}
+\DoxyCodeLine{00484\ \textcolor{preprocessor}{\#define\ GL\_ALPHA\_TEST\_REF\ 0x0BC2}}
+\DoxyCodeLine{00485\ \textcolor{preprocessor}{\#define\ GL\_ALWAYS\ 0x0207}}
+\DoxyCodeLine{00486\ \textcolor{preprocessor}{\#define\ GL\_AMBIENT\ 0x1200}}
+\DoxyCodeLine{00487\ \textcolor{preprocessor}{\#define\ GL\_AMBIENT\_AND\_DIFFUSE\ 0x1602}}
+\DoxyCodeLine{00488\ \textcolor{preprocessor}{\#define\ GL\_AND\ 0x1501}}
+\DoxyCodeLine{00489\ \textcolor{preprocessor}{\#define\ GL\_AND\_INVERTED\ 0x1504}}
+\DoxyCodeLine{00490\ \textcolor{preprocessor}{\#define\ GL\_AND\_REVERSE\ 0x1502}}
+\DoxyCodeLine{00491\ \textcolor{preprocessor}{\#define\ GL\_ATTRIB\_STACK\_DEPTH\ 0x0BB0}}
+\DoxyCodeLine{00492\ \textcolor{preprocessor}{\#define\ GL\_AUTO\_NORMAL\ 0x0D80}}
+\DoxyCodeLine{00493\ \textcolor{preprocessor}{\#define\ GL\_AUX0\ 0x0409}}
+\DoxyCodeLine{00494\ \textcolor{preprocessor}{\#define\ GL\_AUX1\ 0x040A}}
+\DoxyCodeLine{00495\ \textcolor{preprocessor}{\#define\ GL\_AUX2\ 0x040B}}
+\DoxyCodeLine{00496\ \textcolor{preprocessor}{\#define\ GL\_AUX3\ 0x040C}}
+\DoxyCodeLine{00497\ \textcolor{preprocessor}{\#define\ GL\_AUX\_BUFFERS\ 0x0C00}}
+\DoxyCodeLine{00498\ \textcolor{preprocessor}{\#define\ GL\_BACK\ 0x0405}}
+\DoxyCodeLine{00499\ \textcolor{preprocessor}{\#define\ GL\_BACK\_LEFT\ 0x0402}}
+\DoxyCodeLine{00500\ \textcolor{preprocessor}{\#define\ GL\_BACK\_RIGHT\ 0x0403}}
+\DoxyCodeLine{00501\ \textcolor{preprocessor}{\#define\ GL\_BITMAP\ 0x1A00}}
+\DoxyCodeLine{00502\ \textcolor{preprocessor}{\#define\ GL\_BITMAP\_TOKEN\ 0x0704}}
+\DoxyCodeLine{00503\ \textcolor{preprocessor}{\#define\ GL\_BLEND\ 0x0BE2}}
+\DoxyCodeLine{00504\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_DST\ 0x0BE0}}
+\DoxyCodeLine{00505\ \textcolor{preprocessor}{\#define\ GL\_BLEND\_SRC\ 0x0BE1}}
+\DoxyCodeLine{00506\ \textcolor{preprocessor}{\#define\ GL\_BLUE\ 0x1905}}
+\DoxyCodeLine{00507\ \textcolor{preprocessor}{\#define\ GL\_BLUE\_BIAS\ 0x0D1B}}
+\DoxyCodeLine{00508\ \textcolor{preprocessor}{\#define\ GL\_BLUE\_BITS\ 0x0D54}}
+\DoxyCodeLine{00509\ \textcolor{preprocessor}{\#define\ GL\_BLUE\_SCALE\ 0x0D1A}}
+\DoxyCodeLine{00510\ \textcolor{preprocessor}{\#define\ GL\_BYTE\ 0x1400}}
+\DoxyCodeLine{00511\ \textcolor{preprocessor}{\#define\ GL\_C3F\_V3F\ 0x2A24}}
+\DoxyCodeLine{00512\ \textcolor{preprocessor}{\#define\ GL\_C4F\_N3F\_V3F\ 0x2A26}}
+\DoxyCodeLine{00513\ \textcolor{preprocessor}{\#define\ GL\_C4UB\_V2F\ 0x2A22}}
+\DoxyCodeLine{00514\ \textcolor{preprocessor}{\#define\ GL\_C4UB\_V3F\ 0x2A23}}
+\DoxyCodeLine{00515\ \textcolor{preprocessor}{\#define\ GL\_CCW\ 0x0901}}
+\DoxyCodeLine{00516\ \textcolor{preprocessor}{\#define\ GL\_CLAMP\ 0x2900}}
+\DoxyCodeLine{00517\ \textcolor{preprocessor}{\#define\ GL\_CLEAR\ 0x1500}}
+\DoxyCodeLine{00518\ \textcolor{preprocessor}{\#define\ GL\_CLIENT\_ALL\_ATTRIB\_BITS\ 0xFFFFFFFF}}
+\DoxyCodeLine{00519\ \textcolor{preprocessor}{\#define\ GL\_CLIENT\_ATTRIB\_STACK\_DEPTH\ 0x0BB1}}
+\DoxyCodeLine{00520\ \textcolor{preprocessor}{\#define\ GL\_CLIENT\_PIXEL\_STORE\_BIT\ 0x00000001}}
+\DoxyCodeLine{00521\ \textcolor{preprocessor}{\#define\ GL\_CLIENT\_VERTEX\_ARRAY\_BIT\ 0x00000002}}
+\DoxyCodeLine{00522\ \textcolor{preprocessor}{\#define\ GL\_CLIP\_PLANE0\ 0x3000}}
+\DoxyCodeLine{00523\ \textcolor{preprocessor}{\#define\ GL\_CLIP\_PLANE1\ 0x3001}}
+\DoxyCodeLine{00524\ \textcolor{preprocessor}{\#define\ GL\_CLIP\_PLANE2\ 0x3002}}
+\DoxyCodeLine{00525\ \textcolor{preprocessor}{\#define\ GL\_CLIP\_PLANE3\ 0x3003}}
+\DoxyCodeLine{00526\ \textcolor{preprocessor}{\#define\ GL\_CLIP\_PLANE4\ 0x3004}}
+\DoxyCodeLine{00527\ \textcolor{preprocessor}{\#define\ GL\_CLIP\_PLANE5\ 0x3005}}
+\DoxyCodeLine{00528\ \textcolor{preprocessor}{\#define\ GL\_COEFF\ 0x0A00}}
+\DoxyCodeLine{00529\ \textcolor{preprocessor}{\#define\ GL\_COLOR\ 0x1800}}
+\DoxyCodeLine{00530\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ARRAY\ 0x8076}}
+\DoxyCodeLine{00531\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ARRAY\_POINTER\ 0x8090}}
+\DoxyCodeLine{00532\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ARRAY\_SIZE\ 0x8081}}
+\DoxyCodeLine{00533\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ARRAY\_STRIDE\ 0x8083}}
+\DoxyCodeLine{00534\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_ARRAY\_TYPE\ 0x8082}}
+\DoxyCodeLine{00535\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_BUFFER\_BIT\ 0x00004000}}
+\DoxyCodeLine{00536\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_CLEAR\_VALUE\ 0x0C22}}
+\DoxyCodeLine{00537\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_INDEX\ 0x1900}}
+\DoxyCodeLine{00538\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_INDEXES\ 0x1603}}
+\DoxyCodeLine{00539\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_LOGIC\_OP\ 0x0BF2}}
+\DoxyCodeLine{00540\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_MATERIAL\ 0x0B57}}
+\DoxyCodeLine{00541\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_MATERIAL\_FACE\ 0x0B55}}
+\DoxyCodeLine{00542\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_MATERIAL\_PARAMETER\ 0x0B56}}
+\DoxyCodeLine{00543\ \textcolor{preprocessor}{\#define\ GL\_COLOR\_WRITEMASK\ 0x0C23}}
+\DoxyCodeLine{00544\ \textcolor{preprocessor}{\#define\ GL\_COMPILE\ 0x1300}}
+\DoxyCodeLine{00545\ \textcolor{preprocessor}{\#define\ GL\_COMPILE\_AND\_EXECUTE\ 0x1301}}
+\DoxyCodeLine{00546\ \textcolor{preprocessor}{\#define\ GL\_CONSTANT\_ATTENUATION\ 0x1207}}
+\DoxyCodeLine{00547\ \textcolor{preprocessor}{\#define\ GL\_COPY\ 0x1503}}
+\DoxyCodeLine{00548\ \textcolor{preprocessor}{\#define\ GL\_COPY\_INVERTED\ 0x150C}}
+\DoxyCodeLine{00549\ \textcolor{preprocessor}{\#define\ GL\_COPY\_PIXEL\_TOKEN\ 0x0706}}
+\DoxyCodeLine{00550\ \textcolor{preprocessor}{\#define\ GL\_CULL\_FACE\ 0x0B44}}
+\DoxyCodeLine{00551\ \textcolor{preprocessor}{\#define\ GL\_CULL\_FACE\_MODE\ 0x0B45}}
+\DoxyCodeLine{00552\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_BIT\ 0x00000001}}
+\DoxyCodeLine{00553\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_COLOR\ 0x0B00}}
+\DoxyCodeLine{00554\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_INDEX\ 0x0B01}}
+\DoxyCodeLine{00555\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_NORMAL\ 0x0B02}}
+\DoxyCodeLine{00556\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_RASTER\_COLOR\ 0x0B04}}
+\DoxyCodeLine{00557\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_RASTER\_DISTANCE\ 0x0B09}}
+\DoxyCodeLine{00558\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_RASTER\_INDEX\ 0x0B05}}
+\DoxyCodeLine{00559\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_RASTER\_POSITION\ 0x0B07}}
+\DoxyCodeLine{00560\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_RASTER\_POSITION\_VALID\ 0x0B08}}
+\DoxyCodeLine{00561\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_RASTER\_TEXTURE\_COORDS\ 0x0B06}}
+\DoxyCodeLine{00562\ \textcolor{preprocessor}{\#define\ GL\_CURRENT\_TEXTURE\_COORDS\ 0x0B03}}
+\DoxyCodeLine{00563\ \textcolor{preprocessor}{\#define\ GL\_CW\ 0x0900}}
+\DoxyCodeLine{00564\ \textcolor{preprocessor}{\#define\ GL\_DECAL\ 0x2101}}
+\DoxyCodeLine{00565\ \textcolor{preprocessor}{\#define\ GL\_DECR\ 0x1E03}}
+\DoxyCodeLine{00566\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\ 0x1801}}
+\DoxyCodeLine{00567\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_BIAS\ 0x0D1F}}
+\DoxyCodeLine{00568\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_BITS\ 0x0D56}}
+\DoxyCodeLine{00569\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_BUFFER\_BIT\ 0x00000100}}
+\DoxyCodeLine{00570\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_CLEAR\_VALUE\ 0x0B73}}
+\DoxyCodeLine{00571\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_COMPONENT\ 0x1902}}
+\DoxyCodeLine{00572\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_FUNC\ 0x0B74}}
+\DoxyCodeLine{00573\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_RANGE\ 0x0B70}}
+\DoxyCodeLine{00574\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_SCALE\ 0x0D1E}}
+\DoxyCodeLine{00575\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_TEST\ 0x0B71}}
+\DoxyCodeLine{00576\ \textcolor{preprocessor}{\#define\ GL\_DEPTH\_WRITEMASK\ 0x0B72}}
+\DoxyCodeLine{00577\ \textcolor{preprocessor}{\#define\ GL\_DIFFUSE\ 0x1201}}
+\DoxyCodeLine{00578\ \textcolor{preprocessor}{\#define\ GL\_DITHER\ 0x0BD0}}
+\DoxyCodeLine{00579\ \textcolor{preprocessor}{\#define\ GL\_DOMAIN\ 0x0A02}}
+\DoxyCodeLine{00580\ \textcolor{preprocessor}{\#define\ GL\_DONT\_CARE\ 0x1100}}
+\DoxyCodeLine{00581\ \textcolor{preprocessor}{\#define\ GL\_DOUBLE\ 0x140A}}
+\DoxyCodeLine{00582\ \textcolor{preprocessor}{\#define\ GL\_DOUBLEBUFFER\ 0x0C32}}
+\DoxyCodeLine{00583\ \textcolor{preprocessor}{\#define\ GL\_DRAW\_BUFFER\ 0x0C01}}
+\DoxyCodeLine{00584\ \textcolor{preprocessor}{\#define\ GL\_DRAW\_PIXEL\_TOKEN\ 0x0705}}
+\DoxyCodeLine{00585\ \textcolor{preprocessor}{\#define\ GL\_DST\_ALPHA\ 0x0304}}
+\DoxyCodeLine{00586\ \textcolor{preprocessor}{\#define\ GL\_DST\_COLOR\ 0x0306}}
+\DoxyCodeLine{00587\ \textcolor{preprocessor}{\#define\ GL\_EDGE\_FLAG\ 0x0B43}}
+\DoxyCodeLine{00588\ \textcolor{preprocessor}{\#define\ GL\_EDGE\_FLAG\_ARRAY\ 0x8079}}
+\DoxyCodeLine{00589\ \textcolor{preprocessor}{\#define\ GL\_EDGE\_FLAG\_ARRAY\_POINTER\ 0x8093}}
+\DoxyCodeLine{00590\ \textcolor{preprocessor}{\#define\ GL\_EDGE\_FLAG\_ARRAY\_STRIDE\ 0x808C}}
+\DoxyCodeLine{00591\ \textcolor{preprocessor}{\#define\ GL\_EMISSION\ 0x1600}}
+\DoxyCodeLine{00592\ \textcolor{preprocessor}{\#define\ GL\_ENABLE\_BIT\ 0x00002000}}
+\DoxyCodeLine{00593\ \textcolor{preprocessor}{\#define\ GL\_EQUAL\ 0x0202}}
+\DoxyCodeLine{00594\ \textcolor{preprocessor}{\#define\ GL\_EQUIV\ 0x1509}}
+\DoxyCodeLine{00595\ \textcolor{preprocessor}{\#define\ GL\_EVAL\_BIT\ 0x00010000}}
+\DoxyCodeLine{00596\ \textcolor{preprocessor}{\#define\ GL\_EXP\ 0x0800}}
+\DoxyCodeLine{00597\ \textcolor{preprocessor}{\#define\ GL\_EXP2\ 0x0801}}
+\DoxyCodeLine{00598\ \textcolor{preprocessor}{\#define\ GL\_EXTENSIONS\ 0x1F03}}
+\DoxyCodeLine{00599\ \textcolor{preprocessor}{\#define\ GL\_EYE\_LINEAR\ 0x2400}}
+\DoxyCodeLine{00600\ \textcolor{preprocessor}{\#define\ GL\_EYE\_PLANE\ 0x2502}}
+\DoxyCodeLine{00601\ \textcolor{preprocessor}{\#define\ GL\_FALSE\ 0}}
+\DoxyCodeLine{00602\ \textcolor{preprocessor}{\#define\ GL\_FASTEST\ 0x1101}}
+\DoxyCodeLine{00603\ \textcolor{preprocessor}{\#define\ GL\_FEEDBACK\ 0x1C01}}
+\DoxyCodeLine{00604\ \textcolor{preprocessor}{\#define\ GL\_FEEDBACK\_BUFFER\_POINTER\ 0x0DF0}}
+\DoxyCodeLine{00605\ \textcolor{preprocessor}{\#define\ GL\_FEEDBACK\_BUFFER\_SIZE\ 0x0DF1}}
+\DoxyCodeLine{00606\ \textcolor{preprocessor}{\#define\ GL\_FEEDBACK\_BUFFER\_TYPE\ 0x0DF2}}
+\DoxyCodeLine{00607\ \textcolor{preprocessor}{\#define\ GL\_FILL\ 0x1B02}}
+\DoxyCodeLine{00608\ \textcolor{preprocessor}{\#define\ GL\_FLAT\ 0x1D00}}
+\DoxyCodeLine{00609\ \textcolor{comment}{//\ Copied\ GL\_FLOAT\ From:\ ARB\_vertex\_shader}}
+\DoxyCodeLine{00610\ \textcolor{preprocessor}{\#define\ GL\_FOG\ 0x0B60}}
+\DoxyCodeLine{00611\ \textcolor{preprocessor}{\#define\ GL\_FOG\_BIT\ 0x00000080}}
+\DoxyCodeLine{00612\ \textcolor{preprocessor}{\#define\ GL\_FOG\_COLOR\ 0x0B66}}
+\DoxyCodeLine{00613\ \textcolor{preprocessor}{\#define\ GL\_FOG\_DENSITY\ 0x0B62}}
+\DoxyCodeLine{00614\ \textcolor{preprocessor}{\#define\ GL\_FOG\_END\ 0x0B64}}
+\DoxyCodeLine{00615\ \textcolor{preprocessor}{\#define\ GL\_FOG\_HINT\ 0x0C54}}
+\DoxyCodeLine{00616\ \textcolor{preprocessor}{\#define\ GL\_FOG\_INDEX\ 0x0B61}}
+\DoxyCodeLine{00617\ \textcolor{preprocessor}{\#define\ GL\_FOG\_MODE\ 0x0B65}}
+\DoxyCodeLine{00618\ \textcolor{preprocessor}{\#define\ GL\_FOG\_START\ 0x0B63}}
+\DoxyCodeLine{00619\ \textcolor{preprocessor}{\#define\ GL\_FRONT\ 0x0404}}
+\DoxyCodeLine{00620\ \textcolor{preprocessor}{\#define\ GL\_FRONT\_AND\_BACK\ 0x0408}}
+\DoxyCodeLine{00621\ \textcolor{preprocessor}{\#define\ GL\_FRONT\_FACE\ 0x0B46}}
+\DoxyCodeLine{00622\ \textcolor{preprocessor}{\#define\ GL\_FRONT\_LEFT\ 0x0400}}
+\DoxyCodeLine{00623\ \textcolor{preprocessor}{\#define\ GL\_FRONT\_RIGHT\ 0x0401}}
+\DoxyCodeLine{00624\ \textcolor{preprocessor}{\#define\ GL\_GEQUAL\ 0x0206}}
+\DoxyCodeLine{00625\ \textcolor{preprocessor}{\#define\ GL\_GREATER\ 0x0204}}
+\DoxyCodeLine{00626\ \textcolor{preprocessor}{\#define\ GL\_GREEN\ 0x1904}}
+\DoxyCodeLine{00627\ \textcolor{preprocessor}{\#define\ GL\_GREEN\_BIAS\ 0x0D19}}
+\DoxyCodeLine{00628\ \textcolor{preprocessor}{\#define\ GL\_GREEN\_BITS\ 0x0D53}}
+\DoxyCodeLine{00629\ \textcolor{preprocessor}{\#define\ GL\_GREEN\_SCALE\ 0x0D18}}
+\DoxyCodeLine{00630\ \textcolor{preprocessor}{\#define\ GL\_HINT\_BIT\ 0x00008000}}
+\DoxyCodeLine{00631\ \textcolor{preprocessor}{\#define\ GL\_INCR\ 0x1E02}}
+\DoxyCodeLine{00632\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_ARRAY\ 0x8077}}
+\DoxyCodeLine{00633\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_ARRAY\_POINTER\ 0x8091}}
+\DoxyCodeLine{00634\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_ARRAY\_STRIDE\ 0x8086}}
+\DoxyCodeLine{00635\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_ARRAY\_TYPE\ 0x8085}}
+\DoxyCodeLine{00636\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_BITS\ 0x0D51}}
+\DoxyCodeLine{00637\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_CLEAR\_VALUE\ 0x0C20}}
+\DoxyCodeLine{00638\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_LOGIC\_OP\ 0x0BF1}}
+\DoxyCodeLine{00639\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_MODE\ 0x0C30}}
+\DoxyCodeLine{00640\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_OFFSET\ 0x0D13}}
+\DoxyCodeLine{00641\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_SHIFT\ 0x0D12}}
+\DoxyCodeLine{00642\ \textcolor{preprocessor}{\#define\ GL\_INDEX\_WRITEMASK\ 0x0C21}}
+\DoxyCodeLine{00643\ \textcolor{preprocessor}{\#define\ GL\_INT\ 0x1404}}
+\DoxyCodeLine{00644\ \textcolor{preprocessor}{\#define\ GL\_INTENSITY\ 0x8049}}
+\DoxyCodeLine{00645\ \textcolor{preprocessor}{\#define\ GL\_INTENSITY12\ 0x804C}}
+\DoxyCodeLine{00646\ \textcolor{preprocessor}{\#define\ GL\_INTENSITY16\ 0x804D}}
+\DoxyCodeLine{00647\ \textcolor{preprocessor}{\#define\ GL\_INTENSITY4\ 0x804A}}
+\DoxyCodeLine{00648\ \textcolor{preprocessor}{\#define\ GL\_INTENSITY8\ 0x804B}}
+\DoxyCodeLine{00649\ \textcolor{preprocessor}{\#define\ GL\_INVALID\_ENUM\ 0x0500}}
+\DoxyCodeLine{00650\ \textcolor{preprocessor}{\#define\ GL\_INVALID\_OPERATION\ 0x0502}}
+\DoxyCodeLine{00651\ \textcolor{preprocessor}{\#define\ GL\_INVALID\_VALUE\ 0x0501}}
+\DoxyCodeLine{00652\ \textcolor{preprocessor}{\#define\ GL\_INVERT\ 0x150A}}
+\DoxyCodeLine{00653\ \textcolor{preprocessor}{\#define\ GL\_KEEP\ 0x1E00}}
+\DoxyCodeLine{00654\ \textcolor{preprocessor}{\#define\ GL\_LEFT\ 0x0406}}
+\DoxyCodeLine{00655\ \textcolor{preprocessor}{\#define\ GL\_LEQUAL\ 0x0203}}
+\DoxyCodeLine{00656\ \textcolor{preprocessor}{\#define\ GL\_LESS\ 0x0201}}
+\DoxyCodeLine{00657\ \textcolor{preprocessor}{\#define\ GL\_LIGHT0\ 0x4000}}
+\DoxyCodeLine{00658\ \textcolor{preprocessor}{\#define\ GL\_LIGHT1\ 0x4001}}
+\DoxyCodeLine{00659\ \textcolor{preprocessor}{\#define\ GL\_LIGHT2\ 0x4002}}
+\DoxyCodeLine{00660\ \textcolor{preprocessor}{\#define\ GL\_LIGHT3\ 0x4003}}
+\DoxyCodeLine{00661\ \textcolor{preprocessor}{\#define\ GL\_LIGHT4\ 0x4004}}
+\DoxyCodeLine{00662\ \textcolor{preprocessor}{\#define\ GL\_LIGHT5\ 0x4005}}
+\DoxyCodeLine{00663\ \textcolor{preprocessor}{\#define\ GL\_LIGHT6\ 0x4006}}
+\DoxyCodeLine{00664\ \textcolor{preprocessor}{\#define\ GL\_LIGHT7\ 0x4007}}
+\DoxyCodeLine{00665\ \textcolor{preprocessor}{\#define\ GL\_LIGHTING\ 0x0B50}}
+\DoxyCodeLine{00666\ \textcolor{preprocessor}{\#define\ GL\_LIGHTING\_BIT\ 0x00000040}}
+\DoxyCodeLine{00667\ \textcolor{preprocessor}{\#define\ GL\_LIGHT\_MODEL\_AMBIENT\ 0x0B53}}
+\DoxyCodeLine{00668\ \textcolor{preprocessor}{\#define\ GL\_LIGHT\_MODEL\_LOCAL\_VIEWER\ 0x0B51}}
+\DoxyCodeLine{00669\ \textcolor{preprocessor}{\#define\ GL\_LIGHT\_MODEL\_TWO\_SIDE\ 0x0B52}}
+\DoxyCodeLine{00670\ \textcolor{preprocessor}{\#define\ GL\_LINE\ 0x1B01}}
+\DoxyCodeLine{00671\ \textcolor{preprocessor}{\#define\ GL\_LINEAR\ 0x2601}}
+\DoxyCodeLine{00672\ \textcolor{preprocessor}{\#define\ GL\_LINEAR\_ATTENUATION\ 0x1208}}
+\DoxyCodeLine{00673\ \textcolor{preprocessor}{\#define\ GL\_LINEAR\_MIPMAP\_LINEAR\ 0x2703}}
+\DoxyCodeLine{00674\ \textcolor{preprocessor}{\#define\ GL\_LINEAR\_MIPMAP\_NEAREST\ 0x2701}}
+\DoxyCodeLine{00675\ \textcolor{preprocessor}{\#define\ GL\_LINES\ 0x0001}}
+\DoxyCodeLine{00676\ \textcolor{preprocessor}{\#define\ GL\_LINE\_BIT\ 0x00000004}}
+\DoxyCodeLine{00677\ \textcolor{preprocessor}{\#define\ GL\_LINE\_LOOP\ 0x0002}}
+\DoxyCodeLine{00678\ \textcolor{preprocessor}{\#define\ GL\_LINE\_RESET\_TOKEN\ 0x0707}}
+\DoxyCodeLine{00679\ \textcolor{preprocessor}{\#define\ GL\_LINE\_SMOOTH\ 0x0B20}}
+\DoxyCodeLine{00680\ \textcolor{preprocessor}{\#define\ GL\_LINE\_SMOOTH\_HINT\ 0x0C52}}
+\DoxyCodeLine{00681\ \textcolor{preprocessor}{\#define\ GL\_LINE\_STIPPLE\ 0x0B24}}
+\DoxyCodeLine{00682\ \textcolor{preprocessor}{\#define\ GL\_LINE\_STIPPLE\_PATTERN\ 0x0B25}}
+\DoxyCodeLine{00683\ \textcolor{preprocessor}{\#define\ GL\_LINE\_STIPPLE\_REPEAT\ 0x0B26}}
+\DoxyCodeLine{00684\ \textcolor{preprocessor}{\#define\ GL\_LINE\_STRIP\ 0x0003}}
+\DoxyCodeLine{00685\ \textcolor{preprocessor}{\#define\ GL\_LINE\_TOKEN\ 0x0702}}
+\DoxyCodeLine{00686\ \textcolor{preprocessor}{\#define\ GL\_LINE\_WIDTH\ 0x0B21}}
+\DoxyCodeLine{00687\ \textcolor{preprocessor}{\#define\ GL\_LINE\_WIDTH\_GRANULARITY\ 0x0B23}}
+\DoxyCodeLine{00688\ \textcolor{preprocessor}{\#define\ GL\_LINE\_WIDTH\_RANGE\ 0x0B22}}
+\DoxyCodeLine{00689\ \textcolor{preprocessor}{\#define\ GL\_LIST\_BASE\ 0x0B32}}
+\DoxyCodeLine{00690\ \textcolor{preprocessor}{\#define\ GL\_LIST\_BIT\ 0x00020000}}
+\DoxyCodeLine{00691\ \textcolor{preprocessor}{\#define\ GL\_LIST\_INDEX\ 0x0B33}}
+\DoxyCodeLine{00692\ \textcolor{preprocessor}{\#define\ GL\_LIST\_MODE\ 0x0B30}}
+\DoxyCodeLine{00693\ \textcolor{preprocessor}{\#define\ GL\_LOAD\ 0x0101}}
+\DoxyCodeLine{00694\ \textcolor{preprocessor}{\#define\ GL\_LOGIC\_OP\ 0x0BF1}}
+\DoxyCodeLine{00695\ \textcolor{preprocessor}{\#define\ GL\_LOGIC\_OP\_MODE\ 0x0BF0}}
+\DoxyCodeLine{00696\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE\ 0x1909}}
+\DoxyCodeLine{00697\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE12\ 0x8041}}
+\DoxyCodeLine{00698\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE12\_ALPHA12\ 0x8047}}
+\DoxyCodeLine{00699\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE12\_ALPHA4\ 0x8046}}
+\DoxyCodeLine{00700\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE16\ 0x8042}}
+\DoxyCodeLine{00701\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE16\_ALPHA16\ 0x8048}}
+\DoxyCodeLine{00702\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE4\ 0x803F}}
+\DoxyCodeLine{00703\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE4\_ALPHA4\ 0x8043}}
+\DoxyCodeLine{00704\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE6\_ALPHA2\ 0x8044}}
+\DoxyCodeLine{00705\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE8\ 0x8040}}
+\DoxyCodeLine{00706\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE8\_ALPHA8\ 0x8045}}
+\DoxyCodeLine{00707\ \textcolor{preprocessor}{\#define\ GL\_LUMINANCE\_ALPHA\ 0x190A}}
+\DoxyCodeLine{00708\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_COLOR\_4\ 0x0D90}}
+\DoxyCodeLine{00709\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_GRID\_DOMAIN\ 0x0DD0}}
+\DoxyCodeLine{00710\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_GRID\_SEGMENTS\ 0x0DD1}}
+\DoxyCodeLine{00711\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_INDEX\ 0x0D91}}
+\DoxyCodeLine{00712\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_NORMAL\ 0x0D92}}
+\DoxyCodeLine{00713\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_TEXTURE\_COORD\_1\ 0x0D93}}
+\DoxyCodeLine{00714\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_TEXTURE\_COORD\_2\ 0x0D94}}
+\DoxyCodeLine{00715\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_TEXTURE\_COORD\_3\ 0x0D95}}
+\DoxyCodeLine{00716\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_TEXTURE\_COORD\_4\ 0x0D96}}
+\DoxyCodeLine{00717\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_VERTEX\_3\ 0x0D97}}
+\DoxyCodeLine{00718\ \textcolor{preprocessor}{\#define\ GL\_MAP1\_VERTEX\_4\ 0x0D98}}
+\DoxyCodeLine{00719\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_COLOR\_4\ 0x0DB0}}
+\DoxyCodeLine{00720\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_GRID\_DOMAIN\ 0x0DD2}}
+\DoxyCodeLine{00721\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_GRID\_SEGMENTS\ 0x0DD3}}
+\DoxyCodeLine{00722\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_INDEX\ 0x0DB1}}
+\DoxyCodeLine{00723\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_NORMAL\ 0x0DB2}}
+\DoxyCodeLine{00724\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_TEXTURE\_COORD\_1\ 0x0DB3}}
+\DoxyCodeLine{00725\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_TEXTURE\_COORD\_2\ 0x0DB4}}
+\DoxyCodeLine{00726\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_TEXTURE\_COORD\_3\ 0x0DB5}}
+\DoxyCodeLine{00727\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_TEXTURE\_COORD\_4\ 0x0DB6}}
+\DoxyCodeLine{00728\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_VERTEX\_3\ 0x0DB7}}
+\DoxyCodeLine{00729\ \textcolor{preprocessor}{\#define\ GL\_MAP2\_VERTEX\_4\ 0x0DB8}}
+\DoxyCodeLine{00730\ \textcolor{preprocessor}{\#define\ GL\_MAP\_COLOR\ 0x0D10}}
+\DoxyCodeLine{00731\ \textcolor{preprocessor}{\#define\ GL\_MAP\_STENCIL\ 0x0D11}}
+\DoxyCodeLine{00732\ \textcolor{preprocessor}{\#define\ GL\_MATRIX\_MODE\ 0x0BA0}}
+\DoxyCodeLine{00733\ \textcolor{preprocessor}{\#define\ GL\_MAX\_ATTRIB\_STACK\_DEPTH\ 0x0D35}}
+\DoxyCodeLine{00734\ \textcolor{preprocessor}{\#define\ GL\_MAX\_CLIENT\_ATTRIB\_STACK\_DEPTH\ 0x0D3B}}
+\DoxyCodeLine{00735\ \textcolor{preprocessor}{\#define\ GL\_MAX\_CLIP\_PLANES\ 0x0D32}}
+\DoxyCodeLine{00736\ \textcolor{preprocessor}{\#define\ GL\_MAX\_EVAL\_ORDER\ 0x0D30}}
+\DoxyCodeLine{00737\ \textcolor{preprocessor}{\#define\ GL\_MAX\_LIGHTS\ 0x0D31}}
+\DoxyCodeLine{00738\ \textcolor{preprocessor}{\#define\ GL\_MAX\_LIST\_NESTING\ 0x0B31}}
+\DoxyCodeLine{00739\ \textcolor{preprocessor}{\#define\ GL\_MAX\_MODELVIEW\_STACK\_DEPTH\ 0x0D36}}
+\DoxyCodeLine{00740\ \textcolor{preprocessor}{\#define\ GL\_MAX\_NAME\_STACK\_DEPTH\ 0x0D37}}
+\DoxyCodeLine{00741\ \textcolor{preprocessor}{\#define\ GL\_MAX\_PIXEL\_MAP\_TABLE\ 0x0D34}}
+\DoxyCodeLine{00742\ \textcolor{preprocessor}{\#define\ GL\_MAX\_PROJECTION\_STACK\_DEPTH\ 0x0D38}}
+\DoxyCodeLine{00743\ \textcolor{preprocessor}{\#define\ GL\_MAX\_TEXTURE\_SIZE\ 0x0D33}}
+\DoxyCodeLine{00744\ \textcolor{preprocessor}{\#define\ GL\_MAX\_TEXTURE\_STACK\_DEPTH\ 0x0D39}}
+\DoxyCodeLine{00745\ \textcolor{preprocessor}{\#define\ GL\_MAX\_VIEWPORT\_DIMS\ 0x0D3A}}
+\DoxyCodeLine{00746\ \textcolor{preprocessor}{\#define\ GL\_MODELVIEW\ 0x1700}}
+\DoxyCodeLine{00747\ \textcolor{preprocessor}{\#define\ GL\_MODELVIEW\_MATRIX\ 0x0BA6}}
+\DoxyCodeLine{00748\ \textcolor{preprocessor}{\#define\ GL\_MODELVIEW\_STACK\_DEPTH\ 0x0BA3}}
+\DoxyCodeLine{00749\ \textcolor{preprocessor}{\#define\ GL\_MODULATE\ 0x2100}}
+\DoxyCodeLine{00750\ \textcolor{preprocessor}{\#define\ GL\_MULT\ 0x0103}}
+\DoxyCodeLine{00751\ \textcolor{preprocessor}{\#define\ GL\_N3F\_V3F\ 0x2A25}}
+\DoxyCodeLine{00752\ \textcolor{preprocessor}{\#define\ GL\_NAME\_STACK\_DEPTH\ 0x0D70}}
+\DoxyCodeLine{00753\ \textcolor{preprocessor}{\#define\ GL\_NAND\ 0x150E}}
+\DoxyCodeLine{00754\ \textcolor{preprocessor}{\#define\ GL\_NEAREST\ 0x2600}}
+\DoxyCodeLine{00755\ \textcolor{preprocessor}{\#define\ GL\_NEAREST\_MIPMAP\_LINEAR\ 0x2702}}
+\DoxyCodeLine{00756\ \textcolor{preprocessor}{\#define\ GL\_NEAREST\_MIPMAP\_NEAREST\ 0x2700}}
+\DoxyCodeLine{00757\ \textcolor{preprocessor}{\#define\ GL\_NEVER\ 0x0200}}
+\DoxyCodeLine{00758\ \textcolor{preprocessor}{\#define\ GL\_NICEST\ 0x1102}}
+\DoxyCodeLine{00759\ \textcolor{preprocessor}{\#define\ GL\_NONE\ 0}}
+\DoxyCodeLine{00760\ \textcolor{preprocessor}{\#define\ GL\_NOOP\ 0x1505}}
+\DoxyCodeLine{00761\ \textcolor{preprocessor}{\#define\ GL\_NOR\ 0x1508}}
+\DoxyCodeLine{00762\ \textcolor{preprocessor}{\#define\ GL\_NORMALIZE\ 0x0BA1}}
+\DoxyCodeLine{00763\ \textcolor{preprocessor}{\#define\ GL\_NORMAL\_ARRAY\ 0x8075}}
+\DoxyCodeLine{00764\ \textcolor{preprocessor}{\#define\ GL\_NORMAL\_ARRAY\_POINTER\ 0x808F}}
+\DoxyCodeLine{00765\ \textcolor{preprocessor}{\#define\ GL\_NORMAL\_ARRAY\_STRIDE\ 0x807F}}
+\DoxyCodeLine{00766\ \textcolor{preprocessor}{\#define\ GL\_NORMAL\_ARRAY\_TYPE\ 0x807E}}
+\DoxyCodeLine{00767\ \textcolor{preprocessor}{\#define\ GL\_NOTEQUAL\ 0x0205}}
+\DoxyCodeLine{00768\ \textcolor{preprocessor}{\#define\ GL\_NO\_ERROR\ 0}}
+\DoxyCodeLine{00769\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_LINEAR\ 0x2401}}
+\DoxyCodeLine{00770\ \textcolor{preprocessor}{\#define\ GL\_OBJECT\_PLANE\ 0x2501}}
+\DoxyCodeLine{00771\ \textcolor{preprocessor}{\#define\ GL\_ONE\ 1}}
+\DoxyCodeLine{00772\ \textcolor{preprocessor}{\#define\ GL\_ONE\_MINUS\_DST\_ALPHA\ 0x0305}}
+\DoxyCodeLine{00773\ \textcolor{preprocessor}{\#define\ GL\_ONE\_MINUS\_DST\_COLOR\ 0x0307}}
+\DoxyCodeLine{00774\ \textcolor{preprocessor}{\#define\ GL\_ONE\_MINUS\_SRC\_ALPHA\ 0x0303}}
+\DoxyCodeLine{00775\ \textcolor{preprocessor}{\#define\ GL\_ONE\_MINUS\_SRC\_COLOR\ 0x0301}}
+\DoxyCodeLine{00776\ \textcolor{preprocessor}{\#define\ GL\_OR\ 0x1507}}
+\DoxyCodeLine{00777\ \textcolor{preprocessor}{\#define\ GL\_ORDER\ 0x0A01}}
+\DoxyCodeLine{00778\ \textcolor{preprocessor}{\#define\ GL\_OR\_INVERTED\ 0x150D}}
+\DoxyCodeLine{00779\ \textcolor{preprocessor}{\#define\ GL\_OR\_REVERSE\ 0x150B}}
+\DoxyCodeLine{00780\ \textcolor{preprocessor}{\#define\ GL\_OUT\_OF\_MEMORY\ 0x0505}}
+\DoxyCodeLine{00781\ \textcolor{preprocessor}{\#define\ GL\_PACK\_ALIGNMENT\ 0x0D05}}
+\DoxyCodeLine{00782\ \textcolor{preprocessor}{\#define\ GL\_PACK\_LSB\_FIRST\ 0x0D01}}
+\DoxyCodeLine{00783\ \textcolor{preprocessor}{\#define\ GL\_PACK\_ROW\_LENGTH\ 0x0D02}}
+\DoxyCodeLine{00784\ \textcolor{preprocessor}{\#define\ GL\_PACK\_SKIP\_PIXELS\ 0x0D04}}
+\DoxyCodeLine{00785\ \textcolor{preprocessor}{\#define\ GL\_PACK\_SKIP\_ROWS\ 0x0D03}}
+\DoxyCodeLine{00786\ \textcolor{preprocessor}{\#define\ GL\_PACK\_SWAP\_BYTES\ 0x0D00}}
+\DoxyCodeLine{00787\ \textcolor{preprocessor}{\#define\ GL\_PASS\_THROUGH\_TOKEN\ 0x0700}}
+\DoxyCodeLine{00788\ \textcolor{preprocessor}{\#define\ GL\_PERSPECTIVE\_CORRECTION\_HINT\ 0x0C50}}
+\DoxyCodeLine{00789\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_A\_TO\_A\ 0x0C79}}
+\DoxyCodeLine{00790\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_A\_TO\_A\_SIZE\ 0x0CB9}}
+\DoxyCodeLine{00791\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_B\_TO\_B\ 0x0C78}}
+\DoxyCodeLine{00792\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_B\_TO\_B\_SIZE\ 0x0CB8}}
+\DoxyCodeLine{00793\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_G\_TO\_G\ 0x0C77}}
+\DoxyCodeLine{00794\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_G\_TO\_G\_SIZE\ 0x0CB7}}
+\DoxyCodeLine{00795\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_A\ 0x0C75}}
+\DoxyCodeLine{00796\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_A\_SIZE\ 0x0CB5}}
+\DoxyCodeLine{00797\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_B\ 0x0C74}}
+\DoxyCodeLine{00798\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_B\_SIZE\ 0x0CB4}}
+\DoxyCodeLine{00799\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_G\ 0x0C73}}
+\DoxyCodeLine{00800\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_G\_SIZE\ 0x0CB3}}
+\DoxyCodeLine{00801\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_I\ 0x0C70}}
+\DoxyCodeLine{00802\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_I\_SIZE\ 0x0CB0}}
+\DoxyCodeLine{00803\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_R\ 0x0C72}}
+\DoxyCodeLine{00804\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_I\_TO\_R\_SIZE\ 0x0CB2}}
+\DoxyCodeLine{00805\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_R\_TO\_R\ 0x0C76}}
+\DoxyCodeLine{00806\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_R\_TO\_R\_SIZE\ 0x0CB6}}
+\DoxyCodeLine{00807\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_S\_TO\_S\ 0x0C71}}
+\DoxyCodeLine{00808\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MAP\_S\_TO\_S\_SIZE\ 0x0CB1}}
+\DoxyCodeLine{00809\ \textcolor{preprocessor}{\#define\ GL\_PIXEL\_MODE\_BIT\ 0x00000020}}
+\DoxyCodeLine{00810\ \textcolor{preprocessor}{\#define\ GL\_POINT\ 0x1B00}}
+\DoxyCodeLine{00811\ \textcolor{preprocessor}{\#define\ GL\_POINTS\ 0x0000}}
+\DoxyCodeLine{00812\ \textcolor{preprocessor}{\#define\ GL\_POINT\_BIT\ 0x00000002}}
+\DoxyCodeLine{00813\ \textcolor{preprocessor}{\#define\ GL\_POINT\_SIZE\ 0x0B11}}
+\DoxyCodeLine{00814\ \textcolor{preprocessor}{\#define\ GL\_POINT\_SIZE\_GRANULARITY\ 0x0B13}}
+\DoxyCodeLine{00815\ \textcolor{preprocessor}{\#define\ GL\_POINT\_SIZE\_RANGE\ 0x0B12}}
+\DoxyCodeLine{00816\ \textcolor{preprocessor}{\#define\ GL\_POINT\_SMOOTH\ 0x0B10}}
+\DoxyCodeLine{00817\ \textcolor{preprocessor}{\#define\ GL\_POINT\_SMOOTH\_HINT\ 0x0C51}}
+\DoxyCodeLine{00818\ \textcolor{preprocessor}{\#define\ GL\_POINT\_TOKEN\ 0x0701}}
+\DoxyCodeLine{00819\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\ 0x0009}}
+\DoxyCodeLine{00820\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_BIT\ 0x00000008}}
+\DoxyCodeLine{00821\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_MODE\ 0x0B40}}
+\DoxyCodeLine{00822\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_OFFSET\_FACTOR\ 0x8038}}
+\DoxyCodeLine{00823\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_OFFSET\_FILL\ 0x8037}}
+\DoxyCodeLine{00824\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_OFFSET\_LINE\ 0x2A02}}
+\DoxyCodeLine{00825\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_OFFSET\_POINT\ 0x2A01}}
+\DoxyCodeLine{00826\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_OFFSET\_UNITS\ 0x2A00}}
+\DoxyCodeLine{00827\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_SMOOTH\ 0x0B41}}
+\DoxyCodeLine{00828\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_SMOOTH\_HINT\ 0x0C53}}
+\DoxyCodeLine{00829\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_STIPPLE\ 0x0B42}}
+\DoxyCodeLine{00830\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_STIPPLE\_BIT\ 0x00000010}}
+\DoxyCodeLine{00831\ \textcolor{preprocessor}{\#define\ GL\_POLYGON\_TOKEN\ 0x0703}}
+\DoxyCodeLine{00832\ \textcolor{preprocessor}{\#define\ GL\_POSITION\ 0x1203}}
+\DoxyCodeLine{00833\ \textcolor{preprocessor}{\#define\ GL\_PROJECTION\ 0x1701}}
+\DoxyCodeLine{00834\ \textcolor{preprocessor}{\#define\ GL\_PROJECTION\_MATRIX\ 0x0BA7}}
+\DoxyCodeLine{00835\ \textcolor{preprocessor}{\#define\ GL\_PROJECTION\_STACK\_DEPTH\ 0x0BA4}}
+\DoxyCodeLine{00836\ \textcolor{preprocessor}{\#define\ GL\_PROXY\_TEXTURE\_1D\ 0x8063}}
+\DoxyCodeLine{00837\ \textcolor{preprocessor}{\#define\ GL\_PROXY\_TEXTURE\_2D\ 0x8064}}
+\DoxyCodeLine{00838\ \textcolor{preprocessor}{\#define\ GL\_Q\ 0x2003}}
+\DoxyCodeLine{00839\ \textcolor{preprocessor}{\#define\ GL\_QUADRATIC\_ATTENUATION\ 0x1209}}
+\DoxyCodeLine{00840\ \textcolor{preprocessor}{\#define\ GL\_QUADS\ 0x0007}}
+\DoxyCodeLine{00841\ \textcolor{preprocessor}{\#define\ GL\_QUAD\_STRIP\ 0x0008}}
+\DoxyCodeLine{00842\ \textcolor{preprocessor}{\#define\ GL\_R\ 0x2002}}
+\DoxyCodeLine{00843\ \textcolor{preprocessor}{\#define\ GL\_R3\_G3\_B2\ 0x2A10}}
+\DoxyCodeLine{00844\ \textcolor{preprocessor}{\#define\ GL\_READ\_BUFFER\ 0x0C02}}
+\DoxyCodeLine{00845\ \textcolor{preprocessor}{\#define\ GL\_RED\ 0x1903}}
+\DoxyCodeLine{00846\ \textcolor{preprocessor}{\#define\ GL\_RED\_BIAS\ 0x0D15}}
+\DoxyCodeLine{00847\ \textcolor{preprocessor}{\#define\ GL\_RED\_BITS\ 0x0D52}}
+\DoxyCodeLine{00848\ \textcolor{preprocessor}{\#define\ GL\_RED\_SCALE\ 0x0D14}}
+\DoxyCodeLine{00849\ \textcolor{preprocessor}{\#define\ GL\_RENDER\ 0x1C00}}
+\DoxyCodeLine{00850\ \textcolor{preprocessor}{\#define\ GL\_RENDERER\ 0x1F01}}
+\DoxyCodeLine{00851\ \textcolor{preprocessor}{\#define\ GL\_RENDER\_MODE\ 0x0C40}}
+\DoxyCodeLine{00852\ \textcolor{preprocessor}{\#define\ GL\_REPEAT\ 0x2901}}
+\DoxyCodeLine{00853\ \textcolor{preprocessor}{\#define\ GL\_REPLACE\ 0x1E01}}
+\DoxyCodeLine{00854\ \textcolor{preprocessor}{\#define\ GL\_RETURN\ 0x0102}}
+\DoxyCodeLine{00855\ \textcolor{preprocessor}{\#define\ GL\_RGB\ 0x1907}}
+\DoxyCodeLine{00856\ \textcolor{preprocessor}{\#define\ GL\_RGB10\ 0x8052}}
+\DoxyCodeLine{00857\ \textcolor{preprocessor}{\#define\ GL\_RGB10\_A2\ 0x8059}}
+\DoxyCodeLine{00858\ \textcolor{preprocessor}{\#define\ GL\_RGB12\ 0x8053}}
+\DoxyCodeLine{00859\ \textcolor{preprocessor}{\#define\ GL\_RGB16\ 0x8054}}
+\DoxyCodeLine{00860\ \textcolor{preprocessor}{\#define\ GL\_RGB4\ 0x804F}}
+\DoxyCodeLine{00861\ \textcolor{preprocessor}{\#define\ GL\_RGB5\ 0x8050}}
+\DoxyCodeLine{00862\ \textcolor{preprocessor}{\#define\ GL\_RGB5\_A1\ 0x8057}}
+\DoxyCodeLine{00863\ \textcolor{preprocessor}{\#define\ GL\_RGB8\ 0x8051}}
+\DoxyCodeLine{00864\ \textcolor{preprocessor}{\#define\ GL\_RGBA\ 0x1908}}
+\DoxyCodeLine{00865\ \textcolor{preprocessor}{\#define\ GL\_RGBA12\ 0x805A}}
+\DoxyCodeLine{00866\ \textcolor{preprocessor}{\#define\ GL\_RGBA16\ 0x805B}}
+\DoxyCodeLine{00867\ \textcolor{preprocessor}{\#define\ GL\_RGBA2\ 0x8055}}
+\DoxyCodeLine{00868\ \textcolor{preprocessor}{\#define\ GL\_RGBA4\ 0x8056}}
+\DoxyCodeLine{00869\ \textcolor{preprocessor}{\#define\ GL\_RGBA8\ 0x8058}}
+\DoxyCodeLine{00870\ \textcolor{preprocessor}{\#define\ GL\_RGBA\_MODE\ 0x0C31}}
+\DoxyCodeLine{00871\ \textcolor{preprocessor}{\#define\ GL\_RIGHT\ 0x0407}}
+\DoxyCodeLine{00872\ \textcolor{preprocessor}{\#define\ GL\_S\ 0x2000}}
+\DoxyCodeLine{00873\ \textcolor{preprocessor}{\#define\ GL\_SCISSOR\_BIT\ 0x00080000}}
+\DoxyCodeLine{00874\ \textcolor{preprocessor}{\#define\ GL\_SCISSOR\_BOX\ 0x0C10}}
+\DoxyCodeLine{00875\ \textcolor{preprocessor}{\#define\ GL\_SCISSOR\_TEST\ 0x0C11}}
+\DoxyCodeLine{00876\ \textcolor{preprocessor}{\#define\ GL\_SELECT\ 0x1C02}}
+\DoxyCodeLine{00877\ \textcolor{preprocessor}{\#define\ GL\_SELECTION\_BUFFER\_POINTER\ 0x0DF3}}
+\DoxyCodeLine{00878\ \textcolor{preprocessor}{\#define\ GL\_SELECTION\_BUFFER\_SIZE\ 0x0DF4}}
+\DoxyCodeLine{00879\ \textcolor{preprocessor}{\#define\ GL\_SET\ 0x150F}}
+\DoxyCodeLine{00880\ \textcolor{preprocessor}{\#define\ GL\_SHADE\_MODEL\ 0x0B54}}
+\DoxyCodeLine{00881\ \textcolor{preprocessor}{\#define\ GL\_SHININESS\ 0x1601}}
+\DoxyCodeLine{00882\ \textcolor{preprocessor}{\#define\ GL\_SHORT\ 0x1402}}
+\DoxyCodeLine{00883\ \textcolor{preprocessor}{\#define\ GL\_SMOOTH\ 0x1D01}}
+\DoxyCodeLine{00884\ \textcolor{preprocessor}{\#define\ GL\_SPECULAR\ 0x1202}}
+\DoxyCodeLine{00885\ \textcolor{preprocessor}{\#define\ GL\_SPHERE\_MAP\ 0x2402}}
+\DoxyCodeLine{00886\ \textcolor{preprocessor}{\#define\ GL\_SPOT\_CUTOFF\ 0x1206}}
+\DoxyCodeLine{00887\ \textcolor{preprocessor}{\#define\ GL\_SPOT\_DIRECTION\ 0x1204}}
+\DoxyCodeLine{00888\ \textcolor{preprocessor}{\#define\ GL\_SPOT\_EXPONENT\ 0x1205}}
+\DoxyCodeLine{00889\ \textcolor{preprocessor}{\#define\ GL\_SRC\_ALPHA\ 0x0302}}
+\DoxyCodeLine{00890\ \textcolor{preprocessor}{\#define\ GL\_SRC\_ALPHA\_SATURATE\ 0x0308}}
+\DoxyCodeLine{00891\ \textcolor{preprocessor}{\#define\ GL\_SRC\_COLOR\ 0x0300}}
+\DoxyCodeLine{00892\ \textcolor{preprocessor}{\#define\ GL\_STACK\_OVERFLOW\ 0x0503}}
+\DoxyCodeLine{00893\ \textcolor{preprocessor}{\#define\ GL\_STACK\_UNDERFLOW\ 0x0504}}
+\DoxyCodeLine{00894\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\ 0x1802}}
+\DoxyCodeLine{00895\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_BITS\ 0x0D57}}
+\DoxyCodeLine{00896\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_BUFFER\_BIT\ 0x00000400}}
+\DoxyCodeLine{00897\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_CLEAR\_VALUE\ 0x0B91}}
+\DoxyCodeLine{00898\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_FAIL\ 0x0B94}}
+\DoxyCodeLine{00899\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_FUNC\ 0x0B92}}
+\DoxyCodeLine{00900\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_INDEX\ 0x1901}}
+\DoxyCodeLine{00901\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_PASS\_DEPTH\_FAIL\ 0x0B95}}
+\DoxyCodeLine{00902\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_PASS\_DEPTH\_PASS\ 0x0B96}}
+\DoxyCodeLine{00903\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_REF\ 0x0B97}}
+\DoxyCodeLine{00904\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_TEST\ 0x0B90}}
+\DoxyCodeLine{00905\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_VALUE\_MASK\ 0x0B93}}
+\DoxyCodeLine{00906\ \textcolor{preprocessor}{\#define\ GL\_STENCIL\_WRITEMASK\ 0x0B98}}
+\DoxyCodeLine{00907\ \textcolor{preprocessor}{\#define\ GL\_STEREO\ 0x0C33}}
+\DoxyCodeLine{00908\ \textcolor{preprocessor}{\#define\ GL\_SUBPIXEL\_BITS\ 0x0D50}}
+\DoxyCodeLine{00909\ \textcolor{preprocessor}{\#define\ GL\_T\ 0x2001}}
+\DoxyCodeLine{00910\ \textcolor{preprocessor}{\#define\ GL\_T2F\_C3F\_V3F\ 0x2A2A}}
+\DoxyCodeLine{00911\ \textcolor{preprocessor}{\#define\ GL\_T2F\_C4F\_N3F\_V3F\ 0x2A2C}}
+\DoxyCodeLine{00912\ \textcolor{preprocessor}{\#define\ GL\_T2F\_C4UB\_V3F\ 0x2A29}}
+\DoxyCodeLine{00913\ \textcolor{preprocessor}{\#define\ GL\_T2F\_N3F\_V3F\ 0x2A2B}}
+\DoxyCodeLine{00914\ \textcolor{preprocessor}{\#define\ GL\_T2F\_V3F\ 0x2A27}}
+\DoxyCodeLine{00915\ \textcolor{preprocessor}{\#define\ GL\_T4F\_C4F\_N3F\_V4F\ 0x2A2D}}
+\DoxyCodeLine{00916\ \textcolor{preprocessor}{\#define\ GL\_T4F\_V4F\ 0x2A28}}
+\DoxyCodeLine{00917\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\ 0x1702}}
+\DoxyCodeLine{00918\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_1D\ 0x0DE0}}
+\DoxyCodeLine{00919\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_2D\ 0x0DE1}}
+\DoxyCodeLine{00920\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_ALPHA\_SIZE\ 0x805F}}
+\DoxyCodeLine{00921\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_BINDING\_1D\ 0x8068}}
+\DoxyCodeLine{00922\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_BINDING\_2D\ 0x8069}}
+\DoxyCodeLine{00923\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_BIT\ 0x00040000}}
+\DoxyCodeLine{00924\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_BLUE\_SIZE\ 0x805E}}
+\DoxyCodeLine{00925\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_BORDER\ 0x1005}}
+\DoxyCodeLine{00926\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_BORDER\_COLOR\ 0x1004}}
+\DoxyCodeLine{00927\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_COMPONENTS\ 0x1003}}
+\DoxyCodeLine{00928\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_COORD\_ARRAY\ 0x8078}}
+\DoxyCodeLine{00929\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_COORD\_ARRAY\_POINTER\ 0x8092}}
+\DoxyCodeLine{00930\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_COORD\_ARRAY\_SIZE\ 0x8088}}
+\DoxyCodeLine{00931\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_COORD\_ARRAY\_STRIDE\ 0x808A}}
+\DoxyCodeLine{00932\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_COORD\_ARRAY\_TYPE\ 0x8089}}
+\DoxyCodeLine{00933\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_ENV\ 0x2300}}
+\DoxyCodeLine{00934\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_ENV\_COLOR\ 0x2201}}
+\DoxyCodeLine{00935\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_ENV\_MODE\ 0x2200}}
+\DoxyCodeLine{00936\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_GEN\_MODE\ 0x2500}}
+\DoxyCodeLine{00937\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_GEN\_Q\ 0x0C63}}
+\DoxyCodeLine{00938\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_GEN\_R\ 0x0C62}}
+\DoxyCodeLine{00939\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_GEN\_S\ 0x0C60}}
+\DoxyCodeLine{00940\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_GEN\_T\ 0x0C61}}
+\DoxyCodeLine{00941\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_GREEN\_SIZE\ 0x805D}}
+\DoxyCodeLine{00942\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_HEIGHT\ 0x1001}}
+\DoxyCodeLine{00943\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_INTENSITY\_SIZE\ 0x8061}}
+\DoxyCodeLine{00944\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_INTERNAL\_FORMAT\ 0x1003}}
+\DoxyCodeLine{00945\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_LUMINANCE\_SIZE\ 0x8060}}
+\DoxyCodeLine{00946\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_MAG\_FILTER\ 0x2800}}
+\DoxyCodeLine{00947\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_MATRIX\ 0x0BA8}}
+\DoxyCodeLine{00948\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_MIN\_FILTER\ 0x2801}}
+\DoxyCodeLine{00949\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_PRIORITY\ 0x8066}}
+\DoxyCodeLine{00950\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_RED\_SIZE\ 0x805C}}
+\DoxyCodeLine{00951\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_RESIDENT\ 0x8067}}
+\DoxyCodeLine{00952\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_STACK\_DEPTH\ 0x0BA5}}
+\DoxyCodeLine{00953\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_WIDTH\ 0x1000}}
+\DoxyCodeLine{00954\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_WRAP\_S\ 0x2802}}
+\DoxyCodeLine{00955\ \textcolor{preprocessor}{\#define\ GL\_TEXTURE\_WRAP\_T\ 0x2803}}
+\DoxyCodeLine{00956\ \textcolor{preprocessor}{\#define\ GL\_TRANSFORM\_BIT\ 0x00001000}}
+\DoxyCodeLine{00957\ \textcolor{preprocessor}{\#define\ GL\_TRIANGLES\ 0x0004}}
+\DoxyCodeLine{00958\ \textcolor{preprocessor}{\#define\ GL\_TRIANGLE\_FAN\ 0x0006}}
+\DoxyCodeLine{00959\ \textcolor{preprocessor}{\#define\ GL\_TRIANGLE\_STRIP\ 0x0005}}
+\DoxyCodeLine{00960\ \textcolor{preprocessor}{\#define\ GL\_TRUE\ 1}}
+\DoxyCodeLine{00961\ \textcolor{preprocessor}{\#define\ GL\_UNPACK\_ALIGNMENT\ 0x0CF5}}
+\DoxyCodeLine{00962\ \textcolor{preprocessor}{\#define\ GL\_UNPACK\_LSB\_FIRST\ 0x0CF1}}
+\DoxyCodeLine{00963\ \textcolor{preprocessor}{\#define\ GL\_UNPACK\_ROW\_LENGTH\ 0x0CF2}}
+\DoxyCodeLine{00964\ \textcolor{preprocessor}{\#define\ GL\_UNPACK\_SKIP\_PIXELS\ 0x0CF4}}
+\DoxyCodeLine{00965\ \textcolor{preprocessor}{\#define\ GL\_UNPACK\_SKIP\_ROWS\ 0x0CF3}}
+\DoxyCodeLine{00966\ \textcolor{preprocessor}{\#define\ GL\_UNPACK\_SWAP\_BYTES\ 0x0CF0}}
+\DoxyCodeLine{00967\ \textcolor{preprocessor}{\#define\ GL\_UNSIGNED\_BYTE\ 0x1401}}
+\DoxyCodeLine{00968\ \textcolor{preprocessor}{\#define\ GL\_UNSIGNED\_INT\ 0x1405}}
+\DoxyCodeLine{00969\ \textcolor{preprocessor}{\#define\ GL\_UNSIGNED\_SHORT\ 0x1403}}
+\DoxyCodeLine{00970\ \textcolor{preprocessor}{\#define\ GL\_V2F\ 0x2A20}}
+\DoxyCodeLine{00971\ \textcolor{preprocessor}{\#define\ GL\_V3F\ 0x2A21}}
+\DoxyCodeLine{00972\ \textcolor{preprocessor}{\#define\ GL\_VENDOR\ 0x1F00}}
+\DoxyCodeLine{00973\ \textcolor{preprocessor}{\#define\ GL\_VERSION\ 0x1F02}}
+\DoxyCodeLine{00974\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ARRAY\ 0x8074}}
+\DoxyCodeLine{00975\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ARRAY\_POINTER\ 0x808E}}
+\DoxyCodeLine{00976\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ARRAY\_SIZE\ 0x807A}}
+\DoxyCodeLine{00977\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ARRAY\_STRIDE\ 0x807C}}
+\DoxyCodeLine{00978\ \textcolor{preprocessor}{\#define\ GL\_VERTEX\_ARRAY\_TYPE\ 0x807B}}
+\DoxyCodeLine{00979\ \textcolor{preprocessor}{\#define\ GL\_VIEWPORT\ 0x0BA2}}
+\DoxyCodeLine{00980\ \textcolor{preprocessor}{\#define\ GL\_VIEWPORT\_BIT\ 0x00000800}}
+\DoxyCodeLine{00981\ \textcolor{preprocessor}{\#define\ GL\_XOR\ 0x1506}}
+\DoxyCodeLine{00982\ \textcolor{preprocessor}{\#define\ GL\_ZERO\ 0}}
+\DoxyCodeLine{00983\ \textcolor{preprocessor}{\#define\ GL\_ZOOM\_X\ 0x0D16}}
+\DoxyCodeLine{00984\ \textcolor{preprocessor}{\#define\ GL\_ZOOM\_Y\ 0x0D17}}
+\DoxyCodeLine{00985\ }
+\DoxyCodeLine{00986\ }
+\DoxyCodeLine{00987\ }
+\DoxyCodeLine{00988\ \textcolor{preprocessor}{\#ifndef\ GL\_EXT\_blend\_minmax}}
+\DoxyCodeLine{00989\ \textcolor{preprocessor}{\#define\ GL\_EXT\_blend\_minmax\ 1}}
+\DoxyCodeLine{00990\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBlendEquationEXT)(GLenum);}
+\DoxyCodeLine{00991\ \textcolor{preprocessor}{\#define\ glBlendEquationEXT\ sf\_ptrc\_glBlendEquationEXT}}
+\DoxyCodeLine{00992\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_EXT\_blend\_minmax}}
+\DoxyCodeLine{00993\ }
+\DoxyCodeLine{00994\ }
+\DoxyCodeLine{00995\ \textcolor{preprocessor}{\#ifndef\ GL\_ARB\_multitexture}}
+\DoxyCodeLine{00996\ \textcolor{preprocessor}{\#define\ GL\_ARB\_multitexture\ 1}}
+\DoxyCodeLine{00997\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glActiveTextureARB)(GLenum);}
+\DoxyCodeLine{00998\ \textcolor{preprocessor}{\#define\ glActiveTextureARB\ sf\_ptrc\_glActiveTextureARB}}
+\DoxyCodeLine{00999\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glClientActiveTextureARB)(GLenum);}
+\DoxyCodeLine{01000\ \textcolor{preprocessor}{\#define\ glClientActiveTextureARB\ sf\_ptrc\_glClientActiveTextureARB}}
+\DoxyCodeLine{01001\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1dARB)(GLenum,\ GLdouble);}
+\DoxyCodeLine{01002\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1dARB\ sf\_ptrc\_glMultiTexCoord1dARB}}
+\DoxyCodeLine{01003\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1dvARB)(GLenum,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01004\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1dvARB\ sf\_ptrc\_glMultiTexCoord1dvARB}}
+\DoxyCodeLine{01005\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1fARB)(GLenum,\ GLfloat);}
+\DoxyCodeLine{01006\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1fARB\ sf\_ptrc\_glMultiTexCoord1fARB}}
+\DoxyCodeLine{01007\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1fvARB)(GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01008\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1fvARB\ sf\_ptrc\_glMultiTexCoord1fvARB}}
+\DoxyCodeLine{01009\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1iARB)(GLenum,\ GLint);}
+\DoxyCodeLine{01010\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1iARB\ sf\_ptrc\_glMultiTexCoord1iARB}}
+\DoxyCodeLine{01011\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1ivARB)(GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01012\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1ivARB\ sf\_ptrc\_glMultiTexCoord1ivARB}}
+\DoxyCodeLine{01013\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1sARB)(GLenum,\ GLshort);}
+\DoxyCodeLine{01014\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1sARB\ sf\_ptrc\_glMultiTexCoord1sARB}}
+\DoxyCodeLine{01015\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord1svARB)(GLenum,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01016\ \textcolor{preprocessor}{\#define\ glMultiTexCoord1svARB\ sf\_ptrc\_glMultiTexCoord1svARB}}
+\DoxyCodeLine{01017\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2dARB)(GLenum,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01018\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2dARB\ sf\_ptrc\_glMultiTexCoord2dARB}}
+\DoxyCodeLine{01019\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2dvARB)(GLenum,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01020\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2dvARB\ sf\_ptrc\_glMultiTexCoord2dvARB}}
+\DoxyCodeLine{01021\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2fARB)(GLenum,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01022\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2fARB\ sf\_ptrc\_glMultiTexCoord2fARB}}
+\DoxyCodeLine{01023\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2fvARB)(GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01024\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2fvARB\ sf\_ptrc\_glMultiTexCoord2fvARB}}
+\DoxyCodeLine{01025\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2iARB)(GLenum,\ GLint,\ GLint);}
+\DoxyCodeLine{01026\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2iARB\ sf\_ptrc\_glMultiTexCoord2iARB}}
+\DoxyCodeLine{01027\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2ivARB)(GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01028\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2ivARB\ sf\_ptrc\_glMultiTexCoord2ivARB}}
+\DoxyCodeLine{01029\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2sARB)(GLenum,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01030\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2sARB\ sf\_ptrc\_glMultiTexCoord2sARB}}
+\DoxyCodeLine{01031\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord2svARB)(GLenum,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01032\ \textcolor{preprocessor}{\#define\ glMultiTexCoord2svARB\ sf\_ptrc\_glMultiTexCoord2svARB}}
+\DoxyCodeLine{01033\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3dARB)(GLenum,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01034\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3dARB\ sf\_ptrc\_glMultiTexCoord3dARB}}
+\DoxyCodeLine{01035\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3dvARB)(GLenum,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01036\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3dvARB\ sf\_ptrc\_glMultiTexCoord3dvARB}}
+\DoxyCodeLine{01037\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3fARB)(GLenum,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01038\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3fARB\ sf\_ptrc\_glMultiTexCoord3fARB}}
+\DoxyCodeLine{01039\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3fvARB)(GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01040\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3fvARB\ sf\_ptrc\_glMultiTexCoord3fvARB}}
+\DoxyCodeLine{01041\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3iARB)(GLenum,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01042\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3iARB\ sf\_ptrc\_glMultiTexCoord3iARB}}
+\DoxyCodeLine{01043\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3ivARB)(GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01044\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3ivARB\ sf\_ptrc\_glMultiTexCoord3ivARB}}
+\DoxyCodeLine{01045\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3sARB)(GLenum,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01046\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3sARB\ sf\_ptrc\_glMultiTexCoord3sARB}}
+\DoxyCodeLine{01047\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord3svARB)(GLenum,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01048\ \textcolor{preprocessor}{\#define\ glMultiTexCoord3svARB\ sf\_ptrc\_glMultiTexCoord3svARB}}
+\DoxyCodeLine{01049\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4dARB)(GLenum,\ GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01050\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4dARB\ sf\_ptrc\_glMultiTexCoord4dARB}}
+\DoxyCodeLine{01051\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4dvARB)(GLenum,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01052\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4dvARB\ sf\_ptrc\_glMultiTexCoord4dvARB}}
+\DoxyCodeLine{01053\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4fARB)(GLenum,\ GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01054\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4fARB\ sf\_ptrc\_glMultiTexCoord4fARB}}
+\DoxyCodeLine{01055\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4fvARB)(GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01056\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4fvARB\ sf\_ptrc\_glMultiTexCoord4fvARB}}
+\DoxyCodeLine{01057\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4iARB)(GLenum,\ GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01058\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4iARB\ sf\_ptrc\_glMultiTexCoord4iARB}}
+\DoxyCodeLine{01059\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4ivARB)(GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01060\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4ivARB\ sf\_ptrc\_glMultiTexCoord4ivARB}}
+\DoxyCodeLine{01061\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4sARB)(GLenum,\ GLshort,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01062\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4sARB\ sf\_ptrc\_glMultiTexCoord4sARB}}
+\DoxyCodeLine{01063\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glMultiTexCoord4svARB)(GLenum,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01064\ \textcolor{preprocessor}{\#define\ glMultiTexCoord4svARB\ sf\_ptrc\_glMultiTexCoord4svARB}}
+\DoxyCodeLine{01065\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_ARB\_multitexture}}
+\DoxyCodeLine{01066\ }
+\DoxyCodeLine{01067\ \textcolor{preprocessor}{\#ifndef\ GL\_EXT\_blend\_func\_separate}}
+\DoxyCodeLine{01068\ \textcolor{preprocessor}{\#define\ GL\_EXT\_blend\_func\_separate\ 1}}
+\DoxyCodeLine{01069\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBlendFuncSeparateEXT)(GLenum,\ GLenum,\ GLenum,\ GLenum);}
+\DoxyCodeLine{01070\ \textcolor{preprocessor}{\#define\ glBlendFuncSeparateEXT\ sf\_ptrc\_glBlendFuncSeparateEXT}}
+\DoxyCodeLine{01071\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_EXT\_blend\_func\_separate}}
+\DoxyCodeLine{01072\ }
+\DoxyCodeLine{01073\ \textcolor{preprocessor}{\#ifndef\ GL\_ARB\_vertex\_buffer\_object}}
+\DoxyCodeLine{01074\ \textcolor{preprocessor}{\#define\ GL\_ARB\_vertex\_buffer\_object\ 1}}
+\DoxyCodeLine{01075\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBindBufferARB)(GLenum,\ GLuint);}
+\DoxyCodeLine{01076\ \textcolor{preprocessor}{\#define\ glBindBufferARB\ sf\_ptrc\_glBindBufferARB}}
+\DoxyCodeLine{01077\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBufferDataARB)(GLenum,\ GLsizeiptrARB,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*,\ GLenum);}
+\DoxyCodeLine{01078\ \textcolor{preprocessor}{\#define\ glBufferDataARB\ sf\_ptrc\_glBufferDataARB}}
+\DoxyCodeLine{01079\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBufferSubDataARB)(GLenum,\ GLintptrARB,\ GLsizeiptrARB,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01080\ \textcolor{preprocessor}{\#define\ glBufferSubDataARB\ sf\_ptrc\_glBufferSubDataARB}}
+\DoxyCodeLine{01081\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glDeleteBuffersARB)(GLsizei,\ \textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01082\ \textcolor{preprocessor}{\#define\ glDeleteBuffersARB\ sf\_ptrc\_glDeleteBuffersARB}}
+\DoxyCodeLine{01083\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGenBuffersARB)(GLsizei,\ GLuint*);}
+\DoxyCodeLine{01084\ \textcolor{preprocessor}{\#define\ glGenBuffersARB\ sf\_ptrc\_glGenBuffersARB}}
+\DoxyCodeLine{01085\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetBufferParameterivARB)(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01086\ \textcolor{preprocessor}{\#define\ glGetBufferParameterivARB\ sf\_ptrc\_glGetBufferParameterivARB}}
+\DoxyCodeLine{01087\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetBufferPointervARB)(GLenum,\ GLenum,\ \textcolor{keywordtype}{void}**);}
+\DoxyCodeLine{01088\ \textcolor{preprocessor}{\#define\ glGetBufferPointervARB\ sf\_ptrc\_glGetBufferPointervARB}}
+\DoxyCodeLine{01089\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetBufferSubDataARB)(GLenum,\ GLintptrARB,\ GLsizeiptrARB,\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01090\ \textcolor{preprocessor}{\#define\ glGetBufferSubDataARB\ sf\_ptrc\_glGetBufferSubDataARB}}
+\DoxyCodeLine{01091\ \textcolor{keyword}{extern}\ GLboolean\ (GL\_FUNCPTR\ *sf\_ptrc\_glIsBufferARB)(GLuint);}
+\DoxyCodeLine{01092\ \textcolor{preprocessor}{\#define\ glIsBufferARB\ sf\_ptrc\_glIsBufferARB}}
+\DoxyCodeLine{01093\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}*\ (GL\_FUNCPTR\ *sf\_ptrc\_glMapBufferARB)(GLenum,\ GLenum);}
+\DoxyCodeLine{01094\ \textcolor{preprocessor}{\#define\ glMapBufferARB\ sf\_ptrc\_glMapBufferARB}}
+\DoxyCodeLine{01095\ \textcolor{keyword}{extern}\ GLboolean\ (GL\_FUNCPTR\ *sf\_ptrc\_glUnmapBufferARB)(GLenum);}
+\DoxyCodeLine{01096\ \textcolor{preprocessor}{\#define\ glUnmapBufferARB\ sf\_ptrc\_glUnmapBufferARB}}
+\DoxyCodeLine{01097\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_ARB\_vertex\_buffer\_object}}
+\DoxyCodeLine{01098\ }
+\DoxyCodeLine{01099\ }
+\DoxyCodeLine{01100\ \textcolor{preprocessor}{\#ifndef\ GL\_ARB\_shader\_objects}}
+\DoxyCodeLine{01101\ \textcolor{preprocessor}{\#define\ GL\_ARB\_shader\_objects\ 1}}
+\DoxyCodeLine{01102\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glAttachObjectARB)(GLhandleARB,\ GLhandleARB);}
+\DoxyCodeLine{01103\ \textcolor{preprocessor}{\#define\ glAttachObjectARB\ sf\_ptrc\_glAttachObjectARB}}
+\DoxyCodeLine{01104\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glCompileShaderARB)(GLhandleARB);}
+\DoxyCodeLine{01105\ \textcolor{preprocessor}{\#define\ glCompileShaderARB\ sf\_ptrc\_glCompileShaderARB}}
+\DoxyCodeLine{01106\ \textcolor{keyword}{extern}\ GLhandleARB\ (GL\_FUNCPTR\ *sf\_ptrc\_glCreateProgramObjectARB)();}
+\DoxyCodeLine{01107\ \textcolor{preprocessor}{\#define\ glCreateProgramObjectARB\ sf\_ptrc\_glCreateProgramObjectARB}}
+\DoxyCodeLine{01108\ \textcolor{keyword}{extern}\ GLhandleARB\ (GL\_FUNCPTR\ *sf\_ptrc\_glCreateShaderObjectARB)(GLenum);}
+\DoxyCodeLine{01109\ \textcolor{preprocessor}{\#define\ glCreateShaderObjectARB\ sf\_ptrc\_glCreateShaderObjectARB}}
+\DoxyCodeLine{01110\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glDeleteObjectARB)(GLhandleARB);}
+\DoxyCodeLine{01111\ \textcolor{preprocessor}{\#define\ glDeleteObjectARB\ sf\_ptrc\_glDeleteObjectARB}}
+\DoxyCodeLine{01112\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glDetachObjectARB)(GLhandleARB,\ GLhandleARB);}
+\DoxyCodeLine{01113\ \textcolor{preprocessor}{\#define\ glDetachObjectARB\ sf\_ptrc\_glDetachObjectARB}}
+\DoxyCodeLine{01114\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetActiveUniformARB)(GLhandleARB,\ GLuint,\ GLsizei,\ GLsizei*,\ GLint*,\ GLenum*,\ GLcharARB*);}
+\DoxyCodeLine{01115\ \textcolor{preprocessor}{\#define\ glGetActiveUniformARB\ sf\_ptrc\_glGetActiveUniformARB}}
+\DoxyCodeLine{01116\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetAttachedObjectsARB)(GLhandleARB,\ GLsizei,\ GLsizei*,\ GLhandleARB*);}
+\DoxyCodeLine{01117\ \textcolor{preprocessor}{\#define\ glGetAttachedObjectsARB\ sf\_ptrc\_glGetAttachedObjectsARB}}
+\DoxyCodeLine{01118\ \textcolor{keyword}{extern}\ GLhandleARB\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetHandleARB)(GLenum);}
+\DoxyCodeLine{01119\ \textcolor{preprocessor}{\#define\ glGetHandleARB\ sf\_ptrc\_glGetHandleARB}}
+\DoxyCodeLine{01120\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetInfoLogARB)(GLhandleARB,\ GLsizei,\ GLsizei*,\ GLcharARB*);}
+\DoxyCodeLine{01121\ \textcolor{preprocessor}{\#define\ glGetInfoLogARB\ sf\_ptrc\_glGetInfoLogARB}}
+\DoxyCodeLine{01122\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetObjectParameterfvARB)(GLhandleARB,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01123\ \textcolor{preprocessor}{\#define\ glGetObjectParameterfvARB\ sf\_ptrc\_glGetObjectParameterfvARB}}
+\DoxyCodeLine{01124\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetObjectParameterivARB)(GLhandleARB,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01125\ \textcolor{preprocessor}{\#define\ glGetObjectParameterivARB\ sf\_ptrc\_glGetObjectParameterivARB}}
+\DoxyCodeLine{01126\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetShaderSourceARB)(GLhandleARB,\ GLsizei,\ GLsizei*,\ GLcharARB*);}
+\DoxyCodeLine{01127\ \textcolor{preprocessor}{\#define\ glGetShaderSourceARB\ sf\_ptrc\_glGetShaderSourceARB}}
+\DoxyCodeLine{01128\ \textcolor{keyword}{extern}\ GLint\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetUniformLocationARB)(GLhandleARB,\ \textcolor{keyword}{const}\ GLcharARB*);}
+\DoxyCodeLine{01129\ \textcolor{preprocessor}{\#define\ glGetUniformLocationARB\ sf\_ptrc\_glGetUniformLocationARB}}
+\DoxyCodeLine{01130\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetUniformfvARB)(GLhandleARB,\ GLint,\ GLfloat*);}
+\DoxyCodeLine{01131\ \textcolor{preprocessor}{\#define\ glGetUniformfvARB\ sf\_ptrc\_glGetUniformfvARB}}
+\DoxyCodeLine{01132\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetUniformivARB)(GLhandleARB,\ GLint,\ GLint*);}
+\DoxyCodeLine{01133\ \textcolor{preprocessor}{\#define\ glGetUniformivARB\ sf\_ptrc\_glGetUniformivARB}}
+\DoxyCodeLine{01134\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glLinkProgramARB)(GLhandleARB);}
+\DoxyCodeLine{01135\ \textcolor{preprocessor}{\#define\ glLinkProgramARB\ sf\_ptrc\_glLinkProgramARB}}
+\DoxyCodeLine{01136\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glShaderSourceARB)(GLhandleARB,\ GLsizei,\ \textcolor{keyword}{const}\ GLcharARB**,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01137\ \textcolor{preprocessor}{\#define\ glShaderSourceARB\ sf\_ptrc\_glShaderSourceARB}}
+\DoxyCodeLine{01138\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform1fARB)(GLint,\ GLfloat);}
+\DoxyCodeLine{01139\ \textcolor{preprocessor}{\#define\ glUniform1fARB\ sf\_ptrc\_glUniform1fARB}}
+\DoxyCodeLine{01140\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform1fvARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01141\ \textcolor{preprocessor}{\#define\ glUniform1fvARB\ sf\_ptrc\_glUniform1fvARB}}
+\DoxyCodeLine{01142\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform1iARB)(GLint,\ GLint);}
+\DoxyCodeLine{01143\ \textcolor{preprocessor}{\#define\ glUniform1iARB\ sf\_ptrc\_glUniform1iARB}}
+\DoxyCodeLine{01144\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform1ivARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01145\ \textcolor{preprocessor}{\#define\ glUniform1ivARB\ sf\_ptrc\_glUniform1ivARB}}
+\DoxyCodeLine{01146\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform2fARB)(GLint,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01147\ \textcolor{preprocessor}{\#define\ glUniform2fARB\ sf\_ptrc\_glUniform2fARB}}
+\DoxyCodeLine{01148\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform2fvARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01149\ \textcolor{preprocessor}{\#define\ glUniform2fvARB\ sf\_ptrc\_glUniform2fvARB}}
+\DoxyCodeLine{01150\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform2iARB)(GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01151\ \textcolor{preprocessor}{\#define\ glUniform2iARB\ sf\_ptrc\_glUniform2iARB}}
+\DoxyCodeLine{01152\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform2ivARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01153\ \textcolor{preprocessor}{\#define\ glUniform2ivARB\ sf\_ptrc\_glUniform2ivARB}}
+\DoxyCodeLine{01154\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform3fARB)(GLint,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01155\ \textcolor{preprocessor}{\#define\ glUniform3fARB\ sf\_ptrc\_glUniform3fARB}}
+\DoxyCodeLine{01156\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform3fvARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01157\ \textcolor{preprocessor}{\#define\ glUniform3fvARB\ sf\_ptrc\_glUniform3fvARB}}
+\DoxyCodeLine{01158\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform3iARB)(GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01159\ \textcolor{preprocessor}{\#define\ glUniform3iARB\ sf\_ptrc\_glUniform3iARB}}
+\DoxyCodeLine{01160\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform3ivARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01161\ \textcolor{preprocessor}{\#define\ glUniform3ivARB\ sf\_ptrc\_glUniform3ivARB}}
+\DoxyCodeLine{01162\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform4fARB)(GLint,\ GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01163\ \textcolor{preprocessor}{\#define\ glUniform4fARB\ sf\_ptrc\_glUniform4fARB}}
+\DoxyCodeLine{01164\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform4fvARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01165\ \textcolor{preprocessor}{\#define\ glUniform4fvARB\ sf\_ptrc\_glUniform4fvARB}}
+\DoxyCodeLine{01166\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform4iARB)(GLint,\ GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01167\ \textcolor{preprocessor}{\#define\ glUniform4iARB\ sf\_ptrc\_glUniform4iARB}}
+\DoxyCodeLine{01168\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniform4ivARB)(GLint,\ GLsizei,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01169\ \textcolor{preprocessor}{\#define\ glUniform4ivARB\ sf\_ptrc\_glUniform4ivARB}}
+\DoxyCodeLine{01170\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniformMatrix2fvARB)(GLint,\ GLsizei,\ GLboolean,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01171\ \textcolor{preprocessor}{\#define\ glUniformMatrix2fvARB\ sf\_ptrc\_glUniformMatrix2fvARB}}
+\DoxyCodeLine{01172\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniformMatrix3fvARB)(GLint,\ GLsizei,\ GLboolean,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01173\ \textcolor{preprocessor}{\#define\ glUniformMatrix3fvARB\ sf\_ptrc\_glUniformMatrix3fvARB}}
+\DoxyCodeLine{01174\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUniformMatrix4fvARB)(GLint,\ GLsizei,\ GLboolean,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01175\ \textcolor{preprocessor}{\#define\ glUniformMatrix4fvARB\ sf\_ptrc\_glUniformMatrix4fvARB}}
+\DoxyCodeLine{01176\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glUseProgramObjectARB)(GLhandleARB);}
+\DoxyCodeLine{01177\ \textcolor{preprocessor}{\#define\ glUseProgramObjectARB\ sf\_ptrc\_glUseProgramObjectARB}}
+\DoxyCodeLine{01178\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glValidateProgramARB)(GLhandleARB);}
+\DoxyCodeLine{01179\ \textcolor{preprocessor}{\#define\ glValidateProgramARB\ sf\_ptrc\_glValidateProgramARB}}
+\DoxyCodeLine{01180\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_ARB\_shader\_objects}}
+\DoxyCodeLine{01181\ }
+\DoxyCodeLine{01182\ \textcolor{preprocessor}{\#ifndef\ GL\_ARB\_vertex\_shader}}
+\DoxyCodeLine{01183\ \textcolor{preprocessor}{\#define\ GL\_ARB\_vertex\_shader\ 1}}
+\DoxyCodeLine{01184\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBindAttribLocationARB)(GLhandleARB,\ GLuint,\ \textcolor{keyword}{const}\ GLcharARB*);}
+\DoxyCodeLine{01185\ \textcolor{preprocessor}{\#define\ glBindAttribLocationARB\ sf\_ptrc\_glBindAttribLocationARB}}
+\DoxyCodeLine{01186\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glDisableVertexAttribArrayARB)(GLuint);}
+\DoxyCodeLine{01187\ \textcolor{preprocessor}{\#define\ glDisableVertexAttribArrayARB\ sf\_ptrc\_glDisableVertexAttribArrayARB}}
+\DoxyCodeLine{01188\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glEnableVertexAttribArrayARB)(GLuint);}
+\DoxyCodeLine{01189\ \textcolor{preprocessor}{\#define\ glEnableVertexAttribArrayARB\ sf\_ptrc\_glEnableVertexAttribArrayARB}}
+\DoxyCodeLine{01190\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetActiveAttribARB)(GLhandleARB,\ GLuint,\ GLsizei,\ GLsizei*,\ GLint*,\ GLenum*,\ GLcharARB*);}
+\DoxyCodeLine{01191\ \textcolor{preprocessor}{\#define\ glGetActiveAttribARB\ sf\_ptrc\_glGetActiveAttribARB}}
+\DoxyCodeLine{01192\ \textcolor{keyword}{extern}\ GLint\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetAttribLocationARB)(GLhandleARB,\ \textcolor{keyword}{const}\ GLcharARB*);}
+\DoxyCodeLine{01193\ \textcolor{preprocessor}{\#define\ glGetAttribLocationARB\ sf\_ptrc\_glGetAttribLocationARB}}
+\DoxyCodeLine{01194\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetVertexAttribPointervARB)(GLuint,\ GLenum,\ \textcolor{keywordtype}{void}**);}
+\DoxyCodeLine{01195\ \textcolor{preprocessor}{\#define\ glGetVertexAttribPointervARB\ sf\_ptrc\_glGetVertexAttribPointervARB}}
+\DoxyCodeLine{01196\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetVertexAttribdvARB)(GLuint,\ GLenum,\ GLdouble*);}
+\DoxyCodeLine{01197\ \textcolor{preprocessor}{\#define\ glGetVertexAttribdvARB\ sf\_ptrc\_glGetVertexAttribdvARB}}
+\DoxyCodeLine{01198\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetVertexAttribfvARB)(GLuint,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01199\ \textcolor{preprocessor}{\#define\ glGetVertexAttribfvARB\ sf\_ptrc\_glGetVertexAttribfvARB}}
+\DoxyCodeLine{01200\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetVertexAttribivARB)(GLuint,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01201\ \textcolor{preprocessor}{\#define\ glGetVertexAttribivARB\ sf\_ptrc\_glGetVertexAttribivARB}}
+\DoxyCodeLine{01202\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib1dARB)(GLuint,\ GLdouble);}
+\DoxyCodeLine{01203\ \textcolor{preprocessor}{\#define\ glVertexAttrib1dARB\ sf\_ptrc\_glVertexAttrib1dARB}}
+\DoxyCodeLine{01204\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib1dvARB)(GLuint,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01205\ \textcolor{preprocessor}{\#define\ glVertexAttrib1dvARB\ sf\_ptrc\_glVertexAttrib1dvARB}}
+\DoxyCodeLine{01206\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib1fARB)(GLuint,\ GLfloat);}
+\DoxyCodeLine{01207\ \textcolor{preprocessor}{\#define\ glVertexAttrib1fARB\ sf\_ptrc\_glVertexAttrib1fARB}}
+\DoxyCodeLine{01208\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib1fvARB)(GLuint,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01209\ \textcolor{preprocessor}{\#define\ glVertexAttrib1fvARB\ sf\_ptrc\_glVertexAttrib1fvARB}}
+\DoxyCodeLine{01210\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib1sARB)(GLuint,\ GLshort);}
+\DoxyCodeLine{01211\ \textcolor{preprocessor}{\#define\ glVertexAttrib1sARB\ sf\_ptrc\_glVertexAttrib1sARB}}
+\DoxyCodeLine{01212\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib1svARB)(GLuint,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01213\ \textcolor{preprocessor}{\#define\ glVertexAttrib1svARB\ sf\_ptrc\_glVertexAttrib1svARB}}
+\DoxyCodeLine{01214\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib2dARB)(GLuint,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01215\ \textcolor{preprocessor}{\#define\ glVertexAttrib2dARB\ sf\_ptrc\_glVertexAttrib2dARB}}
+\DoxyCodeLine{01216\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib2dvARB)(GLuint,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01217\ \textcolor{preprocessor}{\#define\ glVertexAttrib2dvARB\ sf\_ptrc\_glVertexAttrib2dvARB}}
+\DoxyCodeLine{01218\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib2fARB)(GLuint,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01219\ \textcolor{preprocessor}{\#define\ glVertexAttrib2fARB\ sf\_ptrc\_glVertexAttrib2fARB}}
+\DoxyCodeLine{01220\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib2fvARB)(GLuint,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01221\ \textcolor{preprocessor}{\#define\ glVertexAttrib2fvARB\ sf\_ptrc\_glVertexAttrib2fvARB}}
+\DoxyCodeLine{01222\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib2sARB)(GLuint,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01223\ \textcolor{preprocessor}{\#define\ glVertexAttrib2sARB\ sf\_ptrc\_glVertexAttrib2sARB}}
+\DoxyCodeLine{01224\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib2svARB)(GLuint,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01225\ \textcolor{preprocessor}{\#define\ glVertexAttrib2svARB\ sf\_ptrc\_glVertexAttrib2svARB}}
+\DoxyCodeLine{01226\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib3dARB)(GLuint,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01227\ \textcolor{preprocessor}{\#define\ glVertexAttrib3dARB\ sf\_ptrc\_glVertexAttrib3dARB}}
+\DoxyCodeLine{01228\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib3dvARB)(GLuint,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01229\ \textcolor{preprocessor}{\#define\ glVertexAttrib3dvARB\ sf\_ptrc\_glVertexAttrib3dvARB}}
+\DoxyCodeLine{01230\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib3fARB)(GLuint,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01231\ \textcolor{preprocessor}{\#define\ glVertexAttrib3fARB\ sf\_ptrc\_glVertexAttrib3fARB}}
+\DoxyCodeLine{01232\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib3fvARB)(GLuint,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01233\ \textcolor{preprocessor}{\#define\ glVertexAttrib3fvARB\ sf\_ptrc\_glVertexAttrib3fvARB}}
+\DoxyCodeLine{01234\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib3sARB)(GLuint,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01235\ \textcolor{preprocessor}{\#define\ glVertexAttrib3sARB\ sf\_ptrc\_glVertexAttrib3sARB}}
+\DoxyCodeLine{01236\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib3svARB)(GLuint,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01237\ \textcolor{preprocessor}{\#define\ glVertexAttrib3svARB\ sf\_ptrc\_glVertexAttrib3svARB}}
+\DoxyCodeLine{01238\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4NbvARB)(GLuint,\ \textcolor{keyword}{const}\ GLbyte*);}
+\DoxyCodeLine{01239\ \textcolor{preprocessor}{\#define\ glVertexAttrib4NbvARB\ sf\_ptrc\_glVertexAttrib4NbvARB}}
+\DoxyCodeLine{01240\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4NivARB)(GLuint,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01241\ \textcolor{preprocessor}{\#define\ glVertexAttrib4NivARB\ sf\_ptrc\_glVertexAttrib4NivARB}}
+\DoxyCodeLine{01242\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4NsvARB)(GLuint,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01243\ \textcolor{preprocessor}{\#define\ glVertexAttrib4NsvARB\ sf\_ptrc\_glVertexAttrib4NsvARB}}
+\DoxyCodeLine{01244\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4NubARB)(GLuint,\ GLubyte,\ GLubyte,\ GLubyte,\ GLubyte);}
+\DoxyCodeLine{01245\ \textcolor{preprocessor}{\#define\ glVertexAttrib4NubARB\ sf\_ptrc\_glVertexAttrib4NubARB}}
+\DoxyCodeLine{01246\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4NubvARB)(GLuint,\ \textcolor{keyword}{const}\ GLubyte*);}
+\DoxyCodeLine{01247\ \textcolor{preprocessor}{\#define\ glVertexAttrib4NubvARB\ sf\_ptrc\_glVertexAttrib4NubvARB}}
+\DoxyCodeLine{01248\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4NuivARB)(GLuint,\ \textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01249\ \textcolor{preprocessor}{\#define\ glVertexAttrib4NuivARB\ sf\_ptrc\_glVertexAttrib4NuivARB}}
+\DoxyCodeLine{01250\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4NusvARB)(GLuint,\ \textcolor{keyword}{const}\ GLushort*);}
+\DoxyCodeLine{01251\ \textcolor{preprocessor}{\#define\ glVertexAttrib4NusvARB\ sf\_ptrc\_glVertexAttrib4NusvARB}}
+\DoxyCodeLine{01252\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4bvARB)(GLuint,\ \textcolor{keyword}{const}\ GLbyte*);}
+\DoxyCodeLine{01253\ \textcolor{preprocessor}{\#define\ glVertexAttrib4bvARB\ sf\_ptrc\_glVertexAttrib4bvARB}}
+\DoxyCodeLine{01254\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4dARB)(GLuint,\ GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01255\ \textcolor{preprocessor}{\#define\ glVertexAttrib4dARB\ sf\_ptrc\_glVertexAttrib4dARB}}
+\DoxyCodeLine{01256\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4dvARB)(GLuint,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01257\ \textcolor{preprocessor}{\#define\ glVertexAttrib4dvARB\ sf\_ptrc\_glVertexAttrib4dvARB}}
+\DoxyCodeLine{01258\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4fARB)(GLuint,\ GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01259\ \textcolor{preprocessor}{\#define\ glVertexAttrib4fARB\ sf\_ptrc\_glVertexAttrib4fARB}}
+\DoxyCodeLine{01260\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4fvARB)(GLuint,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01261\ \textcolor{preprocessor}{\#define\ glVertexAttrib4fvARB\ sf\_ptrc\_glVertexAttrib4fvARB}}
+\DoxyCodeLine{01262\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4ivARB)(GLuint,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01263\ \textcolor{preprocessor}{\#define\ glVertexAttrib4ivARB\ sf\_ptrc\_glVertexAttrib4ivARB}}
+\DoxyCodeLine{01264\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4sARB)(GLuint,\ GLshort,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01265\ \textcolor{preprocessor}{\#define\ glVertexAttrib4sARB\ sf\_ptrc\_glVertexAttrib4sARB}}
+\DoxyCodeLine{01266\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4svARB)(GLuint,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01267\ \textcolor{preprocessor}{\#define\ glVertexAttrib4svARB\ sf\_ptrc\_glVertexAttrib4svARB}}
+\DoxyCodeLine{01268\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4ubvARB)(GLuint,\ \textcolor{keyword}{const}\ GLubyte*);}
+\DoxyCodeLine{01269\ \textcolor{preprocessor}{\#define\ glVertexAttrib4ubvARB\ sf\_ptrc\_glVertexAttrib4ubvARB}}
+\DoxyCodeLine{01270\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4uivARB)(GLuint,\ \textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01271\ \textcolor{preprocessor}{\#define\ glVertexAttrib4uivARB\ sf\_ptrc\_glVertexAttrib4uivARB}}
+\DoxyCodeLine{01272\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttrib4usvARB)(GLuint,\ \textcolor{keyword}{const}\ GLushort*);}
+\DoxyCodeLine{01273\ \textcolor{preprocessor}{\#define\ glVertexAttrib4usvARB\ sf\_ptrc\_glVertexAttrib4usvARB}}
+\DoxyCodeLine{01274\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glVertexAttribPointerARB)(GLuint,\ GLint,\ GLenum,\ GLboolean,\ GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01275\ \textcolor{preprocessor}{\#define\ glVertexAttribPointerARB\ sf\_ptrc\_glVertexAttribPointerARB}}
+\DoxyCodeLine{01276\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_ARB\_vertex\_shader}}
+\DoxyCodeLine{01277\ }
+\DoxyCodeLine{01278\ }
+\DoxyCodeLine{01279\ }
+\DoxyCodeLine{01280\ \textcolor{preprocessor}{\#ifndef\ GL\_EXT\_blend\_equation\_separate}}
+\DoxyCodeLine{01281\ \textcolor{preprocessor}{\#define\ GL\_EXT\_blend\_equation\_separate\ 1}}
+\DoxyCodeLine{01282\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBlendEquationSeparateEXT)(GLenum,\ GLenum);}
+\DoxyCodeLine{01283\ \textcolor{preprocessor}{\#define\ glBlendEquationSeparateEXT\ sf\_ptrc\_glBlendEquationSeparateEXT}}
+\DoxyCodeLine{01284\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_EXT\_blend\_equation\_separate}}
+\DoxyCodeLine{01285\ }
+\DoxyCodeLine{01286\ }
+\DoxyCodeLine{01287\ \textcolor{preprocessor}{\#ifndef\ GL\_EXT\_framebuffer\_object}}
+\DoxyCodeLine{01288\ \textcolor{preprocessor}{\#define\ GL\_EXT\_framebuffer\_object\ 1}}
+\DoxyCodeLine{01289\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBindFramebufferEXT)(GLenum,\ GLuint);}
+\DoxyCodeLine{01290\ \textcolor{preprocessor}{\#define\ glBindFramebufferEXT\ sf\_ptrc\_glBindFramebufferEXT}}
+\DoxyCodeLine{01291\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBindRenderbufferEXT)(GLenum,\ GLuint);}
+\DoxyCodeLine{01292\ \textcolor{preprocessor}{\#define\ glBindRenderbufferEXT\ sf\_ptrc\_glBindRenderbufferEXT}}
+\DoxyCodeLine{01293\ \textcolor{keyword}{extern}\ GLenum\ (GL\_FUNCPTR\ *sf\_ptrc\_glCheckFramebufferStatusEXT)(GLenum);}
+\DoxyCodeLine{01294\ \textcolor{preprocessor}{\#define\ glCheckFramebufferStatusEXT\ sf\_ptrc\_glCheckFramebufferStatusEXT}}
+\DoxyCodeLine{01295\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glDeleteFramebuffersEXT)(GLsizei,\ \textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01296\ \textcolor{preprocessor}{\#define\ glDeleteFramebuffersEXT\ sf\_ptrc\_glDeleteFramebuffersEXT}}
+\DoxyCodeLine{01297\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glDeleteRenderbuffersEXT)(GLsizei,\ \textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01298\ \textcolor{preprocessor}{\#define\ glDeleteRenderbuffersEXT\ sf\_ptrc\_glDeleteRenderbuffersEXT}}
+\DoxyCodeLine{01299\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glFramebufferRenderbufferEXT)(GLenum,\ GLenum,\ GLenum,\ GLuint);}
+\DoxyCodeLine{01300\ \textcolor{preprocessor}{\#define\ glFramebufferRenderbufferEXT\ sf\_ptrc\_glFramebufferRenderbufferEXT}}
+\DoxyCodeLine{01301\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glFramebufferTexture1DEXT)(GLenum,\ GLenum,\ GLenum,\ GLuint,\ GLint);}
+\DoxyCodeLine{01302\ \textcolor{preprocessor}{\#define\ glFramebufferTexture1DEXT\ sf\_ptrc\_glFramebufferTexture1DEXT}}
+\DoxyCodeLine{01303\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glFramebufferTexture2DEXT)(GLenum,\ GLenum,\ GLenum,\ GLuint,\ GLint);}
+\DoxyCodeLine{01304\ \textcolor{preprocessor}{\#define\ glFramebufferTexture2DEXT\ sf\_ptrc\_glFramebufferTexture2DEXT}}
+\DoxyCodeLine{01305\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glFramebufferTexture3DEXT)(GLenum,\ GLenum,\ GLenum,\ GLuint,\ GLint,\ GLint);}
+\DoxyCodeLine{01306\ \textcolor{preprocessor}{\#define\ glFramebufferTexture3DEXT\ sf\_ptrc\_glFramebufferTexture3DEXT}}
+\DoxyCodeLine{01307\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGenFramebuffersEXT)(GLsizei,\ GLuint*);}
+\DoxyCodeLine{01308\ \textcolor{preprocessor}{\#define\ glGenFramebuffersEXT\ sf\_ptrc\_glGenFramebuffersEXT}}
+\DoxyCodeLine{01309\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGenRenderbuffersEXT)(GLsizei,\ GLuint*);}
+\DoxyCodeLine{01310\ \textcolor{preprocessor}{\#define\ glGenRenderbuffersEXT\ sf\_ptrc\_glGenRenderbuffersEXT}}
+\DoxyCodeLine{01311\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGenerateMipmapEXT)(GLenum);}
+\DoxyCodeLine{01312\ \textcolor{preprocessor}{\#define\ glGenerateMipmapEXT\ sf\_ptrc\_glGenerateMipmapEXT}}
+\DoxyCodeLine{01313\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetFramebufferAttachmentParameterivEXT)(GLenum,\ GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01314\ \textcolor{preprocessor}{\#define\ glGetFramebufferAttachmentParameterivEXT\ sf\_ptrc\_glGetFramebufferAttachmentParameterivEXT}}
+\DoxyCodeLine{01315\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glGetRenderbufferParameterivEXT)(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01316\ \textcolor{preprocessor}{\#define\ glGetRenderbufferParameterivEXT\ sf\_ptrc\_glGetRenderbufferParameterivEXT}}
+\DoxyCodeLine{01317\ \textcolor{keyword}{extern}\ GLboolean\ (GL\_FUNCPTR\ *sf\_ptrc\_glIsFramebufferEXT)(GLuint);}
+\DoxyCodeLine{01318\ \textcolor{preprocessor}{\#define\ glIsFramebufferEXT\ sf\_ptrc\_glIsFramebufferEXT}}
+\DoxyCodeLine{01319\ \textcolor{keyword}{extern}\ GLboolean\ (GL\_FUNCPTR\ *sf\_ptrc\_glIsRenderbufferEXT)(GLuint);}
+\DoxyCodeLine{01320\ \textcolor{preprocessor}{\#define\ glIsRenderbufferEXT\ sf\_ptrc\_glIsRenderbufferEXT}}
+\DoxyCodeLine{01321\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glRenderbufferStorageEXT)(GLenum,\ GLenum,\ GLsizei,\ GLsizei);}
+\DoxyCodeLine{01322\ \textcolor{preprocessor}{\#define\ glRenderbufferStorageEXT\ sf\_ptrc\_glRenderbufferStorageEXT}}
+\DoxyCodeLine{01323\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_EXT\_framebuffer\_object}}
+\DoxyCodeLine{01324\ }
+\DoxyCodeLine{01325\ }
+\DoxyCodeLine{01326\ \textcolor{preprocessor}{\#ifndef\ GL\_EXT\_framebuffer\_blit}}
+\DoxyCodeLine{01327\ \textcolor{preprocessor}{\#define\ GL\_EXT\_framebuffer\_blit\ 1}}
+\DoxyCodeLine{01328\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glBlitFramebufferEXT)(GLint,\ GLint,\ GLint,\ GLint,\ GLint,\ GLint,\ GLint,\ GLint,\ GLbitfield,\ GLenum);}
+\DoxyCodeLine{01329\ \textcolor{preprocessor}{\#define\ glBlitFramebufferEXT\ sf\_ptrc\_glBlitFramebufferEXT}}
+\DoxyCodeLine{01330\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_EXT\_framebuffer\_blit}}
+\DoxyCodeLine{01331\ }
+\DoxyCodeLine{01332\ \textcolor{preprocessor}{\#ifndef\ GL\_EXT\_framebuffer\_multisample}}
+\DoxyCodeLine{01333\ \textcolor{preprocessor}{\#define\ GL\_EXT\_framebuffer\_multisample\ 1}}
+\DoxyCodeLine{01334\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glRenderbufferStorageMultisampleEXT)(GLenum,\ GLsizei,\ GLenum,\ GLsizei,\ GLsizei);}
+\DoxyCodeLine{01335\ \textcolor{preprocessor}{\#define\ glRenderbufferStorageMultisampleEXT\ sf\_ptrc\_glRenderbufferStorageMultisampleEXT}}
+\DoxyCodeLine{01336\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_EXT\_framebuffer\_multisample}}
+\DoxyCodeLine{01337\ }
+\DoxyCodeLine{01338\ \textcolor{preprocessor}{\#ifndef\ GL\_ARB\_copy\_buffer}}
+\DoxyCodeLine{01339\ \textcolor{preprocessor}{\#define\ GL\_ARB\_copy\_buffer\ 1}}
+\DoxyCodeLine{01340\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glCopyBufferSubData)(GLenum,\ GLenum,\ GLintptr,\ GLintptr,\ GLsizeiptr);}
+\DoxyCodeLine{01341\ \textcolor{preprocessor}{\#define\ glCopyBufferSubData\ sf\_ptrc\_glCopyBufferSubData}}
+\DoxyCodeLine{01342\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_ARB\_copy\_buffer}}
+\DoxyCodeLine{01343\ }
+\DoxyCodeLine{01344\ \textcolor{preprocessor}{\#ifndef\ GL\_ARB\_geometry\_shader4}}
+\DoxyCodeLine{01345\ \textcolor{preprocessor}{\#define\ GL\_ARB\_geometry\_shader4\ 1}}
+\DoxyCodeLine{01346\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glFramebufferTextureARB)(GLenum,\ GLenum,\ GLuint,\ GLint);}
+\DoxyCodeLine{01347\ \textcolor{preprocessor}{\#define\ glFramebufferTextureARB\ sf\_ptrc\_glFramebufferTextureARB}}
+\DoxyCodeLine{01348\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glFramebufferTextureFaceARB)(GLenum,\ GLenum,\ GLuint,\ GLint,\ GLenum);}
+\DoxyCodeLine{01349\ \textcolor{preprocessor}{\#define\ glFramebufferTextureFaceARB\ sf\_ptrc\_glFramebufferTextureFaceARB}}
+\DoxyCodeLine{01350\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glFramebufferTextureLayerARB)(GLenum,\ GLenum,\ GLuint,\ GLint,\ GLint);}
+\DoxyCodeLine{01351\ \textcolor{preprocessor}{\#define\ glFramebufferTextureLayerARB\ sf\_ptrc\_glFramebufferTextureLayerARB}}
+\DoxyCodeLine{01352\ \textcolor{keyword}{extern}\ void\ (GL\_FUNCPTR\ *sf\_ptrc\_glProgramParameteriARB)(GLuint,\ GLenum,\ GLint);}
+\DoxyCodeLine{01353\ \textcolor{preprocessor}{\#define\ glProgramParameteriARB\ sf\_ptrc\_glProgramParameteriARB}}
+\DoxyCodeLine{01354\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_ARB\_geometry\_shader4}}
+\DoxyCodeLine{01355\ }
+\DoxyCodeLine{01356\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glAccum(GLenum,\ GLfloat);}
+\DoxyCodeLine{01357\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glAlphaFunc(GLenum,\ GLfloat);}
+\DoxyCodeLine{01358\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glBegin(GLenum);}
+\DoxyCodeLine{01359\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glBitmap(GLsizei,\ GLsizei,\ GLfloat,\ GLfloat,\ GLfloat,\ GLfloat,\ \textcolor{keyword}{const}\ GLubyte*);}
+\DoxyCodeLine{01360\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glBlendFunc(GLenum,\ GLenum);}
+\DoxyCodeLine{01361\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCallList(GLuint);}
+\DoxyCodeLine{01362\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCallLists(GLsizei,\ GLenum,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01363\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glClear(GLbitfield);}
+\DoxyCodeLine{01364\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glClearAccum(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01365\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glClearColor(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01366\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glClearDepth(GLdouble);}
+\DoxyCodeLine{01367\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glClearIndex(GLfloat);}
+\DoxyCodeLine{01368\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glClearStencil(GLint);}
+\DoxyCodeLine{01369\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glClipPlane(GLenum,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01370\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3b(GLbyte,\ GLbyte,\ GLbyte);}
+\DoxyCodeLine{01371\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3bv(\textcolor{keyword}{const}\ GLbyte*);}
+\DoxyCodeLine{01372\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3d(GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01373\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01374\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3f(GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01375\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01376\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3i(GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01377\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01378\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3s(GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01379\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01380\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3ub(GLubyte,\ GLubyte,\ GLubyte);}
+\DoxyCodeLine{01381\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3ubv(\textcolor{keyword}{const}\ GLubyte*);}
+\DoxyCodeLine{01382\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3ui(GLuint,\ GLuint,\ GLuint);}
+\DoxyCodeLine{01383\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3uiv(\textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01384\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3us(GLushort,\ GLushort,\ GLushort);}
+\DoxyCodeLine{01385\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor3usv(\textcolor{keyword}{const}\ GLushort*);}
+\DoxyCodeLine{01386\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4b(GLbyte,\ GLbyte,\ GLbyte,\ GLbyte);}
+\DoxyCodeLine{01387\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4bv(\textcolor{keyword}{const}\ GLbyte*);}
+\DoxyCodeLine{01388\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4d(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01389\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01390\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4f(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01391\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01392\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4i(GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01393\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01394\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4s(GLshort,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01395\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01396\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4ub(GLubyte,\ GLubyte,\ GLubyte,\ GLubyte);}
+\DoxyCodeLine{01397\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4ubv(\textcolor{keyword}{const}\ GLubyte*);}
+\DoxyCodeLine{01398\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4ui(GLuint,\ GLuint,\ GLuint,\ GLuint);}
+\DoxyCodeLine{01399\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4uiv(\textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01400\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4us(GLushort,\ GLushort,\ GLushort,\ GLushort);}
+\DoxyCodeLine{01401\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColor4usv(\textcolor{keyword}{const}\ GLushort*);}
+\DoxyCodeLine{01402\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColorMask(GLboolean,\ GLboolean,\ GLboolean,\ GLboolean);}
+\DoxyCodeLine{01403\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColorMaterial(GLenum,\ GLenum);}
+\DoxyCodeLine{01404\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCopyPixels(GLint,\ GLint,\ GLsizei,\ GLsizei,\ GLenum);}
+\DoxyCodeLine{01405\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCullFace(GLenum);}
+\DoxyCodeLine{01406\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDeleteLists(GLuint,\ GLsizei);}
+\DoxyCodeLine{01407\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDepthFunc(GLenum);}
+\DoxyCodeLine{01408\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDepthMask(GLboolean);}
+\DoxyCodeLine{01409\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDepthRange(GLdouble,\ GLdouble);}
+\DoxyCodeLine{01410\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDisable(GLenum);}
+\DoxyCodeLine{01411\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDrawBuffer(GLenum);}
+\DoxyCodeLine{01412\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDrawPixels(GLsizei,\ GLsizei,\ GLenum,\ GLenum,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01413\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEdgeFlag(GLboolean);}
+\DoxyCodeLine{01414\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEdgeFlagv(\textcolor{keyword}{const}\ GLboolean*);}
+\DoxyCodeLine{01415\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEnable(GLenum);}
+\DoxyCodeLine{01416\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEnd();}
+\DoxyCodeLine{01417\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEndList();}
+\DoxyCodeLine{01418\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord1d(GLdouble);}
+\DoxyCodeLine{01419\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord1dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01420\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord1f(GLfloat);}
+\DoxyCodeLine{01421\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord1fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01422\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord2d(GLdouble,\ GLdouble);}
+\DoxyCodeLine{01423\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord2dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01424\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord2f(GLfloat,\ GLfloat);}
+\DoxyCodeLine{01425\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalCoord2fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01426\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalMesh1(GLenum,\ GLint,\ GLint);}
+\DoxyCodeLine{01427\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalMesh2(GLenum,\ GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01428\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalPoint1(GLint);}
+\DoxyCodeLine{01429\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEvalPoint2(GLint,\ GLint);}
+\DoxyCodeLine{01430\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFeedbackBuffer(GLsizei,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01431\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFinish();}
+\DoxyCodeLine{01432\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFlush();}
+\DoxyCodeLine{01433\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFogf(GLenum,\ GLfloat);}
+\DoxyCodeLine{01434\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFogfv(GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01435\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFogi(GLenum,\ GLint);}
+\DoxyCodeLine{01436\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFogiv(GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01437\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFrontFace(GLenum);}
+\DoxyCodeLine{01438\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glFrustum(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01439\ GLAPI\ GLuint\ APIENTRY\ glGenLists(GLsizei);}
+\DoxyCodeLine{01440\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetBooleanv(GLenum,\ GLboolean*);}
+\DoxyCodeLine{01441\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetClipPlane(GLenum,\ GLdouble*);}
+\DoxyCodeLine{01442\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetDoublev(GLenum,\ GLdouble*);}
+\DoxyCodeLine{01443\ GLAPI\ GLenum\ APIENTRY\ glGetError();}
+\DoxyCodeLine{01444\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetFloatv(GLenum,\ GLfloat*);}
+\DoxyCodeLine{01445\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetIntegerv(GLenum,\ GLint*);}
+\DoxyCodeLine{01446\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetLightfv(GLenum,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01447\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetLightiv(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01448\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetMapdv(GLenum,\ GLenum,\ GLdouble*);}
+\DoxyCodeLine{01449\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetMapfv(GLenum,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01450\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetMapiv(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01451\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetMaterialfv(GLenum,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01452\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetMaterialiv(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01453\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetPixelMapfv(GLenum,\ GLfloat*);}
+\DoxyCodeLine{01454\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetPixelMapuiv(GLenum,\ GLuint*);}
+\DoxyCodeLine{01455\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetPixelMapusv(GLenum,\ GLushort*);}
+\DoxyCodeLine{01456\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetPolygonStipple(GLubyte*);}
+\DoxyCodeLine{01457\ GLAPI\ \textcolor{keyword}{const}\ GLubyte*\ APIENTRY\ glGetString(GLenum);}
+\DoxyCodeLine{01458\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexEnvfv(GLenum,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01459\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexEnviv(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01460\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexGendv(GLenum,\ GLenum,\ GLdouble*);}
+\DoxyCodeLine{01461\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexGenfv(GLenum,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01462\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexGeniv(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01463\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexImage(GLenum,\ GLint,\ GLenum,\ GLenum,\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01464\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexLevelParameterfv(GLenum,\ GLint,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01465\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexLevelParameteriv(GLenum,\ GLint,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01466\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexParameterfv(GLenum,\ GLenum,\ GLfloat*);}
+\DoxyCodeLine{01467\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetTexParameteriv(GLenum,\ GLenum,\ GLint*);}
+\DoxyCodeLine{01468\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glHint(GLenum,\ GLenum);}
+\DoxyCodeLine{01469\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexMask(GLuint);}
+\DoxyCodeLine{01470\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexd(GLdouble);}
+\DoxyCodeLine{01471\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexdv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01472\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexf(GLfloat);}
+\DoxyCodeLine{01473\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexfv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01474\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexi(GLint);}
+\DoxyCodeLine{01475\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexiv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01476\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexs(GLshort);}
+\DoxyCodeLine{01477\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexsv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01478\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glInitNames();}
+\DoxyCodeLine{01479\ GLAPI\ GLboolean\ APIENTRY\ glIsEnabled(GLenum);}
+\DoxyCodeLine{01480\ GLAPI\ GLboolean\ APIENTRY\ glIsList(GLuint);}
+\DoxyCodeLine{01481\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLightModelf(GLenum,\ GLfloat);}
+\DoxyCodeLine{01482\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLightModelfv(GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01483\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLightModeli(GLenum,\ GLint);}
+\DoxyCodeLine{01484\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLightModeliv(GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01485\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLightf(GLenum,\ GLenum,\ GLfloat);}
+\DoxyCodeLine{01486\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLightfv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01487\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLighti(GLenum,\ GLenum,\ GLint);}
+\DoxyCodeLine{01488\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLightiv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01489\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLineStipple(GLint,\ GLushort);}
+\DoxyCodeLine{01490\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLineWidth(GLfloat);}
+\DoxyCodeLine{01491\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glListBase(GLuint);}
+\DoxyCodeLine{01492\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLoadIdentity();}
+\DoxyCodeLine{01493\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLoadMatrixd(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01494\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLoadMatrixf(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01495\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLoadName(GLuint);}
+\DoxyCodeLine{01496\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glLogicOp(GLenum);}
+\DoxyCodeLine{01497\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMap1d(GLenum,\ GLdouble,\ GLdouble,\ GLint,\ GLint,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01498\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMap1f(GLenum,\ GLfloat,\ GLfloat,\ GLint,\ GLint,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01499\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMap2d(GLenum,\ GLdouble,\ GLdouble,\ GLint,\ GLint,\ GLdouble,\ GLdouble,\ GLint,\ GLint,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01500\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMap2f(GLenum,\ GLfloat,\ GLfloat,\ GLint,\ GLint,\ GLfloat,\ GLfloat,\ GLint,\ GLint,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01501\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMapGrid1d(GLint,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01502\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMapGrid1f(GLint,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01503\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMapGrid2d(GLint,\ GLdouble,\ GLdouble,\ GLint,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01504\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMapGrid2f(GLint,\ GLfloat,\ GLfloat,\ GLint,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01505\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMaterialf(GLenum,\ GLenum,\ GLfloat);}
+\DoxyCodeLine{01506\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMaterialfv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01507\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMateriali(GLenum,\ GLenum,\ GLint);}
+\DoxyCodeLine{01508\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMaterialiv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01509\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMatrixMode(GLenum);}
+\DoxyCodeLine{01510\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMultMatrixd(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01511\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glMultMatrixf(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01512\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNewList(GLuint,\ GLenum);}
+\DoxyCodeLine{01513\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3b(GLbyte,\ GLbyte,\ GLbyte);}
+\DoxyCodeLine{01514\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3bv(\textcolor{keyword}{const}\ GLbyte*);}
+\DoxyCodeLine{01515\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3d(GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01516\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01517\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3f(GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01518\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01519\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3i(GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01520\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01521\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3s(GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01522\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormal3sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01523\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glOrtho(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01524\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPassThrough(GLfloat);}
+\DoxyCodeLine{01525\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelMapfv(GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01526\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelMapuiv(GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01527\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelMapusv(GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ GLushort*);}
+\DoxyCodeLine{01528\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelStoref(GLenum,\ GLfloat);}
+\DoxyCodeLine{01529\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelStorei(GLenum,\ GLint);}
+\DoxyCodeLine{01530\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelTransferf(GLenum,\ GLfloat);}
+\DoxyCodeLine{01531\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelTransferi(GLenum,\ GLint);}
+\DoxyCodeLine{01532\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPixelZoom(GLfloat,\ GLfloat);}
+\DoxyCodeLine{01533\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPointSize(GLfloat);}
+\DoxyCodeLine{01534\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPolygonMode(GLenum,\ GLenum);}
+\DoxyCodeLine{01535\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPolygonStipple(\textcolor{keyword}{const}\ GLubyte*);}
+\DoxyCodeLine{01536\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPopAttrib();}
+\DoxyCodeLine{01537\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPopMatrix();}
+\DoxyCodeLine{01538\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPopName();}
+\DoxyCodeLine{01539\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPushAttrib(GLbitfield);}
+\DoxyCodeLine{01540\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPushMatrix();}
+\DoxyCodeLine{01541\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPushName(GLuint);}
+\DoxyCodeLine{01542\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2d(GLdouble,\ GLdouble);}
+\DoxyCodeLine{01543\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01544\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2f(GLfloat,\ GLfloat);}
+\DoxyCodeLine{01545\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01546\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2i(GLint,\ GLint);}
+\DoxyCodeLine{01547\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01548\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2s(GLshort,\ GLshort);}
+\DoxyCodeLine{01549\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos2sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01550\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3d(GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01551\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01552\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3f(GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01553\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01554\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3i(GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01555\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01556\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3s(GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01557\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos3sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01558\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4d(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01559\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01560\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4f(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01561\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01562\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4i(GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01563\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01564\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4s(GLshort,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01565\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRasterPos4sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01566\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glReadBuffer(GLenum);}
+\DoxyCodeLine{01567\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glReadPixels(GLint,\ GLint,\ GLsizei,\ GLsizei,\ GLenum,\ GLenum,\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01568\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRectd(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01569\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRectdv(\textcolor{keyword}{const}\ GLdouble*,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01570\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRectf(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01571\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRectfv(\textcolor{keyword}{const}\ GLfloat*,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01572\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRecti(GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01573\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRectiv(\textcolor{keyword}{const}\ GLint*,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01574\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRects(GLshort,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01575\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRectsv(\textcolor{keyword}{const}\ GLshort*,\ \textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01576\ GLAPI\ GLint\ APIENTRY\ glRenderMode(GLenum);}
+\DoxyCodeLine{01577\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRotated(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01578\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glRotatef(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01579\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glScaled(GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01580\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glScalef(GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01581\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glScissor(GLint,\ GLint,\ GLsizei,\ GLsizei);}
+\DoxyCodeLine{01582\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glSelectBuffer(GLsizei,\ GLuint*);}
+\DoxyCodeLine{01583\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glShadeModel(GLenum);}
+\DoxyCodeLine{01584\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glStencilFunc(GLenum,\ GLint,\ GLuint);}
+\DoxyCodeLine{01585\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glStencilMask(GLuint);}
+\DoxyCodeLine{01586\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glStencilOp(GLenum,\ GLenum,\ GLenum);}
+\DoxyCodeLine{01587\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1d(GLdouble);}
+\DoxyCodeLine{01588\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01589\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1f(GLfloat);}
+\DoxyCodeLine{01590\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01591\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1i(GLint);}
+\DoxyCodeLine{01592\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01593\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1s(GLshort);}
+\DoxyCodeLine{01594\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord1sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01595\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2d(GLdouble,\ GLdouble);}
+\DoxyCodeLine{01596\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01597\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2f(GLfloat,\ GLfloat);}
+\DoxyCodeLine{01598\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01599\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2i(GLint,\ GLint);}
+\DoxyCodeLine{01600\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01601\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2s(GLshort,\ GLshort);}
+\DoxyCodeLine{01602\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord2sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01603\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3d(GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01604\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01605\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3f(GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01606\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01607\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3i(GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01608\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01609\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3s(GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01610\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord3sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01611\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4d(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01612\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01613\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4f(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01614\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01615\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4i(GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01616\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01617\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4s(GLshort,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01618\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoord4sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01619\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexEnvf(GLenum,\ GLenum,\ GLfloat);}
+\DoxyCodeLine{01620\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexEnvfv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01621\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexEnvi(GLenum,\ GLenum,\ GLint);}
+\DoxyCodeLine{01622\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexEnviv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01623\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexGend(GLenum,\ GLenum,\ GLdouble);}
+\DoxyCodeLine{01624\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexGendv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01625\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexGenf(GLenum,\ GLenum,\ GLfloat);}
+\DoxyCodeLine{01626\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexGenfv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01627\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexGeni(GLenum,\ GLenum,\ GLint);}
+\DoxyCodeLine{01628\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexGeniv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01629\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexImage1D(GLenum,\ GLint,\ GLint,\ GLsizei,\ GLint,\ GLenum,\ GLenum,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01630\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexImage2D(GLenum,\ GLint,\ GLint,\ GLsizei,\ GLsizei,\ GLint,\ GLenum,\ GLenum,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01631\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexParameterf(GLenum,\ GLenum,\ GLfloat);}
+\DoxyCodeLine{01632\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexParameterfv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01633\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexParameteri(GLenum,\ GLenum,\ GLint);}
+\DoxyCodeLine{01634\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexParameteriv(GLenum,\ GLenum,\ \textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01635\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTranslated(GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01636\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTranslatef(GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01637\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2d(GLdouble,\ GLdouble);}
+\DoxyCodeLine{01638\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01639\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2f(GLfloat,\ GLfloat);}
+\DoxyCodeLine{01640\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01641\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2i(GLint,\ GLint);}
+\DoxyCodeLine{01642\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01643\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2s(GLshort,\ GLshort);}
+\DoxyCodeLine{01644\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex2sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01645\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3d(GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01646\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01647\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3f(GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01648\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01649\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3i(GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01650\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01651\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3s(GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01652\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex3sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01653\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4d(GLdouble,\ GLdouble,\ GLdouble,\ GLdouble);}
+\DoxyCodeLine{01654\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4dv(\textcolor{keyword}{const}\ GLdouble*);}
+\DoxyCodeLine{01655\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4f(GLfloat,\ GLfloat,\ GLfloat,\ GLfloat);}
+\DoxyCodeLine{01656\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4fv(\textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01657\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4i(GLint,\ GLint,\ GLint,\ GLint);}
+\DoxyCodeLine{01658\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4iv(\textcolor{keyword}{const}\ GLint*);}
+\DoxyCodeLine{01659\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4s(GLshort,\ GLshort,\ GLshort,\ GLshort);}
+\DoxyCodeLine{01660\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertex4sv(\textcolor{keyword}{const}\ GLshort*);}
+\DoxyCodeLine{01661\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glViewport(GLint,\ GLint,\ GLsizei,\ GLsizei);}
+\DoxyCodeLine{01662\ }
+\DoxyCodeLine{01663\ GLAPI\ GLboolean\ APIENTRY\ glAreTexturesResident(GLsizei,\ \textcolor{keyword}{const}\ GLuint*,\ GLboolean*);}
+\DoxyCodeLine{01664\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glArrayElement(GLint);}
+\DoxyCodeLine{01665\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glBindTexture(GLenum,\ GLuint);}
+\DoxyCodeLine{01666\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glColorPointer(GLint,\ GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01667\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCopyTexImage1D(GLenum,\ GLint,\ GLenum,\ GLint,\ GLint,\ GLsizei,\ GLint);}
+\DoxyCodeLine{01668\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCopyTexImage2D(GLenum,\ GLint,\ GLenum,\ GLint,\ GLint,\ GLsizei,\ GLsizei,\ GLint);}
+\DoxyCodeLine{01669\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCopyTexSubImage1D(GLenum,\ GLint,\ GLint,\ GLint,\ GLint,\ GLsizei);}
+\DoxyCodeLine{01670\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glCopyTexSubImage2D(GLenum,\ GLint,\ GLint,\ GLint,\ GLint,\ GLint,\ GLsizei,\ GLsizei);}
+\DoxyCodeLine{01671\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDeleteTextures(GLsizei,\ \textcolor{keyword}{const}\ GLuint*);}
+\DoxyCodeLine{01672\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDisableClientState(GLenum);}
+\DoxyCodeLine{01673\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDrawArrays(GLenum,\ GLint,\ GLsizei);}
+\DoxyCodeLine{01674\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glDrawElements(GLenum,\ GLsizei,\ GLenum,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01675\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEdgeFlagPointer(GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01676\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glEnableClientState(GLenum);}
+\DoxyCodeLine{01677\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGenTextures(GLsizei,\ GLuint*);}
+\DoxyCodeLine{01678\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glGetPointerv(GLenum,\ \textcolor{keywordtype}{void}**);}
+\DoxyCodeLine{01679\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexPointer(GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01680\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexub(GLubyte);}
+\DoxyCodeLine{01681\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glIndexubv(\textcolor{keyword}{const}\ GLubyte*);}
+\DoxyCodeLine{01682\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glInterleavedArrays(GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01683\ GLAPI\ GLboolean\ APIENTRY\ glIsTexture(GLuint);}
+\DoxyCodeLine{01684\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glNormalPointer(GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01685\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPolygonOffset(GLfloat,\ GLfloat);}
+\DoxyCodeLine{01686\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPopClientAttrib();}
+\DoxyCodeLine{01687\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPrioritizeTextures(GLsizei,\ \textcolor{keyword}{const}\ GLuint*,\ \textcolor{keyword}{const}\ GLfloat*);}
+\DoxyCodeLine{01688\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glPushClientAttrib(GLbitfield);}
+\DoxyCodeLine{01689\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexCoordPointer(GLint,\ GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01690\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexSubImage1D(GLenum,\ GLint,\ GLint,\ GLsizei,\ GLenum,\ GLenum,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01691\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glTexSubImage2D(GLenum,\ GLint,\ GLint,\ GLint,\ GLsizei,\ GLsizei,\ GLenum,\ GLenum,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01692\ GLAPI\ \textcolor{keywordtype}{void}\ APIENTRY\ glVertexPointer(GLint,\ GLenum,\ GLsizei,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{01693\ }
+\DoxyCodeLine{01694\ \textcolor{keyword}{enum}\ sfogl\_LoadStatus}
+\DoxyCodeLine{01695\ \{}
+\DoxyCodeLine{01696\ \ \ \ \ sfogl\_LOAD\_FAILED\ =\ 0,}
+\DoxyCodeLine{01697\ \ \ \ \ sfogl\_LOAD\_SUCCEEDED\ =\ 1}
+\DoxyCodeLine{01698\ \};}
+\DoxyCodeLine{01699\ }
+\DoxyCodeLine{01700\ \textcolor{keywordtype}{void}\ sfogl\_LoadFunctions();}
+\DoxyCodeLine{01701\ }
+\DoxyCodeLine{01702\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{01703\ \}}
+\DoxyCodeLine{01704\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus}}
+\DoxyCodeLine{01705\ }
+\DoxyCodeLine{01706\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SFML\_GLLOADER\_HPP}}
+
+\end{DoxyCode}

@@ -1,0 +1,35 @@
+\doxysection{imgui\+\_\+impl\+\_\+sdl.\+h}
+\hypertarget{imgui__impl__sdl_8h_source}{}\label{imgui__impl__sdl_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/imgui-\/src/backends/imgui\_impl\_sdl.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/imgui-\/src/backends/imgui\_impl\_sdl.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ SDL2}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ DirectX11,\ OpenGL3,\ Vulkan..)}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ (Info:\ SDL2\ is\ a\ cross-\/platform\ general\ purpose\ library\ for\ handling\ windows,\ inputs,\ graphics\ context\ creation,\ etc.)}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ [X]\ Platform:\ Clipboard\ support.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ arrays\ indexed\ using\ SDL\_SCANCODE\_*\ codes,\ e.g.\ ImGui::IsKeyPressed(SDL\_SCANCODE\_SPACE).}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Gamepad\ support.\ Enabled\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Missing\ features:}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ SDL2\ handling\ of\ IME\ under\ Windows\ appears\ to\ be\ broken\ and\ it\ explicitly\ disable\ the\ regular\ Windows\ IME.\ You\ can\ restore\ Windows\ IME\ by\ compiling\ SDL\ with\ SDL\_DISABLE\_WINDOWS\_IME.}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ You\ can\ copy\ and\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ If\ you\ are\ new\ to\ Dear\ ImGui,\ read\ documentation\ from\ the\ docs/\ folder\ +\ read\ the\ top\ of\ imgui.cpp.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ Read\ online:\ https://github.com/ocornut/imgui/tree/master/docs}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{struct\ }SDL\_Window;}
+\DoxyCodeLine{00021\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }SDL\_Event\ SDL\_Event;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForOpenGL(SDL\_Window*\ window,\ \textcolor{keywordtype}{void}*\ sdl\_gl\_context);}
+\DoxyCodeLine{00024\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForVulkan(SDL\_Window*\ window);}
+\DoxyCodeLine{00025\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForD3D(SDL\_Window*\ window);}
+\DoxyCodeLine{00026\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForMetal(SDL\_Window*\ window);}
+\DoxyCodeLine{00027\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDL2\_Shutdown();}
+\DoxyCodeLine{00028\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDL2\_NewFrame(SDL\_Window*\ window);}
+\DoxyCodeLine{00029\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_ProcessEvent(\textcolor{keyword}{const}\ SDL\_Event*\ event);}
+
+\end{DoxyCode}

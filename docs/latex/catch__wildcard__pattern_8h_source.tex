@@ -1,0 +1,44 @@
+\doxysection{catch\+\_\+wildcard\+\_\+pattern.\+h}
+\hypertarget{catch__wildcard__pattern_8h_source}{}\label{catch__wildcard__pattern_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_wildcard\_pattern.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_wildcard\_pattern.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 13/7/2015.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2015\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_WILDCARD\_PATTERN\_HPP\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_WILDCARD\_PATTERN\_HPP\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_common.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }Catch}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_catch_1_1_wildcard_pattern}{WildcardPattern}}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ WildcardPosition\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ NoWildcard\ =\ 0,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ WildcardAtStart\ =\ 1,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ WildcardAtEnd\ =\ 2,}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ WildcardAtBothEnds\ =\ WildcardAtStart\ |\ WildcardAtEnd}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_wildcard_pattern}{WildcardPattern}}(\ std::string\ \textcolor{keyword}{const}\&\ pattern,\ CaseSensitive::Choice\ caseSensitivity\ );}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_catch_1_1_wildcard_pattern}{\string~WildcardPattern}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ matches(\ std::string\ \textcolor{keyword}{const}\&\ str\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ std::string\ normaliseString(\ std::string\ \textcolor{keyword}{const}\&\ str\ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ CaseSensitive::Choice\ m\_caseSensitivity;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ WildcardPosition\ m\_wildcard\ =\ NoWildcard;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ std::string\ m\_pattern;}
+\DoxyCodeLine{00035\ \ \ \ \ \};}
+\DoxyCodeLine{00036\ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_WILDCARD\_PATTERN\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

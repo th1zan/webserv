@@ -1,0 +1,236 @@
+\doxysection{catch\+\_\+commandline.\+cpp}
+\hypertarget{catch__commandline_8cpp_source}{}\label{catch__commandline_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_commandline.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_commandline.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 02/11/2010.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2010\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_commandline.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_string\_manip.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_registry\_hub.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_reporter.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{structclara_1_1detail_1_1_parser}{clara::Parser}}\ makeCommandLineParser(\ ConfigData\&\ config\ )\ \{}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ namespace\ }clara;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ setWarning\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ warning\ )\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ warningSet\ =\ [\&]()\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ warning\ ==\ \textcolor{stringliteral}{"{}NoAssertions"{}}\ )}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WarnAbout::NoAssertions;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ warning\ ==\ \textcolor{stringliteral}{"{}NoTests"{}}\ )}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WarnAbout::NoTests;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WarnAbout::Nothing;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (warningSet\ ==\ WarnAbout::Nothing)}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::runtimeError(\ \textcolor{stringliteral}{"{}Unrecognised\ warning:\ '"{}}\ +\ warning\ +\ \textcolor{stringliteral}{"{}'"{}}\ );}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.warnings\ =\ \textcolor{keyword}{static\_cast<}WarnAbout::What\textcolor{keyword}{>}(\ config.warnings\ |\ warningSet\ );}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ loadTestNamesFromFile\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ filename\ )\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::ifstream\ f(\ filename.c\_str()\ );}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !f.is\_open()\ )}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::runtimeError(\ \textcolor{stringliteral}{"{}Unable\ to\ load\ input\ file:\ '"{}}\ +\ filename\ +\ \textcolor{stringliteral}{"{}'"{}}\ );}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ line;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\ std::getline(\ f,\ line\ )\ )\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ line\ =\ trim(line);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !line.empty()\ \&\&\ !startsWith(\ line,\ \textcolor{charliteral}{'\#'}\ )\ )\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !startsWith(\ line,\ \textcolor{charliteral}{'"{}'}\ )\ )}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ line\ =\ \textcolor{charliteral}{'"{}'}\ +\ line\ +\ \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.testsOrTags.push\_back(\ line\ );}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.testsOrTags.emplace\_back(\ \textcolor{stringliteral}{"{},"{}}\ );}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Remove\ comma\ in\ the\ end}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!config.testsOrTags.empty())}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.testsOrTags.erase(\ config.testsOrTags.end()-\/1\ );}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ setTestOrder\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ order\ )\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ startsWith(\ \textcolor{stringliteral}{"{}declared"{}},\ order\ )\ )}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.runOrder\ =\ RunTests::InDeclarationOrder;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ startsWith(\ \textcolor{stringliteral}{"{}lexical"{}},\ order\ )\ )}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.runOrder\ =\ RunTests::InLexicographicalOrder;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ startsWith(\ \textcolor{stringliteral}{"{}random"{}},\ order\ )\ )}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.runOrder\ =\ RunTests::InRandomOrder;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ clara::ParserResult::runtimeError(\ \textcolor{stringliteral}{"{}Unrecognised\ ordering:\ '"{}}\ +\ order\ +\ \textcolor{stringliteral}{"{}'"{}}\ );}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ setRngSeed\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ seed\ )\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ seed\ !=\ \textcolor{stringliteral}{"{}time"{}}\ )}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ clara::detail::convertInto(\ seed,\ config.rngSeed\ );}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.rngSeed\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\textcolor{keyword}{>}(\ std::time(\textcolor{keyword}{nullptr})\ );}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ setColourUsage\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ useColour\ )\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ mode\ =\ toLower(\ useColour\ );}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ mode\ ==\ \textcolor{stringliteral}{"{}yes"{}}\ )}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.useColour\ =\ UseColour::Yes;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ mode\ ==\ \textcolor{stringliteral}{"{}no"{}}\ )}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.useColour\ =\ UseColour::No;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ mode\ ==\ \textcolor{stringliteral}{"{}auto"{}}\ )}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.useColour\ =\ UseColour::Auto;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::runtimeError(\ \textcolor{stringliteral}{"{}colour\ mode\ must\ be\ one\ of:\ auto,\ yes\ or\ no.\ '"{}}\ +\ useColour\ +\ \textcolor{stringliteral}{"{}'\ not\ recognised"{}}\ );}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ setWaitForKeypress\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ keypress\ )\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ keypressLc\ =\ toLower(\ keypress\ );}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (keypressLc\ ==\ \textcolor{stringliteral}{"{}never"{}})}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.waitForKeypress\ =\ WaitForKeypress::Never;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ keypressLc\ ==\ \textcolor{stringliteral}{"{}start"{}}\ )}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.waitForKeypress\ =\ WaitForKeypress::BeforeStart;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ keypressLc\ ==\ \textcolor{stringliteral}{"{}exit"{}}\ )}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.waitForKeypress\ =\ WaitForKeypress::BeforeExit;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ keypressLc\ ==\ \textcolor{stringliteral}{"{}both"{}}\ )}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.waitForKeypress\ =\ WaitForKeypress::BeforeStartAndExit;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::runtimeError(\ \textcolor{stringliteral}{"{}keypress\ argument\ must\ be\ one\ of:\ never,\ start,\ exit\ or\ both.\ '"{}}\ +\ keypress\ +\ \textcolor{stringliteral}{"{}'\ not\ recognised"{}}\ );}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ setVerbosity\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ verbosity\ )\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ lcVerbosity\ =\ toLower(\ verbosity\ );}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ lcVerbosity\ ==\ \textcolor{stringliteral}{"{}quiet"{}}\ )}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.verbosity\ =\ Verbosity::Quiet;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ lcVerbosity\ ==\ \textcolor{stringliteral}{"{}normal"{}}\ )}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.verbosity\ =\ Verbosity::Normal;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ lcVerbosity\ ==\ \textcolor{stringliteral}{"{}high"{}}\ )}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.verbosity\ =\ Verbosity::High;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::runtimeError(\ \textcolor{stringliteral}{"{}Unrecognised\ verbosity,\ '"{}}\ +\ verbosity\ +\ \textcolor{stringliteral}{"{}'"{}}\ );}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ setReporter\ =\ [\&](\ std::string\ \textcolor{keyword}{const}\&\ reporter\ )\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ IReporterRegistry::FactoryMap\ \textcolor{keyword}{const}\&\ factories\ =\ getRegistryHub().getReporterRegistry().getFactories();}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ lcReporter\ =\ toLower(\ reporter\ );}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ result\ =\ factories.find(\ lcReporter\ );}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ factories.end()\ !=\ result\ )}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.reporterName\ =\ lcReporter;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::runtimeError(\ \textcolor{stringliteral}{"{}Unrecognized\ reporter,\ '"{}}\ +\ reporter\ +\ \textcolor{stringliteral}{"{}'.\ Check\ available\ with\ -\/-\/list-\/reporters"{}}\ );}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ParserResult::ok(\ ParseResultType::Matched\ );}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ cli}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ =\ \mbox{\hyperlink{classclara_1_1detail_1_1_exe_name}{ExeName}}(\ config.processName\ )}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{structclara_1_1detail_1_1_help}{Help}}(\ config.showHelp\ )}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.listTests\ )}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/l"{}}][\textcolor{stringliteral}{"{}-\/-\/list-\/tests"{}}]}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}list\ all/matching\ test\ cases"{}}\ )}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.listTags\ )}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/t"{}}][\textcolor{stringliteral}{"{}-\/-\/list-\/tags"{}}]}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}list\ all/matching\ tags"{}}\ )}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.showSuccessfulTests\ )}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/s"{}}][\textcolor{stringliteral}{"{}-\/-\/success"{}}]}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}include\ successful\ tests\ in\ output"{}}\ )}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.shouldDebugBreak\ )}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/b"{}}][\textcolor{stringliteral}{"{}-\/-\/break"{}}]}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}break\ into\ debugger\ on\ failure"{}}\ )}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.noThrow\ )}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/e"{}}][\textcolor{stringliteral}{"{}-\/-\/nothrow"{}}]}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}skip\ exception\ tests"{}}\ )}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.showInvisibles\ )}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/i"{}}][\textcolor{stringliteral}{"{}-\/-\/invisibles"{}}]}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}show\ invisibles\ (tabs,\ newlines)"{}}\ )}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.outputFilename,\ \textcolor{stringliteral}{"{}filename"{}}\ )}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/o"{}}][\textcolor{stringliteral}{"{}-\/-\/out"{}}]}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}output\ filename"{}}\ )}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ setReporter,\ \textcolor{stringliteral}{"{}name"{}}\ )}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/r"{}}][\textcolor{stringliteral}{"{}-\/-\/reporter"{}}]}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}reporter\ to\ use\ (defaults\ to\ console)"{}}\ )}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.name,\ \textcolor{stringliteral}{"{}name"{}}\ )}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/n"{}}][\textcolor{stringliteral}{"{}-\/-\/name"{}}]}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}suite\ name"{}}\ )}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ [\&](\ \textcolor{keywordtype}{bool}\ )\{\ config.abortAfter\ =\ 1;\ \}\ )}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/a"{}}][\textcolor{stringliteral}{"{}-\/-\/abort"{}}]}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}abort\ at\ first\ failure"{}}\ )}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ [\&](\ \textcolor{keywordtype}{int}\ x\ )\{\ config.abortAfter\ =\ x;\ \},\ \textcolor{stringliteral}{"{}no.\ failures"{}}\ )}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/x"{}}][\textcolor{stringliteral}{"{}-\/-\/abortx"{}}]}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}abort\ after\ x\ failures"{}}\ )}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ setWarning,\ \textcolor{stringliteral}{"{}warning\ name"{}}\ )}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/w"{}}][\textcolor{stringliteral}{"{}-\/-\/warn"{}}]}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}enable\ warnings"{}}\ )}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ [\&](\ \textcolor{keywordtype}{bool}\ flag\ )\ \{\ config.showDurations\ =\ flag\ ?\ ShowDurations::Always\ :\ ShowDurations::Never;\ \},\ \textcolor{stringliteral}{"{}yes|no"{}}\ )}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/d"{}}][\textcolor{stringliteral}{"{}-\/-\/durations"{}}]}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}show\ test\ durations"{}}\ )}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.minDuration,\ \textcolor{stringliteral}{"{}seconds"{}}\ )}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/D"{}}][\textcolor{stringliteral}{"{}-\/-\/min-\/duration"{}}]}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}show\ test\ durations\ for\ tests\ taking\ at\ least\ the\ given\ number\ of\ seconds"{}}\ )}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ loadTestNamesFromFile,\ \textcolor{stringliteral}{"{}filename"{}}\ )}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/f"{}}][\textcolor{stringliteral}{"{}-\/-\/input-\/file"{}}]}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}load\ test\ names\ to\ run\ from\ a\ file"{}}\ )}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.filenamesAsTags\ )}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/\#"{}}][\textcolor{stringliteral}{"{}-\/-\/filenames-\/as-\/tags"{}}]}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}adds\ a\ tag\ for\ the\ filename"{}}\ )}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.sectionsToRun,\ \textcolor{stringliteral}{"{}section\ name"{}}\ )}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/c"{}}][\textcolor{stringliteral}{"{}-\/-\/section"{}}]}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}specify\ section\ to\ run"{}}\ )}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ setVerbosity,\ \textcolor{stringliteral}{"{}quiet|normal|high"{}}\ )}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/v"{}}][\textcolor{stringliteral}{"{}-\/-\/verbosity"{}}]}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}set\ output\ verbosity"{}}\ )}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.listTestNamesOnly\ )}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/list-\/test-\/names-\/only"{}}]}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}list\ all/matching\ test\ cases\ names\ only"{}}\ )}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.listReporters\ )}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/list-\/reporters"{}}]}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}list\ all\ reporters"{}}\ )}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ setTestOrder,\ \textcolor{stringliteral}{"{}decl|lex|rand"{}}\ )}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/order"{}}]}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}test\ case\ order\ (defaults\ to\ decl)"{}}\ )}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ setRngSeed,\ \textcolor{stringliteral}{"{}'time'|number"{}}\ )}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/rng-\/seed"{}}]}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}set\ a\ specific\ seed\ for\ random\ numbers"{}}\ )}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ setColourUsage,\ \textcolor{stringliteral}{"{}yes|no"{}}\ )}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/use-\/colour"{}}]}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}should\ output\ be\ colourised"{}}\ )}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.libIdentify\ )}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/libidentify"{}}]}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}report\ name\ and\ version\ according\ to\ libidentify\ standard"{}}\ )}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ setWaitForKeypress,\ \textcolor{stringliteral}{"{}never|start|exit|both"{}}\ )}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/wait-\/for-\/keypress"{}}]}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}waits\ for\ a\ keypress\ before\ exiting"{}}\ )}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.benchmarkSamples,\ \textcolor{stringliteral}{"{}samples"{}}\ )}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/benchmark-\/samples"{}}]}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}number\ of\ samples\ to\ collect\ (default:\ 100)"{}}\ )}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.benchmarkResamples,\ \textcolor{stringliteral}{"{}resamples"{}}\ )}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/benchmark-\/resamples"{}}]}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}number\ of\ resamples\ for\ the\ bootstrap\ (default:\ 100000)"{}}\ )}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.benchmarkConfidenceInterval,\ \textcolor{stringliteral}{"{}confidence\ interval"{}}\ )}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/benchmark-\/confidence-\/interval"{}}]}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}confidence\ interval\ for\ the\ bootstrap\ (between\ 0\ and\ 1,\ default:\ 0.95)"{}}\ )}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.benchmarkNoAnalysis\ )}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/benchmark-\/no-\/analysis"{}}]}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}perform\ only\ measurements;\ do\ not\ perform\ any\ analysis"{}}\ )}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_opt}{Opt}}(\ config.benchmarkWarmupTime,\ \textcolor{stringliteral}{"{}benchmarkWarmupTime"{}}\ )}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/-\/benchmark-\/warmup-\/time"{}}]}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}amount\ of\ time\ in\ milliseconds\ spent\ on\ warming\ up\ each\ test\ (default:\ 100)"{}}\ )}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \mbox{\hyperlink{classclara_1_1detail_1_1_arg}{Arg}}(\ config.testsOrTags,\ \textcolor{stringliteral}{"{}test\ name|pattern|tags"{}}\ )}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ \textcolor{stringliteral}{"{}which\ test\ or\ tests\ to\ use"{}}\ );}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cli;}
+\DoxyCodeLine{00228\ \ \ \ \ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+
+\end{DoxyCode}

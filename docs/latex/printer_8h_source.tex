@@ -1,0 +1,43 @@
+\doxysection{printer.\+h}
+\hypertarget{printer_8h_source}{}\label{printer_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/lib/libft/printf/include/printer.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/lib/libft/printf/include/printer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ printer.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ mdias-\/ma\ <mdias-\/ma@student.42sp.org.br>\ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2022/07/14\ 17:22:09\ by\ mdias-\/ma\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2022/09/17\ 20:54:11\ by\ mdias-\/ma\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ PRINTER\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ PRINTER\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#\ include\ "{}ft\_printf.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ int\ (*t\_out)(\mbox{\hyperlink{structs__param}{t\_param}}\ *,\ va\_list);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ t\_out\ \ \ *conversion\_array(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{void}\ \ \ \ init\_printer(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{int}\ \ \ \ \ out\_char(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ va\_list\ args);}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{int}\ \ \ \ \ out\_string(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ va\_list\ args);}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{int}\ \ \ \ \ out\_pointer(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ va\_list\ args);}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ \ \ \ \ out\_signed(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ va\_list\ args);}
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{int}\ \ \ \ \ out\_unsigned(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ va\_list\ args);}
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{int}\ \ \ \ \ out\_percent(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ va\_list\ args);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ \ \ \ \ put\_format(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ va\_list\ args);}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \ \ \ \ put\_padding(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ \ \ \ \ put\_string(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string},\ \textcolor{keywordtype}{int}\ length);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \ \ \ \ put\_number\_justified(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ \textcolor{keywordtype}{char}\ *\textcolor{keywordtype}{string},\ \textcolor{keywordtype}{int}\ strlen);}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{void}\ \ \ \ set\_number\_precision(\mbox{\hyperlink{structs__param}{t\_param}}\ *spec,\ \textcolor{keywordtype}{int}\ strlen);}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_itoa\_base(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ nbr,\ \textcolor{keywordtype}{char}\ *nbr\_sys);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

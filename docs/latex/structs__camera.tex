@@ -1,0 +1,74 @@
+\doxysection{s\+\_\+camera Struct Reference}
+\hypertarget{structs__camera}{}\label{structs__camera}\index{s\_camera@{s\_camera}}
+
+
+The structure of type t\+\_\+camera contains the necessary information for camera configuration, rendering and transformation.  
+
+
+
+
+{\ttfamily \#include $<$camera.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structs__camera_af5399e5530d89fe884749118409e59a0}\label{structs__camera_af5399e5530d89fe884749118409e59a0} 
+float {\bfseries hsize}
+\item 
+\Hypertarget{structs__camera_a59292517f47a01e768a615e93de9585f}\label{structs__camera_a59292517f47a01e768a615e93de9585f} 
+float {\bfseries vsize}
+\item 
+\Hypertarget{structs__camera_a8944ccdbc9a175ea4cdb00439aaad118}\label{structs__camera_a8944ccdbc9a175ea4cdb00439aaad118} 
+float {\bfseries field\+\_\+of\+\_\+view}
+\item 
+\Hypertarget{structs__camera_ad65b8d4d3d7b4acd794b39feed120a44}\label{structs__camera_ad65b8d4d3d7b4acd794b39feed120a44} 
+float {\bfseries half\+\_\+width}
+\item 
+\Hypertarget{structs__camera_a9121459246e61e62656581fc38b7f0c0}\label{structs__camera_a9121459246e61e62656581fc38b7f0c0} 
+float {\bfseries half\+\_\+height}
+\item 
+\Hypertarget{structs__camera_a8aaf4f786afcc19777418b452aa07c29}\label{structs__camera_a8aaf4f786afcc19777418b452aa07c29} 
+float {\bfseries pixel\+\_\+size}
+\item 
+\Hypertarget{structs__camera_a4db6ceb0f47aaab11d2b9a32086e2762}\label{structs__camera_a4db6ceb0f47aaab11d2b9a32086e2762} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} {\bfseries transform}
+\item 
+\Hypertarget{structs__camera_aa33eec966dc14cd8bb91a72329d384bb}\label{structs__camera_aa33eec966dc14cd8bb91a72329d384bb} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} {\bfseries inverse}
+\item 
+\Hypertarget{structs__camera_a3d931195823070c247a030b23a0ae52d}\label{structs__camera_a3d931195823070c247a030b23a0ae52d} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} {\bfseries transpose}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The structure of type t\+\_\+camera contains the necessary information for camera configuration, rendering and transformation. 
+
+ABOUT THE HEADER CAMERA.\+H
+
+This header contains all functions regarding camera implementation. 
+\begin{DoxyParams}{Parameters}
+{\em hsize} & Stores the horizontal size (in pixels). \\
+\hline
+{\em vsize} & Stores the vertical size (in pixels). \\
+\hline
+{\em field\+\_\+of\+\_\+view} & This field stores angle that describes how much the camera can see. When the field of view is small, the view will be "{}zoomed in"{}, magnifying a smaller area of the scene. \\
+\hline
+{\em half\+\_\+width} & Stores the camera\textquotesingle{}s half hsize value. \\
+\hline
+{\em half\+\_\+height} & Stores the camera\textquotesingle{}s half vsize value. \\
+\hline
+{\em pixel\+\_\+size} & Stores the camera\textquotesingle{}s pixel size calculated from half\+\_\+width and hsize values. \\
+\hline
+{\em transform} & Stores the transformation matrix for the camera. \\
+\hline
+{\em inverse} & Stores the inverse matrix for the camera. \\
+\hline
+{\em transpose} & Stores the transpose matrix for the camera. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/\mbox{\hyperlink{mini_r_t__example_2include_2camera_8h}{camera.\+h}}\end{DoxyCompactItemize}

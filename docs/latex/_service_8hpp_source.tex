@@ -1,0 +1,92 @@
+\doxysection{Service.\+hpp}
+\hypertarget{_service_8hpp_source}{}\label{_service_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/webserv/include/Service.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/webserv/include/Service.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SERVICE\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SERVICE\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}defines.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Parser.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Client.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \#include\ "{}Service.hpp"{}}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \#include\ "{}utils.hpp"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structservice_info}{serviceInfo}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ addrinfo\ \ \ \ parameters;}
+\DoxyCodeLine{00014\ \ \ \ \ addrinfo\ \ \ \ *address;}
+\DoxyCodeLine{00015\ \ \ \ \ std::string\ host;}
+\DoxyCodeLine{00016\ \ \ \ \ std::string\ port;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ listeningSocketFd;\ \textcolor{comment}{//to\ listen\ -\/\ for\ server}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ clientID;\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ serverID;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ connectionSocketFd;\ \textcolor{comment}{//to\ connect\ -\/\ for\ client}}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ pollID;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ mode;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ launch;}
+\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00029\ \textcolor{comment}{For\ information:}}
+\DoxyCodeLine{00030\ \textcolor{comment}{}}
+\DoxyCodeLine{00031\ \textcolor{comment}{struct\ addrinfo\ \{}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ \ \ \ int\ \ \ \ \ \ \ \ \ \ \ \ \ \ ai\_flags;\ \ \ \ \ \ //\ options}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ \ int\ \ \ \ \ \ \ \ \ \ \ \ \ \ ai\_family;\ \ \ \ \ //\ adress\ family\ (ipv4,\ ipv6)\ (AF\_INET,\ AF\_INET6,\ etc.)}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ \ int\ \ \ \ \ \ \ \ \ \ \ \ \ \ ai\_socktype;\ \ \ //\ kind\ of\ socket\ (SOCK\_STREAM,\ SOCK\_DGRAM,\ etc.)}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ \ int\ \ \ \ \ \ \ \ \ \ \ \ \ \ ai\_protocol;\ \ \ //\ protocol\ (IPPROTO\_TCP,\ IPPROTO\_UDP,\ etc.)}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ \ \ \ size\_t\ \ \ \ \ \ \ \ \ \ \ ai\_addrlen;\ \ \ \ //\ adress\ size}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ \ \ \ struct\ sockaddr\ *ai\_addr;\ \ \ \ \ \ \ //\ socket\ addr}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ \ \ \ char\ \ \ \ \ \ \ \ \ \ \ \ *ai\_canonname;\ \ //\ canonical\ nam}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ \ \ \ struct\ addrinfo\ *ai\_next;\ \ \ \ \ \ \ //\ pointer\ to\ the\ nex\ struct}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\};}}
+\DoxyCodeLine{00041\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_service}{Service}}}
+\DoxyCodeLine{00044\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Server>\ \_serversVector;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Client>\ \_clientVector;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<pollfd>\ \_pollingFdVector;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \ \ \ \ \ \ \ \ \ \_defaultServers;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structservice_info}{serviceInfo}}\ \ \ \ \ \ \_tmpServiceInfo;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_initServiceInfo();}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_getSetupInfo(std::vector<Server>::iterator\ server);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_setReuseableAddress();}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_resetTmpServiceInfo();}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_convertHostToAddress();}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_bindAddressToSocket();}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_setSocketListening();}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_addSocketToPollSockVec();}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_launch();}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_initPollingVector();}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_pollingManager();}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_getLaunchInfo(\textcolor{keywordtype}{int}\ \textcolor{keyword}{const}\ i);}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \_getServerIndex();}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \_hasDataToRead();}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \_isServerSocket();}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_acceptConnection();}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_readDataFromClient();}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_closeConnection(std::string\ \textcolor{keyword}{const}\ \&msg);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \_hasBadRequest();}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_sendDataToClient();}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \_checkRequestedServer();}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_service}{Service}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ **argv);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_service}{\string~Service}}();}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ setup();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ launch();}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ printServersInfo();}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ printServiceInfo();}
+\DoxyCodeLine{00083\ \ \ \ \ }
+\DoxyCodeLine{00084\ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

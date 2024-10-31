@@ -1,0 +1,47 @@
+\doxysection{utils.\+h}
+\hypertarget{mini_r_t_2mini_r_t__example_2tests_2utils_8h_source}{}\label{mini_r_t_2mini_r_t__example_2tests_2utils_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/tests/utils.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/tests/utils.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ utils.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ yde-\/goes\ <yde-\/goes@student.42sp.org.br>\ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/04/06\ 09:31:28\ by\ mdias-\/ma\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/05/30\ 18:20:02\ by\ yde-\/goes\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ UTILS\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ UTILS\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <criterion/criterion.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <criterion/new/assert.h>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#\ include\ <stdio.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#\ include\ "{}world.h"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#\ include\ "{}shapes.h"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{helpers_8h}{helpers.h}}"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#\ include\ "{}camera.h"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{canvas_8h}{canvas.h}}"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#\ include\ "{}parser.h"{}}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#\ define\ EPSILON\ 0.00001}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#\ define\ BLACK\ new\_color(0,\ 0,\ 0)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#\ define\ WHITE\ new\_color(1,\ 1,\ 1)}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ t\_bool\ \ \ \ \ \ compare\_spheres(\mbox{\hyperlink{structs__sphere}{t\_sphere}}\ *a,\ \mbox{\hyperlink{structs__sphere}{t\_sphere}}\ *b);}
+\DoxyCodeLine{00033\ \mbox{\hyperlink{structs__world}{t\_world}}\ \ \ \ \ \ world\_stub(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00034\ \mbox{\hyperlink{structs__world}{t\_world}}\ \ \ \ \ \ default\_world(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00035\ \mbox{\hyperlink{structs__sphere}{t\_sphere}}\ \ \ \ *sphere\_stub(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00036\ t\_bool\ \ \ \ \ \ compare\_spheres(\mbox{\hyperlink{structs__sphere}{t\_sphere}}\ *a,\ \mbox{\hyperlink{structs__sphere}{t\_sphere}}\ *b);}
+\DoxyCodeLine{00037\ t\_bool\ \ \ \ \ \ compare\_tuples(\mbox{\hyperlink{structs__tuple}{t\_tuple}}\ a,\ \mbox{\hyperlink{structs__tuple}{t\_tuple}}\ b);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ assert\_matrix\_equal(\mbox{\hyperlink{structs__matrix}{t\_matrix}}\ a,\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ b);}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ intersection\_count(\mbox{\hyperlink{structs__hit}{t\_hit}}\ *xs);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

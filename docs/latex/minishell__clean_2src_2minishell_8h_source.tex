@@ -1,0 +1,69 @@
+\doxysection{minishell.\+h}
+\hypertarget{minishell__clean_2src_2minishell_8h_source}{}\label{minishell__clean_2src_2minishell_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/minishell.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/minishell.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ minishell.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2022/11/06\ 16:13:42\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/11/07\ 22:19:24\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ MINISHELL\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ MINISHELL\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*System's\ headers*/}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#\ include\ <fcntl.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#\ include\ <stdio.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#\ include\ <unistd.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#\ include\ <string.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#\ include\ <errno.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#\ include\ <stdlib.h>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#\ include\ <sys/wait.h>}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#\ include\ <sys/types.h>}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#\ include\ <readline/readline.h>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#\ include\ <readline/history.h>}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#\ include\ <termios.h>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#\ include\ <signal.h>}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{/*Minishell\ header\ files*/}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#\ include\ "{}./header/struct.h"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#\ include\ "{}./header/enum\_token.h"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#\ include\ "{}./libft/libft.h"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#\ include\ "{}./header/check\_fct.h"{}}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#\ include\ "{}./header/parsing.h"{}}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#\ include\ "{}./header/built\_in.h"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#\ include\ "{}./header/utils.h"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#\ include\ "{}./header/redirection.h"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#\ include\ "{}./header/execution.h"{}}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structs__env}{t\_env}}\ \ \ *g\_env;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{/*\ minishell.c\ */}}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ \ \ \ \ main(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ **argv,\ \textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{int}\ \ \ \ \ execute\_command(\mbox{\hyperlink{structs__env}{t\_env}}\ *env,\ \textcolor{keywordtype}{char}\ *input);}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ \ \ \ \ process\_main\_input(\mbox{\hyperlink{structs__env}{t\_env}}\ *env,\ \textcolor{keywordtype}{char}\ *input);}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ \ \ \ \ input\_loop(\mbox{\hyperlink{structs__env}{t\_env}}\ *env);}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{char}\ \ \ \ *get\_line(\textcolor{keywordtype}{char}\ *prompt);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{/*\ init\_env.c\ */}}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{int}\ \ \ \ \ count\_env\_entries(\textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{char}\ \ \ \ **copy\_env(\textcolor{keywordtype}{char}\ **envp,\ \textcolor{keywordtype}{int}\ count);}
+\DoxyCodeLine{00053\ \mbox{\hyperlink{structs__env}{t\_env}}\ \ *init\_env(\textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{int}\ \ \ \ \ parse\_input(\textcolor{keywordtype}{char}\ *input,\ \mbox{\hyperlink{structs__env}{t\_env}}\ *env);}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{char}\ \ \ \ **get\_path\_tab(\textcolor{keywordtype}{char}\ **env\_main);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{comment}{/*\ signal.c\ */}}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{int}\ \ \ \ \ save\_std(\textcolor{keywordtype}{int}\ *original\_std);}
+\DoxyCodeLine{00059\ \textcolor{keywordtype}{int}\ \ \ \ \ restore\_std(\textcolor{keywordtype}{int}\ *original\_std);}
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{void}\ \ \ \ handle\_signal(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{void}\ \ \ \ handle\_sigint(\textcolor{keywordtype}{int}\ signo);}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ \ \ \ create\_history(\textcolor{keywordtype}{char}\ *input);}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

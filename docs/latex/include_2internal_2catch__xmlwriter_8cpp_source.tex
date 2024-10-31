@@ -1,0 +1,340 @@
+\doxysection{catch\+\_\+xmlwriter.\+cpp}
+\hypertarget{include_2internal_2catch__xmlwriter_8cpp_source}{}\label{include_2internal_2catch__xmlwriter_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_xmlwriter.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_xmlwriter.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 19/07/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_xmlwriter.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ trailingBytes(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xE0)\ ==\ 0xC0)\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xF0)\ ==\ 0xE0)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xF8)\ ==\ 0xF0)\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ CATCH\_INTERNAL\_ERROR(\textcolor{stringliteral}{"{}Invalid\ multibyte\ utf-\/8\ start\ byte\ encountered"{}});}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ uint32\_t\ headerValue(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xE0)\ ==\ 0xC0)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ \&\ 0x1F;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xF0)\ ==\ 0xE0)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ \&\ 0x0F;}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((c\ \&\ 0xF8)\ ==\ 0xF0)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ \&\ 0x07;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ CATCH\_INTERNAL\_ERROR(\textcolor{stringliteral}{"{}Invalid\ multibyte\ utf-\/8\ start\ byte\ encountered"{}});}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ hexEscapeChar(std::ostream\&\ os,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ std::ios\_base::fmtflags\ f(os.flags());}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)x"{}}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::uppercase\ <<\ std::hex\ <<\ std::setfill(\textcolor{charliteral}{'0'})\ <<\ std::setw(2)}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(c);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ os.flags(f);}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldNewline(XmlFormatting\ fmt)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !!(\textcolor{keyword}{static\_cast<}std::underlying\_type<XmlFormatting>::type\textcolor{keyword}{>}(fmt\ \&\ XmlFormatting::Newline));}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldIndent(XmlFormatting\ fmt)\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !!(\textcolor{keyword}{static\_cast<}std::underlying\_type<XmlFormatting>::type\textcolor{keyword}{>}(fmt\ \&\ XmlFormatting::Indent));}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \}\ \textcolor{comment}{//\ anonymous\ namespace}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ XmlFormatting\ operator\ |\ (XmlFormatting\ lhs,\ XmlFormatting\ rhs)\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}XmlFormatting\textcolor{keyword}{>}(}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::underlying\_type<XmlFormatting>::type\textcolor{keyword}{>}(lhs)\ |}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::underlying\_type<XmlFormatting>::type\textcolor{keyword}{>}(rhs)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ XmlFormatting\ operator\ \&\ (XmlFormatting\ lhs,\ XmlFormatting\ rhs)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}XmlFormatting\textcolor{keyword}{>}(}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::underlying\_type<XmlFormatting>::type\textcolor{keyword}{>}(lhs)\ \&}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::underlying\_type<XmlFormatting>::type\textcolor{keyword}{>}(rhs)}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ XmlEncode::XmlEncode(\ std::string\ \textcolor{keyword}{const}\&\ str,\ ForWhat\ forWhat\ )}
+\DoxyCodeLine{00079\ \ \ \ \ :\ \ \ m\_str(\ str\ ),}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ m\_forWhat(\ forWhat\ )}
+\DoxyCodeLine{00081\ \ \ \ \ \{\}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlEncode::encodeTo(\ std::ostream\&\ os\ )\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apostrophe\ escaping\ not\ necessary\ if\ we\ always\ use\ "{}\ to\ write\ attributes}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (see:\ http://www.w3.org/TR/xml/\#syntax)}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ std::size\_t\ idx\ =\ 0;\ idx\ <\ m\_str.size();\ ++\ idx\ )\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c\ =\ m\_str[idx];}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (c)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'<'}:\ \ \ os\ <<\ \textcolor{stringliteral}{"{}\&lt;"{}};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'\&'}:\ \ \ os\ <<\ \textcolor{stringliteral}{"{}\&amp;"{}};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'>'}:}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ See:\ http://www.w3.org/TR/xml/\#syntax}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (idx\ >\ 2\ \&\&\ m\_str[idx\ -\/\ 1]\ ==\ \textcolor{charliteral}{']'}\ \&\&\ m\_str[idx\ -\/\ 2]\ ==\ \textcolor{charliteral}{']'})}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}\&gt;"{}};}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ c;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'\(\backslash\)"{}'}:}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_forWhat\ ==\ ForAttributes)}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{stringliteral}{"{}\&quot;"{}};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ c;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ control\ characters\ and\ invalid\ utf-\/8}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Escape\ control\ characters\ in\ standard\ ascii}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ see\ http://stackoverflow.com/questions/404107/why-\/are-\/control-\/characters-\/illegal-\/in-\/xml-\/1-\/0}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ <\ 0x09\ ||\ (c\ >\ 0x0D\ \&\&\ c\ <\ 0x20)\ ||\ c\ ==\ 0x7F)\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hexEscapeChar(os,\ c);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Plain\ ASCII:\ Write\ it\ to\ stream}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ <\ 0x7F)\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ c;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ UTF-\/8\ territory}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ encoding\ is\ valid\ and\ if\ it\ is\ not,\ hex\ escape\ bytes.}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Important:\ We\ do\ not\ check\ the\ exact\ decoded\ values\ for\ validity,\ only\ the\ encoding\ format}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ First\ check\ that\ this\ bytes\ is\ a\ valid\ lead\ byte:}}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ means\ that\ it\ is\ not\ encoded\ as\ 1111\ 1XXX}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Or\ as\ 10XX\ XXXX}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ <\ \ 0xC0\ ||}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\ >=\ 0xF8)\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hexEscapeChar(os,\ c);}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ encBytes\ =\ trailingBytes(c);}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Are\ there\ enough\ bytes\ left\ to\ avoid\ accessing\ out-\/of-\/bounds\ memory?}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (idx\ +\ encBytes\ -\/\ 1\ >=\ m\_str.size())\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hexEscapeChar(os,\ c);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ header\ is\ valid,\ check\ data}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ next\ encBytes\ bytes\ must\ together\ be\ a\ valid\ utf-\/8}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ means:\ bitpattern\ 10XX\ XXXX\ and\ the\ extracted\ value\ is\ sane\ (ish)}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ valid\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ value\ =\ headerValue(c);}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ n\ =\ 1;\ n\ <\ encBytes;\ ++n)\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ nc\ =\ m\_str[idx\ +\ n];}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\ \&=\ ((nc\ \&\ 0xC0)\ ==\ 0x80);}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ (value\ <<\ 6)\ |\ (nc\ \&\ 0x3F);}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Wrong\ bit\ pattern\ of\ following\ bytes}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (!valid)\ ||}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Overlong\ encodings}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (value\ <\ 0x80)\ ||}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (0x80\ <=\ value\ \&\&\ value\ <\ 0x800\ \ \ \&\&\ encBytes\ >\ 2)\ ||}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (0x800\ <\ value\ \&\&\ value\ <\ 0x10000\ \&\&\ encBytes\ >\ 3)\ ||}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Encoded\ value\ out\ of\ range}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (value\ >=\ 0x110000)}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )\ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hexEscapeChar(os,\ c);}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ got\ here,\ this\ is\ in\ fact\ a\ valid(ish)\ utf-\/8\ sequence}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ n\ =\ 0;\ n\ <\ encBytes;\ ++n)\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ m\_str[idx\ +\ n];}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idx\ +=\ encBytes\ -\/\ 1;}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \ \ \}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ std::ostream\&\ operator\ <<\ (\ std::ostream\&\ os,\ XmlEncode\ \textcolor{keyword}{const}\&\ xmlEncode\ )\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ xmlEncode.encodeTo(\ os\ );}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00180\ \ \ \ \ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ XmlWriter::ScopedElement::ScopedElement(\ XmlWriter*\ writer,\ XmlFormatting\ fmt\ )}
+\DoxyCodeLine{00183\ \ \ \ \ :\ \ \ m\_writer(\ writer\ ),}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ m\_fmt(fmt)}
+\DoxyCodeLine{00185\ \ \ \ \ \{\}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ XmlWriter::ScopedElement::ScopedElement(\ ScopedElement\&\&\ other\ )\ noexcept}
+\DoxyCodeLine{00188\ \ \ \ \ :\ \ \ m\_writer(\ other.m\_writer\ ),}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ m\_fmt(other.m\_fmt)}
+\DoxyCodeLine{00190\ \ \ \ \ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ other.m\_writer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ other.m\_fmt\ =\ XmlFormatting::None;}
+\DoxyCodeLine{00193\ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ XmlWriter::ScopedElement\&\ XmlWriter::ScopedElement::operator=(\ ScopedElement\&\&\ other\ )\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ m\_writer\ )\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ m\_writer-\/>endElement();}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ m\_writer\ =\ other.m\_writer;}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ other.m\_writer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ m\_fmt\ =\ other.m\_fmt;}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ other.m\_fmt\ =\ XmlFormatting::None;}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00203\ \ \ \ \ \}}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ XmlWriter::ScopedElement::\string~ScopedElement()\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_writer)\ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ m\_writer-\/>endElement(m\_fmt);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ XmlWriter::ScopedElement\&\ XmlWriter::ScopedElement::writeText(\ std::string\ \textcolor{keyword}{const}\&\ text,\ XmlFormatting\ fmt\ )\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ m\_writer-\/>writeText(\ text,\ fmt\ );}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00215\ \ \ \ \ \}}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ XmlWriter::XmlWriter(\ std::ostream\&\ os\ )\ :\ m\_os(\ os\ )}
+\DoxyCodeLine{00218\ \ \ \ \ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ writeDeclaration();}
+\DoxyCodeLine{00220\ \ \ \ \ \}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ XmlWriter::\string~XmlWriter()\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!m\_tags.empty())\ \{}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ endElement();}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ newlineIfNecessary();}
+\DoxyCodeLine{00227\ \ \ \ \ \}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \ \ XmlWriter\&\ XmlWriter::startElement(\ std::string\ \textcolor{keyword}{const}\&\ name,\ XmlFormatting\ fmt\ )\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ ensureTagClosed();}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ newlineIfNecessary();}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shouldIndent(fmt))\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ m\_indent;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ m\_indent\ +=\ \textcolor{stringliteral}{"{}\ \ "{}};}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{charliteral}{'<'}\ <<\ name;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ m\_tags.push\_back(\ name\ );}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ m\_tagIsOpen\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ applyFormatting(fmt);}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00241\ \ \ \ \ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ XmlWriter::ScopedElement\ XmlWriter::scopedElement(\ std::string\ \textcolor{keyword}{const}\&\ name,\ XmlFormatting\ fmt\ )\ \{}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ ScopedElement\ scoped(\ \textcolor{keyword}{this},\ fmt\ );}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ startElement(\ name,\ fmt\ );}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ scoped;}
+\DoxyCodeLine{00247\ \ \ \ \ \}}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ XmlWriter\&\ XmlWriter::endElement(XmlFormatting\ fmt)\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ m\_indent\ =\ m\_indent.substr(0,\ m\_indent.size()\ -\/\ 2);}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_tagIsOpen\ )\ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{stringliteral}{"{}/>"{}};}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ m\_tagIsOpen\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ newlineIfNecessary();}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shouldIndent(fmt))\ \{}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ m\_indent;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{stringliteral}{"{}</"{}}\ <<\ m\_tags.back()\ <<\ \textcolor{stringliteral}{"{}>"{}};}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ m\_os\ <<\ std::flush;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ applyFormatting(fmt);}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ m\_tags.pop\_back();}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00266\ \ \ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ XmlWriter\&\ XmlWriter::writeAttribute(\ std::string\ \textcolor{keyword}{const}\&\ name,\ std::string\ \textcolor{keyword}{const}\&\ attribute\ )\ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !name.empty()\ \&\&\ !attribute.empty()\ )}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{charliteral}{'\ '}\ <<\ name\ <<\ \textcolor{stringliteral}{"{}=\(\backslash\)"{}"{}}\ <<\ XmlEncode(\ attribute,\ XmlEncode::ForAttributes\ )\ <<\ \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00272\ \ \ \ \ \}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ XmlWriter\&\ XmlWriter::writeAttribute(\ std::string\ \textcolor{keyword}{const}\&\ name,\ \textcolor{keywordtype}{bool}\ attribute\ )\ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{charliteral}{'\ '}\ <<\ name\ <<\ \textcolor{stringliteral}{"{}=\(\backslash\)"{}"{}}\ <<\ (\ attribute\ ?\ \textcolor{stringliteral}{"{}true"{}}\ :\ \textcolor{stringliteral}{"{}false"{}}\ )\ <<\ \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00277\ \ \ \ \ \}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ XmlWriter\&\ XmlWriter::writeText(\ std::string\ \textcolor{keyword}{const}\&\ text,\ XmlFormatting\ fmt)\ \{}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !text.empty()\ )\{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ tagWasOpen\ =\ m\_tagIsOpen;}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ ensureTagClosed();}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tagWasOpen\ \&\&\ shouldIndent(fmt))\ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ m\_indent;}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ XmlEncode(\ text\ );}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ applyFormatting(fmt);}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00290\ \ \ \ \ \}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \ \ \ \ XmlWriter\&\ XmlWriter::writeComment(\ std::string\ \textcolor{keyword}{const}\&\ text,\ XmlFormatting\ fmt)\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ ensureTagClosed();}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shouldIndent(fmt))\ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ m\_indent;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{stringliteral}{"{}<!-\/-\/"{}}\ <<\ text\ <<\ \textcolor{stringliteral}{"{}-\/-\/>"{}};}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ applyFormatting(fmt);}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00300\ \ \ \ \ \}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlWriter::writeStylesheetRef(\ std::string\ \textcolor{keyword}{const}\&\ url\ )\ \{}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{stringliteral}{"{}<?xml-\/stylesheet\ type=\(\backslash\)"{}text/xsl\(\backslash\)"{}\ href=\(\backslash\)"{}"{}}\ <<\ url\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)"{}?>\(\backslash\)n"{}};}
+\DoxyCodeLine{00304\ \ \ \ \ \}}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \ \ \ \ XmlWriter\&\ XmlWriter::writeBlankLine()\ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ ensureTagClosed();}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00310\ \ \ \ \ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlWriter::ensureTagClosed()\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_tagIsOpen\ )\ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{charliteral}{'>'}\ <<\ std::flush;}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ newlineIfNecessary();}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ m\_tagIsOpen\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00318\ \ \ \ \ \}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlWriter::applyFormatting(XmlFormatting\ fmt)\ \{}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ m\_needsNewline\ =\ shouldNewline(fmt);}
+\DoxyCodeLine{00322\ \ \ \ \ \}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlWriter::writeDeclaration()\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ m\_os\ <<\ \textcolor{stringliteral}{"{}<?xml\ version=\(\backslash\)"{}1.0\(\backslash\)"{}\ encoding=\(\backslash\)"{}UTF-\/8\(\backslash\)"{}?>\(\backslash\)n"{}};}
+\DoxyCodeLine{00326\ \ \ \ \ \}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlWriter::newlineIfNecessary()\ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_needsNewline\ )\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ m\_os\ <<\ std::endl;}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ m\_needsNewline\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00333\ \ \ \ \ \}}
+\DoxyCodeLine{00334\ \}}
+
+\end{DoxyCode}

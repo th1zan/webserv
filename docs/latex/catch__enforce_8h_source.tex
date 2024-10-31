@@ -1,0 +1,59 @@
+\doxysection{catch\+\_\+enforce.\+h}
+\hypertarget{catch__enforce_8h_source}{}\label{catch__enforce_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_enforce.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_enforce.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 01/08/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_ENFORCE\_H\_INCLUDED}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_ENFORCE\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_common.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_compiler\_capabilities.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_stream.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <exception>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ !defined(CATCH\_CONFIG\_DISABLE\_EXCEPTIONS)}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Ex>}
+\DoxyCodeLine{00019\ \ \ \ \ [[noreturn]]}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ throw\_exception(Ex\ \textcolor{keyword}{const}\&\ e)\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ e;}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ \string^\string^\ Exceptions\ are\ enabled\ //\ \ Exceptions\ are\ disabled\ vv}}
+\DoxyCodeLine{00024\ \ \ \ \ [[noreturn]]}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ throw\_exception(std::exception\ \textcolor{keyword}{const}\&\ e);}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ [[noreturn]]}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ throw\_logic\_error(std::string\ \textcolor{keyword}{const}\&\ msg);}
+\DoxyCodeLine{00030\ \ \ \ \ [[noreturn]]}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ throw\_domain\_error(std::string\ \textcolor{keyword}{const}\&\ msg);}
+\DoxyCodeLine{00032\ \ \ \ \ [[noreturn]]}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ throw\_runtime\_error(std::string\ \textcolor{keyword}{const}\&\ msg);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \}\ \textcolor{comment}{//\ namespace\ Catch;}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ CATCH\_MAKE\_MSG(...)\ \(\backslash\)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ (Catch::ReusableStringStream()\ <<\ \_\_VA\_ARGS\_\_).str()}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ CATCH\_INTERNAL\_ERROR(...)\ \(\backslash\)}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\ \ \ \ Catch::throw\_logic\_error(CATCH\_MAKE\_MSG(\ CATCH\_INTERNAL\_LINEINFO\ <<\ "{}:\ Internal\ Catch2\ error:\ "{}\ <<\ \_\_VA\_ARGS\_\_))}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ CATCH\_ERROR(...)\ \(\backslash\)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ Catch::throw\_domain\_error(CATCH\_MAKE\_MSG(\ \_\_VA\_ARGS\_\_\ ))}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ CATCH\_RUNTIME\_ERROR(...)\ \(\backslash\)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \ \ Catch::throw\_runtime\_error(CATCH\_MAKE\_MSG(\ \_\_VA\_ARGS\_\_\ ))}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ CATCH\_ENFORCE(\ condition,\ ...\ )\ \(\backslash\)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\ \ \ \ do\{\ if(\ !(condition)\ )\ CATCH\_ERROR(\ \_\_VA\_ARGS\_\_\ );\ \}\ while(false)}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_ENFORCE\_H\_INCLUDED}}
+
+\end{DoxyCode}

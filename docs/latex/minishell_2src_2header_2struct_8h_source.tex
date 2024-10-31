@@ -1,0 +1,50 @@
+\doxysection{struct.\+h}
+\hypertarget{minishell_2src_2header_2struct_8h_source}{}\label{minishell_2src_2header_2struct_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/src/header/struct.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/src/header/struct.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ struct.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/04/26\ 09:31:25\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/10/17\ 10:40:17\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ STRUCT\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ STRUCT\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//faire\ un\ make\ re\ si\ on\ ajoute\ une\ variable\ !!}}
+\DoxyCodeLine{00017\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__tk}{s\_tk}}}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ *tk\_str;\ \ \ \ \textcolor{comment}{//\ contenu\ du\ token,\ built\ in\ input\_to\_token,\ cleaned\ in\ parse\_token}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ type;\ \ \ \ \ \ \ \textcolor{comment}{//\ type\ du\ token}}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ ***env;\ \ \ \ \ \textcolor{comment}{//\ environnement}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ fd\_in;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ fd\_out;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ pid;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ **path\_tab;\ \ \ \ \ \textcolor{comment}{//\ paths}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ *path;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ is\_var\_type\_with\_space\_before;}
+\DoxyCodeLine{00028\ \ \ \ \ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__tk}{s\_tk}}\ *tk\_arg;\ \ \ \ \textcolor{comment}{//\ premier\ arguments\ du\ token\ (sous-\/liste)}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__tk}{s\_tk}}\ *prev;\ \ \ \ \ \ \textcolor{comment}{//\ token\ suivant}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__tk}{s\_tk}}\ *next;\ \ \ \ \ \ \textcolor{comment}{//\ token\ précédent}}
+\DoxyCodeLine{00032\ \}\ \ \ \mbox{\hyperlink{structs__tk}{t\_tk}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__env}{s\_env}}}
+\DoxyCodeLine{00035\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *tk\_head;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ **env\_main;}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ **path\_tab;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *minishell\_directory;}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ error\_parsing;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ error\_processing;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ status;}
+\DoxyCodeLine{00043\ \}\ \ \ \mbox{\hyperlink{structs__env}{t\_env}};}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

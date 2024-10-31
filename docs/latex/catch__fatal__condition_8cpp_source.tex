@@ -1,0 +1,228 @@
+\doxysection{catch\+\_\+fatal\+\_\+condition.\+cpp}
+\hypertarget{catch__fatal__condition_8cpp_source}{}\label{catch__fatal__condition_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_fatal\_condition.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_fatal\_condition.cpp}}
+\mbox{\hyperlink{catch__fatal__condition_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 21/08/2014}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2014\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}catch\_fatal\_condition.h"{}}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}catch\_context.h"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}catch\_run\_context.h"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}catch\_windows\_h\_proxy.h"{}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#if\ !defined(\ CATCH\_CONFIG\_WINDOWS\_SEH\ )\ \&\&\ !defined(\ CATCH\_CONFIG\_POSIX\_SIGNALS\ )}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{//\ If\ neither\ SEH\ nor\ signal\ handling\ is\ required,\ the\ handler\ impls}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ do\ not\ have\ to\ do\ anything,\ and\ can\ be\ empty.}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ FatalConditionHandler::engage\_platform()\ \{\}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ FatalConditionHandler::disengage\_platform()\ \{\}}
+\DoxyCodeLine{00045\ \ \ \ \ FatalConditionHandler::FatalConditionHandler()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00046\ \ \ \ \ FatalConditionHandler::\string~FatalConditionHandler()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !CATCH\_CONFIG\_WINDOWS\_SEH\ \&\&\ !CATCH\_CONFIG\_POSIX\_SIGNALS}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#if\ defined(\ CATCH\_CONFIG\_WINDOWS\_SEH\ )\ \&\&\ defined(\ CATCH\_CONFIG\_POSIX\_SIGNALS\ )}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#error\ "{}Inconsistent\ configuration:\ Windows'\ SEH\ handling\ and\ POSIX\ signals\ cannot\ be\ enabled\ at\ the\ same\ time"{}}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_WINDOWS\_SEH\ \&\&\ CATCH\_CONFIG\_POSIX\_SIGNALS}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#if\ defined(\ CATCH\_CONFIG\_WINDOWS\_SEH\ )\ ||\ defined(\ CATCH\_CONFIG\_POSIX\_SIGNALS\ )}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ reportFatal(\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ \textcolor{keyword}{const}\ message\ )\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ Catch::getCurrentContext().getResultCapture()-\/>handleFatalErrorCondition(\ message\ );}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ minStackSizeForErrors\ =\ 32\ *\ 1024;}
+\DoxyCodeLine{00068\ \}\ \textcolor{comment}{//\ end\ unnamed\ namespace}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_WINDOWS\_SEH\ ||\ CATCH\_CONFIG\_POSIX\_SIGNALS}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#if\ defined(\ CATCH\_CONFIG\_WINDOWS\_SEH\ )}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{struct\ }SignalDefs\ \{\ DWORD\ id;\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ name;\ \};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{comment}{//\ There\ is\ no\ 1-\/1\ mapping\ between\ signals\ and\ windows\ exceptions.}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{comment}{//\ Windows\ can\ easily\ distinguish\ between\ SO\ and\ SigSegV,}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{comment}{//\ but\ SigInt,\ SigTerm,\ etc\ are\ handled\ differently.}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{static}\ SignalDefs\ signalDefs[]\ =\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}(EXCEPTION\_ILLEGAL\_INSTRUCTION),\ \ \textcolor{stringliteral}{"{}SIGILL\ -\/\ Illegal\ instruction\ signal"{}}\ \},}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}(EXCEPTION\_STACK\_OVERFLOW),\ \textcolor{stringliteral}{"{}SIGSEGV\ -\/\ Stack\ overflow"{}}\ \},}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}(EXCEPTION\_ACCESS\_VIOLATION),\ \textcolor{stringliteral}{"{}SIGSEGV\ -\/\ Segmentation\ violation\ signal"{}}\ \},}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}(EXCEPTION\_INT\_DIVIDE\_BY\_ZERO),\ \textcolor{stringliteral}{"{}Divide\ by\ zero\ error"{}}\ \},}
+\DoxyCodeLine{00086\ \ \ \ \ \};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{static}\ LONG\ CALLBACK\ handleVectoredException(PEXCEPTION\_POINTERS\ ExceptionInfo)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ def\ :\ signalDefs)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ExceptionInfo-\/>ExceptionRecord-\/>ExceptionCode\ ==\ def.id)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reportFatal(def.name);}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ its\ not\ an\ exception\ we\ care\ about,\ pass\ it\ along.}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ stops\ us\ from\ eating\ debugger\ breaks\ etc.}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EXCEPTION\_CONTINUE\_SEARCH;}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{comment}{//\ Since\ we\ do\ not\ support\ multiple\ instantiations,\ we\ put\ these}}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{comment}{//\ into\ global\ variables\ and\ rely\ on\ cleaning\ them\ up\ in\ outlined}}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{comment}{//\ constructors/destructors}}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{static}\ PVOID\ exceptionHandlerHandle\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{comment}{//\ For\ MSVC,\ we\ reserve\ part\ of\ the\ stack\ memory\ for\ handling}}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{comment}{//\ memory\ overflow\ structured\ exception.}}
+\DoxyCodeLine{00107\ \ \ \ \ FatalConditionHandler::FatalConditionHandler()\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ ULONG\ guaranteeSize\ =\ \textcolor{keyword}{static\_cast<}ULONG\textcolor{keyword}{>}(minStackSizeForErrors);}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!SetThreadStackGuarantee(\&guaranteeSize))\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ do\ not\ want\ to\ fully\ error\ out,\ because\ needing}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ stack\ reserve\ should\ be\ rare\ enough\ anyway.}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cerr()}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}Failed\ to\ reserve\ piece\ of\ stack."{}}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ Stack\ overflows\ will\ not\ be\ reported\ successfully."{}};}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{comment}{//\ We\ do\ not\ attempt\ to\ unset\ the\ stack\ guarantee,\ because}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{comment}{//\ Windows\ does\ not\ support\ lowering\ the\ stack\ size\ guarantee.}}
+\DoxyCodeLine{00120\ \ \ \ \ FatalConditionHandler::\string~FatalConditionHandler()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{void}\ FatalConditionHandler::engage\_platform()\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Register\ as\ first\ handler\ in\ current\ chain}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ exceptionHandlerHandle\ =\ AddVectoredExceptionHandler(1,\ handleVectoredException);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!exceptionHandlerHandle)\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_RUNTIME\_ERROR(\textcolor{stringliteral}{"{}Could\ not\ register\ vectored\ exception\ handler"{}});}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00129\ \ \ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{void}\ FatalConditionHandler::disengage\_platform()\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!RemoveVectoredExceptionHandler(exceptionHandlerHandle))\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_RUNTIME\_ERROR(\textcolor{stringliteral}{"{}Could\ not\ unregister\ vectored\ exception\ handler"{}});}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ exceptionHandlerHandle\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00136\ \ \ \ \ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_WINDOWS\_SEH}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#if\ defined(\ CATCH\_CONFIG\_POSIX\_SIGNALS\ )}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#include\ <signal.h>}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_catch_1_1_signal_defs}{SignalDefs}}\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ id;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ name;}
+\DoxyCodeLine{00151\ \ \ \ \ \};}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_catch_1_1_signal_defs}{SignalDefs}}\ signalDefs[]\ =\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \{\ SIGINT,\ \ \textcolor{stringliteral}{"{}SIGINT\ -\/\ Terminal\ interrupt\ signal"{}}\ \},}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \{\ SIGILL,\ \ \textcolor{stringliteral}{"{}SIGILL\ -\/\ Illegal\ instruction\ signal"{}}\ \},}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \{\ SIGFPE,\ \ \textcolor{stringliteral}{"{}SIGFPE\ -\/\ Floating\ point\ error\ signal"{}}\ \},}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \{\ SIGSEGV,\ \textcolor{stringliteral}{"{}SIGSEGV\ -\/\ Segmentation\ violation\ signal"{}}\ \},}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \{\ SIGTERM,\ \textcolor{stringliteral}{"{}SIGTERM\ -\/\ Termination\ request\ signal"{}}\ \},}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \{\ SIGABRT,\ \textcolor{stringliteral}{"{}SIGABRT\ -\/\ Abort\ (abnormal\ termination)\ signal"{}}\ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \};}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \textcolor{comment}{//\ Older\ GCCs\ trigger\ -\/Wmissing-\/field-\/initializers\ for\ T\ foo\ =\ \{\}}}
+\DoxyCodeLine{00163\ \textcolor{comment}{//\ which\ is\ zero\ initialization,\ but\ not\ explicit.\ We\ want\ to\ avoid}}
+\DoxyCodeLine{00164\ \textcolor{comment}{//\ that.}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#if\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ push}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wmissing-\/field-\/initializers"{}}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}*\ altStackMem\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{static}\ std::size\_t\ altStackSize\ =\ 0;}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keyword}{static}\ stack\_t\ oldSigStack\{\};}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{struct\ }sigaction\ oldSigActions[sizeof(signalDefs)\ /\ sizeof(SignalDefs)]\{\};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ restorePreviousSignalHandlers()\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ set\ signal\ handlers\ back\ to\ the\ previous\ ones.\ Hopefully}}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ nobody\ overwrote\ them\ in\ the\ meantime,\ and\ doesn't\ expect}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ their\ signal\ handlers\ to\ live\ past\ ours\ given\ that\ they}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ installed\ them\ after\ ours..}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ \textcolor{keyword}{sizeof}(signalDefs)\ /\ \textcolor{keyword}{sizeof}(SignalDefs);\ ++i)\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ sigaction(signalDefs[i].\textcolor{keywordtype}{id},\ \&oldSigActions[i],\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Return\ the\ old\ stack}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ sigaltstack(\&oldSigStack,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ handleSignal(\ \textcolor{keywordtype}{int}\ sig\ )\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ name\ =\ \textcolor{stringliteral}{"{}<unknown\ signal>"{}};}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ def\ :\ signalDefs)\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sig\ ==\ def.id)\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name\ =\ def.name;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ need\ to\ restore\ previous\ signal\ handlers\ and\ let\ them\ do}}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ their\ thing,\ so\ that\ the\ users\ can\ have\ the\ debugger\ break}}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ when\ a\ signal\ is\ raised,\ and\ so\ on.}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ restorePreviousSignalHandlers();}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ reportFatal(\ name\ );}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ raise(\ sig\ );}
+\DoxyCodeLine{00201\ \ \ \ \ \}}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ FatalConditionHandler::FatalConditionHandler()\ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ assert(!altStackMem\ \&\&\ \textcolor{stringliteral}{"{}Cannot\ initialize\ POSIX\ signal\ handler\ when\ one\ already\ exists"{}});}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (altStackSize\ ==\ 0)\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ altStackSize\ =\ std::max(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(SIGSTKSZ),\ minStackSizeForErrors);}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ altStackMem\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{char}[altStackSize]();}
+\DoxyCodeLine{00209\ \ \ \ \ \}}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \ \ FatalConditionHandler::\string~FatalConditionHandler()\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}[]\ altStackMem;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ signal\ that\ another\ instance\ can\ be\ constructed\ by\ zeroing}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ out\ the\ pointer.}}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ altStackMem\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00216\ \ \ \ \ \}}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordtype}{void}\ FatalConditionHandler::engage\_platform()\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ stack\_t\ sigStack;}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ sigStack.ss\_sp\ =\ altStackMem;}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ sigStack.ss\_size\ =\ altStackSize;}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ sigStack.ss\_flags\ =\ 0;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ sigaltstack(\&sigStack,\ \&oldSigStack);}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }sigaction\ sa\ =\ \{\ \};}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ sa.sa\_handler\ =\ handleSignal;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ sa.sa\_flags\ =\ SA\_ONSTACK;}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ \textcolor{keyword}{sizeof}(signalDefs)/\textcolor{keyword}{sizeof}(SignalDefs);\ ++i)\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ sigaction(signalDefs[i].\textcolor{keywordtype}{id},\ \&sa,\ \&oldSigActions[i]);}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00231\ \ \ \ \ \}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#if\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ pop}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordtype}{void}\ FatalConditionHandler::disengage\_platform()\ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ restorePreviousSignalHandlers();}
+\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_POSIX\_SIGNALS}}
+
+\end{DoxyCode}

@@ -1,0 +1,179 @@
+\doxysection{catch\+\_\+list.\+cpp}
+\hypertarget{catch__list_8cpp_source}{}\label{catch__list_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_list.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_list.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 5/11/2010.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2010\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_list.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_registry\_hub.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_reporter.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_testcase.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}catch\_context.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}catch\_stream.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}catch\_text.h"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}catch\_console\_colour.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}catch\_test\_spec\_parser.h"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}catch\_tostring.h"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}catch\_string\_manip.h"{}}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ std::size\_t\ listTests(\ Config\ \textcolor{keyword}{const}\&\ config\ )\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ TestSpec\ \textcolor{keyword}{const}\&\ testSpec\ =\ config.testSpec();}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ config.hasTestFilters()\ )}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ \textcolor{stringliteral}{"{}Matching\ test\ cases:\(\backslash\)n"{}};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ \textcolor{stringliteral}{"{}All\ available\ test\ cases:\(\backslash\)n"{}};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ matchedTestCases\ =\ filterTests(\ getAllTestCasesSorted(\ config\ ),\ testSpec,\ config\ );}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ testCaseInfo\ :\ matchedTestCases\ )\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ Colour::Code\ colour\ =\ testCaseInfo.isHidden()}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ Colour::SecondaryText}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ Colour::None;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ Colour\ colourGuard(\ colour\ );}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ Column(\ testCaseInfo.name\ ).initialIndent(\ 2\ ).indent(\ 4\ )\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ config.verbosity()\ >=\ Verbosity::High\ )\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ Column(\ Catch::Detail::stringify(\ testCaseInfo.lineInfo\ )\ ).indent(4)\ <<\ std::endl;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ description\ =\ testCaseInfo.description;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ description.empty()\ )}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ \textcolor{stringliteral}{"{}(NO\ DESCRIPTION)"{}};}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ Column(\ description\ ).indent(4)\ <<\ std::endl;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !testCaseInfo.tags.empty()\ )}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ Column(\ testCaseInfo.tagsAsString()\ ).indent(\ 6\ )\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !config.hasTestFilters()\ )}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ pluralise(\ matchedTestCases.size(),\ \textcolor{stringliteral}{"{}test\ case"{}}\ )\ <<\ \textcolor{charliteral}{'\(\backslash\)n'}\ <<\ std::endl;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ pluralise(\ matchedTestCases.size(),\ \textcolor{stringliteral}{"{}matching\ test\ case"{}}\ )\ <<\ \textcolor{charliteral}{'\(\backslash\)n'}\ <<\ std::endl;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ matchedTestCases.size();}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ std::size\_t\ listTestsNamesOnly(\ Config\ \textcolor{keyword}{const}\&\ config\ )\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ TestSpec\ \textcolor{keyword}{const}\&\ testSpec\ =\ config.testSpec();}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ std::size\_t\ matchedTests\ =\ 0;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ std::vector<TestCase>\ matchedTestCases\ =\ filterTests(\ getAllTestCasesSorted(\ config\ ),\ testSpec,\ config\ );}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ testCaseInfo\ :\ matchedTestCases\ )\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ matchedTests++;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ startsWith(\ testCaseInfo.name,\ \textcolor{charliteral}{'\#'}\ )\ )}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ \textcolor{charliteral}{'"{}'}\ <<\ testCaseInfo.name\ <<\ \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ testCaseInfo.name;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ config.verbosity()\ >=\ Verbosity::High\ )}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)t@"{}}\ <<\ testCaseInfo.lineInfo;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ std::endl;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ matchedTests;}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ TagInfo::add(\ std::string\ \textcolor{keyword}{const}\&\ spelling\ )\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ ++count;}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ spellings.insert(\ spelling\ );}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ std::string\ TagInfo::all()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size\ =\ 0;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ spelling\ :\ spellings)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ 2\ for\ the\ brackes}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ size\ +=\ spelling.size()\ +\ 2;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ std::string\ out;\ out.reserve(size);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ spelling\ :\ spellings)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{charliteral}{'['};}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ spelling;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{charliteral}{']'};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ std::size\_t\ listTags(\ Config\ \textcolor{keyword}{const}\&\ config\ )\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ TestSpec\ \textcolor{keyword}{const}\&\ testSpec\ =\ config.testSpec();}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ config.hasTestFilters()\ )}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ \textcolor{stringliteral}{"{}Tags\ for\ matching\ test\ cases:\(\backslash\)n"{}};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ \textcolor{stringliteral}{"{}All\ available\ tags:\(\backslash\)n"{}};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ std::map<std::string,\ TagInfo>\ tagCounts;}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ std::vector<TestCase>\ matchedTestCases\ =\ filterTests(\ getAllTestCasesSorted(\ config\ ),\ testSpec,\ config\ );}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ testCase\ :\ matchedTestCases\ )\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ tagName\ :\ testCase.getTestCaseInfo().tags\ )\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ lcaseTagName\ =\ toLower(\ tagName\ );}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ countIt\ =\ tagCounts.find(\ lcaseTagName\ );}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ countIt\ ==\ tagCounts.end()\ )}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ countIt\ =\ tagCounts.insert(\ std::make\_pair(\ lcaseTagName,\ TagInfo()\ )\ ).first;}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ countIt-\/>second.add(\ tagName\ );}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ tagCount\ :\ tagCounts\ )\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\ \ "{}}\ <<\ std::setw(2)\ <<\ tagCount.second.count\ <<\ \textcolor{stringliteral}{"{}\ \ "{}};}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ str\ =\ rss.str();}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ wrapper\ =\ Column(\ tagCount.second.all()\ )}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .initialIndent(\ 0\ )}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .indent(\ str.size()\ )}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .width(\ CATCH\_CONFIG\_CONSOLE\_WIDTH-\/10\ );}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ str\ <<\ wrapper\ <<\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ pluralise(\ tagCounts.size(),\ \textcolor{stringliteral}{"{}tag"{}}\ )\ <<\ \textcolor{charliteral}{'\(\backslash\)n'}\ <<\ std::endl;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tagCounts.size();}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ std::size\_t\ listReporters()\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ \textcolor{stringliteral}{"{}Available\ reporters:\(\backslash\)n"{}};}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ IReporterRegistry::FactoryMap\ \textcolor{keyword}{const}\&\ factories\ =\ getRegistryHub().getReporterRegistry().getFactories();}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ std::size\_t\ maxNameLen\ =\ 0;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ factoryKvp\ :\ factories\ )}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ maxNameLen\ =\ (std::max)(\ maxNameLen,\ factoryKvp.first.size()\ );}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ factoryKvp\ :\ factories\ )\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ Catch::cout()}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ Column(\ factoryKvp.first\ +\ \textcolor{stringliteral}{"{}:"{}}\ )}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .indent(2)}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .width(\ 5+maxNameLen\ )}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ \ Column(\ factoryKvp.second-\/>getDescription()\ )}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .initialIndent(0)}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .indent(2)}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .width(\ CATCH\_CONFIG\_CONSOLE\_WIDTH\ -\/\ maxNameLen-\/8\ )}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ std::endl;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ factories.size();}
+\DoxyCodeLine{00157\ \ \ \ \ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ Option<std::size\_t>\ list(\ std::shared\_ptr<Config>\ \textcolor{keyword}{const}\&\ config\ )\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ Option<std::size\_t>\ listedCount;}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ getCurrentMutableContext().setConfig(\ config\ );}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ config-\/>listTests()\ )}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ listedCount\ =\ listedCount.valueOr(0)\ +\ listTests(\ *config\ );}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ config-\/>listTestNamesOnly()\ )}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ listedCount\ =\ listedCount.valueOr(0)\ +\ listTestsNamesOnly(\ *config\ );}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ config-\/>listTags()\ )}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ listedCount\ =\ listedCount.valueOr(0)\ +\ listTags(\ *config\ );}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ config-\/>listReporters()\ )}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ listedCount\ =\ listedCount.valueOr(0)\ +\ listReporters();}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ listedCount;}
+\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+
+\end{DoxyCode}

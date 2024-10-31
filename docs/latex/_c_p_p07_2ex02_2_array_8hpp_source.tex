@@ -1,0 +1,32 @@
+\doxysection{Array.\+hpp}
+\hypertarget{_c_p_p07_2ex02_2_array_8hpp_source}{}\label{_c_p_p07_2ex02_2_array_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP07/ex02/Array.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP07/ex02/Array.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ARRAY\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ARRAY\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_array}{Array}}\{}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ T*\ \_array;}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_size;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_array}{Array}}();}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_array}{Array}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n);}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_array}{Array}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_array}{Array}}\&\ src);}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_array}{\string~Array}}();}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_array}{Array}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_array}{Array}}\&\ rhs);}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ T\&\ operator[](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ index);\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ T\&\ operator[](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ index)\ \textcolor{keyword}{const};\ \textcolor{comment}{//\ version\ "{}const"{}\ de\ la\ surcharge}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ size()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}Array.tpp"{}}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

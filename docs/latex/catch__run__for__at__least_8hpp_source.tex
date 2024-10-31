@@ -1,0 +1,71 @@
+\doxysection{catch\+\_\+run\+\_\+for\+\_\+at\+\_\+least.\+hpp}
+\hypertarget{catch__run__for__at__least_8hpp_source}{}\label{catch__run__for__at__least_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/benchmark/detail/catch\_run\_for\_at\_least.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/benchmark/detail/catch\_run\_for\_at\_least.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Joachim\ on\ 16/04/2019.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Adapted\ from\ donated\ nonius\ code.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ Run\ a\ function\ for\ a\ minimum\ amount\ of\ time}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_RUN\_FOR\_AT\_LEAST\_HPP\_INCLUDED}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_RUN\_FOR\_AT\_LEAST\_HPP\_INCLUDED}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../catch\_clock.hpp"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}../catch\_chronometer.hpp"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}catch\_measure.hpp"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}catch\_complete\_invoke.hpp"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}catch\_timing.hpp"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}../../catch\_meta.hpp"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{namespace\ }Benchmark\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{namespace\ }Detail\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Clock,\ \textcolor{keyword}{typename}\ Fun>}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ TimingOf<Clock,\ Fun,\ int>\ measure\_one(Fun\&\&\ fun,\ \textcolor{keywordtype}{int}\ iters,\ std::false\_type)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Detail::measure<Clock>(fun,\ iters);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Clock,\ \textcolor{keyword}{typename}\ Fun>}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ TimingOf<Clock,\ Fun,\ Chronometer>\ measure\_one(Fun\&\&\ fun,\ \textcolor{keywordtype}{int}\ iters,\ std::true\_type)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Detail::ChronometerModel<Clock>\ meter;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\&\ result\ =\ Detail::complete\_invoke(fun,\ Chronometer(meter,\ iters));}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ meter.elapsed(),\ std::move(result),\ iters\ \};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Clock,\ \textcolor{keyword}{typename}\ Fun>}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }run\_for\_at\_least\_argument\_t\ =\ \textcolor{keyword}{typename}\ std::conditional<is\_callable<Fun(Chronometer)>::value,\ Chronometer,\ \textcolor{keywordtype}{int}>::type;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_catch_1_1_benchmark_1_1_detail_1_1optimized__away__error}{optimized\_away\_error}}\ :\ std::exception\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ what()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}could\ not\ measure\ benchmark,\ maybe\ it\ was\ optimized\ away"{}};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Clock,\ \textcolor{keyword}{typename}\ Fun>}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_catch_1_1_benchmark_1_1_timing}{TimingOf<Clock,\ Fun,\ run\_for\_at\_least\_argument\_t<Clock,\ Fun>}}>\ run\_for\_at\_least(ClockDuration<Clock>\ how\_long,\ \textcolor{keywordtype}{int}\ seed,\ Fun\&\&\ fun)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ iters\ =\ seed;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (iters\ <\ (1\ <<\ 30))\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\&\ \mbox{\hyperlink{struct_catch_1_1_benchmark_1_1_timing}{Timing}}\ =\ measure\_one<Clock>(fun,\ iters,\ \mbox{\hyperlink{struct_catch_1_1is__callable}{is\_callable}}<Fun(\mbox{\hyperlink{struct_catch_1_1_benchmark_1_1_chronometer}{Chronometer}})>());}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{struct_catch_1_1_benchmark_1_1_timing}{Timing}}.elapsed\ >=\ how\_long)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \mbox{\hyperlink{struct_catch_1_1_benchmark_1_1_timing}{Timing}}.elapsed,\ std::move(\mbox{\hyperlink{struct_catch_1_1_benchmark_1_1_timing}{Timing}}.result),\ iters\ \};}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iters\ *=\ 2;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::throw\_exception(optimized\_away\_error\{\});}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \}\ \textcolor{comment}{//\ namespace\ Detail}}
+\DoxyCodeLine{00062\ \ \ \ \ \}\ \textcolor{comment}{//\ namespace\ Benchmark}}
+\DoxyCodeLine{00063\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_RUN\_FOR\_AT\_LEAST\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

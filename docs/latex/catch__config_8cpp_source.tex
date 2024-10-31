@@ -1,0 +1,92 @@
+\doxysection{catch\+\_\+config.\+cpp}
+\hypertarget{catch__config_8cpp_source}{}\label{catch__config_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_config.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_config.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 19/07/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_config.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_stringref.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ Config::Config(\ ConfigData\ \textcolor{keyword}{const}\&\ data\ )}
+\DoxyCodeLine{00015\ \ \ \ \ :\ \ \ m\_data(\ data\ ),}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ m\_stream(\ openStream()\ )}
+\DoxyCodeLine{00017\ \ \ \ \ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ need\ to\ trim\ filter\ specs\ to\ avoid\ trouble\ with\ superfluous}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ whitespace\ (esp.\ important\ for\ bdd\ macros,\ as\ those\ are\ manually}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ aligned\ with\ whitespace).}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ elem\ :\ m\_data.testsOrTags)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ elem\ =\ trim(elem);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ for\ (\textcolor{keyword}{auto}\&\ elem\ :\ m\_data.sectionsToRun)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ elem\ =\ trim(elem);}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ TestSpecParser\ parser(ITagAliasRegistry::get());}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_data.testsOrTags.empty())\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ m\_hasTestFilters\ =\ true;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ for\ (auto\ const\&\ testOrTags\ :\ m\_data.testsOrTags)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parser.parse(testOrTags);}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ m\_testSpec\ =\ parser.testSpec();}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ Config::getFilename()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data.outputFilename\ ;}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::listTests()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.listTests;\ \}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::listTestNamesOnly()\textcolor{keyword}{\ const\ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.listTestNamesOnly;\ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::listTags()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.listTags;\ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::listReporters()\textcolor{keyword}{\ const\ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.listReporters;\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ std::string\ Config::getProcessName()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_data.processName;\ \}}
+\DoxyCodeLine{00049\ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ Config::getReporterName()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_data.reporterName;\ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ std::vector<std::string>\ \textcolor{keyword}{const}\&\ Config::getTestsOrTags()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_data.testsOrTags;\ \}}
+\DoxyCodeLine{00052\ \ \ \ \ std::vector<std::string>\ \textcolor{keyword}{const}\&\ Config::getSectionsToRun()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_data.sectionsToRun;\ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ TestSpec\ \textcolor{keyword}{const}\&\ Config::testSpec()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_testSpec;\ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::hasTestFilters()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_hasTestFilters;\ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::showHelp()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_data.showHelp;\ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//\ IConfig\ interface}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::allowThrows()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ !m\_data.noThrow;\ \}}
+\DoxyCodeLine{00061\ \ \ \ \ std::ostream\&\ Config::stream()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_stream-\/>stream();\ \}}
+\DoxyCodeLine{00062\ \ \ \ \ std::string\ Config::name()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.name.empty()\ ?\ m\_data.processName\ :\ m\_data.name;\ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::includeSuccessfulResults()\textcolor{keyword}{\ const\ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.showSuccessfulTests;\ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::warnAboutMissingAssertions()\textcolor{keyword}{\ const\ \ \ \ }\{\ \textcolor{keywordflow}{return}\ !!(m\_data.warnings\ \&\ WarnAbout::NoAssertions);\ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::warnAboutNoTests()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ !!(m\_data.warnings\ \&\ WarnAbout::NoTests);\ \}}
+\DoxyCodeLine{00066\ \ \ \ \ ShowDurations::OrNot\ Config::showDurations()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_data.showDurations;\ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{double}\ Config::minDuration()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.minDuration;\ \}}
+\DoxyCodeLine{00068\ \ \ \ \ RunTests::InWhatOrder\ Config::runOrder()\textcolor{keyword}{\ const\ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.runOrder;\ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ Config::rngSeed()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.rngSeed;\ \}}
+\DoxyCodeLine{00070\ \ \ \ \ UseColour::YesOrNo\ Config::useColour()\textcolor{keyword}{\ const\ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.useColour;\ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::shouldDebugBreak()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.shouldDebugBreak;\ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{int}\ Config::abortAfter()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.abortAfter;\ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::showInvisibles()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.showInvisibles;\ \}}
+\DoxyCodeLine{00074\ \ \ \ \ Verbosity\ Config::verbosity()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.verbosity;\ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{bool}\ Config::benchmarkNoAnalysis()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.benchmarkNoAnalysis;\ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{int}\ Config::benchmarkSamples()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.benchmarkSamples;\ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{double}\ Config::benchmarkConfidenceInterval()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.benchmarkConfidenceInterval;\ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ Config::benchmarkResamples()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ m\_data.benchmarkResamples;\ \}}
+\DoxyCodeLine{00080\ \ \ \ \ std::chrono::milliseconds\ Config::benchmarkWarmupTime()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ std::chrono::milliseconds(m\_data.benchmarkWarmupTime);\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ IStream\ \textcolor{keyword}{const}*\ Config::openStream()\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Catch::makeStream(m\_data.outputFilename);}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+
+\end{DoxyCode}

@@ -1,0 +1,30 @@
+\doxysection{catch\+\_\+decomposer.\+cpp}
+\hypertarget{catch__decomposer_8cpp_source}{}\label{catch__decomposer_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_decomposer.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_decomposer.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ Nash\ on\ 8/8/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2017\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_decomposer.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_config.hpp"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ ITransientExpression::\string~ITransientExpression()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00015\ \ \ \ \ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ formatReconstructedExpression(\ std::ostream\ \&os,\ std::string\ \textcolor{keyword}{const}\&\ lhs,\ StringRef\ op,\ std::string\ \textcolor{keyword}{const}\&\ rhs\ )\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ lhs.size()\ +\ rhs.size()\ <\ 40\ \&\&}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lhs.find(\textcolor{charliteral}{'\(\backslash\)n'})\ ==\ std::string::npos\ \&\&}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rhs.find(\textcolor{charliteral}{'\(\backslash\)n'})\ ==\ std::string::npos\ )}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ lhs\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ op\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ rhs;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ lhs\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ <<\ op\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ <<\ rhs;}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ \}}
+
+\end{DoxyCode}

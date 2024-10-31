@@ -1,0 +1,48 @@
+\doxysection{material.\+h}
+\hypertarget{mini_r_t__saved__20240403_2src_2header_2material_8h_source}{}\label{mini_r_t__saved__20240403_2src_2header_2material_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240403/src/header/material.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240403/src/header/material.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ material.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/04/26\ 09:31:25\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/01/03\ 21:35:14\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ MATERIAL\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ MATERIAL\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__vec3}{s\_vec3}}\ \mbox{\hyperlink{structs__vec3}{t\_vec3}};}
+\DoxyCodeLine{00017\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__color}{s\_color}}\ \mbox{\hyperlink{structs__color}{t\_color}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__material}{s\_material}}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{structs__color}{t\_color}}\ \ \ \ \ \ color;}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{structs__color}{t\_color}}\ \ \ \ \ \ ambient;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{double}\ \ \ \ \ \ diffuse;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{double}\ \ \ \ \ \ specular;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{double}\ \ \ \ \ \ shininess;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//\ t\_pattern\ \ \ \ pattern;}}
+\DoxyCodeLine{00027\ \}\ \ \ \mbox{\hyperlink{structs__material}{t\_material}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__exposure}{s\_exposure}}}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{structs__color}{t\_color}}\ \ \ \ \ \ effective\_color;}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ \ \ \ \ lightv;}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ \ \ \ \ reflectv;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ light\_dot\_normal;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ reflect\_dot\_eye;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ factor;}
+\DoxyCodeLine{00037\ \}\ \ \ \mbox{\hyperlink{structs__exposure}{t\_exposure}};}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{comment}{/*\ scene.c\ */}}
+\DoxyCodeLine{00041\ \mbox{\hyperlink{structs__material}{t\_material}}\ \ \ \ shape\_init\_material(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}\ \ \ \ shape\_print\_material(\mbox{\hyperlink{structs__material}{t\_material}}\ m);}
+
+\end{DoxyCode}

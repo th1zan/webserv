@@ -1,0 +1,50 @@
+\doxysection{catch\+\_\+version.\+cpp}
+\hypertarget{catch__version_8cpp_source}{}\label{catch__version_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_version.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_version.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 14/11/2012.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2012\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_version.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ Version::Version}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ (\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_majorVersion,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_minorVersion,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_patchNumber,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ \textcolor{keyword}{const}\ \_branchName,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \_buildNumber\ )}
+\DoxyCodeLine{00020\ \ \ \ \ :\ \ \ majorVersion(\ \_majorVersion\ ),}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ minorVersion(\ \_minorVersion\ ),}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ patchNumber(\ \_patchNumber\ ),}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ branchName(\ \_branchName\ ),}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ buildNumber(\ \_buildNumber\ )}
+\DoxyCodeLine{00025\ \ \ \ \ \{\}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ std::ostream\&\ operator\ <<\ (\ std::ostream\&\ os,\ Version\ \textcolor{keyword}{const}\&\ version\ )\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ os\ \ <<\ version.majorVersion\ <<\ \textcolor{charliteral}{'.'}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ version.minorVersion\ <<\ \textcolor{charliteral}{'.'}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ version.patchNumber;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ branchName\ is\ never\ null\ -\/>\ 0th\ char\ is\ \(\backslash\)0\ if\ it\ is\ empty}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (version.branchName[0])\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ \textcolor{charliteral}{'-\/'}\ <<\ version.branchName}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{charliteral}{'.'}\ <<\ version.buildNumber;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ Version\ \textcolor{keyword}{const}\&\ libraryVersion()\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ Version\ version(\ 2,\ 13,\ 7,\ \textcolor{stringliteral}{"{}"{}},\ 0\ );}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ version;}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \}}
+
+\end{DoxyCode}

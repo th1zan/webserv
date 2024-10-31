@@ -1,0 +1,40 @@
+\doxysection{rays.\+h}
+\hypertarget{rays_8h_source}{}\label{rays_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/rays.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/rays.h}}
+\mbox{\hyperlink{rays_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ rays.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ yde-\/goes\ <yde-\/goes@student.42sp.org.br>\ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/04/06\ 10:17:15\ by\ mdias-\/ma\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/06/16\ 13:40:17\ by\ yde-\/goes\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ RAYS\_H}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#\ define\ RAYS\_H}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{matrices_8h}{matrices.h}}"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__ray}{s\_ray}}}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{structs__tuple}{t\_point}}\ \ \ \ \ \ origin;}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{structs__tuple}{t\_vector}}\ \ \ \ direction;}
+\DoxyCodeLine{00031\ \}\ \ \ \mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\_ray}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00034\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RAYS.C\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00035\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00047\ \mbox{\hyperlink{structs__ray}{t\_ray}}\ \ \mbox{\hyperlink{rays_8h_a6cb809a8804280e876c95e2be4a059fd}{new\_ray}}(\mbox{\hyperlink{structs__tuple}{t\_point}}\ origin,\ \mbox{\hyperlink{structs__tuple}{t\_vector}}\ direction);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00061\ \mbox{\hyperlink{structs__tuple}{t\_point}}\ \ \mbox{\hyperlink{rays_8h_a5d7a97da2e8b83700aab8015f9356446}{position}}(\mbox{\hyperlink{structs__ray}{t\_ray}}\ ray,\ \textcolor{keywordtype}{float}\ distance);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00074\ \mbox{\hyperlink{structs__ray}{t\_ray}}\ \ \mbox{\hyperlink{rays_8h_a038747afd14aea4ffed4dce434ecc7d8}{transform}}(\mbox{\hyperlink{structs__ray}{t\_ray}}\ ray,\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ matrix);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

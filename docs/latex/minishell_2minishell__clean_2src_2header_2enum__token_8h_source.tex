@@ -1,0 +1,47 @@
+\doxysection{enum\+\_\+token.\+h}
+\hypertarget{minishell_2minishell__clean_2src_2header_2enum__token_8h_source}{}\label{minishell_2minishell__clean_2src_2header_2enum__token_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/enum\_token.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/enum\_token.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ enum\_token.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/10/02\ 11:56:14\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/11/07\ 21:26:12\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ ENUM\_TOKEN\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ ENUM\_TOKEN\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ e\_TokenType}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ TK\_UNCLASSIFIED\ =\ -\/1,}
+\DoxyCodeLine{00019\ \ \ \ \ TK\_NULL\ =\ 0,}
+\DoxyCodeLine{00020\ \ \ \ \ TK\_BLANK,}
+\DoxyCodeLine{00021\ \ \ \ \ TK\_PIPE\ =\ 10,}
+\DoxyCodeLine{00022\ \ \ \ \ TK\_IN\_CHEVRON\ =\ 31,}
+\DoxyCodeLine{00023\ \ \ \ \ TK\_OUT\_CHEVRON\ =\ 32,}
+\DoxyCodeLine{00024\ \ \ \ \ TK\_APP\_CHEVRON\ =\ 33,}
+\DoxyCodeLine{00025\ \ \ \ \ TK\_HERE\_DOC\ =\ 40,}
+\DoxyCodeLine{00026\ \ \ \ \ TK\_CMD\ =\ 100,}
+\DoxyCodeLine{00027\ \ \ \ \ TK\_CMD\_BUILT\_IN\ =\ 300,}
+\DoxyCodeLine{00028\ \ \ \ \ TK\_FILE\ =\ 200,}
+\DoxyCodeLine{00029\ \ \ \ \ TK\_HD\_ARG\ =\ 400,}
+\DoxyCodeLine{00030\ \ \ \ \ TK\_ARG\ =\ 1000,}
+\DoxyCodeLine{00031\ \ \ \ \ TK\_BUILT\_IN\ =\ 1001,}
+\DoxyCodeLine{00032\ \ \ \ \ TK\_BIN\ =\ 1002,}
+\DoxyCodeLine{00033\ \ \ \ \ TK\_HD\_DELIM\ =\ 4002,}
+\DoxyCodeLine{00034\ \}\ \ \ t\_TokenType;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ e\_ReturnCode}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ SUCCESS,}
+\DoxyCodeLine{00039\ \ \ \ \ FAILURE}
+\DoxyCodeLine{00040\ \}\ \ \ t\_ReturnCode;}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

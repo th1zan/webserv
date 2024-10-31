@@ -1,0 +1,43 @@
+\chapter{links\+\_\+and\+\_\+tips}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips}\index{links\_and\_tips@{links\_and\_tips}}
+\href{https://projects.intra.42.fr/projects/42cursus-minishell}{\texttt{ https\+://projects.\+intra.\+42.\+fr/projects/42cursus-\/minishell}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md82}{}\doxysubsection{\texorpdfstring{Liens bon exemple}{Liens bon exemple}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md82}
+\href{https://github.com/widium/Minishell}{\texttt{ https\+://github.\+com/widium/\+Minishell}} \href{https://github.com/widium/pipex}{\texttt{ https\+://github.\+com/widium/pipex}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md83}{}\doxysubsection{\texorpdfstring{Lien théorie}{Lien théorie}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md83}
+
+\begin{DoxyItemize}
+\item language shell\+: \href{https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html}{\texttt{ https\+://pubs.\+opengroup.\+org/onlinepubs/009695399/utilities/xcu\+\_\+chap02.\+html}}
+\item cours sur création d\textquotesingle{}un minishell\+: \href{https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf}{\texttt{ https\+://www.\+cs.\+purdue.\+edu/homes/grr/\+Systems\+Programming\+Book/\+Book/\+Chapter5-\/\+Writing\+Your\+Own\+Shell.\+pdf}}
+\item manuel de bash sur les pipes\+:https\+://www.gnu.\+org/software/bash/manual/bash.html\#\+Pipelines "{}https\+://www.\+gnu.\+org/software/bash/manual/bash.\+html\#\+Pipelines -\/ manuel de bash sur le Here document\+: https\+://www.\+gnu.\+org/software/bash/manual/bash.\+html\#\+Here-\/\+Documents "{}\href{https://www.gnu.org/software/bash/manual/bash.html\#Here-Documents}{\texttt{ https\+://www.\+gnu.\+org/software/bash/manual/bash.\+html\#\+Here-\/\+Documents}}
+\item redirection characters in \doxylink{class_c}{C}\+: \href{https://www.ibm.com/docs/en/aix/7.2?topic=shell-input-output-redirection-in-c}{\texttt{ https\+://www.\+ibm.\+com/docs/en/aix/7.\+2?topic=shell-\/input-\/output-\/redirection-\/in-\/c}}
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md84}{}\doxysubsection{\texorpdfstring{Tips depuis le discord 42 (bronx)}{Tips depuis le discord 42 (bronx)}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md84}
+
+\begin{DoxyItemize}
+\item readline ? \href{https://tiswww.case.edu/php/chet/readline/readline.html}{\texttt{ https\+://tiswww.\+case.\+edu/php/chet/readline/readline.\+html}} {\ttfamily \#include \texorpdfstring{$<$}{<}readline/readline.\+h\texorpdfstring{$>$}{>}}
+\item {\ttfamily valgrind -\/-\/leak-\/check=full -\/-\/track-\/origins=yes ./minishell} , autrement {\ttfamily -\/fsanitize=address} sous linux et/ou dans un container linux
+\item \href{https://github.com/theo-grivel/42-minishell/blob/main/doc/parsing.md}{\texttt{ https\+://github.\+com/theo-\/grivel/42-\/minishell/blob/main/doc/parsing.\+md}}
+\item \href{https://man7.org/linux/man-pages/man3/cfsetspeed.3.html}{\texttt{ https\+://man7.\+org/linux/man-\/pages/man3/cfsetspeed.\+3.\+html}}
+\item un bon tuto pour comprendre comment ça se passe en interne quand on manipule les fichiers/pipes \href{http://tzimmermann.org/2017/09/01/the-internals-of-unix-pipes-and-fifos/}{\texttt{ http\+://tzimmermann.\+org/2017/09/01/the-\/internals-\/of-\/unix-\/pipes-\/and-\/fifos/}} a lire avant\+: 1 -\/ \href{http://tzimmermann.org/2017/07/28/data-structures-of-unix-file-io/}{\texttt{ http\+://tzimmermann.\+org/2017/07/28/data-\/structures-\/of-\/unix-\/file-\/io/}} 2 -\/ \href{http://tzimmermann.org/2017/08/04/unix-hard-links-soft-links-and-files/}{\texttt{ http\+://tzimmermann.\+org/2017/08/04/unix-\/hard-\/links-\/soft-\/links-\/and-\/files/}} 3 -\/ \href{http://tzimmermann.org/2017/08/17/file-descriptors-during-fork-and-exec/}{\texttt{ http\+://tzimmermann.\+org/2017/08/17/file-\/descriptors-\/during-\/fork-\/and-\/exec/}}
+\item \href{http://www.zeitoun.net/articles/communication-par-tuyau/start}{\texttt{ http\+://www.\+zeitoun.\+net/articles/communication-\/par-\/tuyau/start}}
+\item {\ttfamily tcsetattr, tcgetattr} permettent d\textquotesingle{}interagir avec les structures termios -\/\texorpdfstring{$>$}{>} On les a utilisé pour un cas\+: afficher ou non les caractères de contrôles (quand tu appuies sur Ctrl + \doxylink{class_c}{C} par exemple).
+\item Si jamais instruments (app installe sur les macs) est aussi pratique pour trouver d\textquotesingle{}ou viennent les leaks
+\item man de {\ttfamily export} . {\ttfamily Export} est un subsection de POSIX specification, je crois pas que ce soit dispo sur les ordis, tu peux regarder ici \href{https://www.man7.org/linux/man-pages/man1/export.1p.html}{\texttt{ https\+://www.\+man7.\+org/linux/man-\/pages/man1/export.\+1p.\+html}}
+\item Voici un article qui m\textquotesingle{}a bien aidé à commencer le projet et à identifier les différentes parties à implémenter\+: \href{https://medium.com/@mohammedisam2000/lets-build-a-linux-shell-part-i-954c95911501}{\texttt{ https\+://medium.\+com/@mohammedisam2000/lets-\/build-\/a-\/linux-\/shell-\/part-\/i-\/954c95911501}}
+\item \href{https://github.com/baku00/42_minishell}{\texttt{ https\+://github.\+com/baku00/42\+\_\+minishell}}
+\item Oui, la version de readline installée sur nos sessions n\textquotesingle{}est pas à jour. Tu peux installer une nouvelle version avec {\ttfamily brew install readline}. Dans ton Makefile, tu spécifies avec le flag -\/I le dossier où se trouvent les headers de readline et avec -\/L le dossier où se trouve la librairie. Brew te dit où il installe readline. (modifié)
+\item Le sujet dit qu\textquotesingle{}en cas de doute il faut se référer à bash. Il est quasi impossible de reproduire exactement tous les comportements, mais l\textquotesingle{}idée c\textquotesingle{}est de s\textquotesingle{}en rapprocher le plus possible. Je te conseille de bien étudier les messages d\textquotesingle{}erreurs de bash justement, pour mieux comprendre comment bash fonctionne. \doxylink{class_a}{A} mon avis, les choses qu\textquotesingle{}il faut gérer sont\+:
+\begin{DoxyItemize}
+\item une commande ou un fichier n\textquotesingle{}est pas trouvé
+\item une commande ou un fichier n\textquotesingle{}est pas accessible pour une autre raison (par exemple\+: {\itshape Permission denied} ou {\itshape Too many levels of symbolic links})
+\item erreurs de syntaxe
+\item erreurs dans les builtins (par exemple\+: donner trop d\textquotesingle{}arguments à exit ou essayer d\textquotesingle{}exporter des noms de variable invalides)
+\end{DoxyItemize}
+
+Les choses qu\textquotesingle{}il serait mieux de gérer\+:
+\begin{DoxyItemize}
+\item Protéger tous les appels tels que {\ttfamily fork()} ou {\ttfamily pipe()} ou {\ttfamily dup()} et absolument tous les {\ttfamily malloc()}
+\item Redirections ambigües ({\ttfamily \texorpdfstring{$<$}{<} \texorpdfstring{$\ast$}{*}} ou {\ttfamily \texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>} \$VAR} si VAR est vide ou composé de plusieurs mots))
+\item ...
+\end{DoxyItemize}
+
+Après, minishell est un projet tellement complexe que la plupart des évaluateurs ne compteraient pas faux s\textquotesingle{}il y a une ou deux imprécisions dans les messages d\textquotesingle{}erreurs, mais plutôt l\textquotesingle{}accumulation des erreurs. (modifié)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md85}{}\doxysubsection{\texorpdfstring{Videos 42}{Videos 42}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2ressources_2links__and__tips_autotoc_md85}
+\href{https://elearning.intra.42.fr/notions/66/subnotions/261/videos/208}{\texttt{ https\+://elearning.\+intra.\+42.\+fr/notions/66/subnotions/261/videos/208}} \href{https://elearning.intra.42.fr/notions/27/subnotions/929/videos/1020}{\texttt{ https\+://elearning.\+intra.\+42.\+fr/notions/27/subnotions/929/videos/1020}} \href{https://elearning.intra.42.fr/notions/57/subnotions/245/videos/203}{\texttt{ https\+://elearning.\+intra.\+42.\+fr/notions/57/subnotions/245/videos/203}} 

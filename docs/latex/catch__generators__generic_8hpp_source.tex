@@ -1,0 +1,243 @@
+\doxysection{catch\+\_\+generators\+\_\+generic.\+hpp}
+\hypertarget{catch__generators__generic_8hpp_source}{}\label{catch__generators__generic_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_generators\_generic.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_generators\_generic.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 23/2/2019.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_GENERATORS\_GENERIC\_HPP\_INCLUDED}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_GENERATORS\_GENERIC\_HPP\_INCLUDED}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_generators.hpp"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_meta.hpp"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }Generators\ \{}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{class\ }TakeGenerator\ :\ \textcolor{keyword}{public}\ IGenerator<T>\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ GeneratorWrapper<T>\ m\_generator;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_returned\ =\ 0;}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_target;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ TakeGenerator(\textcolor{keywordtype}{size\_t}\ target,\ GeneratorWrapper<T>\&\&\ generator):}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ m\_generator(std::move(generator)),}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ m\_target(target)}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ assert(target\ !=\ 0\ \&\&\ \textcolor{stringliteral}{"{}Empty\ generators\ are\ not\ allowed"{}});}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ T\ \textcolor{keyword}{const}\&\ get()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_generator.get();}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ next()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ ++m\_returned;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_returned\ >=\ m\_target)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ success\ =\ m\_generator.next();}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ underlying\ generator\ does\ not\ contain\ enough\ values}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ then\ we\ cut\ short\ as\ well}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!success)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_returned\ =\ m\_target;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ success;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00048\ \ \ \ \ GeneratorWrapper<T>\ take(\textcolor{keywordtype}{size\_t}\ target,\ GeneratorWrapper<T>\&\&\ generator)\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GeneratorWrapper<T>(pf::make\_unique<TakeGenerator<T>>(target,\ std::move(generator)));}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ Predicate>}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{class\ }FilterGenerator\ :\ \textcolor{keyword}{public}\ IGenerator<T>\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ GeneratorWrapper<T>\ m\_generator;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ Predicate\ m\_predicate;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ P\ =\ Predicate>}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ FilterGenerator(P\&\&\ pred,\ GeneratorWrapper<T>\&\&\ generator):}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ m\_generator(std::move(generator)),}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ m\_predicate(std::forward<P>(pred))}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_predicate(m\_generator.get()))\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ It\ might\ happen\ that\ there\ are\ no\ values\ that\ pass\ the}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ filter.\ In\ that\ case\ we\ throw\ an\ exception.}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ auto\ has\_initial\_value\ =\ next();}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!has\_initial\_value)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::throw\_exception(GeneratorException(\textcolor{stringliteral}{"{}No\ valid\ value\ found\ in\ filtered\ generator"{}}));}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ T\ \textcolor{keyword}{const}\&\ get()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_generator.get();}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ next()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ success\ =\ m\_generator.next();}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!success)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!m\_predicate(m\_generator.get())\ \&\&\ (success\ =\ m\_generator.next())\ ==\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ success;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ Predicate>}
+\DoxyCodeLine{00089\ \ \ \ \ GeneratorWrapper<T>\ filter(Predicate\&\&\ pred,\ GeneratorWrapper<T>\&\&\ generator)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GeneratorWrapper<T>(std::unique\_ptr<IGenerator<T>>(pf::make\_unique<FilterGenerator<T,\ Predicate>>(std::forward<Predicate>(pred),\ std::move(generator))));}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{class\ }RepeatGenerator\ :\ \textcolor{keyword}{public}\ IGenerator<T>\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(!std::is\_same<T,\ bool>::value,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}RepeatGenerator\ currently\ does\ not\ support\ bools"{}}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}because\ of\ std::vector<bool>\ specialization"{}});}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ GeneratorWrapper<T>\ m\_generator;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{mutable}\ std::vector<T>\ m\_returned;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_target\_repeats;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_current\_repeat\ =\ 0;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_repeat\_index\ =\ 0;}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ RepeatGenerator(\textcolor{keywordtype}{size\_t}\ repeats,\ GeneratorWrapper<T>\&\&\ generator):}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ m\_generator(std::move(generator)),}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ m\_target\_repeats(repeats)}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ assert(m\_target\_repeats\ >\ 0\ \&\&\ \textcolor{stringliteral}{"{}Repeat\ generator\ must\ repeat\ at\ least\ once"{}});}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ T\ \textcolor{keyword}{const}\&\ get()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_current\_repeat\ ==\ 0)\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_returned.push\_back(m\_generator.get());}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_returned.back();}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_returned[m\_repeat\_index];}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ next()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ There\ are\ 2\ basic\ cases:}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 1)\ We\ are\ still\ reading\ the\ generator}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2)\ We\ are\ reading\ our\ own\ cache}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ the\ first\ case,\ we\ need\ to\ poke\ the\ underlying\ generator.}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it\ happily\ moves,\ we\ are\ left\ in\ that\ state,\ otherwise\ it\ is\ time\ to\ start\ reading\ from\ our\ cache}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_current\_repeat\ ==\ 0)\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ success\ =\ m\_generator.next();}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!success)\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++m\_current\_repeat;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_current\_repeat\ <\ m\_target\_repeats;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ the\ second\ case,\ we\ need\ to\ move\ indices\ forward\ and\ check\ that\ we\ haven't\ run\ up\ against\ the\ end}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ ++m\_repeat\_index;}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_repeat\_index\ ==\ m\_returned.size())\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_repeat\_index\ =\ 0;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++m\_current\_repeat;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_current\_repeat\ <\ m\_target\_repeats;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00145\ \ \ \ \ GeneratorWrapper<T>\ repeat(\textcolor{keywordtype}{size\_t}\ repeats,\ GeneratorWrapper<T>\&\&\ generator)\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GeneratorWrapper<T>(pf::make\_unique<RepeatGenerator<T>>(repeats,\ std::move(generator)));}
+\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U,\ \textcolor{keyword}{typename}\ Func>}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keyword}{class\ }MapGenerator\ :\ \textcolor{keyword}{public}\ IGenerator<T>\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TBD:\ provide\ static\ assert\ for\ mapping\ function,\ for\ friendly\ error\ message}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ GeneratorWrapper<U>\ m\_generator;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ Func\ m\_function;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ To\ avoid\ returning\ dangling\ reference,\ we\ have\ to\ save\ the\ values}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ T\ m\_cache;}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F2\ =\ Func>}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ MapGenerator(F2\&\&\ function,\ GeneratorWrapper<U>\&\&\ generator)\ :}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ m\_generator(std::move(generator)),}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ m\_function(std::forward<F2>(function)),}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ m\_cache(m\_function(m\_generator.get()))}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ T\ \textcolor{keyword}{const}\&\ get()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_cache;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ next()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ success\ =\ m\_generator.next();}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (success)\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_cache\ =\ m\_function(m\_generator.get());}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ success;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \};}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Func,\ \textcolor{keyword}{typename}\ U,\ \textcolor{keyword}{typename}\ T\ =\ FunctionReturnType<Func,\ U>>}
+\DoxyCodeLine{00177\ \ \ \ \ GeneratorWrapper<T>\ map(Func\&\&\ function,\ GeneratorWrapper<U>\&\&\ generator)\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GeneratorWrapper<T>(}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ pf::make\_unique<MapGenerator<T,\ U,\ Func>>(std::forward<Func>(function),\ std::move(generator))}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00181\ \ \ \ \ \}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U,\ \textcolor{keyword}{typename}\ Func>}
+\DoxyCodeLine{00184\ \ \ \ \ GeneratorWrapper<T>\ map(Func\&\&\ function,\ GeneratorWrapper<U>\&\&\ generator)\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GeneratorWrapper<T>(}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ pf::make\_unique<MapGenerator<T,\ U,\ Func>>(std::forward<Func>(function),\ std::move(generator))}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00188\ \ \ \ \ \}}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keyword}{class\ }ChunkGenerator\ final\ :\ \textcolor{keyword}{public}\ IGenerator<std::vector<T>>\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ std::vector<T>\ m\_chunk;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_chunk\_size;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ GeneratorWrapper<T>\ m\_generator;}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_used\_up\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ ChunkGenerator(\textcolor{keywordtype}{size\_t}\ size,\ GeneratorWrapper<T>\ generator)\ :}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ m\_chunk\_size(size),\ m\_generator(std::move(generator))}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ m\_chunk.reserve(m\_chunk\_size);}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_chunk\_size\ !=\ 0)\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_chunk.push\_back(m\_generator.get());}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ m\_chunk\_size;\ ++i)\ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_generator.next())\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Catch::throw\_exception(GeneratorException(\textcolor{stringliteral}{"{}Not\ enough\ values\ to\ initialize\ the\ first\ chunk"{}}));}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_chunk.push\_back(m\_generator.get());}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ std::vector<T>\ \textcolor{keyword}{const}\&\ get()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_chunk;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ next()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ m\_chunk.clear();}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ idx\ =\ 0;\ idx\ <\ m\_chunk\_size;\ ++idx)\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_generator.next())\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_chunk.push\_back(m\_generator.get());}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00224\ \ \ \ \ \};}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00227\ \ \ \ \ GeneratorWrapper<std::vector<T>>\ chunk(\textcolor{keywordtype}{size\_t}\ size,\ GeneratorWrapper<T>\&\&\ generator)\ \{}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GeneratorWrapper<std::vector<T>>(}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ pf::make\_unique<ChunkGenerator<T>>(size,\ std::move(generator))}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00231\ \ \ \ \ \}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \}\ \textcolor{comment}{//\ namespace\ Generators}}
+\DoxyCodeLine{00234\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_GENERATORS\_GENERIC\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

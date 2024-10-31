@@ -1,0 +1,45 @@
+\doxysection{queues.\+h}
+\hypertarget{queues_8h_source}{}\label{queues_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/include/queues.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/include/queues.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <list>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_queues}{Queues}}\ \{}
+\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{enum}\ COMMAND\ \{\ NONE,\ SA,\ SB,\ SS,\ PA,\ PB,\ RA,\ RB,\ RR,\ RRA,\ RRB,\ RRR\ \};}
+\DoxyCodeLine{00009\ \ \ std::map<const\ std::string,\ COMMAND>\ commandMap;}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \mbox{\hyperlink{class_queues}{Queues}}();}
+\DoxyCodeLine{00013\ \ \ \mbox{\hyperlink{class_queues}{\string~Queues}}();}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordtype}{void}\ step();}
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{void}\ stepBack();}
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{void}\ start(\textcolor{keyword}{const}\ std::list<int>\ \&start);}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ std::list<std::string>\ commands;}
+\DoxyCodeLine{00020\ \ \ std::list<std::string>\ executedCommands;}
+\DoxyCodeLine{00021\ \ \ std::list<int>\ queueA;}
+\DoxyCodeLine{00022\ \ \ std::list<int>\ queueB;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00025\ \ \ \textcolor{keywordtype}{void}\ \_executeCommand(\textcolor{keyword}{const}\ std::string\ \&cmd);}
+\DoxyCodeLine{00026\ \ \ \textcolor{keywordtype}{void}\ \_executeReverseCommand(\textcolor{keyword}{const}\ std::string\ \&cmd);}
+\DoxyCodeLine{00027\ \ \ std::list<int>\ \_normalize(\textcolor{keyword}{const}\ std::list<int>\ \&numbers);}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{void}\ \_sa();}
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{void}\ \_sb();}
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{void}\ \_ss();}
+\DoxyCodeLine{00031\ \ \ \textcolor{keywordtype}{void}\ \_pa();}
+\DoxyCodeLine{00032\ \ \ \textcolor{keywordtype}{void}\ \_pb();}
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{void}\ \_ra();}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{void}\ \_rb();}
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{void}\ \_rr();}
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordtype}{void}\ \_rra();}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{void}\ \_rrb();}
+\DoxyCodeLine{00038\ \ \ \textcolor{keywordtype}{void}\ \_rrr();}
+\DoxyCodeLine{00039\ \};}
+
+\end{DoxyCode}

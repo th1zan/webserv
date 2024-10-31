@@ -1,0 +1,67 @@
+\doxysection{catch\+\_\+interfaces\+\_\+registry\+\_\+hub.\+h}
+\hypertarget{catch__interfaces__registry__hub_8h_source}{}\label{catch__interfaces__registry__hub_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_interfaces\_registry\_hub.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_interfaces\_registry\_hub.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 5/8/2012.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2012\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_INTERFACES\_REGISTRY\_HUB\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_INTERFACES\_REGISTRY\_HUB\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_common.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{class\ }TestCase;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{struct\ }ITestCaseRegistry;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{struct\ }IExceptionTranslatorRegistry;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{struct\ }IExceptionTranslator;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{struct\ }IReporterRegistry;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{struct\ }IReporterFactory;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{struct\ }ITagAliasRegistry;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{struct\ }IMutableEnumValuesRegistry;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{class\ }StartupExceptionRegistry;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{using\ }IReporterFactoryPtr\ =\ std::shared\_ptr<IReporterFactory>;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{struct\ }IRegistryHub\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~IRegistryHub();}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ IReporterRegistry\ \textcolor{keyword}{const}\&\ getReporterRegistry()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ ITestCaseRegistry\ \textcolor{keyword}{const}\&\ getTestCaseRegistry()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ ITagAliasRegistry\ \textcolor{keyword}{const}\&\ getTagAliasRegistry()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ IExceptionTranslatorRegistry\ \textcolor{keyword}{const}\&\ getExceptionTranslatorRegistry()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ StartupExceptionRegistry\ \textcolor{keyword}{const}\&\ getStartupExceptionRegistry()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00041\ \ \ \ \ \};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{struct\ }IMutableRegistryHub\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~IMutableRegistryHub();}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ registerReporter(\ std::string\ \textcolor{keyword}{const}\&\ name,\ IReporterFactoryPtr\ \textcolor{keyword}{const}\&\ factory\ )\ =\ 0;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ registerListener(\ IReporterFactoryPtr\ \textcolor{keyword}{const}\&\ factory\ )\ =\ 0;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ registerTest(\ TestCase\ \textcolor{keyword}{const}\&\ testInfo\ )\ =\ 0;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ registerTranslator(\ \textcolor{keyword}{const}\ IExceptionTranslator*\ translator\ )\ =\ 0;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ registerTagAlias(\ std::string\ \textcolor{keyword}{const}\&\ alias,\ std::string\ \textcolor{keyword}{const}\&\ tag,\ SourceLineInfo\ \textcolor{keyword}{const}\&\ lineInfo\ )\ =\ 0;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ registerStartupException()\ noexcept\ =\ 0;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ virtual\ IMutableEnumValuesRegistry\&\ getMutableEnumValuesRegistry()\ =\ 0;}
+\DoxyCodeLine{00052\ \ \ \ \ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ IRegistryHub\ const\&\ getRegistryHub();}
+\DoxyCodeLine{00055\ \ \ \ \ IMutableRegistryHub\&\ getMutableRegistryHub();}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanUp();}
+\DoxyCodeLine{00057\ \ \ \ \ std::\textcolor{keywordtype}{string}\ translateActiveException();}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_INTERFACES\_REGISTRY\_HUB\_H\_INCLUDED}}
+
+\end{DoxyCode}

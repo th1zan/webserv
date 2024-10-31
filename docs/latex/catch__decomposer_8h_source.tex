@@ -1,0 +1,265 @@
+\doxysection{catch\+\_\+decomposer.\+h}
+\hypertarget{catch__decomposer_8h_source}{}\label{catch__decomposer_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_decomposer.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_decomposer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ Nash\ on\ 8/8/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2017\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_DECOMPOSER\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_DECOMPOSER\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_tostring.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_stringref.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}catch\_meta.hpp"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <iosfwd>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#pragma\ warning(push)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#pragma\ warning(disable:4389)\ }\textcolor{comment}{//\ '=='\ :\ signed/unsigned\ mismatch}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#pragma\ warning(disable:4018)\ }\textcolor{comment}{//\ more\ "{}signed/unsigned\ mismatch"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#pragma\ warning(disable:4312)\ }\textcolor{comment}{//\ Converting\ int\ to\ T*\ using\ reinterpret\_cast\ (issue\ on\ x64\ platform)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#pragma\ warning(disable:4180)\ }\textcolor{comment}{//\ qualifier\ applied\ to\ function\ type\ has\ no\ meaning}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#pragma\ warning(disable:4800)\ }\textcolor{comment}{//\ Forcing\ result\ to\ true\ or\ false}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{struct\ }ITransientExpression\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ isBinaryExpression()\ const\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ m\_isBinaryExpression;\ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ getResult()\ const\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ m\_result;\ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ streamReconstructedExpression(\ std::ostream\ \&os\ )\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ ITransientExpression(\ \textcolor{keywordtype}{bool}\ isBinaryExpression,\ \textcolor{keywordtype}{bool}\ result\ )}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ :\ \ \ m\_isBinaryExpression(\ isBinaryExpression\ ),}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ m\_result(\ result\ )}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ don't\ actually\ need\ a\ virtual\ destructor,\ but\ many\ static\ analysers}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ complain\ if\ it's\ not\ here\ :-\/(}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~ITransientExpression();}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_isBinaryExpression;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_result;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ formatReconstructedExpression(\ std::ostream\ \&os,\ std::string\ \textcolor{keyword}{const}\&\ lhs,\ StringRef\ op,\ std::string\ \textcolor{keyword}{const}\&\ rhs\ );}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ LhsT,\ \textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{class\ }BinaryExpr\ \ :\ \textcolor{keyword}{public}\ ITransientExpression\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ LhsT\ m\_lhs;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ StringRef\ m\_op;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ RhsT\ m\_rhs;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ streamReconstructedExpression(\ std::ostream\ \&os\ )\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ formatReconstructedExpression}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\ os,\ Catch::Detail::stringify(\ m\_lhs\ ),\ m\_op,\ Catch::Detail::stringify(\ m\_rhs\ )\ );}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ BinaryExpr(\ \textcolor{keywordtype}{bool}\ comparisonResult,\ LhsT\ lhs,\ StringRef\ op,\ RhsT\ rhs\ )}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ :\ \ \ ITransientExpression\{\ true,\ comparisonResult\ \},}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ m\_lhs(\ lhs\ ),}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ m\_op(\ op\ ),}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ m\_rhs(\ rhs\ )}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ \&\&\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ ||\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ ==\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ !=\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ >\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ >=\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <=\ (\ T\ )\ \textcolor{keyword}{const}\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>::value,}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chained\ comparisons\ are\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ LhsT>}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{class\ }UnaryExpr\ :\ \textcolor{keyword}{public}\ ITransientExpression\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ LhsT\ m\_lhs;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ streamReconstructedExpression(\ std::ostream\ \&os\ )\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ Catch::Detail::stringify(\ m\_lhs\ );}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ UnaryExpr(\ LhsT\ lhs\ )}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ :\ \ \ ITransientExpression\{\ false,\ static\_cast<bool>(lhs)\ \},}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ m\_lhs(\ lhs\ )}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00138\ \ \ \ \ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{comment}{//\ Specialised\ comparison\ functions\ to\ handle\ equality\ comparisons\ between\ ints\ and\ pointers\ (NULL\ deduces\ as\ an\ int)}}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ LhsT,\ \textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{auto}\ compareEqual(\ LhsT\ \textcolor{keyword}{const}\&\ lhs,\ RhsT\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(lhs\ ==\ rhs);\ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keyword}{auto}\ compareEqual(\ T*\ \textcolor{keyword}{const}\&\ lhs,\ \textcolor{keywordtype}{int}\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ lhs\ ==\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ rhs\ );\ \}}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{auto}\ compareEqual(\ T*\ \textcolor{keyword}{const}\&\ lhs,\ \textcolor{keywordtype}{long}\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ lhs\ ==\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ rhs\ );\ \}}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keyword}{auto}\ compareEqual(\ \textcolor{keywordtype}{int}\ lhs,\ T*\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ lhs\ )\ ==\ rhs;\ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{auto}\ compareEqual(\ \textcolor{keywordtype}{long}\ lhs,\ T*\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ lhs\ )\ ==\ rhs;\ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ LhsT,\ \textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{auto}\ compareNotEqual(\ LhsT\ \textcolor{keyword}{const}\&\ lhs,\ RhsT\&\&\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(lhs\ !=\ rhs);\ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{auto}\ compareNotEqual(\ T*\ \textcolor{keyword}{const}\&\ lhs,\ \textcolor{keywordtype}{int}\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ lhs\ !=\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ rhs\ );\ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keyword}{auto}\ compareNotEqual(\ T*\ \textcolor{keyword}{const}\&\ lhs,\ \textcolor{keywordtype}{long}\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ lhs\ !=\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ rhs\ );\ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{auto}\ compareNotEqual(\ \textcolor{keywordtype}{int}\ lhs,\ T*\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ lhs\ )\ !=\ rhs;\ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{auto}\ compareNotEqual(\ \textcolor{keywordtype}{long}\ lhs,\ T*\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ \textcolor{keywordtype}{bool}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{void}\ const*\textcolor{keyword}{>}(\ lhs\ )\ !=\ rhs;\ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ LhsT>}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keyword}{class\ }ExprLhs\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ LhsT\ m\_lhs;}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ ExprLhs(\ LhsT\ lhs\ )\ :\ m\_lhs(\ lhs\ )\ \{\}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ ==\ (\ RhsT\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ compareEqual(\ m\_lhs,\ rhs\ ),\ m\_lhs,\ \textcolor{stringliteral}{"{}=="{}},\ rhs\ \};}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ ==\ (\ \textcolor{keywordtype}{bool}\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ bool>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_lhs\ ==\ rhs,\ m\_lhs,\ \textcolor{stringliteral}{"{}=="{}},\ rhs\ \};}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ !=\ (\ RhsT\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ compareNotEqual(\ m\_lhs,\ rhs\ ),\ m\_lhs,\ \textcolor{stringliteral}{"{}!="{}},\ rhs\ \};}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ !=\ (\ \textcolor{keywordtype}{bool}\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ bool>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_lhs\ !=\ rhs,\ m\_lhs,\ \textcolor{stringliteral}{"{}!="{}},\ rhs\ \};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ >\ (\ RhsT\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(m\_lhs\ >\ rhs),\ m\_lhs,\ \textcolor{stringliteral}{"{}>"{}},\ rhs\ \};}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <\ (\ RhsT\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(m\_lhs\ <\ rhs),\ m\_lhs,\ \textcolor{stringliteral}{"{}<"{}},\ rhs\ \};}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ >=\ (\ RhsT\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(m\_lhs\ >=\ rhs),\ m\_lhs,\ \textcolor{stringliteral}{"{}>="{}},\ rhs\ \};}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <=\ (\ RhsT\ \textcolor{keyword}{const}\&\ rhs\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(m\_lhs\ <=\ rhs),\ m\_lhs,\ \textcolor{stringliteral}{"{}<="{}},\ rhs\ \};}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ |\ (RhsT\ \textcolor{keyword}{const}\&\ rhs)\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(m\_lhs\ |\ rhs),\ m\_lhs,\ \textcolor{stringliteral}{"{}|"{}},\ rhs\ \};}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ \&\ (RhsT\ \textcolor{keyword}{const}\&\ rhs)\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(m\_lhs\ \&\ rhs),\ m\_lhs,\ \textcolor{stringliteral}{"{}\&"{}},\ rhs\ \};}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ \string^\ (RhsT\ \textcolor{keyword}{const}\&\ rhs)\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(m\_lhs\ \string^\ rhs),\ m\_lhs,\ \textcolor{stringliteral}{"{}\string^"{}},\ rhs\ \};}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ \&\&\ (\ RhsT\ \textcolor{keyword}{const}\&\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<RhsT>::value,}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}operator\&\&\ is\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ RhsT>}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ ||\ (\ RhsT\ \textcolor{keyword}{const}\&\ )\ -\/>\ BinaryExpr<LhsT,\ RhsT\ const\&>\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<RhsT>::value,}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}operator||\ is\ not\ supported\ inside\ assertions,\ "{}}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wrap\ the\ expression\ inside\ parentheses,\ or\ decompose\ it"{}});}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ makeUnaryExpr()\ const\ -\/>\ UnaryExpr<LhsT>\ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ UnaryExpr<LhsT>\{\ m\_lhs\ \};}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00233\ \ \ \ \ \};}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keywordtype}{void}\ handleExpression(\ ITransientExpression\ \textcolor{keyword}{const}\&\ expr\ );}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordtype}{void}\ handleExpression(\ ExprLhs<T>\ \textcolor{keyword}{const}\&\ expr\ )\ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ handleExpression(\ expr.makeUnaryExpr()\ );}
+\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keyword}{struct\ }Decomposer\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <=\ (\ T\ \textcolor{keyword}{const}\&\ lhs\ )\ -\/>\ ExprLhs<T\ const\&>\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ExprLhs<T\ const\&>\{\ lhs\ \};}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ operator\ <=(\ \textcolor{keywordtype}{bool}\ value\ )\ -\/>\ ExprLhs<bool>\ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ExprLhs<bool>\{\ value\ \};}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \ \ \};}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#pragma\ warning(pop)}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_DECOMPOSER\_H\_INCLUDED}}
+
+\end{DoxyCode}

@@ -1,0 +1,79 @@
+\doxysection{catch\+\_\+random\+\_\+number\+\_\+generator.\+cpp}
+\hypertarget{catch__random__number__generator_8cpp_source}{}\label{catch__random__number__generator_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_random\_number\_generator.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_random\_number\_generator.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 30/08/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_random\_number\_generator.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_context.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_run\_context.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_config.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#pragma\ warning(push)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#pragma\ warning(disable:4146)\ }\textcolor{comment}{//\ we\ negate\ uint32\ during\ the\ rotate}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Safe\ rotr\ implementation\ thanks\ to\ John\ Regehr}}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ uint32\_t\ rotate\_right(uint32\_t\ val,\ uint32\_t\ count)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ mask\ =\ 31;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ count\ \&=\ mask;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (val\ >>\ count)\ |\ (val\ <<\ (-\/count\ \&\ mask));}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ warning(pop)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ SimplePcg32::SimplePcg32(result\_type\ seed\_)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ seed(seed\_);}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ SimplePcg32::seed(result\_type\ seed\_)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ m\_state\ =\ 0;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ (*this)();}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ m\_state\ +=\ seed\_;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ (*this)();}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ SimplePcg32::discard(uint64\_t\ skip)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ could\ implement\ this\ to\ run\ in\ O(log\ n)\ steps,\ but\ this}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ should\ suffice\ for\ our\ use\ case.}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint64\_t\ s\ =\ 0;\ s\ <\ skip;\ ++s)\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{void}\textcolor{keyword}{>}((*this)());}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ SimplePcg32::result\_type\ SimplePcg32::operator()()\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ prepare\ the\ output\ value}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ xorshifted\ =\ \textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(((m\_state\ >>\ 18u)\ \string^\ m\_state)\ >>\ 27u);}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ output\ =\ rotate\_right(xorshifted,\ m\_state\ >>\ 59u);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ advance\ state}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ m\_state\ =\ m\_state\ *\ 6364136223846793005ULL\ +\ s\_inc;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ output;}
+\DoxyCodeLine{00064\ \ \ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(SimplePcg32\ \textcolor{keyword}{const}\&\ lhs,\ SimplePcg32\ \textcolor{keyword}{const}\&\ rhs)\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lhs.m\_state\ ==\ rhs.m\_state;}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator!=(SimplePcg32\ \textcolor{keyword}{const}\&\ lhs,\ SimplePcg32\ \textcolor{keyword}{const}\&\ rhs)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lhs.m\_state\ !=\ rhs.m\_state;}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \}}
+
+\end{DoxyCode}

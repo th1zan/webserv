@@ -1,0 +1,131 @@
+\chapter{own-\/main}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b}\index{own-\/main@{own-\/main}}
+\label{_top}%
+ \hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md360}{}\doxysection{\texorpdfstring{Supplying main() yourself}{Supplying main() yourself}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md360}
+{\bfseries{Contents}}~\newline
+ Let Catch take full control of args and config~\newline
+ Amending the config~\newline
+ Adding your own command line options~\newline
+ Version detection~\newline
+
+
+The easiest way to use Catch is to let it supply {\ttfamily main()} for you and handle configuring itself from the command line.
+
+This is achieved by writing {\ttfamily \#define CATCH\+\_\+\+CONFIG\+\_\+\+MAIN} before the {\ttfamily \#include "{}catch.\+hpp"{}} in {\itshape exactly one} source file.
+
+Sometimes, though, you need to write your own version of main(). You can do this by writing {\ttfamily \#define CATCH\+\_\+\+CONFIG\+\_\+\+RUNNER} instead. Now you are free to write {\ttfamily main()} as normal and call into Catch yourself manually. You now have a lot of flexibility -\/ but here are three recipes to get your started\+:
+
+{\bfseries{Important note\+: you can only provide {\ttfamily main} in the same file you defined {\ttfamily CATCH\+\_\+\+CONFIG\+\_\+\+RUNNER}.}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md361}{}\doxysubsection{\texorpdfstring{Let Catch take full control of args and config}{Let Catch take full control of args and config}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md361}
+If you just need to have code that executes before and/ or after Catch this is the simplest option.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ ++}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ CATCH\_CONFIG\_RUNNER}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}catch.hpp"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main(\ \textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[]\ )\ \{}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ global\ setup...}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ result\ =\ \mbox{\hyperlink{class_catch_1_1_session}{Catch::Session}}().run(\ argc,\ argv\ );}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ global\ clean-\/up...}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md362}{}\doxysubsection{\texorpdfstring{Amending the config}{Amending the config}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md362}
+If you still want Catch to process the command line, but you want to programmatically tweak the config, you can do so in one of two ways\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ ++}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ CATCH\_CONFIG\_RUNNER}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}catch.hpp"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main(\ \textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[]\ )}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{class_catch_1_1_session}{Catch::Session}}\ session;\ \textcolor{comment}{//\ There\ must\ be\ exactly\ one\ instance}}
+\DoxyCodeLine{\ }
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ writing\ to\ session.configData()\ here\ sets\ defaults}}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ this\ is\ the\ preferred\ way\ to\ set\ them}}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ returnCode\ =\ session.applyCommandLine(\ argc,\ argv\ );}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{if}(\ returnCode\ !=\ 0\ )\ \textcolor{comment}{//\ Indicates\ a\ command\ line\ error}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ returnCode;}
+\DoxyCodeLine{\ }
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ writing\ to\ session.configData()\ or\ session.Config()\ here\ }}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ overrides\ command\ line\ args}}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ only\ do\ this\ if\ you\ know\ you\ need\ to}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ numFailed\ =\ session.run();}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ numFailed\ is\ clamped\ to\ 255\ as\ some\ unices\ only\ use\ the\ lower\ 8\ bits.}}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ This\ clamping\ has\ already\ been\ applied,\ so\ just\ return\ it\ here}}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ You\ can\ also\ do\ any\ post\ run\ clean-\/up\ here}}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ numFailed;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Take a look at the definitions of Config and Config\+Data to see what you can do with them.
+
+To take full control of the config simply omit the call to {\ttfamily apply\+Command\+Line()}.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md363}{}\doxysubsection{\texorpdfstring{Adding your own command line options}{Adding your own command line options}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md363}
+Catch embeds a powerful command line parser called \href{https://github.com/philsquared/Clara}{\texttt{ Clara}}. As of Catch2 (and Clara 1.\+0) Clara allows you to write {\itshape composable} option and argument parsers, so extending Catch\textquotesingle{}s own command line options is now easy.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ ++}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ CATCH\_CONFIG\_RUNNER}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}catch.hpp"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main(\ \textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[]\ )}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{class_catch_1_1_session}{Catch::Session}}\ session;\ \textcolor{comment}{//\ There\ must\ be\ exactly\ one\ instance}}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ height\ =\ 0;\ \textcolor{comment}{//\ Some\ user\ variable\ you\ want\ to\ be\ able\ to\ set}}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ Build\ a\ new\ parser\ on\ top\ of\ Catch's}}
+\DoxyCodeLine{\ \ \textcolor{keyword}{using\ namespace\ }Catch::clara;}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ cli\ }
+\DoxyCodeLine{\ \ \ \ =\ session.cli()\ \textcolor{comment}{//\ Get\ Catch's\ composite\ command\ line\ parser}}
+\DoxyCodeLine{\ \ \ \ |\ \mbox{\hyperlink{class_catch_1_1clara_1_1detail_1_1_opt}{Opt}}(\ height,\ \textcolor{stringliteral}{"{}height"{}}\ )\ \textcolor{comment}{//\ bind\ variable\ to\ a\ new\ option,\ with\ a\ hint\ string}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}-\/g"{}}][\textcolor{stringliteral}{"{}-\/-\/height"{}}]\ \ \ \ \textcolor{comment}{//\ the\ option\ names\ it\ will\ respond\ to}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}how\ high?"{}});\ \ \ \ \ \ \ \ \textcolor{comment}{//\ description\ string\ for\ the\ help\ output}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ Now\ pass\ the\ new\ composite\ back\ to\ Catch\ so\ it\ uses\ that}}
+\DoxyCodeLine{\ \ session.cli(\ cli\ );\ }
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ Let\ Catch\ (using\ Clara)\ parse\ the\ command\ line}}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ returnCode\ =\ session.applyCommandLine(\ argc,\ argv\ );}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{if}(\ returnCode\ !=\ 0\ )\ \textcolor{comment}{//\ Indicates\ a\ command\ line\ error}}
+\DoxyCodeLine{\ \ \ \ \ \ \textcolor{keywordflow}{return}\ returnCode;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ if\ set\ on\ the\ command\ line\ then\ 'height'\ is\ now\ set\ at\ this\ point}}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{if}(\ height\ >\ 0\ )}
+\DoxyCodeLine{\ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}height:\ "{}}\ <<\ height\ <<\ std::endl;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ session.run();}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+See the \href{https://github.com/philsquared/Clara/blob/master/README.md}{\texttt{ Clara documentation}} for more details.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md364}{}\doxysubsection{\texorpdfstring{Version detection}{Version detection}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bub3c2b3f2c4ec6eca97997c1e9841390b_autotoc_md364}
+Catch provides a triplet of macros providing the header\textquotesingle{}s version,
+
+
+\begin{DoxyItemize}
+\item {\ttfamily CATCH\+\_\+\+VERSION\+\_\+\+MAJOR}
+\item {\ttfamily CATCH\+\_\+\+VERSION\+\_\+\+MINOR}
+\item {\ttfamily CATCH\+\_\+\+VERSION\+\_\+\+PATCH}
+\end{DoxyItemize}
+
+these macros expand into a single number, that corresponds to the appropriate part of the version. As an example, given single header version v2.\+3.\+4, the macros would expand into {\ttfamily 2}, {\ttfamily 3}, and {\ttfamily 4} respectively.
+
+\DoxyHorRuler{0}
+
+
+\href{Readme.md\#top}{\texttt{ Home}} 

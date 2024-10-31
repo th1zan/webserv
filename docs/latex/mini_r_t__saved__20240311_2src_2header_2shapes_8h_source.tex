@@ -1,0 +1,93 @@
+\doxysection{shapes.\+h}
+\hypertarget{mini_r_t__saved__20240311_2src_2header_2shapes_8h_source}{}\label{mini_r_t__saved__20240311_2src_2header_2shapes_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240311/src/header/shapes.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240311/src/header/shapes.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ shapes.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ tsanglar\ <tsanglar@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/12/17\ 11:02:42\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/03/11\ 17:24:40\ by\ tsanglar\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ SHAPES\_H}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#\ define\ SHAPES\_H}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__material}{s\_material}}\ \mbox{\hyperlink{structs__material}{t\_material}};}
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__sight}{s\_sight}}\ \mbox{\hyperlink{structs__sight}{t\_sight}};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#\ define\ EPSILON\ \ \ \ \ \ \ \ 0.00001}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__sphere}{s\_sphere}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{double}\ \ radius;}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ origin;}
+\DoxyCodeLine{00026\ \}\ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2shapes_8h_a491fe2df71f2e6a31de7c05d15012f6c}{t\_sphere}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__discriminant}{s\_discriminant}}}
+\DoxyCodeLine{00029\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{double}\ \ a;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{double}\ \ b;}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{double}\ \ c;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{double}\ \ t1;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{double}\ \ t2;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{double}\ \ discr;}
+\DoxyCodeLine{00036\ \}\ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2shapes_8h_aebe0c6c62ec20bff89b7fdaebd488c75}{t\_discriminant}};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__shape}{s\_shape}}}
+\DoxyCodeLine{00039\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{union}}
+\DoxyCodeLine{00041\ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__sphere}{t\_sphere}}\ \ \ \ sphere;}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ t\_plane\ \ \ \ \ \ plane;}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ t\_cylinder\ \ \ cylinder;}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ t\_cone\ \ \ \ \ \ \ cone;}}
+\DoxyCodeLine{00046\ \ \ \ \ \};}
+\DoxyCodeLine{00047\ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ type\_of\_shape;}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ \ \ \ \ transform;}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ \ \ \ \ inverse;}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ \ \ \ \ transpose;}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{structs__material}{t\_material}}\ \ \ \ \ \ \ \ material;}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{//\ t\_hit\_list\ \ \ intersect;}}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{comment}{//\ t\_normal\_at\ \ \ \ \ \ normal\_at;}}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ \ \ \ \ \ \ \ \ normal\_at;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ t\_checker\ \ \ \ \ \ \ \ checker;}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{comment}{//\ t\_uv\_map\ \ \ \ \ map;}}
+\DoxyCodeLine{00058\ \}\ \ \ \mbox{\hyperlink{structt__shape}{t\_shape}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__hit}{s\_hit}}}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{double}\ \ t;}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{structt__shape}{t\_shape}}\ \ *object;}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{structs__hit}{t\_hit}}\ \ *next;}
+\DoxyCodeLine{00065\ \}\ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2shapes_8h_a5adba0a1600843208f0bd925f29b928d}{t\_hit}};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__param}{s\_param}}}
+\DoxyCodeLine{00068\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{double}\ \ t;}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{structt__shape}{t\_shape}}\ \ *object;}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ point;}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{structs__sight}{t\_sight}}\ \ sight;}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ inside\_bool;}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ over\_point;}
+\DoxyCodeLine{00075\ \}\ \ \ \mbox{\hyperlink{structs__param}{t\_param}};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \mbox{\hyperlink{structs__sphere}{t\_sphere}}\ sphere\_create(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \mbox{\hyperlink{tuples_8h_abd0ad1d76c573e7816318b2d5a9efe64}{point}},\ \textcolor{keywordtype}{double}\ radius);}
+\DoxyCodeLine{00078\ \mbox{\hyperlink{structs__discriminant}{t\_discriminant}}\ \ \ \ ray\_sphere\_intersect(\mbox{\hyperlink{structs__ray}{t\_ray}}\ ray,\ \mbox{\hyperlink{structs__sphere}{t\_sphere}}\ sphere);}
+\DoxyCodeLine{00079\ \textcolor{comment}{//\ int\ \ ray\_shape\_intersection(t\_hit\ **hit\_list,\ t\_shape\ *shape,\ t\_ray\ ray);}}
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{int}\ ray\_shape\_intersection(\mbox{\hyperlink{structs__hit}{t\_hit}}\ **hit\_list,\ \mbox{\hyperlink{structt__shape}{t\_shape}}\ *shape,\ \mbox{\hyperlink{structs__ray}{t\_ray}}\ ray);}
+\DoxyCodeLine{00081\ \mbox{\hyperlink{structs__hit}{t\_hit}}\ \ *hit\_new\_intersection(\textcolor{keywordtype}{double}\ t,\ \mbox{\hyperlink{structt__shape}{t\_shape}}\ *shape);}
+\DoxyCodeLine{00082\ \textcolor{keywordtype}{void}\ \ \ \ hit\_add\_to\_list(\mbox{\hyperlink{structs__hit}{t\_hit}}\ **hit\_list,\ \mbox{\hyperlink{structs__hit}{t\_hit}}\ *new\_hit);}
+\DoxyCodeLine{00083\ \textcolor{keywordtype}{void}\ \ \ \ hit\_lst\_print(\mbox{\hyperlink{structs__hit}{t\_hit}}\ *hit\_list);}
+\DoxyCodeLine{00084\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ sphere\_normal(\mbox{\hyperlink{structt__shape}{t\_shape}}\ shape,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ world\_pt);\ \textcolor{comment}{//\ TO\ DELETE}}
+\DoxyCodeLine{00085\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ get\_normal\_at(\mbox{\hyperlink{structt__shape}{t\_shape}}\ shape,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ world\_pt);}
+\DoxyCodeLine{00086\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ shape\_reflect(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ in,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ normal);}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

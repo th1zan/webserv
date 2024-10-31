@@ -1,0 +1,42 @@
+\doxysection{catch\+\_\+config\+\_\+uncaught\+\_\+exceptions.\+hpp}
+\hypertarget{catch__config__uncaught__exceptions_8hpp_source}{}\label{catch__config__uncaught__exceptions_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_config\_uncaught\_exceptions.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_config\_uncaught\_exceptions.hpp}}
+\mbox{\hyperlink{catch__config__uncaught__exceptions_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ Copyright\ Catch2\ Authors}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \ \ (See\ accompanying\ file\ LICENSE\_1\_0.txt\ or\ copy\ at}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ \ \ \ \ \ \ \ https://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ SPDX-\/License-\/Identifier:\ BSL-\/1.0}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#ifndef\ CATCH\_CONFIG\_UNCAUGHT\_EXCEPTIONS\_HPP}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ CATCH\_CONFIG\_UNCAUGHT\_EXCEPTIONS\_HPP}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#\ \ if\ \_MSC\_VER\ >=\ 1900\ }\textcolor{comment}{//\ Visual\ Studio\ 2015\ or\ newer}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#\ \ \ \ define\ CATCH\_INTERNAL\_CONFIG\_CPP17\_UNCAUGHT\_EXCEPTIONS}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#\ \ endif}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <exception>}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#if\ defined(\_\_cpp\_lib\_uncaught\_exceptions)\ \(\backslash\)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \ \ \&\&\ !defined(CATCH\_INTERNAL\_CONFIG\_CPP17\_UNCAUGHT\_EXCEPTIONS)}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#\ \ define\ CATCH\_INTERNAL\_CONFIG\_CPP17\_UNCAUGHT\_EXCEPTIONS}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cpp\_lib\_uncaught\_exceptions}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#if\ defined(CATCH\_INTERNAL\_CONFIG\_CPP17\_UNCAUGHT\_EXCEPTIONS)\ \(\backslash\)}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \ \ \&\&\ !defined(CATCH\_CONFIG\_NO\_CPP17\_UNCAUGHT\_EXCEPTIONS)\ \(\backslash\)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ \&\&\ !defined(CATCH\_CONFIG\_CPP17\_UNCAUGHT\_EXCEPTIONS)}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#\ \ define\ CATCH\_CONFIG\_CPP17\_UNCAUGHT\_EXCEPTIONS}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_UNCAUGHT\_EXCEPTIONS\_HPP}}
+
+\end{DoxyCode}

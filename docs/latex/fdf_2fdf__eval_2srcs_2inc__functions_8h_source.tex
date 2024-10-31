@@ -1,0 +1,148 @@
+\doxysection{inc\+\_\+functions.\+h}
+\hypertarget{fdf_2fdf__eval_2srcs_2inc__functions_8h_source}{}\label{fdf_2fdf__eval_2srcs_2inc__functions_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/fdf/fdf\_eval/srcs/inc\_functions.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/fdf/fdf\_eval/srcs/inc\_functions.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ inc\_functions.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ tsanglar\ <tsanglar@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/04/26\ 09:17:41\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/05/10\ 16:16:08\ by\ tsanglar\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ INC\_FUNCTIONS\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ INC\_FUNCTIONS\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*main.c*/}}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_map(\textcolor{keywordtype}{char}\ *mapname,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{int}\ \ \ \ \ init\_mlx(\mbox{\hyperlink{structs__data}{t\_data}}\ *d);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{int}\ \ \ \ \ init\_geom(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00020\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_events(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{int}\ \ \ \ \ main(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ **map\_name);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{/*user\_events.c*/}}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_input(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{int}\ \ \ \ \ close\_window(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_events(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{/*libft\_fct.c\ */}}
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{void}\ \ \ \ ft\_putstr\_fd(\textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_strlen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s);}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strjoin(\textcolor{keywordtype}{char}\ *s1,\ \textcolor{keywordtype}{char}\ *s2);}
+\DoxyCodeLine{00032\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ \ \ \ *ft\_lstlast(\mbox{\hyperlink{structs__pt}{t\_pt}}\ *lst);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lstadd\_back(\mbox{\hyperlink{structs__pt}{t\_pt}}\ **lst,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *\textcolor{keyword}{new});}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{/*handle\_coord\_fct.c*/}}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_atoi(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_atohex(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{/*key\_events\_rotate.c*/}}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_rotation\_x(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_rotation\_y(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{/*key\_events\_translate.c*/}}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_translation(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{comment}{/*key\_events\_view.c*/}}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_view\_iso(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_view\_ortho(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{/*key\_events\_zoom.c*/}}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_zoom(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{/*key\_events\_z.c*/}}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_z\_rot(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{int}\ \ \ \ \ key\_z\_hom(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{comment}{/*get\_points.c*/}}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{int}\ \ \ \ \ read\_map(\textcolor{keywordtype}{char}\ *map\_name,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *head\_list\_pt);}
+\DoxyCodeLine{00059\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ \ \ \ *handle\_line(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ nb\_line,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *list\_pt);}
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{int}\ \ \ \ \ extract\_z(\mbox{\hyperlink{structs__pt}{t\_pt}}\ *head\_list\_pt,\ \textcolor{keywordtype}{char}\ *coord,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{comment}{/*new\_points.c*/}}
+\DoxyCodeLine{00063\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ \ \ \ *new\_pt(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ z,\ \textcolor{keywordtype}{int}\ color);}
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{int}\ \ \ \ \ new\_pt\_color(\mbox{\hyperlink{structs__pt}{t\_pt}}\ *new\_pt,\ \textcolor{keywordtype}{int}\ color);}
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_pt(\mbox{\hyperlink{structs__pt}{t\_pt}}\ *new\_pt,\ \textcolor{keywordtype}{double}\ *pt);}
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{void}\ \ \ \ free\_all\_points(\mbox{\hyperlink{structs__pt}{t\_pt}}\ *pt);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{/*points\_to\_table.c*/}}
+\DoxyCodeLine{00069\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ \ \ \ ***init\_table\_of\_points(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00070\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ \ \ \ ***alloc\_tab(\mbox{\hyperlink{structs__pt}{t\_pt}}\ ***tab\_pts,\ \textcolor{keywordtype}{int}\ x\_max,\ \textcolor{keywordtype}{int}\ y\_max);}
+\DoxyCodeLine{00071\ \textcolor{keywordtype}{int}\ \ \ \ \ pts\_to\_table(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{int}\ \ \ \ \ tab\_to\_zero(\mbox{\hyperlink{structs__pt}{t\_pt}}\ ***tab\_pts,\ \textcolor{keywordtype}{int}\ x\_max,\ \textcolor{keywordtype}{int}\ y\_max);}
+\DoxyCodeLine{00073\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_xyz\_init(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{comment}{/*get\_next\_line.c*/}}
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{char}\ \ \ \ *get\_next\_line(\textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{00077\ \textcolor{keywordtype}{char}\ \ \ \ *get\_new\_line(\textcolor{keywordtype}{char}\ *temp);}
+\DoxyCodeLine{00078\ \textcolor{keywordtype}{char}\ \ \ \ *temp\_update(\textcolor{keywordtype}{char}\ *temp);}
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{int}\ \ \ \ \ check\_add\_buf\_to\_temp(\textcolor{keywordtype}{char}\ *temp);}
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_temp(\textcolor{keywordtype}{char}\ *temp);}
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{char}\ \ \ \ *add\_buf\_to\_temp(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{char}\ *temp);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{comment}{/*op\_general.c*/}}
+\DoxyCodeLine{00084\ \textcolor{keywordtype}{int}\ \ \ \ \ pts\_center(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{int}\ sum\_op);}
+\DoxyCodeLine{00085\ \textcolor{keywordtype}{int}\ \ \ \ \ xyz\_fit\_to\_win(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{int}\ sum\_op);}
+\DoxyCodeLine{00086\ \textcolor{keywordtype}{int}\ \ \ \ \ reinit\_pts(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{int}\ \ \ \ \ retrieve\_pts(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00088\ \textcolor{keywordtype}{int}\ \ \ \ \ reinit\_rht\_param(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{comment}{/*op\_homothetie.c*/}}
+\DoxyCodeLine{00091\ \textcolor{keywordtype}{int}\ \ \ \ \ pts\_homothetie(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{double}\ sx,\ \textcolor{keywordtype}{double}\ sy,\ \textcolor{keywordtype}{double}\ sz);}
+\DoxyCodeLine{00092\ \textcolor{keywordtype}{int}\ \ \ \ \ pts\_homo\_sumop(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{double}\ sx,\ \textcolor{keywordtype}{double}\ sy,\ \textcolor{keywordtype}{double}\ sz);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{comment}{/*op\_init\_param.c*/}}
+\DoxyCodeLine{00095\ \textcolor{keywordtype}{int}\ \ \ \ \ init\_param\_homoth(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00096\ \textcolor{keywordtype}{int}\ \ \ \ \ init\_param\_translation(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00097\ \textcolor{keywordtype}{int}\ \ \ \ \ init\_param\_rot(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{comment}{/*op\_minmax.c*/}}
+\DoxyCodeLine{00100\ \textcolor{keywordtype}{int}\ \ \ \ \ xyz\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00101\ \textcolor{keywordtype}{int}\ \ \ \ \ x\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00102\ \textcolor{keywordtype}{int}\ \ \ \ \ y\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00103\ \textcolor{keywordtype}{int}\ \ \ \ \ z\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{comment}{/*op\_find\_minmax.c*/}}
+\DoxyCodeLine{00106\ \textcolor{keywordtype}{int}\ \ \ \ \ find\_x\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *tmp);}
+\DoxyCodeLine{00107\ \textcolor{keywordtype}{int}\ \ \ \ \ find\_y\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *tmp);}
+\DoxyCodeLine{00108\ \textcolor{keywordtype}{int}\ \ \ \ \ find\_z\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *tmp);}
+\DoxyCodeLine{00109\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_yxz\_minmax(\textcolor{keywordtype}{double}\ *yxz\_minmax);}
+\DoxyCodeLine{00110\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_all\_yxz\_minmax(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{comment}{/*op\_translation.c*/}}
+\DoxyCodeLine{00113\ \textcolor{keywordtype}{int}\ \ \ \ \ pts\_translation(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{int}\ t\_px,\ \textcolor{keywordtype}{int}\ t\_py,\ \textcolor{keywordtype}{int}\ sum\_op);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{comment}{/*op\_rotation.c*/}}
+\DoxyCodeLine{00116\ \textcolor{keywordtype}{int}\ \ \ \ \ pts\_rotation(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{double}\ dx,\ \textcolor{keywordtype}{double}\ dy,\ \textcolor{keywordtype}{double}\ dz);}
+\DoxyCodeLine{00117\ \textcolor{keywordtype}{int}\ \ \ \ \ pt\_rot\_x(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{double}\ rad\_x);}
+\DoxyCodeLine{00118\ \textcolor{keywordtype}{int}\ \ \ \ \ pt\_rot\_y(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{double}\ rad\_y);}
+\DoxyCodeLine{00119\ \textcolor{keywordtype}{int}\ \ \ \ \ pt\_rot\_z(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{double}\ rad\_z);}
+\DoxyCodeLine{00120\ \textcolor{keywordtype}{int}\ \ \ \ \ pts\_rot\_sumop(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{double}\ dx,\ \textcolor{keywordtype}{double}\ dy,\ \textcolor{keywordtype}{double}\ dz);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{comment}{/*\ render.c\ */}}
+\DoxyCodeLine{00123\ \textcolor{keywordtype}{void}\ \ \ \ img\_pix\_put(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ color);}
+\DoxyCodeLine{00124\ \textcolor{keywordtype}{void}\ \ \ \ render\_background(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \textcolor{keywordtype}{int}\ color);}
+\DoxyCodeLine{00125\ \textcolor{keywordtype}{int}\ \ \ \ \ render\_xy\_pts(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *list\_pt);}
+\DoxyCodeLine{00126\ \textcolor{keywordtype}{int}\ \ \ \ \ render\_mesh(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00127\ \textcolor{keywordtype}{int}\ \ \ \ \ render(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00128\ \textcolor{comment}{//\ int\ \ \ \ \ \ render\_rect(t\_img\ *img,\ t\_rect\ rect);}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{comment}{/*\ render\_segments.c\ */}}
+\DoxyCodeLine{00131\ \textcolor{keywordtype}{int}\ \ \ \ \ initialize\_state\_z(\mbox{\hyperlink{structs__state}{t\_state}}\ *state,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *p1,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *p2,\ \textcolor{keywordtype}{int}\ dx);}
+\DoxyCodeLine{00132\ \textcolor{keywordtype}{int}\ \ \ \ \ initialize\_state(\mbox{\hyperlink{structs__state}{t\_state}}\ *state,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *p1,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *p2);}
+\DoxyCodeLine{00133\ \textcolor{keywordtype}{int}\ \ \ \ \ update\_state(\mbox{\hyperlink{structs__state}{t\_state}}\ *state,\ \textcolor{keywordtype}{int}\ dx,\ \textcolor{keywordtype}{int}\ dy,\ \textcolor{keywordtype}{double}\ dz);}
+\DoxyCodeLine{00134\ \textcolor{keywordtype}{int}\ \ \ \ \ render\_segment(\mbox{\hyperlink{structs__data}{t\_data}}\ *data,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *p1,\ \mbox{\hyperlink{structs__pt}{t\_pt}}\ *p2);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{comment}{/*render\_txt.c*/}}
+\DoxyCodeLine{00137\ \textcolor{keywordtype}{int}\ \ \ \ \ render\_txt(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \textcolor{comment}{/*free.c*/}}
+\DoxyCodeLine{00140\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_memory(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00141\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_table(\mbox{\hyperlink{structs__data}{t\_data}}\ *data);}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

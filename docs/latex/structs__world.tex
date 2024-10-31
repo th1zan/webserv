@@ -1,0 +1,86 @@
+\doxysection{s\+\_\+world Struct Reference}
+\hypertarget{structs__world}{}\label{structs__world}\index{s\_world@{s\_world}}
+
+
+This struct contains everything related to the building of a ray tracing\textquotesingle{}s world. The world has objects (or shapes), point lights and an ambient color. Together, these elements makes the scene rendering possible.  
+
+
+
+
+{\ttfamily \#include $<$world.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structs__world_aa626252abb901141725173eabccb7b68}\label{structs__world_aa626252abb901141725173eabccb7b68} 
+\mbox{\hyperlink{mini_r_t__example_2include_2shapes_8h_a5adba0a1600843208f0bd925f29b928d}{t\+\_\+hit}} \texorpdfstring{$\ast$}{*} {\bfseries xs}
+\item 
+\Hypertarget{structs__world_a4852c20c6c519f99d2486fdb12926de2}\label{structs__world_a4852c20c6c519f99d2486fdb12926de2} 
+int {\bfseries object\+\_\+count}
+\item 
+\Hypertarget{structs__world_a9d83ca3ec0807efbf82cbba6d98573d9}\label{structs__world_a9d83ca3ec0807efbf82cbba6d98573d9} 
+\mbox{\hyperlink{structt__shape}{t\+\_\+shape}} \texorpdfstring{$\ast$}{*} {\bfseries objects}
+\item 
+\Hypertarget{structs__world_a26327a55d31ac6b598cc2ce8a1561255}\label{structs__world_a26327a55d31ac6b598cc2ce8a1561255} 
+int {\bfseries light\+\_\+count}
+\item 
+\Hypertarget{structs__world_ad7ee918ec0349cca4de645dcbe2fefc0}\label{structs__world_ad7ee918ec0349cca4de645dcbe2fefc0} 
+\mbox{\hyperlink{lights_8h_a2e84ad37103b684d783b3273d4a1c784}{t\+\_\+light}} \texorpdfstring{$\ast$}{*} {\bfseries lights}
+\item 
+\Hypertarget{structs__world_a7eb80fb2262f640ddca56e730e154dda}\label{structs__world_a7eb80fb2262f640ddca56e730e154dda} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} {\bfseries ambient}
+\item 
+\Hypertarget{structs__world_a2e2a0fdd6d014c7a5c468bfbf333971b}\label{structs__world_a2e2a0fdd6d014c7a5c468bfbf333971b} 
+\mbox{\hyperlink{mini_r_t__example_2include_2shapes_8h_a5adba0a1600843208f0bd925f29b928d}{t\+\_\+hit}} \texorpdfstring{$\ast$}{*} {\bfseries hit\+\_\+list}
+\item 
+\Hypertarget{structs__world_a5af5a771affcdc65f9f33226d2a569ea}\label{structs__world_a5af5a771affcdc65f9f33226d2a569ea} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} {\bfseries color}
+\item 
+\Hypertarget{structs__world_abf4835992017f82b46ea5016e81b9a24}\label{structs__world_abf4835992017f82b46ea5016e81b9a24} 
+int {\bfseries nb\+\_\+shape}
+\item 
+\Hypertarget{structs__world_a948b9d9aa7372d247fa21b40f299dee3}\label{structs__world_a948b9d9aa7372d247fa21b40f299dee3} 
+\mbox{\hyperlink{structt__shape}{t\+\_\+shape}} \texorpdfstring{$\ast$}{*} {\bfseries shape\+\_\+tab}
+\item 
+\Hypertarget{structs__world_a32e2aa76d8a1d30f9dc4f5bf4d3e9a26}\label{structs__world_a32e2aa76d8a1d30f9dc4f5bf4d3e9a26} 
+int {\bfseries nb\+\_\+light}
+\item 
+\Hypertarget{structs__world_ad32c37c111d9151966432f5971b7a1ef}\label{structs__world_ad32c37c111d9151966432f5971b7a1ef} 
+\mbox{\hyperlink{lights_8h_a2e84ad37103b684d783b3273d4a1c784}{t\+\_\+light}} \texorpdfstring{$\ast$}{*} {\bfseries light\+\_\+tab}
+\item 
+\Hypertarget{structs__world_a31afb68cc2d6a05d01104b4b2bfa9142}\label{structs__world_a31afb68cc2d6a05d01104b4b2bfa9142} 
+\mbox{\hyperlink{lights_8h_a2e84ad37103b684d783b3273d4a1c784}{t\+\_\+light}} {\bfseries light}
+\item 
+\Hypertarget{structs__world_a7eb80fb2262f640ddca56e730e154dda}\label{structs__world_a7eb80fb2262f640ddca56e730e154dda} 
+\mbox{\hyperlink{structs__ambient}{t\+\_\+ambient}} {\bfseries ambient}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This struct contains everything related to the building of a ray tracing\textquotesingle{}s world. The world has objects (or shapes), point lights and an ambient color. Together, these elements makes the scene rendering possible. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em xs} & \doxylink{class_a}{A} struct of type t\+\_\+hit that stores intersections\textquotesingle{} values, if any. \\
+\hline
+{\em object\+\_\+count} & Stores the information about how many shapes there are in the world. \\
+\hline
+{\em objects} & \doxylink{class_a}{A} list of objects (or shapes) that exist in the world. They can be a cone, a sphere, a plane or a cylinder. \\
+\hline
+{\em light\+\_\+count} & Stores the information about how many point lights there are in the world. \\
+\hline
+{\em lights} & \doxylink{class_a}{A} list of point lights that exist in the world. \\
+\hline
+{\em ambient} & Represents the ambient color in the world. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/\mbox{\hyperlink{mini_r_t__example_2include_2world_8h}{world.\+h}}\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240311/src/header/world.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240322/src/header/world.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240403/src/header/world.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240408/src/header/world.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/src/header/world.\+h\end{DoxyCompactItemize}

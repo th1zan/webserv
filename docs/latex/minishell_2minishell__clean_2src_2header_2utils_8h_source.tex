@@ -1,0 +1,86 @@
+\doxysection{utils.\+h}
+\hypertarget{minishell_2minishell__clean_2src_2header_2utils_8h_source}{}\label{minishell_2minishell__clean_2src_2header_2utils_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/utils.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/utils.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ utils.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/06\ 12:29:09\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/11/14\ 13:09:39\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ UTILS\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ UTILS\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*classify\_token.c*/}}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{void}\ \ \ \ classify\_token\_operator(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tmp);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{void}\ \ \ \ classify\_token\_type(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lst\_classify\_tk\_unclassified(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*free\_lst.c*/}}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_env(\mbox{\hyperlink{structs__env}{t\_env}}\ *env);}
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_global\_env(\mbox{\hyperlink{structs__env}{t\_env}}\ *env);}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_lst(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *head\_list);}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_elem(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *token);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{/*get\_tk.c*/}}
+\DoxyCodeLine{00028\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_next\_cmd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00029\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_next\_type\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{int}\ type);}
+\DoxyCodeLine{00030\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_prev\_type\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{int}\ type);}
+\DoxyCodeLine{00031\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_prev\_pipe\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00032\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_next\_pipe\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{/*handle\_list\_add.c*/}}
+\DoxyCodeLine{00035\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *ft\_lstnew(\textcolor{keywordtype}{char}\ *token\_str);}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lstadd\_back(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **head\_tk\_tk,\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ *new\_tk);}
+\DoxyCodeLine{00037\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *ft\_lst\_remove(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *current\_tk);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{/*handle\_list\_modif.c*/}}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lst\_modif\_tk\_str(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{int}\ (*f)(\textcolor{keywordtype}{char}\ **str));}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lst\_modif\_tk\_type(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{int}\ (*f)(\textcolor{keywordtype}{char}\ *str));}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lst\_replace\_var(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{int}\ (*f)(\textcolor{keywordtype}{char}\ **str,\ \textcolor{keywordtype}{char}\ ***env));}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_delete\_type\_token(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk,\ \textcolor{keywordtype}{int}\ tk\_type);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{comment}{/*handle\_list.c*/}}
+\DoxyCodeLine{00046\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *ft\_lstlast(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_lstsize(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{/*handle\_str.c*/}}
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{int}\ \ \ \ \ del\_whitespace(\textcolor{keywordtype}{char}\ **str);}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{char}\ \ \ \ *get\_var\_value(\textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{int}\ *i,\ \textcolor{keywordtype}{char}\ **var\_values\_tab);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{/*handle\_tab.c*/}}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{int}\ \ \ \ \ malloc\_strtab(\textcolor{keywordtype}{char}\ ***strtab,\ \textcolor{keywordtype}{int}\ nbstr);}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_strtab(\textcolor{keywordtype}{char}\ **strtab);}
+\DoxyCodeLine{00056\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_strtab\_env(\textcolor{keywordtype}{char}\ **strtab);}
+\DoxyCodeLine{00057\ \textcolor{keywordtype}{int}\ \ \ \ \ print\_strtab(\textcolor{keywordtype}{char}\ **strtab,\ \textcolor{keywordtype}{int}\ fd\_out);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{comment}{/*handle\_var\_utils\_1.c*/}}
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{char}\ \ \ \ *get\_var\_name\_from\_input(\textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{int}\ *i);}
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{int}\ \ \ \ \ get\_var\_name\_len\_from\_input(\textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{char}\ \ \ \ *find\_value\_in\_tab(\textcolor{keywordtype}{char}\ *var\_name,\ \textcolor{keywordtype}{char}\ **var\_values\_tab);}
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{char}\ \ \ \ *get\_value\_after\_equal(\textcolor{keywordtype}{char}\ *var\_value);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{comment}{/*handle\_var\_utils\_2.c*/}}
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{int}\ \ \ \ \ check\_inside\_simple\_quote(\textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00067\ \textcolor{keywordtype}{char}\ \ \ \ *replace\_var\_status\_in\_string(\textcolor{keywordtype}{char}\ *input\_str,\ \textcolor{keywordtype}{int}\ *i,\ \textcolor{keywordtype}{char}\ *var\_value);}
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{char}\ \ \ \ *str\_with\_valu(\textcolor{keywordtype}{char}\ *begin,\ \textcolor{keywordtype}{char}\ *var\_value,\ \textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{int}\ *tab\_pos);}
+\DoxyCodeLine{00069\ \textcolor{keywordtype}{char}\ \ \ \ *replace\_var\_in\_str(\textcolor{keywordtype}{char}\ *input\_str,\ \textcolor{keywordtype}{int}\ *i,\ \textcolor{keywordtype}{char}\ **env);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{comment}{/*handle\_variable.c*/}}
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{int}\ \ \ \ \ update\_input\_if\_needed(\textcolor{keywordtype}{char}\ **input,\ \textcolor{keywordtype}{char}\ *new\_input);}
+\DoxyCodeLine{00073\ \textcolor{keywordtype}{char}\ \ \ \ *handle\_status\_variable(\textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{int}\ *i);}
+\DoxyCodeLine{00074\ \textcolor{keywordtype}{char}\ \ \ \ *process\_variable\_replacement(\textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{int}\ *i,\ \textcolor{keywordtype}{char}\ **var\_val\_tab);}
+\DoxyCodeLine{00075\ \textcolor{keywordtype}{void}\ \ \ \ process\_input(\textcolor{keywordtype}{char}\ **input,\ \textcolor{keywordtype}{int}\ *i,\ \textcolor{keywordtype}{char}\ **var\_val\_tab,\ \textcolor{keywordtype}{int}\ *is\_var);}
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{int}\ \ \ \ \ replace\_with\_values(\textcolor{keywordtype}{char}\ **input,\ \textcolor{keywordtype}{char}\ ***var\_val\_tab);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{comment}{//A\ SUPPRIMER\ car\ pas\ à\ la\ norme}}
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{int}\ \ \ \ \ print\_lst(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

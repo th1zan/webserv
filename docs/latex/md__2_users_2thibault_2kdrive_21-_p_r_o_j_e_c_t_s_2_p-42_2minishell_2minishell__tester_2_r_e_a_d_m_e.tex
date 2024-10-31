@@ -1,0 +1,71 @@
+\chapter{README}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e}\index{README@{README}}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md73}{}\doxysection{\texorpdfstring{Installation}{Installation}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md73}
+Clone the repo {\bfseries{inside}} your minishell folder 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ minishell}
+\DoxyCodeLine{git\ clone\ https://github.com/LucasKuhn/minishell\_tester.git}
+\DoxyCodeLine{cd\ minishell\_tester}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md74}{}\doxysection{\texorpdfstring{How to run}{How to run}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md74}
+Run the {\ttfamily tester} file to run all the tests for the mandatory part of the project 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester}
+
+\end{DoxyCode}
+ 
+
+ \hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md75}{}\doxysection{\texorpdfstring{Separate tests}{Separate tests}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md75}
+You can also call {\ttfamily ./tester} + {\ttfamily test\+\_\+file} to run only a specific part of the test\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester\ builtins\ }
+
+\end{DoxyCode}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester\ pipes\ }
+
+\end{DoxyCode}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester\ redirects\ }
+
+\end{DoxyCode}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester\ extras\ }
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md76}{}\doxysection{\texorpdfstring{Manual tests}{Manual tests}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md76}
+The tester does {\bfseries{not}} test everything. We added some suggestions of manual test in the \mbox{[}manual\+\_\+tests\mbox{]}(manual\+\_\+tests) folder
+\begin{DoxyItemize}
+\item \href{manual_tests/mandatory}{\texttt{ mandatory}}
+\item \href{manual_tests/heredoc}{\texttt{ heredoc}}
+\item \href{manual_tests/signals}{\texttt{ signals}}
+\item \href{manual_tests/not_mandatory}{\texttt{ not\+\_\+mandatory}}
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md77}{}\doxysection{\texorpdfstring{Bonus}{Bonus}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md77}
+We also have tests for the {\ttfamily wildcards} part of the bonus\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester\ wildcards\ }
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item Make sure your executable is called {\ttfamily minishell\+\_\+bonus}
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md78}{}\doxysection{\texorpdfstring{Extra tests}{Extra tests}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2minishell_2minishell__tester_2_r_e_a_d_m_e_autotoc_md78}
+We decided to leave out some tests from the mandatory part, things like syntax errors and OS specific code. 
+
+ 
+
+You can run them like any other separate test\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester\ syntax}
+
+\end{DoxyCode}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./tester\ os\_specific}
+
+\end{DoxyCode}
+ 

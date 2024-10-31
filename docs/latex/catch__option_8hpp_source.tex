@@ -1,0 +1,79 @@
+\doxysection{catch\+\_\+option.\+hpp}
+\hypertarget{catch__option_8hpp_source}{}\label{catch__option_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_option.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_option.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 02/12/2012.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2012\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_OPTION\_HPP\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_OPTION\_HPP\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ An\ optional\ type}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{class\ }Option\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ Option()\ :\ nullableValue(\ nullptr\ )\ \{\}}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ Option(\ T\ \textcolor{keyword}{const}\&\ \_value\ )}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ :\ nullableValue(\ new(\ storage\ )\ T(\ \_value\ )\ )}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ Option(\ Option\ \textcolor{keyword}{const}\&\ \_other\ )}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ :\ nullableValue(\ \_other\ ?\ new(\ storage\ )\ T(\ *\_other\ )\ :\ nullptr\ )}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \string~Option()\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ reset();}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ Option\&\ operator=\ (\ Option\ \textcolor{keyword}{const}\&\ \_other\ )\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \&\_other\ !=\ \textcolor{keyword}{this}\ )\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reset();}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \_other\ )}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nullableValue\ =\ \textcolor{keyword}{new}(\ storage\ )\ T(\ *\_other\ );}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ Option\&\ operator\ =\ (\ T\ \textcolor{keyword}{const}\&\ \_value\ )\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ reset();}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ nullableValue\ =\ \textcolor{keyword}{new}(\ storage\ )\ T(\ \_value\ );}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ reset()\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ nullableValue\ )}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nullableValue-\/>\string~T();}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ nullableValue\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ T\&\ operator*()\ \{\ \textcolor{keywordflow}{return}\ *nullableValue;\ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ T\ \textcolor{keyword}{const}\&\ operator*()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ *nullableValue;\ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ T*\ operator-\/>()\ \{\ \textcolor{keywordflow}{return}\ nullableValue;\ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ T*\ operator-\/>()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ nullableValue;\ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ T\ valueOr(\ T\ \textcolor{keyword}{const}\&\ defaultValue\ )\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ nullableValue\ ?\ *nullableValue\ :\ defaultValue;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ some()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ nullableValue\ !=\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ none()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ nullableValue\ ==\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator\ !()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ nullableValue\ ==\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{operator}\ bool()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ some();}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ T\ *nullableValue;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignas}(\textcolor{keyword}{alignof}(T))\ \textcolor{keywordtype}{char}\ storage[\textcolor{keyword}{sizeof}(T)];}
+\DoxyCodeLine{00069\ \ \ \ \ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_OPTION\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

@@ -1,0 +1,93 @@
+\doxysection{SFOpen\+GLView.\+h}
+\hypertarget{_s_f_open_g_l_view_8h_source}{}\label{_s_f_open_g_l_view_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/sfml-\/src/src/SFML/Window/OSX/SFOpenGLView.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/sfml-\/src/src/SFML/Window/OSX/SFOpenGLView.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ SFML\ -\/\ Simple\ and\ Fast\ Multimedia\ Library}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Copyright\ (C)\ 2007-\/2018\ Marco\ Antognini\ (antognini.marco@gmail.com),}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Laurent\ Gomila\ (laurent@sfml-\/dev.org)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ This\ software\ is\ provided\ 'as-\/is',\ without\ any\ express\ or\ implied\ warranty.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ In\ no\ event\ will\ the\ authors\ be\ held\ liable\ for\ any\ damages\ arising\ from\ the\ use\ of\ this\ software.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Permission\ is\ granted\ to\ anyone\ to\ use\ this\ software\ for\ any\ purpose,}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ including\ commercial\ applications,\ and\ to\ alter\ it\ and\ redistribute\ it\ freely,}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ subject\ to\ the\ following\ restrictions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ 1.\ The\ origin\ of\ this\ software\ must\ not\ be\ misrepresented;}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ you\ must\ not\ claim\ that\ you\ wrote\ the\ original\ software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ If\ you\ use\ this\ software\ in\ a\ product,\ an\ acknowledgment}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ in\ the\ product\ documentation\ would\ be\ appreciated\ but\ is\ not\ required.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ 2.\ Altered\ source\ versions\ must\ be\ plainly\ marked\ as\ such,}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ \ \ and\ must\ not\ be\ misrepresented\ as\ being\ the\ original\ software.}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ 3.\ This\ notice\ may\ not\ be\ removed\ or\ altered\ from\ any\ source\ distribution.}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ Headers}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#import\ <AppKit/AppKit.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacesf}{sf}}\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{namespace\ }priv\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{class\ }WindowImplCocoa;}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{@class}\ \mbox{\hyperlink{interface_s_f_silent_responder}{SFSilentResponder}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{@interface\ }\mbox{\hyperlink{interface_s_f_open_g_l_view}{SFOpenGLView}}\ :\ NSOpenGLView}
+\DoxyCodeLine{00070\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{classsf_1_1priv_1_1_window_impl_cocoa}{sf::priv::WindowImplCocoa}}*\ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_ab4cfba5f1c80b7aacb219bb8f6337e12}{m\_requester}};\ \ \ \ \ \ }
+\DoxyCodeLine{00072\ \ \ \ \ BOOL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a746fd7510438905eafd65cbf1c8dc352}{m\_useKeyRepeat}};\ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ BOOL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_ad321cd6bab9ea7502aded303b577998e}{m\_mouseIsIn}};\ \ \ \ \ \ }
+\DoxyCodeLine{00074\ \ \ \ \ NSCursor*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a8508577f920b32bcc1716840587b5bf2}{m\_cursor}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ NSTrackingArea*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a8b4c9487c935f6fdf67fa11fe82023dd}{m\_trackingArea}};\ \ \ }
+\DoxyCodeLine{00076\ \ \ \ \ BOOL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a5da6c2e3b4ed24745cd98faba116d83d}{m\_fullscreen}};\ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ CGFloat\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a3f0ec9155bfb92104b472d02adfaa8e8}{m\_scaleFactor}};\ \ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ BOOL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a34159db17cfcebd31fc158589ca43d56}{m\_cursorGrabbed}};\ \ }
+\DoxyCodeLine{00079\ \ \ \ \ CGFloat\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a9fab9c89c46f6d46762c056512570c88}{m\_deltaXBuffer}};\ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ CGFloat\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_f_open_g_l_view_a959c69f58ad62474571f08d07d4d0c08}{m\_deltaYBuffer}};\ \ \ }
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{comment}{//\ Hidden\ text\ view\ used\ to\ convert\ key\ event\ to\ actual\ chars.}}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{comment}{//\ We\ use\ a\ silent\ responder\ to\ prevent\ sound\ alerts.}}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{interface_s_f_silent_responder}{SFSilentResponder}}*\ \ m\_silentResponder;}
+\DoxyCodeLine{00085\ \ \ \ \ NSTextView*\ \ \ \ \ \ \ \ \ m\_hiddenTextView;}
+\DoxyCodeLine{00086\ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00102\ -\/(id)initWithFrame:(NSRect)frameRect\ fullscreen:(BOOL)isFullscreen;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00110\ -\/(void)finishInit;}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00118\ -\/(void)setRequesterTo:(\mbox{\hyperlink{namespacesf}{sf}}::priv::WindowImplCocoa*)requester;}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00128\ -\/(NSPoint)computeGlobalPositionOfRelativePoint:(NSPoint)point;}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00136\ -\/(CGFloat)displayScaleFactor;}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{keyword}{@interface\ }SFOpenGLView\ (keyboard)}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00146\ -\/(void)\mbox{\hyperlink{category_s_f_open_g_l_view_07keyboard_08_a55153488a1e326d62bd5203ffccf9ef9}{enableKeyRepeat}};}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00152\ -\/(void)\mbox{\hyperlink{category_s_f_open_g_l_view_07keyboard_08_aa0ad6a933d9e306e15dca12629a95da0}{disableKeyRepeat}};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{keyword}{@interface\ }SFOpenGLView\ (mouse)}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00162\ -\/(void)setCursor:(NSCursor*)cursor;}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00172\ -\/(NSPoint)cursorPositionFromEvent:(NSEvent*)eventOrNil;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00180\ -\/(BOOL)isMouseInside;}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00190\ -\/(void)setCursorGrabbed:(BOOL)grabbed;}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00198\ -\/(void)updateCursorGrabbed;}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \textcolor{keyword}{@end}}
+
+\end{DoxyCode}

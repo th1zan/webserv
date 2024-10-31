@@ -1,0 +1,43 @@
+\doxysection{vectors.\+h}
+\hypertarget{mini_r_t__saved__20240403_2src_2header_2vectors_8h_source}{}\label{mini_r_t__saved__20240403_2src_2header_2vectors_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240403/src/header/vectors.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240403/src/header/vectors.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ vectors.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/06\ 12:29:09\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/01/03\ 18:46:51\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ VECTOR\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ VECTOR\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__vec3}{s\_vec3}}}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{double}\ \ x;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{double}\ \ y;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{double}\ \ z;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{double}\ \ w;}
+\DoxyCodeLine{00022\ \}\ \ \ \mbox{\hyperlink{structs__vec3}{t\_vec3}};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{/*vector\_op.c*/}}
+\DoxyCodeLine{00025\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_create(\textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y,\ \textcolor{keywordtype}{double}\ z,\ \textcolor{keywordtype}{double}\ w);}
+\DoxyCodeLine{00026\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_add(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v2);}
+\DoxyCodeLine{00027\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_substr(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v2);}
+\DoxyCodeLine{00028\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_neg(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1);}
+\DoxyCodeLine{00029\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_mult(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1,\ \textcolor{keywordtype}{double}\ scalar);}
+\DoxyCodeLine{00030\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_divid(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1,\ \textcolor{keywordtype}{double}\ scalar);}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{double}\ \ vec3\_magnitude(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1);}
+\DoxyCodeLine{00032\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_normalize(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{double}\ \ vec3\_prod(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v2);}
+\DoxyCodeLine{00034\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \ \ \ vec3\_vect\_prod(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v1,\ \mbox{\hyperlink{structs__vec3}{t\_vec3}}\ v2);}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{void}\ \ \ \ vec3\_print(\mbox{\hyperlink{structs__vec3}{t\_vec3}}\ \mbox{\hyperlink{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064}{vector}});}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

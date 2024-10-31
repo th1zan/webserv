@@ -1,0 +1,58 @@
+\doxysection{s\+\_\+light Struct Reference}
+\hypertarget{structs__light}{}\label{structs__light}\index{s\_light@{s\_light}}
+
+
+The struct \doxylink{structs__light}{s\+\_\+light} represents a light\textquotesingle{}s source. This source has a position in space and an intensity color, i.\+e., red, purple etc.  
+
+
+
+
+{\ttfamily \#include $<$lights.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structs__light_a09e24d257b22298fe733095e43b65fc4}\label{structs__light_a09e24d257b22298fe733095e43b65fc4} 
+\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}} {\bfseries position}
+\item 
+\Hypertarget{structs__light_a9b43e9b39beeddcde6e4b8610bda6f58}\label{structs__light_a9b43e9b39beeddcde6e4b8610bda6f58} 
+\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} {\bfseries intensity}
+\item 
+\Hypertarget{structs__light_abd40e1ad31e408aafdaa2ceac6bc2832}\label{structs__light_abd40e1ad31e408aafdaa2ceac6bc2832} 
+t\+\_\+bool {\bfseries in\+\_\+shadow}
+\item 
+\Hypertarget{structs__light_a09e24d257b22298fe733095e43b65fc4}\label{structs__light_a09e24d257b22298fe733095e43b65fc4} 
+\mbox{\hyperlink{structs__vec3}{t\+\_\+vec3}} {\bfseries position}
+\item 
+\Hypertarget{structs__light_abd40e1ad31e408aafdaa2ceac6bc2832}\label{structs__light_abd40e1ad31e408aafdaa2ceac6bc2832} 
+int {\bfseries in\+\_\+shadow}
+\item 
+\Hypertarget{structs__light_ad17211c91629ff35105bd0b0618be65a}\label{structs__light_ad17211c91629ff35105bd0b0618be65a} 
+double {\bfseries brightness}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The struct \doxylink{structs__light}{s\+\_\+light} represents a light\textquotesingle{}s source. This source has a position in space and an intensity color, i.\+e., red, purple etc. 
+
+ABOUT THE HEADER \doxylink{lights_8h}{LIGHTS.\+H}
+
+The light algorithm implemented on this project is called The Phong Reflection Model, named by its creator Bui Tuong Phong. It simulates the interaction between three light sources. They are\+: ambient reflection, diffuse reflection and specular reflection. In other words, respectively, background light, the light reflected from a matte surface and the reflection of the source light itself. The last one, depends only on the angle between the reflection vector and the eye vector and is controlled by a parameter that\textquotesingle{}s called shininess. The higher the shininess, the smaller and tigher the specular highlight is. 
+\begin{DoxyParams}{Parameters}
+{\em position} & Stores the point light\textquotesingle{}s position. \\
+\hline
+{\em intensity} & Stores the information about how bright a point light is. \\
+\hline
+{\em in\+\_\+shadow} & Stores {\ttfamily TRUE} or {\ttfamily FALSE} whether the light is being shadowed or not. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/\mbox{\hyperlink{lights_8h}{lights.\+h}}\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240311/src/header/light.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240322/src/header/light.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240403/src/header/light.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240408/src/header/light.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/src/header/light.\+h\end{DoxyCompactItemize}

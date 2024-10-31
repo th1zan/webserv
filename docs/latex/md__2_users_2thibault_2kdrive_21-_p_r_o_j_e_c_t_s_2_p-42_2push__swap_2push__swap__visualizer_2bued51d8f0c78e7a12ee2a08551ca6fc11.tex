@@ -1,0 +1,733 @@
+\chapter{Changelog}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11}\index{Changelog@{Changelog}}
+\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md811}%
+\Hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md811}%
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md812}{}\doxysection{\texorpdfstring{SFML 2.\+5.\+1}{SFML 2.\+5.\+1}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md812}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.5.1}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+5.\+1}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md813}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md813}
+
+\begin{DoxyItemize}
+\item Various CMake fixes (\#1414, \#1416, \#1436, \#1439, \#1467, \#1470)
+\item \doxylink{class_fixed}{Fixed} the installation of pkg-\/config files (\#1466)
+\item \doxylink{class_fixed}{Fixed} two conversion warnings (\#1454)
+\item \mbox{[}Android\mbox{]} Fixes all symbols in sfml-\/main are hidden (\#1457, \#1460)
+\item \mbox{[}Android\mbox{]} \doxylink{class_fixed}{Fixed} some {\ttfamily \#define} flag problem (\#1458)
+\item \mbox{[}Android\mbox{]} Fix deadlock in main cleanup (\#1265)
+\item \mbox{[}i\+OS\mbox{]} Modernized toolchain file (\#1411)
+\item \mbox{[}i\+OS\mbox{]} Check that {\ttfamily \texorpdfstring{$<$}{<}\doxylink{_main_8hpp_source}{SFML/\+Main.\+hpp}\texorpdfstring{$>$}{>}} is used (\#1412)
+\item \mbox{[}mac\+OS\mbox{]} Add {\ttfamily -\/ObjC} flag to fix static linking on mac\+OS (\#1485)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md814}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md814}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \mbox{[}i\+OS\mbox{]} Use default supported rotations when none are specified (\#1417)
+\item \mbox{[}i\+OS\mbox{]} \doxylink{class_fixed}{Fixed} autocomplete window overlaps keyboard (\#1473, \#1482)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} dual monitor issue (\#1226, \#1238)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} issue where fullscreen window didn\textquotesingle{}t go over task bars on top and left on in Ubuntu (\#1224)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} the Unix clipboard implementation causing an abort due to internal data races in Xlib (\#1437)
+\item \mbox{[}mac\+OS\mbox{]} Added additional system cursors (\#1401, \#1413, \#1425)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} swapped colors for custom cursors (\#1464, \#1465, \#1491)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md815}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md815}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} a bug in which a {\ttfamily \doxylink{classsf_1_1_render_texture}{sf\+::\+Render\+Texture}} would not be re-\/activated after being re-\/created (\#1438)
+\item \doxylink{class_fixed}{Fixed} {\ttfamily sf\+::\+Render\+Texture\+Impl\+FBO}\textquotesingle{}s destructor incorrectly triggering deletion of other {\ttfamily sf\+::\+Render\+Texture\+Impl\+FBO}\textquotesingle{}s active FBOs (\#1440)
+\item Fix {\ttfamily \doxylink{classsf_1_1_render_window_aee6c53eced675e885931eb3e91f11155}{sf\+::\+Render\+Window\+::set\+Active}} incorrectly trying to unbind an FBO during deactivation (\#1442)
+\item \doxylink{class_fixed}{Fixed} {\ttfamily \doxylink{classsf_1_1_render_texture_af92886d5faef3916caff9fa9ab32c555}{sf\+::\+Render\+Texture\+::display()}} dereferencing a NULL pointer when being called before {\ttfamily \doxylink{classsf_1_1_render_texture_a0e945c4ce7703591c7f240b169744603}{sf\+::\+Render\+Texture\+::create()}} (\#1446)
+\item \doxylink{class_fixed}{Fixed} bug in {\ttfamily \doxylink{classsf_1_1_text}{sf\+::\+Text}} when applying an outline color/thickness (\#1176)
+\item Squash duplicated {\ttfamily \doxylink{classsf_1_1_font}{sf\+::\+Font}} glyphs to single chars (\#1461)
+\item \doxylink{class_fixed}{Fixed} two issues with glyph sub-\/pixel positioning (\#1452)
+\item Reduced context locking \& unlocking while creating textures (\#1459)
+\item \doxylink{class_fixed}{Fixed} the error message when the wrong bitmap font size is selected (\#1456, \#1474, \#1492)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md816}{}\doxysubsection{\texorpdfstring{Audio}{Audio}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md816}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} performance issue with reading WAV files (\#1450)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md817}{}\doxysection{\texorpdfstring{SFML 2.\+5.\+0}{SFML 2.\+5.\+0}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md817}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.5.0}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+5.\+0}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md818}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md818}
+
+\begin{DoxyItemize}
+\item Replaced Find\+SFML.\+cmake with SFMLConfig.\+cmake (\#1335)
+\item Markdown\textquotesingle{}d and updated readme, changelog, contributing and license files (\#1196, \#1368, \#1317)
+\item Improve packaging support (\#1173)
+\item Added Tagfile generation and search (\#1327)
+\item Added CMake variables to select the modules to be built (\#798, \#800)
+\item Do not install extlibs if {\ttfamily SFML\+\_\+\+USE\+\_\+\+SYSTEM\+\_\+\+DEPS} is true (\#1236, \#1237)
+\item \doxylink{class_fixed}{Fixed} various type conversion/comparison warnings (\#1325)
+\item \mbox{[}Android\mbox{]} Increased minimum API version to 14 (\#1362)
+\item \mbox{[}Android\mbox{]} Removed custom toolchain and added support for the newest NDK version and Gradle (\#1350, \#1393)
+\item \mbox{[}i\+OS\mbox{]} Updated the binary libs from exlibs/libs-\/ios (\#1207, \#1209)
+\item \mbox{[}i\+OS\mbox{]} Use a CMake toolchain file for i\+OS build (\#1268, \#1269)
+\item \mbox{[}i\+OS\mbox{]} Install extlibs if needed (\#1348)
+\item \mbox{[}i\+OS\mbox{]} Drop 32 bit support (\#1374)
+\item \mbox{[}i\+OS\mbox{]} Force correct i\+OS architecture for cmake (\#1373, \#1377)
+\item \mbox{[}i\+OS\mbox{]} Added i\+OS example (\#1378)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} launch of cocoa examples (\#1334)
+\item \mbox{[}mac\+OS\mbox{]} Improved application signing process (\#1020, \#1036, \#1194)
+\item \mbox{[}mac\+OS\mbox{]} Improved CMake script (\#1215, \#1371)
+\item \mbox{[}mac\+OS\mbox{]} Use {\ttfamily -\/stdlib=libc++} (\#1361)
+\item \mbox{[}Open\+BSD\mbox{]} Added support for Open\+BSD (\#1330)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md819}{}\doxysubsection{\texorpdfstring{System}{System}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md819}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Added protected destructor to {\ttfamily \doxylink{classsf_1_1_non_copyable}{sf\+::\+Non\+Copyable}} to prevent possible resource leaks (\#1125, \#1161)
+\item \doxylink{class_fixed}{Fixed} crash when {\ttfamily \doxylink{classsf_1_1_clock}{sf\+::\+Clock}} is constructed in a global scope (\#1258)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md820}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md820}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Implemented Cursor API (\#269, \#784, \#827)
+\item Implemented Clipboard API (\#715, \#1204, \#1221)
+\item Renamed a few key codes (\#1395)
+\item Added joystick example (\#1363)
+\item \mbox{[}Windows\mbox{]} Added support for interfacing with joysticks via Direct\+Input when it is available (\#1251, \#1326)
+\item \mbox{[}Windows\mbox{]} Fix discrete GPU preference symbols being exported from the wrong place (\#1192, \#1406)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \mbox{[}Android\mbox{]} Return correct key code for delete/backspace (\#1309, \#1362)
+\item \mbox{[}i\+OS\mbox{]} Don\textquotesingle{}t need to find vorbisfile or vorbisenc (\#1347)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} {\ttfamily \doxylink{classsf_1_1_window_a420028b8e4d9baedcaaba7b2047b8cb3}{sf\+::\+Window\+::get\+Position()}} returning incorrect position because of differences in window managers (\#1228, \#1266)
+\item \mbox{[}Linux\mbox{]} Fix X11 key repeat handling not filtering out events from other windows (\#1223, \#1230, \#1291)
+\item \mbox{[}Linux\mbox{]} Restore fullscreen of a non-\/visible window (\#1339)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} window menu not working (\#1091, \#1180, \#1193)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} crash with application messing hardware detection e.\+g. Team\+Viewer (\#1323)
+\item \mbox{[}mac\+OS\mbox{]} Added support for (some) Hat/\+POV axis (\#1248)
+\item \mbox{[}Windows\mbox{]} Prevent uninitialized read by zeroing memory (\#1264)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} modifier keys handling (\#1357)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md821}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md821}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Implemented additional line spacing and letter spacing in {\ttfamily \doxylink{classsf_1_1_text}{sf\+::\+Text}} (\#928, \#1366)
+\item Added {\ttfamily \doxylink{classsf_1_1_vertex_buffer}{sf\+::\+Vertex\+Buffer}} class (\#1308)
+\item Added GPU local texture copying support, allowing performance optimizations and texture swapping (\#1119, \#1319, \#1320)
+\item Optimize performance by skipping {\ttfamily gl\+Tex\+Coord\+Pointer()} call if not needed (\#1015)
+\item Generate shape outline vertices only if necessary (\#925, \#1356)
+\item Removed dependency to libjpeg, stb\+\_\+image\+\_\+write now supports writing JPEG files (\#1278, \#1279)
+\item Enable comparing {\ttfamily \doxylink{classsf_1_1_transform}{sf\+::\+Transform}} and optimize resetting Open\+GL back to the identity matrix (\#1298)
+\item Added missing {\ttfamily set\+Active()} virtual method to {\ttfamily \doxylink{classsf_1_1_render_target}{sf\+::\+Render\+Target}} (\#1157)
+\item Updated stb\+\_\+image to v2.\+16 and stb\+\_\+image\+\_\+write to v1.\+07 (\#1270)
+\item Added {\ttfamily \doxylink{classsf_1_1_render_texture}{sf\+::\+Render\+Texture}} stencil and multisampling support (\#1274, \#1285)
+\item Added example demonstrating {\ttfamily \doxylink{classsf_1_1_vertex_buffer}{sf\+::\+Vertex\+Buffer}}, {\ttfamily \doxylink{classsf_1_1_shader}{sf\+::\+Shader}} and {\ttfamily \doxylink{classsf_1_1_thread}{sf\+::\+Thread}} usage (\#1352)
+\item Optimized {\ttfamily \doxylink{classsf_1_1_render_texture}{sf\+::\+Render\+Texture}} performance (\#1379)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Properly free memory in {\ttfamily sf\+::\+Font\+::cleanup()} (\#1119)
+\item \doxylink{class_fixed}{Fixed} memory leak in {\ttfamily \doxylink{classsf_1_1_font}{sf\+::\+Font}} (\#1216)
+\item Fix Open\+GL texture coordinate pointer not being updated correctly under certain conditions (\#1297)
+\item Fix for broken text when the font is reloaded (\#1345)
+\item Fix memory leak in {\ttfamily \doxylink{classsf_1_1_text}{sf\+::\+Text}} (\#1233, \#1360)
+\item \doxylink{class_fixed}{Fixed} strict aliasing punning warning when generating the key of a glyph in Font.\+cpp (\#1187, \#1396)
+\item \doxylink{class_fixed}{Fixed} Open\+GL version string being parsed incorrectly on some platforms (\#1249, \#1390)
+\item \mbox{[}mac\+OS\mbox{]} Worked around render target bug (\#1132, \#1342)
+\item \mbox{[}Windows\mbox{]} Replaced time-\/based joystick poll with a hardware event handler (\#1179, \#1195, \#1198, \#1199, \#1421)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md822}{}\doxysubsection{\texorpdfstring{Audio}{Audio}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md822}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added loop point support to {\ttfamily \doxylink{classsf_1_1_music}{sf\+::\+Music}} (\#177, \#629)
+\item Added support for the extensible PCM wave file format (\#1296)
+\item \mbox{[}i\+OS\mbox{]} Enable audio module (\#1338)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} inconsistent seek behavior in {\ttfamily \doxylink{classsf_1_1_sound_stream}{sf\+::\+Sound\+Stream}} (\#1118)
+\item \doxylink{class_fixed}{Fixed} stack overflow in {\ttfamily sf\+::\+Sound\+Stream\+::fill\+And\+Push\+Buffer()} (\#1154)
+\item \doxylink{class_fixed}{Fixed} seeking quirks in the FLAC reader (\#966, \#1162)
+\item Allow polymorphism with {\ttfamily \doxylink{classsf_1_1_sound_source}{sf\+::\+Sound\+Source}} (\#1185)
+\item \doxylink{class_fixed}{Fixed} WAV file writer writing wrong header values (\#1280, \#1281)
+\item Small bugfix to argument of {\ttfamily alc\+Capture\+Open\+Device()} (\#1304, \#1305)
+\item \mbox{[}i\+OS\mbox{]} Find Open\+AL correctly (\#1263, \#1376)
+\item \mbox{[}Windows\mbox{]} Updated Open\+AL Soft to 1.\+18.\+1 fixing crashes (\#1247, \#1260)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md823}{}\doxysubsection{\texorpdfstring{Network}{Network}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md823}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Add append/overwrite parameter to Ftp\+::upload (\#1072, \#1399)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} wrong condition for building network support (\#1253)
+\item Changed TCP listen backlog from 0 to SOMAXCONN (\#1369, \#1407)
+\item \doxylink{class_fixed}{Fixed} socket reuse not conforming to documentation (\#1346, \#1408)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md824}{}\doxysection{\texorpdfstring{SFML 2.\+4.\+2}{SFML 2.\+4.\+2}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md824}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.4.2}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+4.\+2}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md825}{}\doxysubsection{\texorpdfstring{System}{System}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md825}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \mbox{[}Windows\mbox{]} Removed thread affinity changes in \doxylink{classsf_1_1_clock}{sf\+::\+Clock} (\#1107)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md826}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md826}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} bug where Transient\+Context\+Lock would hang (\#1165, \#1172)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} GLX extensions being loaded too late (\#1183)
+\item \mbox{[}Linux\mbox{]} Fix wrong types passed to XChange\+Property (\#1168, \#1171)
+\item \mbox{[}Windows\mbox{]} Make context disabling via wgl\+Make\+Current more tolerant of broken drivers (\#1186)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md827}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md827}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Optimized \doxylink{classsf_1_1_image_a2a67930e2fd9ad97cf004e918cf5832b}{sf\+::\+Image\+::create} and made it more exception safe (\#1166)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md828}{}\doxysection{\texorpdfstring{SFML 2.\+4.\+1}{SFML 2.\+4.\+1}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md828}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.4.1}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+4.\+1}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md829}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md829}
+
+\begin{DoxyItemize}
+\item \mbox{[}k\+Free\+BSD\mbox{]} Define SFML\+\_\+\+OS\+\_\+\+FREEBSD when compiling for k\+Free\+BSD (\#1129)
+\item \mbox{[}Windows\mbox{]} Added some simple messaging when trying to build under Cygwin (\#1153)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md830}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md830}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} stack overflow on Gl\+Context creation with multiple threads (\#989, \#1002)
+\item Adjusted mouse cursor grab documentation (\#1133)
+\item \mbox{[}i\+OS\mbox{]} \doxylink{class_fixed}{Fixed} orientation change not rescaling window size properly (\#1049, \#1050)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} fullscreen issue (\#921, \#1138)
+\item \mbox{[}Linux\mbox{]} Switched from XCB back to Xlib for windowing (\#1138)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} window icon not showing up on some distros (\#1087, \#1088)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} an issue where GNOME flags window unresponsive (\#1089, \#1138)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} leak of XVisual\+Info objects during Glx\+Context creation (\#1135)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} possible hang when setting visibility if external window sources (\#1136)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} inconsistency between doc and impl on mac\+OS for the grab feature (\#1133, \#1148, \#1150)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} context memory leaks (\#1143, \#1002)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md831}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md831}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Adjusted uniform error message (\#1131)
+\item Clarify documentation on Rect\+::contains function bounds (\#1151)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md832}{}\doxysubsection{\texorpdfstring{Network}{Network}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md832}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} a typo in comment for void unbind() (\#1121)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md833}{}\doxysection{\texorpdfstring{SFML 2.\+4.\+0}{SFML 2.\+4.\+0}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md833}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.4.0}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+4.\+0}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md834}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md834}
+
+\begin{DoxyItemize}
+\item Added deprecation macro (\#969)
+\item \doxylink{class_fixed}{Fixed} issues reported by Coverity Scan static analysis (\#1064)
+\item \doxylink{class_fixed}{Fixed} some initialization issues reported by Cppcheck (\#1008)
+\item Changed comment chars in Find\+SFML.\+cmake to \# (\#1090)
+\item \doxylink{class_fixed}{Fixed} some typos (\#1098, \#993, \#1099, \#956, \#963, \#979)
+\item Updated/fixed string comparisons in Config.\+cmake (\#1102)
+\item Added the missing -\/s postfix for the Rel\+With\+Deb\+Info config (\#1014)
+\item \mbox{[}Android\mbox{]} \doxylink{class_fixed}{Fixed} current Android compilation issues (\#1116, \#1111, \#1079)
+\item \mbox{[}mac\+OS\mbox{]} Update Xcode template material (\#976, \#968)
+\item \mbox{[}Windows\mbox{]} Added support for VS 2015 (\#972)
+\item \mbox{[}Windows\mbox{]} Create and install PDB debug symbols alongside binaries (\#1037)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md835}{}\doxysubsection{\texorpdfstring{Deprecated API}{Deprecated API}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md835}
+
+\begin{DoxyItemize}
+\item \doxylink{classsf_1_1_render_window_a5a784b8a09bf4a8bc97ef9e0a8957c35}{sf\+::\+Render\+Window\+::capture()}\+: Use a \doxylink{classsf_1_1_texture}{sf\+::\+Texture} and its sf\+::\+Texture\+::update(const Window\&) function and copy its contents into an \doxylink{classsf_1_1_image}{sf\+::\+Image} instead.
+\item \doxylink{classsf_1_1_shader_a47e4dd78f0752ae08664b4ee616db1cf}{sf\+::\+Shader\+::set\+Parameter()}\+: Use set\+Uniform() instead.
+\item \doxylink{classsf_1_1_text_ab367e86c9e9e6cd3806c362ab8e79101}{sf\+::\+Text\+::get\+Color()}\+: There is now fill and outline colors instead of a single global color. Use get\+Fill\+Color() or get\+Outline\+Color() instead.
+\item \doxylink{classsf_1_1_text_afd1742fca1adb6b0ea98357250ffb634}{sf\+::\+Text\+::set\+Color()}\+: There is now fill and outline colors instead of a single global color. Use set\+Fill\+Color() or set\+Outline\+Color() instead.
+\item \doxylink{group__graphics_gga5ee56ac1339984909610713096283b1ba5b09910f5d0f39641342184ccd0d1de3}{sf\+::\+Lines\+Strip}\+: Use Line\+Strip instead.
+\item \doxylink{group__graphics_gga5ee56ac1339984909610713096283b1ba5338a2c6d922151fe50f235036af8a20}{sf\+::\+Triangles\+Fan}\+: Use Triangle\+Fan instead.
+\item \doxylink{group__graphics_gga5ee56ac1339984909610713096283b1ba66643dbbb24bbacb405973ed80eebae0}{sf\+::\+Triangles\+Strip}\+: Use Triangle\+Strip instead.
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md836}{}\doxysubsection{\texorpdfstring{System}{System}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md836}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item \mbox{[}Android\mbox{]} Added \doxylink{group__system_ga666414341ce8396227f5a125ee5b7053}{sf\+::get\+Native\+Activity()} (\#1005, \#680)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Added missing $<$iterator$>$ include in \doxylink{_string_8hpp_source}{String.\+hpp} (\#1069, \#1068)
+\item \doxylink{class_fixed}{Fixed} encoding of UTF-\/16 (\#997)
+\item \mbox{[}Android\mbox{]} \doxylink{class_fixed}{Fixed} crash when trying to load a non-\/existing font file (\#1058)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md837}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md837}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added ability to grab cursor (\#614, \#394, \#1107)
+\item Added Multi-\/\+GPU preference (\#869, \#867)
+\item Added support for s\+RGB capable framebuffers (\#981, \#175)
+\item \mbox{[}Linux, Windows\mbox{]} Improved Open\+GL context creation (\#884)
+\item \mbox{[}Linux, Windows\mbox{]} Added support for pbuffers on Windows and Unix (\#885, \#434)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Updated platform-\/specific handle documentation (\#961)
+\item \mbox{[}Android\mbox{]} Accept touch events from "{}multiple"{} devices (\#954, \#953)
+\item \mbox{[}Android\mbox{]} Copy the selected EGL context\textquotesingle{}s settings to SFML (\#1039)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} modifiers causing \doxylink{classsf_1_1_keyboard_acb4cacd7cc5802dec45724cf3314a142a840c43fa8e05ff854f6fe9a86c7c939e}{sf\+::\+Keyboard\+::\+Unknown} being returned (\#1022, \#1012)
+\item \mbox{[}mac\+OS\mbox{]} Improved memory management on mac\+OS (\#962, \#790)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} crash when resizing a window to a zero-\/height/width size (\#986, \#984)
+\item \mbox{[}mac\+OS\mbox{]} Use the mouse button constant instead of 0 to avoid a compiler error on mac\+OS (\#1035)
+\item \mbox{[}mac\+OS\mbox{]} mac\+OS improvement\+: warnings + bugfix + refactoring, the lot! (\#1042)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md838}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md838}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added support for outlined text (\#840)
+\item Add support for geometry shaders (\#886, \#428)
+\item Feature/blend mode reverse subtract (\#945, \#944)
+\item Implemented support for mipmap generation (\#973, \#498, \#123)
+\item Added new API to set shader uniforms (\#983, \#538)
+\item Rewrite Render\+Window\+::capture (\#1001)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Exporting some Glsl utility functions due to linking issues (\#1044, \#1046)
+\item \doxylink{class_fixed}{Fixed} missing initialisation of Font\+::m\+\_\+stroker (\#1059)
+\item Changed primitive types to be grammatically correct (\#1095, \#939)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md839}{}\doxysubsection{\texorpdfstring{Audio}{Audio}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md839}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Implemented stereo audio recording (\#1010)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Added an assignment operator to Sound\+Source (\#864)
+\item \mbox{[}mac\+OS\mbox{]} Updates Open\+AL-\/soft for mac\+OS to version 1.\+17.\+2 (\#1057, \#900, \#1000)
+\item \doxylink{class_fixed}{Fixed} a bug where vorbis can\textquotesingle{}t handle large buffers (\#1067)
+\item Added support for 24-\/bit .wav files (\#958, \#955)
+\item \doxylink{class_fixed}{Fixed} threading issue in \doxylink{classsf_1_1_sound_recorder}{sf\+::\+Sound\+Recorder} (\#1011)
+\item Made WAV file reader no longer assume that data chunk goes till end of file to prevent reading trailing metadata as samples (\#1018)
+\item \doxylink{class_fixed}{Fixed} seeking in multi channel FLAC files (\#1041, \#1040)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md840}{}\doxysubsection{\texorpdfstring{Network}{Network}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md840}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added optional argument on which address to bind (socket). (\#850, \#678)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} FTP directory listing blocking forever (\#1086, \#1025)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md841}{}\doxysection{\texorpdfstring{SFML 2.\+3.\+2}{SFML 2.\+3.\+2}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md841}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.3.2}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+3.\+2}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md842}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md842}
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} an issue where Find\+SFML.\+cmake couldn\textquotesingle{}t find older versions of SFML (\#903)
+\item Robust al\+Check and gl\+Check macros (\#917)
+\item \doxylink{class_fixed}{Fixed} Find\+SFML.\+cmake to use the uppercase FLAC name (\#923)
+\item Added a CONTRIBUTING file so Git\+Hub shows a message when creating a new issue (\#932)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md843}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md843}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} an issue where the keypad\textquotesingle{}s key weren\textquotesingle{}t being detected (\#910)
+\item \mbox{[}Linux\mbox{]} Revert to Xlib event handling (\#934)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} {\ttfamily XK\+\_\+\texorpdfstring{$\ast$}{*}} inconsistency in Inpu\+Impl.\+cpp (\#947)
+\item \mbox{[}Linux\mbox{]} Fix {\ttfamily \+\_\+\+NET\+\_\+\+WM\+\_\+\+PING} messages not being replied to properly (\#947)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md844}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md844}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} clear bug on Render\+Textures (\#915)
+\item \doxylink{class_fixed}{Fixed} image file extension detection (\#929, \#930, \#931)
+\item Secure function against random data return (\#935, \#942)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md845}{}\doxysection{\texorpdfstring{SFML 2.\+3.\+1}{SFML 2.\+3.\+1}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md845}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.3.1}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+3.\+1}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md846}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md846}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \mbox{[}Android\mbox{]} Make sure a window still exists before trying to access its dimensions (\#854)
+\item \mbox{[}Android\mbox{]} Added Android API level checks (\#856)
+\item \mbox{[}Android\mbox{]} Updated the JNI/event handling code (\#906)
+\item \mbox{[}Linux\mbox{]} Resized events are only spawned when the window size actually changes (\#878, \#893)
+\item \mbox{[}Linux\mbox{]} Whitelisted X SHAPE events (\#879, \#883)
+\item \mbox{[}Linux\mbox{]} Remap Unix keyboard when user changes layout (\#895, \#897)
+\item \mbox{[}Linux\mbox{]} Fix undefined behavior in ewmh\+Supported() (\#892, \#901)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md847}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md847}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Added support for GL\+\_\+\+EXT\+\_\+texture\+\_\+edge\+\_\+clamp for systems that don\textquotesingle{}t expose GL\+\_\+\+SGIS\+\_\+texture\+\_\+edge\+\_\+clamp (\#880, \#882)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md848}{}\doxysubsection{\texorpdfstring{Audio}{Audio}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md848}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \mbox{[}Android\mbox{]} \doxylink{class_fixed}{Fixed} audio files not loading (and possibly crashing) (\#855, \#887)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md849}{}\doxysection{\texorpdfstring{SFML 2.\+3}{SFML 2.\+3}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md849}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.3}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+3}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md850}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md850}
+
+\begin{DoxyItemize}
+\item Examples only link against sfml-\/main in release mode (\#610, \#766)
+\item Replaced unsigned int with std\+::size\+\_\+t for array indices and sizes (\#739)
+\item \doxylink{class_fixed}{Fixed} some issues with the Doxygen documentation (\#750)
+\item Added support for Editor\+Config (\#751)
+\item Hide success message for CMake in quiet mode (\#753)
+\item Improved documentation for statuses with \doxylink{classsf_1_1_ftp}{sf\+::\+Ftp} (\#763)
+\item Moved stb\+\_\+image into the extlibs directory (\#795)
+\item Changed the SOVERSION to major.\+minor (\#812)
+\item \doxylink{class_fixed}{Fixed} warnings about switch-\/statements (\#863)
+\item Added missing includes in the general headers (\#851)
+\item \mbox{[}Android\mbox{]} Updated toolchain file and dependencies (\#791)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} missing pthread dependency (\#794)
+\item \mbox{[}mac\+OS\mbox{]} Relaxed CMake installation rules regarding framework dependencies (\#767)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md851}{}\doxysubsection{\texorpdfstring{Deprecated API}{Deprecated API}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md851}
+
+\begin{DoxyItemize}
+\item \doxylink{structsf_1_1_event_1_1_mouse_wheel_event}{sf\+::\+Event\+::\+Mouse\+Wheel\+Event}\+: This event is deprecated and potentially inaccurate. Use Mouse\+Wheel\+Scroll\+Event instead.
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md852}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md852}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added new events for handling high-\/precision scrolling (\#95, \#810, \#837)
+\item Switched from Xlib to XCB (\#200, \#319, \#694, \#780, \#813, \#825)
+\item Added support for Open\+GL 3 core context creation (\#654, \#779)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} gl\+XSwap\+Interval\+SGI being broken for some driver implementations (\#727, \#779)
+\item \doxylink{class_fixed}{Fixed} simultaneous context operations causing crashes on some AMD hardware (\#778, \#779)
+\item \doxylink{class_fixed}{Fixed} joystick identification (\#809, \#811)
+\item \mbox{[}i\+OS\mbox{]} \doxylink{class_fixed}{Fixed} various issues including stencil bits, device orientation and retina support (\#748)
+\item \mbox{[}i\+OS\mbox{]} \doxylink{class_fixed}{Fixed} inconsistency between \doxylink{classsf_1_1_touch_ae5d31f537862622b3bd0fa738ba37d43}{sf\+::\+Touch\+::get\+Position} and touch events (\#875)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} Alt+\+F4 not getting triggered in window mode (\#274)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} Unix joystick stuff (\#838)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} typo in Joystick\+Impl.\+cpp to prevent a crash (\#762, \#765)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} an issue in Input\+Impl\+::get\+SFOpen\+GLView\+From\+SFMLWindow (\#782, \#792)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md853}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md853}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Replaced GLEW with loader generated by gl\+Load\+Gen (\#779)
+\item Added a new constructor to \doxylink{classsf_1_1_color}{sf\+::\+Color} that takes an sf\+::\+Uint32 (\#722)
+\item Updated stb\+\_\+image to v2.\+02 (\#777)
+\item Updated Free\+Type to v2.\+5.\+5 (\#799, \#804)
+\item Added checks for software Open\+GL (\#870)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} GL\+\_\+\+ARB\+\_\+compatibility not being detected (\#859)
+\item \doxylink{class_fixed}{Fixed} pixel format selection (\#862)
+\item Bumped back the Open\+GL version requirement to 1.\+1 (\#858)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md854}{}\doxysubsection{\texorpdfstring{Audio}{Audio}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md854}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Dropped libsndfile and started using Vorbis, FLAC and OGG directly (\#604, \#757)
+\item Added a FLAC file to the sound example (\#815)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} access violation error in the destructor of sf\+::\+Audio\+Device (\#30, \#602)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} threading issue with \doxylink{classsf_1_1_sound_stream}{sf\+::\+Sound\+Stream} and Open\+AL (\#541, \#831)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md855}{}\doxysubsection{\texorpdfstring{Network}{Network}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md855}
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} \doxylink{classsf_1_1_tcp_socket}{sf\+::\+Tcp\+Socket} not handling partial sends properly (\#749, \#796)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md856}{}\doxysection{\texorpdfstring{SFML 2.\+2}{SFML 2.\+2}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md856}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.2}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+2}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md857}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md857}
+
+\begin{DoxyItemize}
+\item Support for i\+OS and Android platform (\#410, \#440)
+\item Various documentation corrections (\#438, \#496, \#497, \#714)
+\item \doxylink{class_fixed}{Fixed} support for compilers on Debian Free\+BSD (\#380, \#578)
+\item Added support for Visual Studio 2013 and proper support for the TDM builds (\#482)
+\item \doxylink{class_fixed}{Fixed} CMake problems related to Find\+SFML and cached variables (\#637, \#684)
+\item Switched and enforced LF line endings (\#708, \#712)
+\item Updated Open\+AL to version 1.\+15.\+1 (d077210)
+\item Made compiler and OS variable names much clearer in CMake files (9b0ed30)
+\item Re-\/enabled RPATH feature (e157e7a)
+\item Slight adjustments to the examples (\#737)
+\item \mbox{[}Free\+BSD\mbox{]} Various configuration fixes (\#577, \#578)
+\item \mbox{[}Linux\mbox{]} Updated Find\+SFML.\+cmake to add UDev to SFML\textquotesingle{}s dependencies (\#728, \#729, \#734, \#736)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} incorrect symlink in freetype.\+framework (\#519)
+\item \mbox{[}mac\+OS\mbox{]} CMake module for correct dependencies (\#548)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} SFML target for Xcode (\#595, \#596)
+\item \mbox{[}mac\+OS\mbox{]} Updated implementation, mainly reverting to non-\/\+ARC (\#601)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} memory leaks and dead store (\#615)
+\item \mbox{[}mac\+OS\mbox{]} Improved event handling and performance (\#617)
+\item \mbox{[}mac\+OS\mbox{]} Reduced memory usage (\#672, \#698)
+\item \mbox{[}mac\+OS\mbox{]} mac\+OS 10.\+10 support (\#691, \#699)
+\item \mbox{[}mac\+OS\mbox{]} Improve flexibility of dependencies\textquotesingle{} locations (\#713)
+\item \mbox{[}Windows\mbox{]} Removed the hack that copied external libraries into SFML static libraries (dbf01a7)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md858}{}\doxysubsection{\texorpdfstring{System}{System}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md858}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added substring and replace functions to \doxylink{classsf_1_1_string}{sf\+::\+String} (\#21, \#355)
+\item Added to\+UtfX to \doxylink{classsf_1_1_string}{sf\+::\+String} (\#501)
+\item Added from\+UtfX functions to set the internal data to a string by converting from another string in a fixed encoding (\#196)
+\item Added modulo operator for \doxylink{classsf_1_1_time}{sf\+::\+Time} (\#429, \#430)
+\item Added division operator for \doxylink{classsf_1_1_time}{sf\+::\+Time} (\#453)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Ensured a high resolution for \doxylink{group__system_gab8c0d1f966b4e5110fd370b662d8c11b}{sf\+::sleep} (\#439, \#475)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} stack unalignment by two internal functions (\#412)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md859}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md859}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added window methods to request and to check focus (\#518, \#525, \#613, \#723, \#735)
+\item Provide name, manufacturer ID and product ID via \doxylink{classsf_1_1_joystick}{sf\+::\+Joystick} (\#152, \#528)
+\item \mbox{[}Free\+BSD\mbox{]} Joystick support (\#477)
+\item \mbox{[}mac\+OS\mbox{]} Improved integration with menus and dock actions (\#11)
+\item \mbox{[}mac\+OS\mbox{]} Support for Open\+GL 3.\+2 (\#84)
+\item \mbox{[}mac\+OS\mbox{]} Improved fullscreen support (\#343)
+\item \mbox{[}mac\+OS\mbox{]} Added support for retina displays (\#353, \#388)
+\item \mbox{[}Windows\mbox{]} Removed support for Windows 9x (\#469)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} typo in Windows keyboard implementation (\#516)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{classsf_1_1_window_a30e6edf2162f8dbff61023b9de5d961d}{sf\+::\+Window\+::create()} now also resets framerate limit (\#371)
+\item \doxylink{class_fixed}{Fixed} Open\+GL context leak (\#635, \#705)
+\item \doxylink{class_fixed}{Fixed} various joystick problems (memory leak, accelerometer detected, code refactoring) (\#660, \#686, \#742, \#743)
+\item Optimized \doxylink{classsf_1_1_window_aaf02ab64fbc1d374eef3696df54137bc}{sf\+::\+Window\+::wait\+Event} a bit, no sleep if events are available at first try (ff555d6)
+\item \mbox{[}Linux\mbox{]} Output error message when XOpen\+Display() fails (\#508, \#616)
+\item \mbox{[}Linux\mbox{]} Resize window with set\+Size when \doxylink{group__window_gga46a55cfb09536c0f622a2e1ac1cc6f1baccff967648ebcd5db2007eff7352b50f}{sf\+::\+Style\+::\+Resize} is set (\#466)
+\item \mbox{[}Linux\mbox{]} \doxylink{class_fixed}{Fixed} broken key repeat on window recreation (\#564, \#567)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} Key\+Released not being fired in fullscreen mode (\#465)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} an issue where disconnecting the keyboard would cause a crash (\#467)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} unexpected resizing behavior (\#468)
+\item \mbox{[}mac\+OS\mbox{]} Improved resizing windows (\#474)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} memory leak with \doxylink{classsf_1_1_window_a30e6edf2162f8dbff61023b9de5d961d}{sf\+::\+Window\+::create()} (\#484)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} menu shortcuts in fullscreen on mac\+OS (\#527)
+\item \mbox{[}mac\+OS\mbox{]} Improved cursor hiding (\#703)
+\item \mbox{[}mac\+OS\mbox{]} \doxylink{class_fixed}{Fixed} right click not detected with trackpads (\#716, \#730)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} joystick POV values (ef1d29b)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} Unicode inconsistency (\#635)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} Alt+\+F4 and mouse clicks issues (\#437, \#457)
+\item \mbox{[}Windows\mbox{]} Send Mouse\+Button\+Released event when the mouse is outside of the window (\#455, \#457)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} \doxylink{classsf_1_1_joystick}{sf\+::\+Joystick} wrong registry usage (\#701, \#702, \#706)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md860}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md860}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Provide more information about the loaded font in \doxylink{classsf_1_1_font}{sf\+::\+Font} (\#164)
+\item Implemented a more flexible blending system (\#298)
+\item Added strikethrough text style (\#243, \#362, \#682)
+\item Slight optimization for \doxylink{classsf_1_1_text_a7d3b3359f286fd9503d1ced25b7b6c33}{sf\+::\+Text\+::set\+String} (\#413)
+\item Added subtraction operator for \doxylink{classsf_1_1_color}{sf\+::\+Color} (\#114, \#145)
+\item Optimized \doxylink{classsf_1_1_image_a78a702a7e49d1de2dec9894da99d279c}{sf\+::\+Image\+::flip\+Vertically}/flip\+Horizontally (\#555)
+\item Changed \doxylink{classsf_1_1_font}{sf\+::\+Font} measurements from int to float to allow better underline drawing (\#693)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Improved text quality for small and pixelated fonts (\#228)
+\item Yet another fix for Intel GPUs with \doxylink{classsf_1_1_render_texture}{sf\+::\+Render\+Texture} (\#418)
+\item Removed VTab since it causes issues and doesn\textquotesingle{}t have a use nowadays (\#442, \#445, \#460, \#588)
+\item \doxylink{class_fixed}{Fixed} broken BDF and PCF font formats (\#448)
+\item \doxylink{class_fixed}{Fixed} compilation issue with newer versions of GCC for \doxylink{classsf_1_1_rect}{sf\+::\+Rect} (\#458)
+\item \doxylink{class_fixed}{Fixed} reset\+GLStates() not explicitly setting the default polygon mode (\#480)
+\item \doxylink{class_fixed}{Fixed} division-\/by-\/zero in \doxylink{classsf_1_1_rectangle_shape}{sf\+::\+Rectangle\+Shape} (\#499)
+\item \doxylink{class_fixed}{Fixed} potential memory leak in \doxylink{classsf_1_1_font}{sf\+::\+Font} (\#509)
+\item Updated glext and removed glxext (\#511, \#583)
+\item Make sure texture unit 0 is active when resetting \doxylink{classsf_1_1_render_target}{sf\+::\+Render\+Target} states (\#523, \#591)
+\item \doxylink{class_fixed}{Fixed} texture rect computation in fonts (\#669)
+\item Improved rendering of underlined text (\#593)
+\item Avoided repeated output of error messages (\#566)
+\item \doxylink{class_fixed}{Fixed} text rendered with vertical offset on ascent and font size mismatch (\#576)
+\item \doxylink{class_fixed}{Fixed} rounding problem for viewports (\#598)
+\item \doxylink{class_fixed}{Fixed} \doxylink{classsf_1_1_shader_adcb29ac376f4525518da89428dd05a22}{sf\+::\+Shader\+::is\+Available()} possibly breaking context management (\#211, \#603, \#608, \#603)
+\item \doxylink{class_fixed}{Fixed} \doxylink{classsf_1_1_texture_a7f34299fa14d339265a201d3388950b0}{sf\+::\+Texture\+::get\+Maximum\+Size()} possibly breaking context management (\#666)
+\item \doxylink{class_fixed}{Fixed} various \doxylink{classsf_1_1_text}{sf\+::\+Text} rendering issues (\#692, \#699)
+\item The texture matrix is now reset in sf\+::\+Texture\+::bind(\+NULL) (7c4b058)
+\item \mbox{[}Windows\mbox{]} \doxylink{class_fixed}{Fixed} DPI scaling causing strange window behavior (\#679, \#681, \#688)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md861}{}\doxysubsection{\texorpdfstring{Audio}{Audio}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md861}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added support for selecting the audio capture device (\#220, \#470)
+\item Make \doxylink{classsf_1_1_sound_recorder}{sf\+::\+Sound\+Recorder} processing frequency configurable (\#333)
+\item Added up vector to \doxylink{classsf_1_1_listener}{sf\+::\+Listener} (\#545)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Prevented \doxylink{classsf_1_1_sound_stream_af416a5f84c8750d2acb9821d78bc8646}{sf\+::\+Sound\+Stream\+::set\+Playing\+Offset()} from restarting playing even when paused (\#203, \#592)
+\item \doxylink{class_fixed}{Fixed} \doxylink{classsf_1_1_sound_buffer}{sf\+::\+Sound\+Buffer} contents not being able to be updated when still attached to sounds (\#354, 367, \#390, \#589)
+\item Catch audio format error and prevent division by zero (\#529)
+\item \doxylink{class_fixed}{Fixed} \doxylink{classsf_1_1_sound_buffer}{sf\+::\+Sound\+Buffer} returning wrong duration for sounds containing more than \texorpdfstring{$\sim$}{\string~}4.3 million samples (2ff58ed)
+\item Optimized \doxylink{classsf_1_1_listener}{sf\+::\+Listener} with a cache (d97e524)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md862}{}\doxysubsection{\texorpdfstring{Network}{Network}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md862}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Added support for PUT and DELETE in \doxylink{classsf_1_1_http}{sf\+::\+Http} (\#257, \#312, \#607)
+\item Added support for chunked HTTP transfers (\#296, \#337)
+\item Added support for 64-\/bit integers in \doxylink{classsf_1_1_packet}{sf\+::\+Packet} (\#710)
+\item Made \doxylink{classsf_1_1_ftp_a1e2f75aa4b1fd2b4be139ffc57d6c1c3}{sf\+::\+Ftp\+::send\+Command()} public (2c5cab5)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Checked socket descriptor limit (\#153, \#628, \#683)
+\item \doxylink{class_fixed}{Fixed} \doxylink{classsf_1_1_tcp_socket_a0506bd32585cce66eef8fb0e35577abb}{sf\+::\+Tcp\+Socket\+::connect()}\textquotesingle{}s switching from blocking to non-\/blocking mode on immediate connection success (\#221)
+\item \doxylink{class_fixed}{Fixed} FTP download and upload file sizes being limited by available RAM (\#565, \#590)
+\item \doxylink{class_fixed}{Fixed} C++11 compiler warnings for sf\+::\+Uint8 (\#731, \#732)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md863}{}\doxysection{\texorpdfstring{SFML 2.\+1}{SFML 2.\+1}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md863}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.1}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+1}}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md864}{}\doxysubsection{\texorpdfstring{General}{General}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md864}
+
+\begin{DoxyItemize}
+\item Updated the Window and Open\+GL examples (got rid of GLU and immediate mode)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md865}{}\doxysubsection{\texorpdfstring{Window}{Window}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md865}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Now using inotify on Linux to avoid constantly polling joystick connections (\#96)
+\item Add keypad return, equal and period keys support for mac\+OS
+\item Improved mouse events on mac\+OS regarding fullscreen mode
+\item Improved mouse events on mac\+OS (\#213, \#277)
+\item Improved reactivity of set\+Mouse\+Position on mac\+OS (\#290)
+\item Added support for right control key on mac\+OS
+\item Improved Text\+Entered for mac\+OS (\#377)
+\item Improved the performances of Window\+::get\+Size() (the size is now cached)
+\item Added the WM\+\_\+\+CLASS property to SFML windows on Linux
+\item Fake resize events are no longer sent when the window is moved, on Linux
+\item Pressing ALT or F10 on Windows no longer steals the focus
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} Mouse\+Move event sometimes not generated when holding left button on Windows (\#225)
+\item \doxylink{class_fixed}{Fixed} Context\+Settings ignored when creating a 3.\+x/4.x Open\+GL context on Linux (\#258)
+\item \doxylink{class_fixed}{Fixed} Context\+Settings ignored on Linux when creating a window (\#35)
+\item \doxylink{class_fixed}{Fixed} windows bigger than the desktop not appearing on Windows (\#215)
+\item \doxylink{class_fixed}{Fixed} Key\+Release events sometimes not reported on Linux (\#404)
+\item \doxylink{class_fixed}{Fixed} mouse moved event on mac\+OS when dragging the cursor (\#277)
+\item \doxylink{class_fixed}{Fixed} Key\+Release event with CMD key pressed (\#381)
+\item \doxylink{class_fixed}{Fixed} taskbar bugs on Windows (\#328, \#69)
+\item \doxylink{class_fixed}{Fixed} Window\+::get\+Position() on Linux (\#346)
+\item Unicode characters outside the BMP (\texorpdfstring{$>$}{>} 0x\+FFFF) are now correctly handled on Windows (\#366)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md866}{}\doxysubsection{\texorpdfstring{Graphics}{Graphics}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md866}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Checking errors in Render\+Target\+::push\+GLStates() to avoid generating false error messages when user leaves unchecked Open\+GL errors (\#340)
+\item Optimized Shader\+::set\+Parameter functions, by using a cache internally (\#316, \#358)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} bounding rect of \doxylink{classsf_1_1_text}{sf\+::\+Text} ignoring whitespaces (\#216)
+\item Solved graphics resources not updated or corrupted when loaded in a thread (\#411)
+\item \doxylink{class_fixed}{Fixed} white pixel showing on first character of \doxylink{classsf_1_1_text}{sf\+::\+Text} (\#414)
+\item \doxylink{classsf_1_1_rect_a1d8a4a3aecec18310f6e3e23db43dfb8}{sf\+::\+Rect\+::contains} and \doxylink{classsf_1_1_rect_ad90321b1135cad31589f2db2f9b772db}{sf\+::\+Rect\+::intersects} now handle rectangles with negative dimensions correctly (\#219)
+\item \doxylink{class_fixed}{Fixed} Shape\+::set\+Texture\+Rect not working when called before set\+Texture
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md867}{}\doxysubsection{\texorpdfstring{Audio}{Audio}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md867}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item load\+From\+Stream functions now explicitly reset the stream (seek(0)) before starting to read (\#349)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item Added a workaround for a bug in the mac\+OS implementation of Open\+AL (unsupported channel count no properly detected) (\#201)
+\item \doxylink{class_fixed}{Fixed} Sound\+Buffer\+::load\+From\+Stream reading past the end of the stream (\#214)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md868}{}\doxysubsection{\texorpdfstring{Network}{Network}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md868}
+{\bfseries{Features}}
+
+
+\begin{DoxyItemize}
+\item Replaced the deprecated gethostbyname with getaddrinfo (\#47)
+\item Minor improvements to \doxylink{classsf_1_1_packet}{sf\+::\+Packet} operators (now using strlen and wcslen instead of explicit loops) (\#118)
+\end{DoxyItemize}
+
+{\bfseries{Bugfixes}}
+
+
+\begin{DoxyItemize}
+\item \doxylink{class_fixed}{Fixed} non-\/blocking connection with a \doxylink{classsf_1_1_tcp_socket}{sf\+::\+Tcp\+Socket} on Windows
+\item \doxylink{class_fixed}{Fixed} TCP packet data corruption in non-\/blocking mode (\#402, \#119)
+\item On Unix systems, a socket disconnection no longer stops the program with signal SIGPIPE (\#72)
+\end{DoxyItemize}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md869}{}\doxysection{\texorpdfstring{SFML 2.\+0}{SFML 2.\+0}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md869}
+Also available on the website\+: \href{https://www.sfml-dev.org/changelog.php\#sfml-2.0}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php\#sfml-\/2.\+0}}
+
+No changelog available. {\itshape Everything changed.}\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md870}{}\doxysection{\texorpdfstring{Older Releases}{Older Releases}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bued51d8f0c78e7a12ee2a08551ca6fc11_autotoc_md870}
+See the website for changelogs of older releases\+: \href{https://www.sfml-dev.org/changelog.php}{\texttt{ https\+://www.\+sfml-\/dev.\+org/changelog.\+php}} 

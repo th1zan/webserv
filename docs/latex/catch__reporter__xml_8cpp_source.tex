@@ -1,0 +1,287 @@
+\doxysection{catch\+\_\+reporter\+\_\+xml.\+cpp}
+\hypertarget{catch__reporter__xml_8cpp_source}{}\label{catch__reporter__xml_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/reporters/catch\_reporter\_xml.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/reporters/catch\_reporter\_xml.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 28/10/2010.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2010\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_reporter\_xml.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../internal/catch\_capture.hpp"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../internal/catch\_reporter\_registrars.hpp"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#pragma\ warning(push)}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#pragma\ warning(disable:4061)\ }\textcolor{comment}{//\ Not\ all\ labels\ are\ EXPLICITLY\ handled\ in\ switch}}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note\ that\ 4062\ (not\ all\ labels\ are\ handled}}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ default\ is\ missing)\ is\ enabled}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ XmlReporter::XmlReporter(\ ReporterConfig\ \textcolor{keyword}{const}\&\ \_config\ )}
+\DoxyCodeLine{00023\ \ \ \ \ :\ \ \ StreamingReporterBase(\ \_config\ ),}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ m\_xml(\_config.stream())}
+\DoxyCodeLine{00025\ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ m\_reporterPrefs.shouldRedirectStdOut\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ m\_reporterPrefs.shouldReportAllAssertions\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00028\ \ \ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ XmlReporter::\string~XmlReporter()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ std::string\ XmlReporter::getDescription()\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Reports\ test\ results\ as\ an\ XML\ document"{}};}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ std::string\ XmlReporter::getStylesheetRef()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string();}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::writeSourceInfo(\ SourceLineInfo\ \textcolor{keyword}{const}\&\ sourceInfo\ )\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ m\_xml}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}filename"{}},\ sourceInfo.file\ )}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}line"{}},\ sourceInfo.line\ );}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::noMatchingTestCases(\ std::string\ \textcolor{keyword}{const}\&\ s\ )\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ StreamingReporterBase::noMatchingTestCases(\ s\ );}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::testRunStarting(\ TestRunInfo\ \textcolor{keyword}{const}\&\ testInfo\ )\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ StreamingReporterBase::testRunStarting(\ testInfo\ );}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ std::string\ stylesheetRef\ =\ getStylesheetRef();}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !stylesheetRef.empty()\ )}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.writeStylesheetRef(\ stylesheetRef\ );}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}Catch"{}}\ );}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !m\_config-\/>name().empty()\ )}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.writeAttribute(\ \textcolor{stringliteral}{"{}name"{}},\ m\_config-\/>name()\ );}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_config-\/>testSpec().hasFilters())}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.writeAttribute(\ \textcolor{stringliteral}{"{}filters"{}},\ serializeFilters(\ m\_config-\/>getTestsOrTags()\ )\ );}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_config-\/>rngSeed()\ !=\ 0\ )}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}Randomness"{}}\ )}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}seed"{}},\ m\_config-\/>rngSeed()\ );}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::testGroupStarting(\ GroupInfo\ \textcolor{keyword}{const}\&\ groupInfo\ )\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ StreamingReporterBase::testGroupStarting(\ groupInfo\ );}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}Group"{}}\ )}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}name"{}},\ groupInfo.name\ );}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::testCaseStarting(\ TestCaseInfo\ \textcolor{keyword}{const}\&\ testInfo\ )\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ StreamingReporterBase::testCaseStarting(testInfo);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}TestCase"{}}\ )}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}name"{}},\ trim(\ testInfo.name\ )\ )}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}description"{}},\ testInfo.description\ )}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}tags"{}},\ testInfo.tagsAsString()\ );}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ writeSourceInfo(\ testInfo.lineInfo\ );}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ m\_config-\/>showDurations()\ ==\ ShowDurations::Always\ )}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ m\_testCaseTimer.start();}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ m\_xml.ensureTagClosed();}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::sectionStarting(\ SectionInfo\ \textcolor{keyword}{const}\&\ sectionInfo\ )\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ StreamingReporterBase::sectionStarting(\ sectionInfo\ );}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ m\_sectionDepth++\ >\ 0\ )\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}Section"{}}\ )}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}name"{}},\ trim(\ sectionInfo.name\ )\ );}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ writeSourceInfo(\ sectionInfo.lineInfo\ );}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.ensureTagClosed();}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::assertionStarting(\ AssertionInfo\ \textcolor{keyword}{const}\&\ )\ \{\ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{bool}\ XmlReporter::assertionEnded(\ AssertionStats\ \textcolor{keyword}{const}\&\ assertionStats\ )\ \{}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ AssertionResult\ \textcolor{keyword}{const}\&\ result\ =\ assertionStats.assertionResult;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ includeResults\ =\ m\_config-\/>includeSuccessfulResults()\ ||\ !result.isOk();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ includeResults\ ||\ result.getResultType()\ ==\ ResultWas::Warning\ )\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Print\ any\ info\ messages\ in\ <Info>\ tags.}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ msg\ :\ assertionStats.infoMessages\ )\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ msg.type\ ==\ ResultWas::Info\ \&\&\ includeResults\ )\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}Info"{}}\ )}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeText(\ msg.message\ );}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\ msg.type\ ==\ ResultWas::Warning\ )\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}Warning"{}}\ )}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeText(\ msg.message\ );}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Drop\ out\ if\ result\ was\ successful\ but\ we're\ not\ printing\ them.}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !includeResults\ \&\&\ result.getResultType()\ !=\ ResultWas::Warning\ )}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Print\ the\ expression\ if\ there\ is\ one.}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ result.hasExpression()\ )\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}Expression"{}}\ )}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}success"{}},\ result.succeeded()\ )}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}type"{}},\ result.getTestMacroName()\ );}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ writeSourceInfo(\ result.getSourceInfo()\ );}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}Original"{}}\ )}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeText(\ result.getExpression()\ );}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}Expanded"{}}\ )}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeText(\ result.getExpandedExpression()\ );}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ And...\ Print\ a\ result\ applicable\ to\ each\ result\ type.}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\ result.getResultType()\ )\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::ThrewException:}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}Exception"{}}\ );}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ writeSourceInfo(\ result.getSourceInfo()\ );}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.writeText(\ result.getMessage()\ );}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::FatalErrorCondition:}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}FatalErrorCondition"{}}\ );}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ writeSourceInfo(\ result.getSourceInfo()\ );}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.writeText(\ result.getMessage()\ );}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::Info:}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}Info"{}}\ )}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .writeText(\ result.getMessage()\ );}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::Warning:}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Warning\ will\ already\ have\ been\ written}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ResultWas::ExplicitFailure:}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.startElement(\ \textcolor{stringliteral}{"{}Failure"{}}\ );}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ writeSourceInfo(\ result.getSourceInfo()\ );}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.writeText(\ result.getMessage()\ );}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ result.hasExpression()\ )}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00170\ \ \ \ \ \}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::sectionEnded(\ SectionStats\ \textcolor{keyword}{const}\&\ sectionStats\ )\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ StreamingReporterBase::sectionEnded(\ sectionStats\ );}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ -\/-\/m\_sectionDepth\ >\ 0\ )\ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ XmlWriter::ScopedElement\ e\ =\ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}OverallResults"{}}\ );}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ e.writeAttribute(\ \textcolor{stringliteral}{"{}successes"{}},\ sectionStats.assertions.passed\ );}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ e.writeAttribute(\ \textcolor{stringliteral}{"{}failures"{}},\ sectionStats.assertions.failed\ );}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ e.writeAttribute(\ \textcolor{stringliteral}{"{}expectedFailures"{}},\ sectionStats.assertions.failedButOk\ );}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ m\_config-\/>showDurations()\ ==\ ShowDurations::Always\ )}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ e.writeAttribute(\ \textcolor{stringliteral}{"{}durationInSeconds"{}},\ sectionStats.durationInSeconds\ );}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::testCaseEnded(\ TestCaseStats\ \textcolor{keyword}{const}\&\ testCaseStats\ )\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ StreamingReporterBase::testCaseEnded(\ testCaseStats\ );}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ XmlWriter::ScopedElement\ e\ =\ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}OverallResult"{}}\ );}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ e.writeAttribute(\ \textcolor{stringliteral}{"{}success"{}},\ testCaseStats.totals.assertions.allOk()\ );}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ m\_config-\/>showDurations()\ ==\ ShowDurations::Always\ )}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ e.writeAttribute(\ \textcolor{stringliteral}{"{}durationInSeconds"{}},\ m\_testCaseTimer.getElapsedSeconds()\ );}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !testCaseStats.stdOut.empty()\ )}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}StdOut"{}}\ ).writeText(\ trim(\ testCaseStats.stdOut\ ),\ XmlFormatting::Newline\ );}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !testCaseStats.stdErr.empty()\ )}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}StdErr"{}}\ ).writeText(\ trim(\ testCaseStats.stdErr\ ),\ XmlFormatting::Newline\ );}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00201\ \ \ \ \ \}}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::testGroupEnded(\ TestGroupStats\ \textcolor{keyword}{const}\&\ testGroupStats\ )\ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ StreamingReporterBase::testGroupEnded(\ testGroupStats\ );}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Check\ testGroupStats.aborting\ and\ act\ accordingly.}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}OverallResults"{}}\ )}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}successes"{}},\ testGroupStats.totals.assertions.passed\ )}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}failures"{}},\ testGroupStats.totals.assertions.failed\ )}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}expectedFailures"{}},\ testGroupStats.totals.assertions.failedButOk\ );}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}OverallResultsCases"{}})}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}successes"{}},\ testGroupStats.totals.testCases.passed\ )}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}failures"{}},\ testGroupStats.totals.testCases.failed\ )}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}expectedFailures"{}},\ testGroupStats.totals.testCases.failedButOk\ );}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00215\ \ \ \ \ \}}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::testRunEnded(\ TestRunStats\ \textcolor{keyword}{const}\&\ testRunStats\ )\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ StreamingReporterBase::testRunEnded(\ testRunStats\ );}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}OverallResults"{}}\ )}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}successes"{}},\ testRunStats.totals.assertions.passed\ )}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}failures"{}},\ testRunStats.totals.assertions.failed\ )}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}expectedFailures"{}},\ testRunStats.totals.assertions.failedButOk\ );}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\ \textcolor{stringliteral}{"{}OverallResultsCases"{}})}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}successes"{}},\ testRunStats.totals.testCases.passed\ )}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}failures"{}},\ testRunStats.totals.testCases.failed\ )}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\ \textcolor{stringliteral}{"{}expectedFailures"{}},\ testRunStats.totals.testCases.failedButOk\ );}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00228\ \ \ \ \ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_BENCHMARKING)}}
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::benchmarkPreparing(std::string\ \textcolor{keyword}{const}\&\ name)\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ m\_xml.startElement(\textcolor{stringliteral}{"{}BenchmarkResults"{}})}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}name"{}},\ name);}
+\DoxyCodeLine{00234\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::benchmarkStarting(BenchmarkInfo\ \textcolor{keyword}{const}\ \&info)\ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ m\_xml.writeAttribute(\textcolor{stringliteral}{"{}samples"{}},\ info.samples)}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}resamples"{}},\ info.resamples)}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}iterations"{}},\ info.iterations)}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}clockResolution"{}},\ info.clockResolution)}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}estimatedDuration"{}},\ info.estimatedDuration)}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ .writeComment(\textcolor{stringliteral}{"{}All\ values\ in\ nano\ seconds"{}});}
+\DoxyCodeLine{00243\ \ \ \ \ \}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::benchmarkEnded(BenchmarkStats<>\ \textcolor{keyword}{const}\&\ benchmarkStats)\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ m\_xml.startElement(\textcolor{stringliteral}{"{}mean"{}})}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}value"{}},\ benchmarkStats.mean.point.count())}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}lowerBound"{}},\ benchmarkStats.mean.lower\_bound.count())}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}upperBound"{}},\ benchmarkStats.mean.upper\_bound.count())}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}ci"{}},\ benchmarkStats.mean.confidence\_interval);}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ m\_xml.startElement(\textcolor{stringliteral}{"{}standardDeviation"{}})}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}value"{}},\ benchmarkStats.standardDeviation.point.count())}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}lowerBound"{}},\ benchmarkStats.standardDeviation.lower\_bound.count())}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}upperBound"{}},\ benchmarkStats.standardDeviation.upper\_bound.count())}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}ci"{}},\ benchmarkStats.standardDeviation.confidence\_interval);}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ m\_xml.startElement(\textcolor{stringliteral}{"{}outliers"{}})}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}variance"{}},\ benchmarkStats.outlierVariance)}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}lowMild"{}},\ benchmarkStats.outliers.low\_mild)}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}lowSevere"{}},\ benchmarkStats.outliers.low\_severe)}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}highMild"{}},\ benchmarkStats.outliers.high\_mild)}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ .writeAttribute(\textcolor{stringliteral}{"{}highSevere"{}},\ benchmarkStats.outliers.high\_severe);}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00266\ \ \ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{keywordtype}{void}\ XmlReporter::benchmarkFailed(std::string\ \textcolor{keyword}{const}\ \&error)\ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ m\_xml.scopedElement(\textcolor{stringliteral}{"{}failed"{}}).}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ writeAttribute(\textcolor{stringliteral}{"{}message"{}},\ error);}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ m\_xml.endElement();}
+\DoxyCodeLine{00272\ \ \ \ \ \}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_ENABLE\_BENCHMARKING}}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ CATCH\_REGISTER\_REPORTER(\ \textcolor{stringliteral}{"{}xml"{}},\ XmlReporter\ )}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#pragma\ warning(pop)}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

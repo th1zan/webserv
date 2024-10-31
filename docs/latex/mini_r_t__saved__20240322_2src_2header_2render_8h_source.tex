@@ -1,0 +1,33 @@
+\doxysection{render.\+h}
+\hypertarget{mini_r_t__saved__20240322_2src_2header_2render_8h_source}{}\label{mini_r_t__saved__20240322_2src_2header_2render_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240322/src/header/render.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240322/src/header/render.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ render.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ tsanglar\ <tsanglar@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/06\ 12:29:09\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/03/20\ 15:53:26\ by\ tsanglar\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ RENDER\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ RENDER\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*render.c*/}}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{int}\ \ \ \ \ render(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *cnv,\ \mbox{\hyperlink{structs__scn}{t\_scn}}\ *scn);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{void}\ \ \ \ img\_pix\_put(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *cnv,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ color);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ \ \ \ hex\_to\_rgb(\textcolor{keywordtype}{int}\ hexColor,\ \textcolor{keywordtype}{int}\ rgb[3]);}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ int\ \ \ \ \ \ rgb\_to\_hex(int\ r,\ int\ g,\ int\ b);}}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{int}\ \ \ \ \ rgb\_to\_hex(\mbox{\hyperlink{structs__color}{t\_color}}\ color);}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{int}\ \ \ \ \ render\_xy\_pts(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *cnv,\ \mbox{\hyperlink{structs__scn}{t\_scn}}\ *scn);}
+\DoxyCodeLine{00023\ \mbox{\hyperlink{structs__ray}{t\_ray}}\ \ \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_a16dcc190f688dae547023204eca8ebe9}{ray\_for\_pixel}}(\mbox{\hyperlink{structs__cam}{t\_cam}}\ \ \ *cam,\ \textcolor{keywordtype}{int}\ px,\ \textcolor{keywordtype}{int}\ py);}
+\DoxyCodeLine{00024\ \mbox{\hyperlink{structs__color}{t\_color}}\ \ \ \ \ \ get\_pixel\_color(\mbox{\hyperlink{structs__world}{t\_world}}\ world,\ \mbox{\hyperlink{structs__ray}{t\_ray}}\ ray);}
+\DoxyCodeLine{00025\ \mbox{\hyperlink{structs__param}{t\_param}}\ \ hit\_get\_param(\mbox{\hyperlink{structs__hit}{t\_hit}}\ *\mbox{\hyperlink{mini_r_t__example_2include_2shapes_8h_a1aa5da4140d2ab35259bb06036ef30c8}{hit}},\ \mbox{\hyperlink{structs__ray}{t\_ray}}\ ray);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

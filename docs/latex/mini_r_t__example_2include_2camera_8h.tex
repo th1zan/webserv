@@ -1,0 +1,135 @@
+\doxysection{/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/camera.h File Reference}
+\hypertarget{mini_r_t__example_2include_2camera_8h}{}\label{mini_r_t__example_2include_2camera_8h}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/camera.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/camera.h}}
+{\ttfamily \#include "{}tuples.\+h"{}}\newline
+{\ttfamily \#include "{}matrices.\+h"{}}\newline
+{\ttfamily \#include "{}rays.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs__camera}{s\+\_\+camera}}
+\begin{DoxyCompactList}\small\item\em The structure of type t\+\_\+camera contains the necessary information for camera configuration, rendering and transformation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structs__camera}{s\+\_\+camera}} \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}{t\+\_\+camera}}
+\begin{DoxyCompactList}\small\item\em The structure of type t\+\_\+camera contains the necessary information for camera configuration, rendering and transformation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_ab21760516af333b2c94bbdae6b2f431b}{view\+\_\+transform}} (\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}} from, \mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}} to, \mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}} up)
+\begin{DoxyCompactList}\small\item\em Computes the view transformation matrix given the position of the camera and the point to look at. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}{t\+\_\+camera}} \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_aa10e754128068eaf74204ab2a6bf2a9b}{new\+\_\+camera}} (float hsize, float vsize, float field\+\_\+of\+\_\+view)
+\begin{DoxyCompactList}\small\item\em Creates a new camera with the given attributes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_a16dcc190f688dae547023204eca8ebe9}{ray\+\_\+for\+\_\+pixel}} (\mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}{t\+\_\+camera}} \texorpdfstring{$\ast$}{*}camera, float px, float py)
+\begin{DoxyCompactList}\small\item\em Computes the ray that passes through the specified pixel on the camera plane. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}\index{camera.h@{camera.h}!t\_camera@{t\_camera}}
+\index{t\_camera@{t\_camera}!camera.h@{camera.h}}
+\doxysubsubsection{\texorpdfstring{t\_camera}{t\_camera}}
+{\footnotesize\ttfamily \label{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a} 
+typedef struct \mbox{\hyperlink{structs__camera}{s\+\_\+camera}} \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}{t\+\_\+camera}}}
+
+
+
+The structure of type t\+\_\+camera contains the necessary information for camera configuration, rendering and transformation. 
+
+ABOUT THE HEADER CAMERA.\+H
+
+This header contains all functions regarding camera implementation. 
+\begin{DoxyParams}{Parameters}
+{\em hsize} & Stores the horizontal size (in pixels). \\
+\hline
+{\em vsize} & Stores the vertical size (in pixels). \\
+\hline
+{\em field\+\_\+of\+\_\+view} & This field stores angle that describes how much the camera can see. When the field of view is small, the view will be "{}zoomed in"{}, magnifying a smaller area of the scene. \\
+\hline
+{\em half\+\_\+width} & Stores the camera\textquotesingle{}s half hsize value. \\
+\hline
+{\em half\+\_\+height} & Stores the camera\textquotesingle{}s half vsize value. \\
+\hline
+{\em pixel\+\_\+size} & Stores the camera\textquotesingle{}s pixel size calculated from half\+\_\+width and hsize values. \\
+\hline
+{\em transform} & Stores the transformation matrix for the camera. \\
+\hline
+{\em inverse} & Stores the inverse matrix for the camera. \\
+\hline
+{\em transpose} & Stores the transpose matrix for the camera. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{mini_r_t__example_2include_2camera_8h_aa10e754128068eaf74204ab2a6bf2a9b}\index{camera.h@{camera.h}!new\_camera@{new\_camera}}
+\index{new\_camera@{new\_camera}!camera.h@{camera.h}}
+\doxysubsubsection{\texorpdfstring{new\_camera()}{new\_camera()}}
+{\footnotesize\ttfamily \label{mini_r_t__example_2include_2camera_8h_aa10e754128068eaf74204ab2a6bf2a9b} 
+\mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}{t\+\_\+camera}} new\+\_\+camera (\begin{DoxyParamCaption}\item[{float}]{hsize}{, }\item[{float}]{vsize}{, }\item[{float}]{field\+\_\+of\+\_\+view}{}\end{DoxyParamCaption})}
+
+
+
+Creates a new camera with the given attributes. 
+
+This function creates a virtual camera that can be used to "{}take pictures"{} of a three-\/dimensional scene. The camera is defined by its horizontal and vertical size in pixels, the field of view angle, and a transform matrix that orients the world relative to the camera.
+
+
+\begin{DoxyParams}{Parameters}
+{\em hsize} & The horizontal size (in pixels) of the canvas that the picture will be rendered to. \\
+\hline
+{\em vsize} & The vertical size (in pixels) of the canvas that the picture will be rendered to. \\
+\hline
+{\em field\+\_\+of\+\_\+view} & The angle that describes how much the camera can see. When the field of view is small, the view will be "{}zoomed in"{}, magnifying a smaller area of the scene. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the instance of a new camera. 
+\end{DoxyReturn}
+\Hypertarget{mini_r_t__example_2include_2camera_8h_a16dcc190f688dae547023204eca8ebe9}\index{camera.h@{camera.h}!ray\_for\_pixel@{ray\_for\_pixel}}
+\index{ray\_for\_pixel@{ray\_for\_pixel}!camera.h@{camera.h}}
+\doxysubsubsection{\texorpdfstring{ray\_for\_pixel()}{ray\_for\_pixel()}}
+{\footnotesize\ttfamily \label{mini_r_t__example_2include_2camera_8h_a16dcc190f688dae547023204eca8ebe9} 
+\mbox{\hyperlink{rays_8h_a249ca701a99a7da39d83c6270adac2ec}{t\+\_\+ray}} ray\+\_\+for\+\_\+pixel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}{t\+\_\+camera}} \texorpdfstring{$\ast$}{*}}]{camera}{, }\item[{float}]{px}{, }\item[{float}]{py}{}\end{DoxyParamCaption})}
+
+
+
+Computes the ray that passes through the specified pixel on the camera plane. 
+
+This function takes a camera and the pixel coordinates on the camera plane as input, and returns a ray with its origin at the camera position and its direction passing through the center of the pixel. To compute the ray, the function first calculates the displacement of the pixel center relative to the canvas edge, and then computes the non-\/transformed world coordinates of the pixel. Next, using the camera\textquotesingle{}s transformation matrix, the function transforms the canvas point and the origin (0,0,0) to world coordinates. Based on these transformed coordinates, the function computes the direction of the ray from the origin to the pixel point, normalizing the resulting vector to ensure that it has unit length.
+
+
+\begin{DoxyParams}{Parameters}
+{\em camera} & Pointer to the camera object. \\
+\hline
+{\em px} & The horizontal coordinate of the pixel on the camera plane. \\
+\hline
+{\em py} & The vertical coordinate of the pixel on the camera plane. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a ray that passes through the specified pixel on the camera plane. 
+\end{DoxyReturn}
+\Hypertarget{mini_r_t__example_2include_2camera_8h_ab21760516af333b2c94bbdae6b2f431b}\index{camera.h@{camera.h}!view\_transform@{view\_transform}}
+\index{view\_transform@{view\_transform}!camera.h@{camera.h}}
+\doxysubsubsection{\texorpdfstring{view\_transform()}{view\_transform()}}
+{\footnotesize\ttfamily \label{mini_r_t__example_2include_2camera_8h_ab21760516af333b2c94bbdae6b2f431b} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} view\+\_\+transform (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}}}]{from}{, }\item[{\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}}}]{to}{, }\item[{\mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}}}]{up}{}\end{DoxyParamCaption})}
+
+
+
+Computes the view transformation matrix given the position of the camera and the point to look at. 
+
+This function returns a transformation matrix that orients the world relative to the camera\textquotesingle{}s eye. You specify the position of the camera with the {\ttfamily from} parameter, the point to look at with the {\ttfamily to} parameter, and a vector indicating which direction is up with the {\ttfamily up} parameter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & The position of the camera in the world. \\
+\hline
+{\em to} & The point in the world to look at. \\
+\hline
+{\em up} & \doxylink{class_a}{A} vector indicating which direction is up. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the view transformation matrix. 
+\end{DoxyReturn}

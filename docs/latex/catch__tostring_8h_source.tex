@@ -1,0 +1,677 @@
+\doxysection{catch\+\_\+tostring.\+h}
+\hypertarget{catch__tostring_8h_source}{}\label{catch__tostring_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_tostring.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_tostring.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 8/5/2012.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2012\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_TOSTRING\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_TOSTRING\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}catch\_compiler\_capabilities.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}catch\_stream.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_enum\_values\_registry.h"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ CATCH\_CONFIG\_CPP17\_STRING\_VIEW}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#ifdef\ \_\_OBJC\_\_}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}catch\_objc\_arc.hpp"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ warning(push)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#pragma\ warning(disable:4180)\ }\textcolor{comment}{//\ We\ attempt\ to\ stream\ a\ function\ (address)\ by\ const\&,\ which\ MSVC\ complains\ about\ but\ is\ harmless}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{namespace\ }Detail\ \{}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ std::string\ unprintableString;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ std::string\ rawMemoryToString(\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\textcolor{keywordtype}{object},\ std::size\_t\ size\ );}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ std::string\ rawMemoryToString(\ \textcolor{keyword}{const}\ T\&\ \textcolor{keywordtype}{object}\ )\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rawMemoryToString(\ \&\textcolor{keywordtype}{object},\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{object})\ );}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{class\ }IsStreamInsertable\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Stream,\ \textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{auto}\ test(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/>\ \textcolor{keyword}{decltype}(std::declval<Stream\&>()\ <<\ std::declval<U>(),\ std::true\_type());}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename},\ \textcolor{keyword}{typename}>}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{auto}\ test(...)-\/>std::false\_type;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ value\ =\ \textcolor{keyword}{decltype}(test<std::ostream,\ const\ T\&>(0))::value;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ std::string\ convertUnknownEnumToString(\ E\ e\ );}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ std::enable\_if<}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ !std::is\_enum<T>::value\ \&\&\ !std::is\_base\_of<std::exception,\ T>::value,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ std::string>::type\ convertUnstreamable(\ T\ \textcolor{keyword}{const}\&\ )\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Detail::unprintableString;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ std::enable\_if<}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ !std::is\_enum<T>::value\ \&\&\ std::is\_base\_of<std::exception,\ T>::value,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ std::string>::type\ convertUnstreamable(T\ \textcolor{keyword}{const}\&\ ex)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ex.what();}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ std::enable\_if<}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ std::is\_enum<T>::value}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ ,\ std::string>::type\ convertUnstreamable(\ T\ \textcolor{keyword}{const}\&\ value\ )\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ convertUnknownEnumToString(\ value\ );}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#if\ defined(\_MANAGED)}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ std::string\ clrReferenceToString(\ T\string^\ ref\ )\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ref\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string(\textcolor{stringliteral}{"{}null"{}});}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ bytes\ =\ System::Text::Encoding::UTF8-\/>GetBytes(ref-\/>ToString());}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ cli::pin\_ptr<System::Byte>\ p\ =\ \&bytes[0];}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}\ \textcolor{keyword}{const\ }*\textcolor{keyword}{>}(p),\ bytes-\/>Length);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \}\ \textcolor{comment}{//\ namespace\ Detail}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{comment}{//\ If\ we\ decide\ for\ C++14,\ change\ these\ to\ enable\_if\_ts}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Fake\ =\ T>}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ std::enable\_if<::Catch::Detail::IsStreamInsertable<Fake>::value,\ std::string>::type}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ convert(\textcolor{keyword}{const}\ Fake\&\ value)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ NB:\ call\ using\ the\ function-\/like\ syntax\ to\ avoid\ ambiguity\ with}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ user-\/defined\ templated\ operator<<\ under\ clang.}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rss.operator<<(value);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Fake\ =\ T>}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ std::enable\_if<!::Catch::Detail::IsStreamInsertable<Fake>::value,\ std::string>::type}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ convert(\ \textcolor{keyword}{const}\ Fake\&\ value\ )\ \{}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#if\ !defined(CATCH\_CONFIG\_FALLBACK\_STRINGIFIER)}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Detail::convertUnstreamable(value);}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CATCH\_CONFIG\_FALLBACK\_STRINGIFIER(value);}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{namespace\ }Detail\ \{}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ function\ dispatches\ all\ stringification\ requests\ inside\ of\ Catch.}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Should\ be\ preferably\ called\ fully\ qualified,\ like\ ::Catch::Detail::stringify}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ std::string\ stringify(\textcolor{keyword}{const}\ T\&\ e)\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::StringMaker<typename\ std::remove\_cv<typename\ std::remove\_reference<T>::type>::type>::convert(e);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ std::string\ convertUnknownEnumToString(\ E\ e\ )\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::stringify(\textcolor{keyword}{static\_cast<}typename\ std::underlying\_type<E>::type\textcolor{keyword}{>}(e));}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#if\ defined(\_MANAGED)}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ std::string\ stringify(\ T\string^\ e\ )\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::StringMaker<T\string^>::convert(e);}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \}\ \textcolor{comment}{//\ namespace\ Detail}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{comment}{//\ Some\ predefined\ specializations}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::string>\ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00151\ \ \ \ \ \};}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#ifdef\ CATCH\_CONFIG\_CPP17\_STRING\_VIEW}}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::string\_view>\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::string\_view\ str);}
+\DoxyCodeLine{00157\ \ \ \ \ \};}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<char\ const\ *>\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ str);}
+\DoxyCodeLine{00163\ \ \ \ \ \};}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<char\ *>\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{char}\ *\ str);}
+\DoxyCodeLine{00167\ \ \ \ \ \};}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#ifdef\ CATCH\_CONFIG\_WCHAR}}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::wstring>\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keyword}{const}\ std::wstring\&\ wstr);}
+\DoxyCodeLine{00173\ \ \ \ \ \};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#\ ifdef\ CATCH\_CONFIG\_CPP17\_STRING\_VIEW}}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::wstring\_view>\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::wstring\_view\ str);}
+\DoxyCodeLine{00179\ \ \ \ \ \};}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#\ endif}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<wchar\_t\ const\ *>\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{wchar\_t}\ \textcolor{keyword}{const}\ *\ str);}
+\DoxyCodeLine{00185\ \ \ \ \ \};}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<wchar\_t\ *>\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{wchar\_t}\ *\ str);}
+\DoxyCodeLine{00189\ \ \ \ \ \};}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{comment}{//\ TBD:\ Should\ we\ use\ \`{}strnlen`\ to\ ensure\ that\ we\ don't\ go\ out\ of\ the\ buffer,}}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ while\ keeping\ string\ semantics?}}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keywordtype}{int}\ SZ>}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<char[SZ]>\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ str)\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::stringify(std::string\{\ str\ \});}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \};}
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keywordtype}{int}\ SZ>}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<signed\ char[SZ]>\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ str)\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::stringify(std::string\{\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}\ \textcolor{keyword}{const\ }*\textcolor{keyword}{>}(str)\ \});}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00205\ \ \ \ \ \};}
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keywordtype}{int}\ SZ>}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<unsigned\ char[SZ]>\ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ str)\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::stringify(std::string\{\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}\ \textcolor{keyword}{const\ }*\textcolor{keyword}{>}(str)\ \});}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \};}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_CPP17\_BYTE)}}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::byte>\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::byte\ value);}
+\DoxyCodeLine{00217\ \ \ \ \ \};}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ defined(CATCH\_CONFIG\_CPP17\_BYTE)}}
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<int>\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00222\ \ \ \ \ \};}
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<long>\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{long}\ value);}
+\DoxyCodeLine{00226\ \ \ \ \ \};}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<long\ long>\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ value);}
+\DoxyCodeLine{00230\ \ \ \ \ \};}
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<unsigned\ int>\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00234\ \ \ \ \ \};}
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<unsigned\ long>\ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ value);}
+\DoxyCodeLine{00238\ \ \ \ \ \};}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<unsigned\ long\ long>\ \{}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ value);}
+\DoxyCodeLine{00242\ \ \ \ \ \};}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<bool>\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{bool}\ b);}
+\DoxyCodeLine{00247\ \ \ \ \ \};}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<char>\ \{}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00252\ \ \ \ \ \};}
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<signed\ char>\ \{}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00256\ \ \ \ \ \};}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<unsigned\ char>\ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00260\ \ \ \ \ \};}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::nullptr\_t>\ \{}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::nullptr\_t);}
+\DoxyCodeLine{00265\ \ \ \ \ \};}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<float>\ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{float}\ value);}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ precision;}
+\DoxyCodeLine{00271\ \ \ \ \ \};}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<double>\ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keywordtype}{double}\ value);}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ precision;}
+\DoxyCodeLine{00277\ \ \ \ \ \};}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<T*>\ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(U*\ p)\ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p)\ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::rawMemoryToString(p);}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}nullptr"{}};}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00289\ \ \ \ \ \};}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}\ C>}
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<R\ \mbox{\hyperlink{class_c}{C}}::*>\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(R\ \mbox{\hyperlink{class_c}{C}}::*\ p)\ \{}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p)\ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::rawMemoryToString(p);}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}nullptr"{}};}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00300\ \ \ \ \ \};}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#if\ defined(\_MANAGED)}}
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<T\string^>\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\ T\string^\ ref\ )\ \{}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::clrReferenceToString(ref);}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00308\ \ \ \ \ \};}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keyword}{namespace\ }Detail\ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ InputIterator,\ \textcolor{keyword}{typename}\ Sentinel\ =\ InputIterator>}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ std::string\ rangeToString(InputIterator\ first,\ Sentinel\ last)\ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\{\ "{}};}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (first\ !=\ last)\ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ ::Catch::Detail::stringify(*first);}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (++first;\ first\ !=\ last;\ ++first)}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ ::Catch::Detail::stringify(*first);}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\ \}"{}};}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00324\ \ \ \ \ \}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#ifdef\ \_\_OBJC\_\_}}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<NSString*>\ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(NSString\ *\ nsstring)\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!nsstring)}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}nil"{}};}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string(\textcolor{stringliteral}{"{}@"{}})\ +\ [nsstring\ UTF8String];}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00334\ \ \ \ \ \};}
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00336\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<NSObject*>\ \{}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(NSObject*\ nsObject)\ \{}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::stringify([nsObject\ description]);}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \ \ \ \ \};}
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{keyword}{namespace\ }Detail\ \{}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ stringify(\ NSString*\ nsstring\ )\ \{}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ StringMaker<NSString*>::convert(\ nsstring\ );}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ \}\ \textcolor{comment}{//\ namespace\ Detail}}
+\DoxyCodeLine{00348\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_OBJC\_\_}}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00353\ \textcolor{comment}{//\ Separate\ std-\/lib\ types\ stringification,\ so\ it\ can\ be\ selectively\ enabled}}
+\DoxyCodeLine{00354\ \textcolor{comment}{//\ This\ means\ that\ we\ do\ not\ bring\ in}}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_ALL\_STRINGMAKERS)}}
+\DoxyCodeLine{00357\ \textcolor{preprocessor}{\#\ \ define\ CATCH\_CONFIG\_ENABLE\_PAIR\_STRINGMAKER}}
+\DoxyCodeLine{00358\ \textcolor{preprocessor}{\#\ \ define\ CATCH\_CONFIG\_ENABLE\_TUPLE\_STRINGMAKER}}
+\DoxyCodeLine{00359\ \textcolor{preprocessor}{\#\ \ define\ CATCH\_CONFIG\_ENABLE\_VARIANT\_STRINGMAKER}}
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\#\ \ define\ CATCH\_CONFIG\_ENABLE\_CHRONO\_STRINGMAKER}}
+\DoxyCodeLine{00361\ \textcolor{preprocessor}{\#\ \ define\ CATCH\_CONFIG\_ENABLE\_OPTIONAL\_STRINGMAKER}}
+\DoxyCodeLine{00362\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \textcolor{comment}{//\ Separate\ std::pair\ specialization}}
+\DoxyCodeLine{00365\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_PAIR\_STRINGMAKER)}}
+\DoxyCodeLine{00366\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00367\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T1,\ \textcolor{keyword}{typename}\ T2>}
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::pair<T1,\ T2>\ >\ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keyword}{const}\ std::pair<T1,\ T2>\&\ pair)\ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\{\ "{}}}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ ::Catch::Detail::stringify(pair.first)}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ ::Catch::Detail::stringify(pair.second)}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ \}"{}};}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00379\ \ \ \ \ \};}
+\DoxyCodeLine{00380\ \}}
+\DoxyCodeLine{00381\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_ENABLE\_PAIR\_STRINGMAKER}}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00383\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_OPTIONAL\_STRINGMAKER)\ \&\&\ defined(CATCH\_CONFIG\_CPP17\_OPTIONAL)}}
+\DoxyCodeLine{00384\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00385\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00386\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::optional<T>\ >\ \{}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keyword}{const}\ std::optional<T>\&\ optional)\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (optional.has\_value())\ \{}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ ::Catch::Detail::stringify(*optional);}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\{\ \}"{}};}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00397\ \ \ \ \ \};}
+\DoxyCodeLine{00398\ \}}
+\DoxyCodeLine{00399\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_ENABLE\_OPTIONAL\_STRINGMAKER}}
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00401\ \textcolor{comment}{//\ Separate\ std::tuple\ specialization}}
+\DoxyCodeLine{00402\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_TUPLE\_STRINGMAKER)}}
+\DoxyCodeLine{00403\ \textcolor{preprocessor}{\#include\ <tuple>}}
+\DoxyCodeLine{00404\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keyword}{namespace\ }Detail\ \{}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ Tuple,}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ N\ =\ 0,}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ =\ (N\ <\ std::tuple\_size<Tuple>::value)}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ >}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\ TupleElementPrinter\ \{}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ print(\textcolor{keyword}{const}\ Tuple\&\ \mbox{\hyperlink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple}},\ std::ostream\&\ os)\ \{}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ (N\ ?\ \textcolor{stringliteral}{"{},\ "{}}\ :\ \textcolor{stringliteral}{"{}\ "{}})}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ ::Catch::Detail::stringify(std::get<N>(\mbox{\hyperlink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple}}));}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TupleElementPrinter<Tuple,\ N\ +\ 1>::print(\mbox{\hyperlink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple}},\ os);}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ Tuple,}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ N}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ >}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }TupleElementPrinter<Tuple,\ N,\ false>\ \{}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ print(\textcolor{keyword}{const}\ Tuple\&,\ std::ostream\&)\ \{\}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \ \ \}}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ ...Types>}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::\mbox{\hyperlink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple}}<Types...>>\ \{}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keyword}{const}\ std::tuple<Types...>\&\ \mbox{\hyperlink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple}})\ \{}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{charliteral}{'\{'};}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ Detail::TupleElementPrinter<std::tuple<Types...>>::print(\mbox{\hyperlink{tuples_8h_a781311ed1a4373afee4f1cfd38f71ff4}{tuple}},\ rss.get());}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\ \}"{}};}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00439\ \ \ \ \ \};}
+\DoxyCodeLine{00440\ \}}
+\DoxyCodeLine{00441\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_ENABLE\_TUPLE\_STRINGMAKER}}
+\DoxyCodeLine{00442\ }
+\DoxyCodeLine{00443\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_VARIANT\_STRINGMAKER)\ \&\&\ defined(CATCH\_CONFIG\_CPP17\_VARIANT)}}
+\DoxyCodeLine{00444\ \textcolor{preprocessor}{\#include\ <variant>}}
+\DoxyCodeLine{00445\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00446\ \ \ \ \ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::monostate>\ \{}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keyword}{const}\ std::monostate\&)\ \{}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}\{\ \}"{}};}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00451\ \ \ \ \ \};}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}...\ Elements>}
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::variant<Elements...>>\ \{}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\textcolor{keyword}{const}\ std::variant<Elements...>\&\ variant)\ \{}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (variant.valueless\_by\_exception())\ \{}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}\{valueless\ variant\}"{}};}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::visit(}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ value)\ \{}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::stringify(value);}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ variant}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00467\ \ \ \ \ \};}
+\DoxyCodeLine{00468\ \}}
+\DoxyCodeLine{00469\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_ENABLE\_VARIANT\_STRINGMAKER}}
+\DoxyCodeLine{00470\ }
+\DoxyCodeLine{00471\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00472\ \ \ \ \ \textcolor{comment}{//\ Import\ begin/\ end\ from\ std\ here}}
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keyword}{using\ }std::begin;}
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{keyword}{using\ }std::end;}
+\DoxyCodeLine{00475\ }
+\DoxyCodeLine{00476\ \ \ \ \ \textcolor{keyword}{namespace\ }detail\ \{}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...>}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }void\_type\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }type\ =\ void;}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00481\ }
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }is\_range\_impl\ :\ std::false\_type\ \{}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00485\ }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }is\_range\_impl<T,\ typename\ void\_type<decltype(begin(std::declval<T>()))>::type>\ :\ std::true\_type\ \{}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00489\ \ \ \ \ \}\ \textcolor{comment}{//\ namespace\ detail}}
+\DoxyCodeLine{00490\ }
+\DoxyCodeLine{00491\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00492\ \ \ \ \ \textcolor{keyword}{struct\ }is\_range\ :\ detail::is\_range\_impl<T>\ \{}
+\DoxyCodeLine{00493\ \ \ \ \ \};}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \textcolor{preprocessor}{\#if\ defined(\_MANAGED)\ }\textcolor{comment}{//\ Managed\ types\ are\ never\ ranges}}
+\DoxyCodeLine{00496\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00497\ \ \ \ \ \textcolor{keyword}{struct\ }is\_range<T\string^>\ \{}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ value\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00499\ \ \ \ \ \};}
+\DoxyCodeLine{00500\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Range>}
+\DoxyCodeLine{00503\ \ \ \ \ std::string\ rangeToString(\ Range\ \textcolor{keyword}{const}\&\ range\ )\ \{}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::rangeToString(\ begin(\ range\ ),\ end(\ range\ )\ );}
+\DoxyCodeLine{00505\ \ \ \ \ \}}
+\DoxyCodeLine{00506\ }
+\DoxyCodeLine{00507\ \ \ \ \ \textcolor{comment}{//\ Handle\ vector<bool>\ specially}}
+\DoxyCodeLine{00508\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Allocator>}
+\DoxyCodeLine{00509\ \ \ \ \ std::string\ rangeToString(\ std::vector<bool,\ Allocator>\ \textcolor{keyword}{const}\&\ v\ )\ \{}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\{\ "{}};}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ first\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{bool}\ b\ :\ v\ )\ \{}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ first\ )}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ first\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{},\ "{}};}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ ::Catch::Detail::stringify(\ b\ );}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}\ \}"{}};}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00522\ \ \ \ \ \}}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ R>}
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<R,\ typename\ std::enable\_if<is\_range<R>::value\ \&\&\ !::Catch::Detail::IsStreamInsertable<R>::value>::type>\ \{}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(\ R\ \textcolor{keyword}{const}\&\ range\ )\ \{}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rangeToString(\ range\ );}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00529\ \ \ \ \ \};}
+\DoxyCodeLine{00530\ }
+\DoxyCodeLine{00531\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keywordtype}{int}\ SZ>}
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<T[SZ]>\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(T\ \textcolor{keyword}{const}(\&arr)[SZ])\ \{}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rangeToString(arr);}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00536\ \ \ \ \ \};}
+\DoxyCodeLine{00537\ }
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+\DoxyCodeLine{00540\ }
+\DoxyCodeLine{00541\ \textcolor{comment}{//\ Separate\ std::chrono::duration\ specialization}}
+\DoxyCodeLine{00542\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_ENABLE\_CHRONO\_STRINGMAKER)}}
+\DoxyCodeLine{00543\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00544\ \textcolor{preprocessor}{\#include\ <ratio>}}
+\DoxyCodeLine{00545\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00548\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00549\ }
+\DoxyCodeLine{00550\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Ratio>}
+\DoxyCodeLine{00551\ \textcolor{keyword}{struct\ }ratio\_string\ \{}
+\DoxyCodeLine{00552\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ symbol();}
+\DoxyCodeLine{00553\ \};}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00555\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Ratio>}
+\DoxyCodeLine{00556\ std::string\ ratio\_string<Ratio>::symbol()\ \{}
+\DoxyCodeLine{00557\ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_reusable_string_stream}{Catch::ReusableStringStream}}\ rss;}
+\DoxyCodeLine{00558\ \ \ \ \ rss\ <<\ \textcolor{charliteral}{'['}\ <<\ Ratio::num\ <<\ \textcolor{charliteral}{'/'}}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ <<\ Ratio::den\ <<\ \textcolor{charliteral}{']'};}
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00561\ \}}
+\DoxyCodeLine{00562\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00563\ \textcolor{keyword}{struct\ }ratio\_string<std::atto>\ \{}
+\DoxyCodeLine{00564\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ symbol();}
+\DoxyCodeLine{00565\ \};}
+\DoxyCodeLine{00566\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00567\ \textcolor{keyword}{struct\ }ratio\_string<std::femto>\ \{}
+\DoxyCodeLine{00568\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ symbol();}
+\DoxyCodeLine{00569\ \};}
+\DoxyCodeLine{00570\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00571\ \textcolor{keyword}{struct\ }ratio\_string<std::pico>\ \{}
+\DoxyCodeLine{00572\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ symbol();}
+\DoxyCodeLine{00573\ \};}
+\DoxyCodeLine{00574\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00575\ \textcolor{keyword}{struct\ }ratio\_string<std::nano>\ \{}
+\DoxyCodeLine{00576\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ symbol();}
+\DoxyCodeLine{00577\ \};}
+\DoxyCodeLine{00578\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00579\ \textcolor{keyword}{struct\ }ratio\_string<std::micro>\ \{}
+\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ symbol();}
+\DoxyCodeLine{00581\ \};}
+\DoxyCodeLine{00582\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00583\ \textcolor{keyword}{struct\ }ratio\_string<std::milli>\ \{}
+\DoxyCodeLine{00584\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ symbol();}
+\DoxyCodeLine{00585\ \};}
+\DoxyCodeLine{00586\ }
+\DoxyCodeLine{00588\ \ \ \ \ \textcolor{comment}{//\ std::chrono::duration\ specializations}}
+\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Value,\ \textcolor{keyword}{typename}\ Ratio>}
+\DoxyCodeLine{00590\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::chrono::duration<Value,\ Ratio>>\ \{}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::chrono::duration<Value,\ Ratio>\ \textcolor{keyword}{const}\&\ duration)\ \{}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ duration.count()\ <<\ \textcolor{charliteral}{'\ '}\ <<\ ratio\_string<Ratio>::symbol()\ <<\ \textcolor{charliteral}{'s'};}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00596\ \ \ \ \ \};}
+\DoxyCodeLine{00597\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Value>}
+\DoxyCodeLine{00598\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::chrono::duration<Value,\ std::ratio<1>>>\ \{}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::chrono::duration<Value,\ std::ratio<1>>\ \textcolor{keyword}{const}\&\ duration)\ \{}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ s"{}};}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00604\ \ \ \ \ \};}
+\DoxyCodeLine{00605\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Value>}
+\DoxyCodeLine{00606\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::chrono::duration<Value,\ std::ratio<60>>>\ \{}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::chrono::duration<Value,\ std::ratio<60>>\ \textcolor{keyword}{const}\&\ duration)\ \{}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ m"{}};}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00612\ \ \ \ \ \};}
+\DoxyCodeLine{00613\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Value>}
+\DoxyCodeLine{00614\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::chrono::duration<Value,\ std::ratio<3600>>>\ \{}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::chrono::duration<Value,\ std::ratio<3600>>\ \textcolor{keyword}{const}\&\ duration)\ \{}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ rss\ <<\ duration.count()\ <<\ \textcolor{stringliteral}{"{}\ h"{}};}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00620\ \ \ \ \ \};}
+\DoxyCodeLine{00621\ }
+\DoxyCodeLine{00623\ \ \ \ \ \textcolor{comment}{//\ std::chrono::time\_point\ specialization}}
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{comment}{//\ Generic\ time\_point\ cannot\ be\ specialized,\ only\ std::chrono::time\_point<system\_clock>}}
+\DoxyCodeLine{00625\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Clock,\ \textcolor{keyword}{typename}\ Duration>}
+\DoxyCodeLine{00626\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::chrono::time\_point<Clock,\ Duration>>\ \{}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::chrono::time\_point<Clock,\ Duration>\ \textcolor{keyword}{const}\&\ time\_point)\ \{}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \ \ \ \ return\ ::Catch::Detail::stringify(time\_point.time\_since\_epoch())\ +\ \textcolor{stringliteral}{"{}\ since\ epoch"{}};}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00630\ \ \ \ \ \};}
+\DoxyCodeLine{00631\ \ \ \ \ \textcolor{comment}{//\ std::chrono::time\_point<system\_clock>\ specialization}}
+\DoxyCodeLine{00632\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Duration>}
+\DoxyCodeLine{00633\ \ \ \ \ \textcolor{keyword}{struct\ }StringMaker<std::chrono::time\_point<std::chrono::system\_clock,\ Duration>>\ \{}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ convert(std::chrono::time\_point<std::chrono::system\_clock,\ Duration>\ \textcolor{keyword}{const}\&\ time\_point)\ \{}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ converted\ =\ std::chrono::system\_clock::to\_time\_t(time\_point);}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ std::tm\ timeInfo\ =\ \{\};}
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \ \ \ \ gmtime\_s(\&timeInfo,\ \&converted);}
+\DoxyCodeLine{00640\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ std::tm*\ timeInfo\ =\ std::gmtime(\&converted);}
+\DoxyCodeLine{00642\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \textcolor{keyword}{const}\ timeStampSize\ =\ \textcolor{keyword}{sizeof}(\textcolor{stringliteral}{"{}2017-\/01-\/16T17:06:45Z"{}});}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ timeStamp[timeStampSize];}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ fmt\ =\ \textcolor{stringliteral}{"{}\%Y-\/\%m-\/\%dT\%H:\%M:\%SZ"{}};}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \ \ \ \ std::strftime(timeStamp,\ timeStampSize,\ fmt,\ \&timeInfo);}
+\DoxyCodeLine{00650\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \ \ std::strftime(timeStamp,\ timeStampSize,\ fmt,\ timeInfo);}
+\DoxyCodeLine{00652\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string(timeStamp);}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00655\ \ \ \ \ \};}
+\DoxyCodeLine{00656\ \}}
+\DoxyCodeLine{00657\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_ENABLE\_CHRONO\_STRINGMAKER}}
+\DoxyCodeLine{00658\ }
+\DoxyCodeLine{00659\ \textcolor{preprocessor}{\#define\ INTERNAL\_CATCH\_REGISTER\_ENUM(\ enumName,\ ...\ )\ \(\backslash\)}}
+\DoxyCodeLine{00660\ \textcolor{preprocessor}{namespace\ Catch\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00661\ \textcolor{preprocessor}{\ \ \ \ template<>\ struct\ StringMaker<enumName>\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00662\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ static\ std::string\ convert(\ enumName\ value\ )\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00663\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ static\ const\ auto\&\ enumInfo\ =\ ::Catch::getMutableRegistryHub().getMutableEnumValuesRegistry().registerEnum(\ \#enumName,\ \#\_\_VA\_ARGS\_\_,\ \{\ \_\_VA\_ARGS\_\_\ \}\ );\ \(\backslash\)}}
+\DoxyCodeLine{00664\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ return\ static\_cast<std::string>(enumInfo.lookup(\ static\_cast<int>(\ value\ )\ ));\ \(\backslash\)}}
+\DoxyCodeLine{00665\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \(\backslash\)}}
+\DoxyCodeLine{00666\ \textcolor{preprocessor}{\ \ \ \ \};\ \(\backslash\)}}
+\DoxyCodeLine{00667\ \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{00668\ }
+\DoxyCodeLine{00669\ \textcolor{preprocessor}{\#define\ CATCH\_REGISTER\_ENUM(\ enumName,\ ...\ )\ INTERNAL\_CATCH\_REGISTER\_ENUM(\ enumName,\ \_\_VA\_ARGS\_\_\ )}}
+\DoxyCodeLine{00670\ }
+\DoxyCodeLine{00671\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00672\ \textcolor{preprocessor}{\#pragma\ warning(pop)}}
+\DoxyCodeLine{00673\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00674\ }
+\DoxyCodeLine{00675\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_TOSTRING\_H\_INCLUDED}}
+
+\end{DoxyCode}

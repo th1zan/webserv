@@ -1,0 +1,480 @@
+\doxysection{/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/matrices.h File Reference}
+\hypertarget{matrices_8h}{}\label{matrices_8h}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/matrices.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/matrices.h}}
+{\ttfamily \#include "{}libft.\+h"{}}\newline
+{\ttfamily \#include "{}tuples.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs__matrix}{s\+\_\+matrix}}
+\begin{DoxyCompactList}\small\item\em The struct t\+\_\+matrix stores a matrix up to 4x4 and size of 16. \doxylink{class_a}{A} matrix is a grid of numbers that can be manipulated as a single unit. Matrices and their operations are the foundational basis which will helps us to manipulate points, vectors and, ultimately, shapes. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structs__shearing}{s\+\_\+shearing}}
+\begin{DoxyCompactList}\small\item\em The struct t\+\_\+shearing is a helper type to allow shearing operation on matrices. Shearing (or skew) is a complex operation where the coordinate is changed in proportion to the other two coordinates. When doing it to a matrix, it means that x will change in proportion to y and z, y will change in proportion to x and z and, lastly, z will change in proportion to x and y. For example, to apply shearing to the x axis of a given matrix, we pass to \doxylink{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7}{shearing()} a struct of type t\+\_\+shearing containing the y and z values. For instance, when done to the y axis, we pass p1 and p2 which stands for x and z. Lastly, when applying it to the z axis, we pass x and y as p1 and p2, respectively. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{matrices_8h_a392fb874e547e582e9c66a08a1f23326}\label{matrices_8h_a392fb874e547e582e9c66a08a1f23326} 
+\#define {\bfseries MAX}~4
+\item 
+\Hypertarget{matrices_8h_a70ed59adcb4159ac551058053e649640}\label{matrices_8h_a70ed59adcb4159ac551058053e649640} 
+\#define {\bfseries SIZE}~16
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structs__matrix}{s\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}
+\begin{DoxyCompactList}\small\item\em The struct t\+\_\+matrix stores a matrix up to 4x4 and size of 16. \doxylink{class_a}{A} matrix is a grid of numbers that can be manipulated as a single unit. Matrices and their operations are the foundational basis which will helps us to manipulate points, vectors and, ultimately, shapes. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structs__shearing}{s\+\_\+shearing}} \mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}}
+\begin{DoxyCompactList}\small\item\em The struct t\+\_\+shearing is a helper type to allow shearing operation on matrices. Shearing (or skew) is a complex operation where the coordinate is changed in proportion to the other two coordinates. When doing it to a matrix, it means that x will change in proportion to y and z, y will change in proportion to x and z and, lastly, z will change in proportion to x and y. For example, to apply shearing to the x axis of a given matrix, we pass to \doxylink{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7}{shearing()} a struct of type t\+\_\+shearing containing the y and z values. For instance, when done to the y axis, we pass p1 and p2 which stands for x and z. Lastly, when applying it to the z axis, we pass x and y as p1 and p2, respectively. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_a225ddd97ed6ed5ec894b3f555213790b}{multiply\+\_\+mx\+\_\+mx}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} a, \mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} b)
+\begin{DoxyCompactList}\small\item\em This function multiplies two matrices. "{}\+Mx"{} means matrix. For more information about how matrix multiplication works, refer to the book TRTC on page 28. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} \mbox{\hyperlink{matrices_8h_aff35de74d9504480cbdf50df468fcd4d}{multiply\+\_\+tp\+\_\+mx}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} a, \mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} b)
+\begin{DoxyCompactList}\small\item\em This function multiplies a matrix by a tuple. "{}\+Mx"{} means matrix and "{}tp"{} means tuple. For more information about how vector and matrix multiplication works, refer to the following link quoted by author J. Buck\+: \href{https://betterexplained.com/articles/linear-algebra-guide/}{\texttt{ https\+://betterexplained.\+com/articles/linear-\/algebra-\/guide/}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_a8d3c75778a90d4d4ef95cf08bd7c625d}{transpose}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} t)
+\begin{DoxyCompactList}\small\item\em This function transposes the matrix passed to the function as parameter. In other words, it turns the first row into the first column, the second row into the second column, and so forth. Thus, it\textquotesingle{}s importante to remember that the transpose of the identity matrix always gives the own identity matrix as result. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_ad18f12a98d0aff3b1aba4a4b7c1a4a72}{inverse}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} t)
+\begin{DoxyCompactList}\small\item\em This function get the inverse of a given matrix. That is, if you multiply some matrix \doxylink{class_a}{A} by another matrix \doxylink{class_b}{B}, producing \doxylink{class_c}{C}, you can multiply \doxylink{class_c}{C} by the inverse of \doxylink{class_b}{B} to get \doxylink{class_a}{A} again. To invert the matrix, this function employs a method known as cofactor expansion. Additionally, there some interesting properties of the inverse\+: 1) if you invert an identity matrix, the result is also an identity matrix. 2) when you multiply a matrix by its inverse, you get as result the identity matrix. 3) The inverse of the transpose of a matrix and the transpose of the inverse only commute if the matrix is symmetric or orthogonal. Otherwise, the result of the two operations will always be different. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_a66482775137fa71d5eaf2605358e33d7}{translation}} (double x, double y, double z)
+\begin{DoxyCompactList}\small\item\em This function translates a given matrix. Translation is a transformation that moves a point. Thus, it\textquotesingle{}s important to note that the inverse of a translation matrix is another translation matrix that moves points in reverse. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_a3448d79c382a6160f3bb09b901a114d1}{scaling}} (double x, double y, double z)
+\begin{DoxyCompactList}\small\item\em This function scales a given matrix by multiplication. When applied to an object centered at the origin, this transformation scales all points on the object, effectively making it larger (if the scale value is greater than 1) or smaller (if the scale value is less than 1). Note that reflection is scaling by a negative value. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7}{shearing}} (\mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}} x, \mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}} y, \mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}} z)
+\begin{DoxyCompactList}\small\item\em This function applies shearing (or skew) transformation to a given matrix. It has the effect of making straight lines slanted. Each coordinate is changed in proportion to the other two coordinates. When doing it to a matrix, it means that x will change in proportion to y and z, y will change in proportion to x and z and, lastly, z will change in proportion to x and y. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_aa58db7b9fdc1a5e8b4ad8db66f113738}{rotation\+\_\+x}} (double rad)
+\begin{DoxyCompactList}\small\item\em This function rotates a given matrix around the x-\/axis. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_a3184c113edb90be69bec3e2355b40a23}{rotation\+\_\+y}} (double rad)
+\begin{DoxyCompactList}\small\item\em This function rotates a given matrix around the y-\/axis. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_a14c926cae7f2423369039f0711a2d717}{rotation\+\_\+z}} (double rad)
+\begin{DoxyCompactList}\small\item\em This function rotates a given matrix around the z-\/axis. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{matrices_8h_a12e47eb1e76ebbc004e33b423797e8e6}{get\+\_\+determinant}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} t)
+\begin{DoxyCompactList}\small\item\em This function gets the determinant of a given matrix. The determinant is a number that is derived from the elements of a matrix. The name comes from the use of matrices to solve systems of equations, where it’s used to determine whether or not the system has a solution. If the determinant is zero, then the corresponding system of equations has no solution. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_ab7df591ed1926b001ac7e2714b46a1db}{get\+\_\+submatrix}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} t, size\+\_\+t del\+\_\+row, size\+\_\+t del\+\_\+col)
+\begin{DoxyCompactList}\small\item\em This functions gets the submatrix of a given matrix. That is, what is left when you delete a single row and column from a matrix. The submatrix of a 4x4 matrix is 3x3 and the submatrix of a 3x3 matrix is 2x2. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{matrices_8h_a6cc6a53ecf6c2f3f596d30db85181fb9}{get\+\_\+minor}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} t, size\+\_\+t row, size\+\_\+t col)
+\begin{DoxyCompactList}\small\item\em This function gets the minor of a given matrix. To put it differently, the minor of an element at row i and column j is the determinant of the submatrix at (i,j). \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{matrices_8h_ad9f4ce538ae4c42221e9e7674649a784}{get\+\_\+cofactor}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} t, size\+\_\+t row, size\+\_\+t col)
+\begin{DoxyCompactList}\small\item\em This function gets the cofactor of a given matrix. Cofactors are minors that have (possibly) had their sign changed. If row + column equals to an odd number as result, the minor must be negated. Therefore, if the row and column identifies a spot with a +, then the minor’s sign doesn’t change. If the row and column identifies a spot with a -\/, then the minor must be negated. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_a053b1f857b70fdc5b36b325d585c8745}{get\+\_\+identity\+\_\+matrix}} (void)
+\begin{DoxyCompactList}\small\item\em This fucntion gets a new matrix with the special attribute of being an identity matrix or multiplicative identity. That is, if you multiply any matrix or tuple by the identity matrix, you get back the matrix or tuple you started with. \end{DoxyCompactList}\item 
+\Hypertarget{matrices_8h_ace76bdd2f0e2d46c0ed458d89584edc2}\label{matrices_8h_ace76bdd2f0e2d46c0ed458d89584edc2} 
+\mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}} {\bfseries to\+\_\+shear} (double a, double b)
+\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_ac6f5f462841ae8fb8678e95af2cf74a0}{create\+\_\+matrix}} (const double table\mbox{[}MAX\mbox{]}\mbox{[}MAX\mbox{]}, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em This function creates a matrix up to 4x4 and, therefore, size of 16 (4x4). For instance, a matrix of 3x3 will have a size of 9(3x3). \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{matrices_8h_a4ed57a65ff975cfb1a29541b7cb923ab}{compare\+\_\+matrix}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} a, \mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} b)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{matrices_8h_a4ed57a65ff975cfb1a29541b7cb923ab}{compare\+\_\+matrix()} checks if two matrices are identical or not. The matrices passed as parameter to the function are compared with ft\+\_\+memcmp(). \end{DoxyCompactList}\item 
+t\+\_\+bool \mbox{\hyperlink{matrices_8h_aab9e09e616d4b4683ba17c892826a722}{is\+\_\+invertible}} (\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} t)
+\begin{DoxyCompactList}\small\item\em This function checks if a given matrix is invertible or not. Not every matrix is invertible. An matrix is invertible if its determinant is a non-\/zero number. If its determinant is 0, then the given matrix is not invertible. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_ab102c4ab11629464f6eec87eaa182825}{rotation\+\_\+matrix}} (\mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}} \mbox{\hyperlink{tuples_8h_a3d1d2f7d5266743d5a19a0a246d39064}{vector}})
+\begin{DoxyCompactList}\small\item\em Calculates the rotation matrix for a given vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}\index{matrices.h@{matrices.h}!t\_matrix@{t\_matrix}}
+\index{t\_matrix@{t\_matrix}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{t\_matrix}{t\_matrix}}
+{\footnotesize\ttfamily \label{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a} 
+typedef struct \mbox{\hyperlink{structs__matrix}{s\+\_\+matrix}} \mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}
+
+
+
+The struct t\+\_\+matrix stores a matrix up to 4x4 and size of 16. \doxylink{class_a}{A} matrix is a grid of numbers that can be manipulated as a single unit. Matrices and their operations are the foundational basis which will helps us to manipulate points, vectors and, ultimately, shapes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em matrix} & Stores a matrix. \\
+\hline
+{\em size} & Stores the size of the matrix. For example, a matrix of 3x3 has a size of 9. For instance, a 2x2 matrix has a size of 4. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}\index{matrices.h@{matrices.h}!t\_shearing@{t\_shearing}}
+\index{t\_shearing@{t\_shearing}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{t\_shearing}{t\_shearing}}
+{\footnotesize\ttfamily \label{matrices_8h_a37d11cf3a94303cb0fdf026513e23087} 
+typedef struct \mbox{\hyperlink{structs__shearing}{s\+\_\+shearing}} \mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}}}
+
+
+
+The struct t\+\_\+shearing is a helper type to allow shearing operation on matrices. Shearing (or skew) is a complex operation where the coordinate is changed in proportion to the other two coordinates. When doing it to a matrix, it means that x will change in proportion to y and z, y will change in proportion to x and z and, lastly, z will change in proportion to x and y. For example, to apply shearing to the x axis of a given matrix, we pass to \doxylink{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7}{shearing()} a struct of type t\+\_\+shearing containing the y and z values. For instance, when done to the y axis, we pass p1 and p2 which stands for x and z. Lastly, when applying it to the z axis, we pass x and y as p1 and p2, respectively. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & The first value to be used as proportion for shearing. \\
+\hline
+{\em p2} & The second value to be used as proportion for shearing. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{matrices_8h_a4ed57a65ff975cfb1a29541b7cb923ab}\index{matrices.h@{matrices.h}!compare\_matrix@{compare\_matrix}}
+\index{compare\_matrix@{compare\_matrix}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{compare\_matrix()}{compare\_matrix()}}
+{\footnotesize\ttfamily \label{matrices_8h_a4ed57a65ff975cfb1a29541b7cb923ab} 
+int compare\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{a}{, }\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{matrices_8h_a4ed57a65ff975cfb1a29541b7cb923ab}{compare\+\_\+matrix()} checks if two matrices are identical or not. The matrices passed as parameter to the function are compared with ft\+\_\+memcmp(). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first matrix to be compared. \\
+\hline
+{\em b} & Receives the second matrix to be compared. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The function returns 0 if the matrices are identical. Otherwise, it returns a non-\/zero integer. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_ac6f5f462841ae8fb8678e95af2cf74a0}\index{matrices.h@{matrices.h}!create\_matrix@{create\_matrix}}
+\index{create\_matrix@{create\_matrix}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{create\_matrix()}{create\_matrix()}}
+{\footnotesize\ttfamily \label{matrices_8h_ac6f5f462841ae8fb8678e95af2cf74a0} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} create\+\_\+matrix (\begin{DoxyParamCaption}\item[{const double}]{table}{\mbox{[}\+MAX\mbox{]}\mbox{[}\+MAX\mbox{]}, }\item[{size\+\_\+t}]{size}{}\end{DoxyParamCaption})}
+
+
+
+This function creates a matrix up to 4x4 and, therefore, size of 16 (4x4). For instance, a matrix of 3x3 will have a size of 9(3x3). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & \doxylink{class_a}{A} bidimensional array of const double containing the matrix. \\
+\hline
+{\em size} & \doxylink{class_a}{A} size\+\_\+t value containing how much elements the array has. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns successfully a new matrix created with ft\+\_\+memmove() from the array and array\textquotesingle{}s size passed as parameter to the function. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_ad9f4ce538ae4c42221e9e7674649a784}\index{matrices.h@{matrices.h}!get\_cofactor@{get\_cofactor}}
+\index{get\_cofactor@{get\_cofactor}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{get\_cofactor()}{get\_cofactor()}}
+{\footnotesize\ttfamily \label{matrices_8h_ad9f4ce538ae4c42221e9e7674649a784} 
+double get\+\_\+cofactor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{t}{, }\item[{size\+\_\+t}]{row}{, }\item[{size\+\_\+t}]{col}{}\end{DoxyParamCaption})}
+
+
+
+This function gets the cofactor of a given matrix. Cofactors are minors that have (possibly) had their sign changed. If row + column equals to an odd number as result, the minor must be negated. Therefore, if the row and column identifies a spot with a +, then the minor’s sign doesn’t change. If the row and column identifies a spot with a -\/, then the minor must be negated. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Receives the matrix from which the cofactor will be calculated. \\
+\hline
+{\em row} & Receives the row value from which the cofactor will be calculated. \\
+\hline
+{\em col} & Receives the column value from which the cofactor will be calculated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the cofactor of the matrix passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a12e47eb1e76ebbc004e33b423797e8e6}\index{matrices.h@{matrices.h}!get\_determinant@{get\_determinant}}
+\index{get\_determinant@{get\_determinant}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{get\_determinant()}{get\_determinant()}}
+{\footnotesize\ttfamily \label{matrices_8h_a12e47eb1e76ebbc004e33b423797e8e6} 
+double get\+\_\+determinant (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{t}{}\end{DoxyParamCaption})}
+
+
+
+This function gets the determinant of a given matrix. The determinant is a number that is derived from the elements of a matrix. The name comes from the use of matrices to solve systems of equations, where it’s used to determine whether or not the system has a solution. If the determinant is zero, then the corresponding system of equations has no solution. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Receives the matrix to calculate its determinant. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a double value which is the determinant of the matrix passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a053b1f857b70fdc5b36b325d585c8745}\index{matrices.h@{matrices.h}!get\_identity\_matrix@{get\_identity\_matrix}}
+\index{get\_identity\_matrix@{get\_identity\_matrix}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{get\_identity\_matrix()}{get\_identity\_matrix()}}
+{\footnotesize\ttfamily \label{matrices_8h_a053b1f857b70fdc5b36b325d585c8745} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} get\+\_\+identity\+\_\+matrix (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+This fucntion gets a new matrix with the special attribute of being an identity matrix or multiplicative identity. That is, if you multiply any matrix or tuple by the identity matrix, you get back the matrix or tuple you started with. 
+
+\begin{DoxyReturn}{Returns}
+Returns a new instance of an identity matrix. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a6cc6a53ecf6c2f3f596d30db85181fb9}\index{matrices.h@{matrices.h}!get\_minor@{get\_minor}}
+\index{get\_minor@{get\_minor}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{get\_minor()}{get\_minor()}}
+{\footnotesize\ttfamily \label{matrices_8h_a6cc6a53ecf6c2f3f596d30db85181fb9} 
+double get\+\_\+minor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{t}{, }\item[{size\+\_\+t}]{row}{, }\item[{size\+\_\+t}]{col}{}\end{DoxyParamCaption})}
+
+
+
+This function gets the minor of a given matrix. To put it differently, the minor of an element at row i and column j is the determinant of the submatrix at (i,j). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Receives the matrix from which the minor will be calculated. \\
+\hline
+{\em row} & Receives the row value from which the minor will be calculated. \\
+\hline
+{\em col} & Receives the column value from which the minor will be calculated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the minor of the matrix passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_ab7df591ed1926b001ac7e2714b46a1db}\index{matrices.h@{matrices.h}!get\_submatrix@{get\_submatrix}}
+\index{get\_submatrix@{get\_submatrix}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{get\_submatrix()}{get\_submatrix()}}
+{\footnotesize\ttfamily \label{matrices_8h_ab7df591ed1926b001ac7e2714b46a1db} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} get\+\_\+submatrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{t}{, }\item[{size\+\_\+t}]{del\+\_\+row}{, }\item[{size\+\_\+t}]{del\+\_\+col}{}\end{DoxyParamCaption})}
+
+
+
+This functions gets the submatrix of a given matrix. That is, what is left when you delete a single row and column from a matrix. The submatrix of a 4x4 matrix is 3x3 and the submatrix of a 3x3 matrix is 2x2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Receives the matrix from which the submatrix will be calculated. \\
+\hline
+{\em del\+\_\+row} & Receives a size\+\_\+t value which stands for the row to be deleted when calculating the submatrix. \\
+\hline
+{\em del\+\_\+col} & Receives a size\+\_\+t value which stands for the column to be deleted when calculating the submatrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the submatrix of the matrix passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_ad18f12a98d0aff3b1aba4a4b7c1a4a72}\index{matrices.h@{matrices.h}!inverse@{inverse}}
+\index{inverse@{inverse}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{inverse()}{inverse()}}
+{\footnotesize\ttfamily \label{matrices_8h_ad18f12a98d0aff3b1aba4a4b7c1a4a72} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} inverse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{t}{}\end{DoxyParamCaption})}
+
+
+
+This function get the inverse of a given matrix. That is, if you multiply some matrix \doxylink{class_a}{A} by another matrix \doxylink{class_b}{B}, producing \doxylink{class_c}{C}, you can multiply \doxylink{class_c}{C} by the inverse of \doxylink{class_b}{B} to get \doxylink{class_a}{A} again. To invert the matrix, this function employs a method known as cofactor expansion. Additionally, there some interesting properties of the inverse\+: 1) if you invert an identity matrix, the result is also an identity matrix. 2) when you multiply a matrix by its inverse, you get as result the identity matrix. 3) The inverse of the transpose of a matrix and the transpose of the inverse only commute if the matrix is symmetric or orthogonal. Otherwise, the result of the two operations will always be different. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Receives the matrix to be inverted. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new matrix which is the inversion of the matrix passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_aab9e09e616d4b4683ba17c892826a722}\index{matrices.h@{matrices.h}!is\_invertible@{is\_invertible}}
+\index{is\_invertible@{is\_invertible}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{is\_invertible()}{is\_invertible()}}
+{\footnotesize\ttfamily \label{matrices_8h_aab9e09e616d4b4683ba17c892826a722} 
+t\+\_\+bool is\+\_\+invertible (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{t}{}\end{DoxyParamCaption})}
+
+
+
+This function checks if a given matrix is invertible or not. Not every matrix is invertible. An matrix is invertible if its determinant is a non-\/zero number. If its determinant is 0, then the given matrix is not invertible. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Receives a matrix to be checked. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns TRUE if the given matrix is invertible. On the contrary, it returns FALSE if it\textquotesingle{}s not invertible. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a225ddd97ed6ed5ec894b3f555213790b}\index{matrices.h@{matrices.h}!multiply\_mx\_mx@{multiply\_mx\_mx}}
+\index{multiply\_mx\_mx@{multiply\_mx\_mx}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{multiply\_mx\_mx()}{multiply\_mx\_mx()}}
+{\footnotesize\ttfamily \label{matrices_8h_a225ddd97ed6ed5ec894b3f555213790b} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} multiply\+\_\+mx\+\_\+mx (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{a}{, }\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+This function multiplies two matrices. "{}\+Mx"{} means matrix. For more information about how matrix multiplication works, refer to the book TRTC on page 28. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the first matrix to be multiplied. \\
+\hline
+{\em b} & Receives the second matrix to be multiplied. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new matrix which is the product of the two matrices passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_aff35de74d9504480cbdf50df468fcd4d}\index{matrices.h@{matrices.h}!multiply\_tp\_mx@{multiply\_tp\_mx}}
+\index{multiply\_tp\_mx@{multiply\_tp\_mx}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{multiply\_tp\_mx()}{multiply\_tp\_mx()}}
+{\footnotesize\ttfamily \label{matrices_8h_aff35de74d9504480cbdf50df468fcd4d} 
+\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}} multiply\+\_\+tp\+\_\+mx (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{a}{, }\item[{\mbox{\hyperlink{tuples_8h_a2169f9a7bb6d3ded00c7d8a718af65af}{t\+\_\+tuple}}}]{b}{}\end{DoxyParamCaption})}
+
+
+
+This function multiplies a matrix by a tuple. "{}\+Mx"{} means matrix and "{}tp"{} means tuple. For more information about how vector and matrix multiplication works, refer to the following link quoted by author J. Buck\+: \href{https://betterexplained.com/articles/linear-algebra-guide/}{\texttt{ https\+://betterexplained.\+com/articles/linear-\/algebra-\/guide/}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Receives the matrix to be multiplied. \\
+\hline
+{\em b} & Receives the tuple to be multiplied. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new tuple which is the product of the two variables passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_ab102c4ab11629464f6eec87eaa182825}\index{matrices.h@{matrices.h}!rotation\_matrix@{rotation\_matrix}}
+\index{rotation\_matrix@{rotation\_matrix}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{rotation\_matrix()}{rotation\_matrix()}}
+{\footnotesize\ttfamily \label{matrices_8h_ab102c4ab11629464f6eec87eaa182825} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} rotation\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_aea609bcc1e9134165bc86014c7974ec7}{t\+\_\+vector}}}]{vector}{}\end{DoxyParamCaption})}
+
+
+
+Calculates the rotation matrix for a given vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & The vector for which the rotation matrix will be calculated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The rotation matrix for the given vector. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_aa58db7b9fdc1a5e8b4ad8db66f113738}\index{matrices.h@{matrices.h}!rotation\_x@{rotation\_x}}
+\index{rotation\_x@{rotation\_x}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{rotation\_x()}{rotation\_x()}}
+{\footnotesize\ttfamily \label{matrices_8h_aa58db7b9fdc1a5e8b4ad8db66f113738} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} rotation\+\_\+x (\begin{DoxyParamCaption}\item[{double}]{rad}{}\end{DoxyParamCaption})}
+
+
+
+This function rotates a given matrix around the x-\/axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rad} & Receives the rotation around x axis to be performed in radians. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new rotated matrix after the rotation passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a3184c113edb90be69bec3e2355b40a23}\index{matrices.h@{matrices.h}!rotation\_y@{rotation\_y}}
+\index{rotation\_y@{rotation\_y}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{rotation\_y()}{rotation\_y()}}
+{\footnotesize\ttfamily \label{matrices_8h_a3184c113edb90be69bec3e2355b40a23} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} rotation\+\_\+y (\begin{DoxyParamCaption}\item[{double}]{rad}{}\end{DoxyParamCaption})}
+
+
+
+This function rotates a given matrix around the y-\/axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rad} & Receives the rotation around y axis to be performed in radians. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new rotated matrix after the rotation passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a14c926cae7f2423369039f0711a2d717}\index{matrices.h@{matrices.h}!rotation\_z@{rotation\_z}}
+\index{rotation\_z@{rotation\_z}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{rotation\_z()}{rotation\_z()}}
+{\footnotesize\ttfamily \label{matrices_8h_a14c926cae7f2423369039f0711a2d717} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} rotation\+\_\+z (\begin{DoxyParamCaption}\item[{double}]{rad}{}\end{DoxyParamCaption})}
+
+
+
+This function rotates a given matrix around the z-\/axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rad} & Receives the rotation around z axis to be performed in radians. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new rotated matrix after the rotation passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a3448d79c382a6160f3bb09b901a114d1}\index{matrices.h@{matrices.h}!scaling@{scaling}}
+\index{scaling@{scaling}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{scaling()}{scaling()}}
+{\footnotesize\ttfamily \label{matrices_8h_a3448d79c382a6160f3bb09b901a114d1} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} scaling (\begin{DoxyParamCaption}\item[{double}]{x}{, }\item[{double}]{y}{, }\item[{double}]{z}{}\end{DoxyParamCaption})}
+
+
+
+This function scales a given matrix by multiplication. When applied to an object centered at the origin, this transformation scales all points on the object, effectively making it larger (if the scale value is greater than 1) or smaller (if the scale value is less than 1). Note that reflection is scaling by a negative value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Receives the x-\/axis value to scale. \\
+\hline
+{\em y} & Receives the y-\/axis value to scale. \\
+\hline
+{\em z} & Receives the z-\/axis value to scale. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new scaled matrix from the coordinates passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7}\index{matrices.h@{matrices.h}!shearing@{shearing}}
+\index{shearing@{shearing}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{shearing()}{shearing()}}
+{\footnotesize\ttfamily \label{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} shearing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}}}]{x}{, }\item[{\mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}}}]{y}{, }\item[{\mbox{\hyperlink{matrices_8h_a37d11cf3a94303cb0fdf026513e23087}{t\+\_\+shearing}}}]{z}{}\end{DoxyParamCaption})}
+
+
+
+This function applies shearing (or skew) transformation to a given matrix. It has the effect of making straight lines slanted. Each coordinate is changed in proportion to the other two coordinates. When doing it to a matrix, it means that x will change in proportion to y and z, y will change in proportion to x and z and, lastly, z will change in proportion to x and y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Receives a struct t\+\_\+shearing storing the y and z values to change x in proportion to them. \\
+\hline
+{\em y} & Receives a struct t\+\_\+shearing storing the x and z values to change y in proportion to them. \\
+\hline
+{\em z} & Receives a struct t\+\_\+shearing storing the x and y values to change z in proportion to them. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new matrix after the shearing operation from values passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a66482775137fa71d5eaf2605358e33d7}\index{matrices.h@{matrices.h}!translation@{translation}}
+\index{translation@{translation}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{translation()}{translation()}}
+{\footnotesize\ttfamily \label{matrices_8h_a66482775137fa71d5eaf2605358e33d7} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} translation (\begin{DoxyParamCaption}\item[{double}]{x}{, }\item[{double}]{y}{, }\item[{double}]{z}{}\end{DoxyParamCaption})}
+
+
+
+This function translates a given matrix. Translation is a transformation that moves a point. Thus, it\textquotesingle{}s important to note that the inverse of a translation matrix is another translation matrix that moves points in reverse. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Receives the x-\/axis value of the translation. \\
+\hline
+{\em y} & Receives the y-\/axis value of the translation. \\
+\hline
+{\em z} & Receives the z-\/axis value of the translation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new translated matrix from the coordinates passed to the function as parameter. 
+\end{DoxyReturn}
+\Hypertarget{matrices_8h_a8d3c75778a90d4d4ef95cf08bd7c625d}\index{matrices.h@{matrices.h}!transpose@{transpose}}
+\index{transpose@{transpose}!matrices.h@{matrices.h}}
+\doxysubsubsection{\texorpdfstring{transpose()}{transpose()}}
+{\footnotesize\ttfamily \label{matrices_8h_a8d3c75778a90d4d4ef95cf08bd7c625d} 
+\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}} transpose (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{matrices_8h_ab8f0736cc5d493e5ce876dd2550ab88a}{t\+\_\+matrix}}}]{t}{}\end{DoxyParamCaption})}
+
+
+
+This function transposes the matrix passed to the function as parameter. In other words, it turns the first row into the first column, the second row into the second column, and so forth. Thus, it\textquotesingle{}s importante to remember that the transpose of the identity matrix always gives the own identity matrix as result. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Receives the matrix to be transposed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a new matrix which is the transposition of the matrix passed to the function as parameter. 
+\end{DoxyReturn}

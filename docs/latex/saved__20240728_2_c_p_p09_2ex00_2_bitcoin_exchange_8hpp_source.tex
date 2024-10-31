@@ -1,0 +1,19 @@
+\doxysection{Bitcoin\+Exchange.\+hpp}
+\hypertarget{saved__20240728_2_c_p_p09_2ex00_2_bitcoin_exchange_8hpp_source}{}\label{saved__20240728_2_c_p_p09_2ex00_2_bitcoin_exchange_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP09/ex00/BitcoinExchange.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP09/ex00/BitcoinExchange.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_bitcoin_exchange}{BitcoinExchange}}\{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ std::map<std::time\_t,\ double>\ \_priceDB;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ addPriceToDB(\textcolor{keyword}{const}\ std::string\&\ line);}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ std::time\_t\ stringToTimeT(std::string\&\ dateStr)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ stringToPrice(std::string\&\ dateStr)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00013\ \};}
+
+\end{DoxyCode}

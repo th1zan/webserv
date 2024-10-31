@@ -1,0 +1,90 @@
+\doxysection{/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/lights.h File Reference}
+\hypertarget{lights_8h}{}\label{lights_8h}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/lights.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/lights.h}}
+{\ttfamily \#include "{}tuples.\+h"{}}\newline
+{\ttfamily \#include "{}helpers.\+h"{}}\newline
+{\ttfamily \#include "{}libft.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs__light}{s\+\_\+light}}
+\begin{DoxyCompactList}\small\item\em The struct \doxylink{structs__light}{s\+\_\+light} represents a light\textquotesingle{}s source. This source has a position in space and an intensity color, i.\+e., red, purple etc. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structs__sight}{s\+\_\+sight}}
+\begin{DoxyCompactList}\small\item\em The struct \doxylink{structs__sight}{s\+\_\+sight} represents the human eye looking forwards. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structs__light}{s\+\_\+light}} \mbox{\hyperlink{lights_8h_a2e84ad37103b684d783b3273d4a1c784}{t\+\_\+light}}
+\begin{DoxyCompactList}\small\item\em The struct \doxylink{structs__light}{s\+\_\+light} represents a light\textquotesingle{}s source. This source has a position in space and an intensity color, i.\+e., red, purple etc. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structs__sight}{s\+\_\+sight}} \mbox{\hyperlink{lights_8h_aea6e11ae421c42ac5af268c9d32ffc1f}{t\+\_\+sight}}
+\begin{DoxyCompactList}\small\item\em The struct \doxylink{structs__sight}{s\+\_\+sight} represents the human eye looking forwards. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{lights_8h_a2e84ad37103b684d783b3273d4a1c784}{t\+\_\+light}} \mbox{\hyperlink{lights_8h_ad49a12b9d754abda3629b74ce36a5ba8}{point\+\_\+light}} (\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}} \mbox{\hyperlink{rays_8h_a5d7a97da2e8b83700aab8015f9356446}{position}}, \mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}} intensity)
+\begin{DoxyCompactList}\small\item\em The function \doxylink{lights_8h_ad49a12b9d754abda3629b74ce36a5ba8}{point\+\_\+light()} instances a light\textquotesingle{}s source of type t\+\_\+light with a given position in space and a light color intensity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{lights_8h_a2e84ad37103b684d783b3273d4a1c784}\index{lights.h@{lights.h}!t\_light@{t\_light}}
+\index{t\_light@{t\_light}!lights.h@{lights.h}}
+\doxysubsubsection{\texorpdfstring{t\_light}{t\_light}}
+{\footnotesize\ttfamily \label{lights_8h_a2e84ad37103b684d783b3273d4a1c784} 
+typedef struct \mbox{\hyperlink{structs__light}{s\+\_\+light}} \mbox{\hyperlink{lights_8h_a2e84ad37103b684d783b3273d4a1c784}{t\+\_\+light}}}
+
+
+
+The struct \doxylink{structs__light}{s\+\_\+light} represents a light\textquotesingle{}s source. This source has a position in space and an intensity color, i.\+e., red, purple etc. 
+
+ABOUT THE HEADER \doxylink{lights_8h}{LIGHTS.\+H}
+
+The light algorithm implemented on this project is called The Phong Reflection Model, named by its creator Bui Tuong Phong. It simulates the interaction between three light sources. They are\+: ambient reflection, diffuse reflection and specular reflection. In other words, respectively, background light, the light reflected from a matte surface and the reflection of the source light itself. The last one, depends only on the angle between the reflection vector and the eye vector and is controlled by a parameter that\textquotesingle{}s called shininess. The higher the shininess, the smaller and tigher the specular highlight is. 
+\begin{DoxyParams}{Parameters}
+{\em position} & Stores the point light\textquotesingle{}s position. \\
+\hline
+{\em intensity} & Stores the information about how bright a point light is. \\
+\hline
+{\em in\+\_\+shadow} & Stores {\ttfamily TRUE} or {\ttfamily FALSE} whether the light is being shadowed or not. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lights_8h_aea6e11ae421c42ac5af268c9d32ffc1f}\index{lights.h@{lights.h}!t\_sight@{t\_sight}}
+\index{t\_sight@{t\_sight}!lights.h@{lights.h}}
+\doxysubsubsection{\texorpdfstring{t\_sight}{t\_sight}}
+{\footnotesize\ttfamily \label{lights_8h_aea6e11ae421c42ac5af268c9d32ffc1f} 
+typedef struct \mbox{\hyperlink{structs__sight}{s\+\_\+sight}} \mbox{\hyperlink{lights_8h_aea6e11ae421c42ac5af268c9d32ffc1f}{t\+\_\+sight}}}
+
+
+
+The struct \doxylink{structs__sight}{s\+\_\+sight} represents the human eye looking forwards. 
+
+For the Phong Reflection Model algorithm, this human sight has an eye vision, which is the direction where the eyes are looking at and it also has a normal vision, i.\+e., the perpendicular vector from where the eye vision is looking at.
+
+
+\begin{DoxyParams}{Parameters}
+{\em eyev} & Represents the eye\textquotesingle{}s vector looking at something. \\
+\hline
+{\em normalv} & Represents the normal vector of some surface. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{lights_8h_ad49a12b9d754abda3629b74ce36a5ba8}\index{lights.h@{lights.h}!point\_light@{point\_light}}
+\index{point\_light@{point\_light}!lights.h@{lights.h}}
+\doxysubsubsection{\texorpdfstring{point\_light()}{point\_light()}}
+{\footnotesize\ttfamily \label{lights_8h_ad49a12b9d754abda3629b74ce36a5ba8} 
+\mbox{\hyperlink{lights_8h_a2e84ad37103b684d783b3273d4a1c784}{t\+\_\+light}} point\+\_\+light (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{tuples_8h_a499dd2c8e66cb9e3d0f581a58df46b40}{t\+\_\+point}}}]{position}{, }\item[{\mbox{\hyperlink{tuples_8h_a43da74144dd0bc8864f91dfed33bd6bf}{t\+\_\+color}}}]{intensity}{}\end{DoxyParamCaption})}
+
+
+
+The function \doxylink{lights_8h_ad49a12b9d754abda3629b74ce36a5ba8}{point\+\_\+light()} instances a light\textquotesingle{}s source of type t\+\_\+light with a given position in space and a light color intensity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & \doxylink{class_a}{A} struct of type t\+\_\+tuple storing the light\textquotesingle{}s source location in space. \\
+\hline
+{\em intensity} & \doxylink{class_a}{A} struct of type t\+\_\+color containing the light\textquotesingle{}s source color intensity. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a light\textquotesingle{}s source with a given location in space and a color intensity in RGB values. 
+\end{DoxyReturn}

@@ -1,0 +1,94 @@
+\doxysection{catch\+\_\+approx.\+cpp}
+\hypertarget{catch__approx_8cpp_source}{}\label{catch__approx_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_approx.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_approx.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 19/07/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2017\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_approx.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Performs\ equivalent\ check\ of\ std::fabs(lhs\ -\/\ rhs)\ <=\ margin}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ But\ without\ the\ subtraction\ to\ allow\ for\ INFINITY\ in\ comparison}}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{bool}\ marginComparison(\textcolor{keywordtype}{double}\ lhs,\ \textcolor{keywordtype}{double}\ rhs,\ \textcolor{keywordtype}{double}\ margin)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{return}\ (lhs\ +\ margin\ >=\ rhs)\ \&\&\ (rhs\ +\ margin\ >=\ lhs);}
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{namespace\ }Detail\ \{}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ Approx::Approx\ (\ \textcolor{keywordtype}{double}\ value\ )}
+\DoxyCodeLine{00029\ \ \ \ \ :\ \ \ m\_epsilon(\ std::numeric\_limits<float>::epsilon()*100\ ),}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ m\_margin(\ 0.0\ ),}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ m\_scale(\ 0.0\ ),}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ m\_value(\ value\ )}
+\DoxyCodeLine{00033\ \ \ \ \ \{\}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ Approx\ Approx::custom()\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Approx(\ 0\ );}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ Approx\ Approx::operator-\/()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ temp(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ temp.m\_value\ =\ -\/temp.m\_value;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ temp;}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ std::string\ Approx::toString()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ ReusableStringStream\ rss;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ rss\ <<\ \textcolor{stringliteral}{"{}Approx(\ "{}}\ <<\ ::Catch::Detail::stringify(\ m\_value\ )\ <<\ \textcolor{stringliteral}{"{}\ )"{}};}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rss.str();}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ Approx::equalityComparisonImpl(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ First\ try\ with\ fixed\ margin,\ then\ compute\ margin\ based\ on\ epsilon,\ scale\ and\ Approx's\ value}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Thanks\ to\ Richard\ Harris\ for\ his\ help\ refining\ the\ scaled\ margin\ value}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ marginComparison(m\_value,\ other,\ m\_margin)}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ ||\ marginComparison(m\_value,\ other,\ m\_epsilon\ *\ (m\_scale\ +\ std::fabs(std::isinf(m\_value)?\ 0\ :\ m\_value)));}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ Approx::setMargin(\textcolor{keywordtype}{double}\ newMargin)\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ CATCH\_ENFORCE(newMargin\ >=\ 0,}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Invalid\ Approx::margin:\ "{}}\ <<\ newMargin\ <<\ \textcolor{charliteral}{'.'}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ Approx::Margin\ has\ to\ be\ non-\/negative."{}});}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ m\_margin\ =\ newMargin;}
+\DoxyCodeLine{00064\ \ \ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ Approx::setEpsilon(\textcolor{keywordtype}{double}\ newEpsilon)\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ CATCH\_ENFORCE(newEpsilon\ >=\ 0\ \&\&\ newEpsilon\ <=\ 1.0,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Invalid\ Approx::epsilon:\ "{}}\ <<\ newEpsilon\ <<\ \textcolor{charliteral}{'.'}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ Approx::epsilon\ has\ to\ be\ in\ [0,\ 1]"{}});}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ m\_epsilon\ =\ newEpsilon;}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \}\ \textcolor{comment}{//\ end\ namespace\ Detail}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{namespace\ }literals\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ Detail::Approx\ \textcolor{keyword}{operator}\ \textcolor{stringliteral}{"{}"{}}\ \_a(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ val)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Detail::Approx(val);}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ Detail::Approx\ \textcolor{keyword}{operator}\ \textcolor{stringliteral}{"{}"{}}\ \_a(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ val)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Detail::Approx(val);}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \}\ \textcolor{comment}{//\ end\ namespace\ literals}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ std::string\ StringMaker<Catch::Detail::Approx>::convert(\mbox{\hyperlink{class_catch_1_1_detail_1_1_approx}{Catch::Detail::Approx}}\ \textcolor{keyword}{const}\&\ value)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordflow}{return}\ value.toString();}
+\DoxyCodeLine{00086\ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+
+\end{DoxyCode}

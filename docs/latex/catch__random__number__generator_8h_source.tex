@@ -1,0 +1,64 @@
+\doxysection{catch\+\_\+random\+\_\+number\+\_\+generator.\+h}
+\hypertarget{catch__random__number__generator_8h_source}{}\label{catch__random__number__generator_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_random\_number\_generator.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_random\_number\_generator.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 30/08/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_RANDOM\_NUMBER\_GENERATOR\_H\_INCLUDED}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_RANDOM\_NUMBER\_GENERATOR\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{comment}{//\ This\ is\ a\ simple\ implementation\ of\ C++11\ Uniform\ Random\ Number}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ Generator.\ It\ does\ not\ provide\ all\ operators,\ because\ Catch2}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ does\ not\ use\ it,\ but\ it\ should\ behave\ as\ expected\ inside\ stdlib's}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//\ distributions.}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//\ The\ implementation\ is\ based\ on\ the\ PCG\ family\ (http://pcg-\/random.org)}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{class\ }SimplePcg32\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }state\_type\ =\ std::uint64\_t;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }result\_type\ =\ std::uint32\_t;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ result\_type\ (min)()\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ result\_type\ (max)()\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}result\_type\textcolor{keyword}{>}(-\/1);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Provide\ some\ default\ initial\ state\ for\ the\ default\ constructor}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ SimplePcg32():SimplePcg32(0xed743cc4U)\ \{\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ SimplePcg32(result\_type\ seed\_);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ seed(result\_type\ seed\_);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ discard(uint64\_t\ skip);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ result\_type\ operator()();}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator==(SimplePcg32\ \textcolor{keyword}{const}\&\ lhs,\ SimplePcg32\ \textcolor{keyword}{const}\&\ rhs);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(SimplePcg32\ \textcolor{keyword}{const}\&\ lhs,\ SimplePcg32\ \textcolor{keyword}{const}\&\ rhs);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ theory\ we\ also\ need\ operator<<\ and\ operator>>}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ practice\ we\ do\ not\ use\ them,\ so\ we\ will\ skip\ them\ for\ now}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ std::uint64\_t\ m\_state;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ part\ of\ the\ state\ determines\ which\ "{}stream"{}\ of\ the\ numbers}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ is\ chosen\ -\/-\/\ we\ take\ it\ as\ a\ constant\ for\ Catch2,\ so\ we\ only}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ need\ to\ deal\ with\ seeding\ the\ main\ state.}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Picked\ by\ reading\ 8\ bytes\ from\ \`{}/dev/random`\ :-\/)}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::uint64\_t\ s\_inc\ =\ (0x13ed0cc53f939476ULL\ <<\ 1ULL)\ |\ 1ULL;}
+\DoxyCodeLine{00054\ \ \ \ \ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_RANDOM\_NUMBER\_GENERATOR\_H\_INCLUDED}}
+
+\end{DoxyCode}

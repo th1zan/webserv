@@ -1,0 +1,71 @@
+\doxysection{catch\+\_\+debugger.\+h}
+\hypertarget{catch__debugger_8h_source}{}\label{catch__debugger_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_debugger.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_debugger.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 3/12/2013.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2013\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_DEBUGGER\_H\_INCLUDED}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_DEBUGGER\_H\_INCLUDED}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_platform.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{bool}\ isDebuggerActive();}
+\DoxyCodeLine{00016\ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#ifdef\ CATCH\_PLATFORM\_MAC}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_\_i386\_\_)\ ||\ defined(\_\_x86\_64\_\_)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ \_\_asm\_\_("{}int\ \$3\(\backslash\)n"{}\ :\ :\ )\ }\textcolor{comment}{/*\ NOLINT\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined(\_\_aarch64\_\_)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ \ \_\_asm\_\_("{}.inst\ 0xd4200000"{})}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#elif\ defined(CATCH\_PLATFORM\_IPHONE)}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{comment}{//\ use\ inline\ assembler}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_\_i386\_\_)\ ||\ defined(\_\_x86\_64\_\_)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ \ \_\_asm\_\_("{}int\ \$3"{})}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined(\_\_aarch64\_\_)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ \ \_\_asm\_\_("{}.inst\ 0xd4200000"{})}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined(\_\_arm\_\_)\ \&\&\ !defined(\_\_thumb\_\_)}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ \ \_\_asm\_\_("{}.inst\ 0xe7f001f0"{})}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined(\_\_arm\_\_)\ \&\&\ \ defined(\_\_thumb\_\_)}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ \ \_\_asm\_\_("{}.inst\ 0xde01"{})}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#elif\ defined(CATCH\_PLATFORM\_LINUX)}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//\ If\ we\ can\ use\ inline\ assembler,\ do\ it\ because\ this\ allows\ us\ to\ break}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{//\ directly\ at\ the\ location\ of\ the\ failing\ check\ instead\ of\ breaking\ inside}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ raise()\ called\ from\ it,\ i.e.\ one\ stack\ frame\ below.}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_\_GNUC\_\_)\ \&\&\ (defined(\_\_i386)\ ||\ defined(\_\_x86\_64))}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ asm\ volatile\ ("{}int\ \$3"{})\ }\textcolor{comment}{/*\ NOLINT\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \ \ \#else\ }\textcolor{comment}{//\ Fall\ back\ to\ the\ generic\ way.}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <signal.h>}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_TRAP()\ raise(SIGTRAP)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\ \ \ \ \#define\ CATCH\_TRAP()\ \_\_debugbreak()}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#elif\ defined(\_\_MINGW32\_\_)}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \_\_declspec(dllimport)\ \textcolor{keywordtype}{void}\ \_\_stdcall\ DebugBreak();}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \#define\ CATCH\_TRAP()\ DebugBreak()}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#ifndef\ CATCH\_BREAK\_INTO\_DEBUGGER}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ CATCH\_TRAP}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_BREAK\_INTO\_DEBUGGER()\ []\{\ if(\ Catch::isDebuggerActive()\ )\ \{\ CATCH\_TRAP();\ \}\ \}()}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#define\ CATCH\_BREAK\_INTO\_DEBUGGER()\ []\{\}()}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_DEBUGGER\_H\_INCLUDED}}
+
+\end{DoxyCode}

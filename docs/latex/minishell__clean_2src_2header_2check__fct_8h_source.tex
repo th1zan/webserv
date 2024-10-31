@@ -1,0 +1,72 @@
+\doxysection{check\+\_\+fct.\+h}
+\hypertarget{minishell__clean_2src_2header_2check__fct_8h_source}{}\label{minishell__clean_2src_2header_2check__fct_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/check\_fct.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/check\_fct.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ check\_fct.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/07\ 21:23:07\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/11/07\ 21:23:08\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ CHECK\_FCT\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ CHECK\_FCT\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*check\_ctrl\_op.c*/}}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{int}\ is\_semicol(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{int}\ is\_amp(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{int}\ is\_double\_amp(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00020\ \textcolor{keywordtype}{int}\ is\_excl(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{int}\ is\_double\_pipe(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{/*check\_div\_op.c*/}}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{int}\ is\_hashtag(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{int}\ is\_dollar(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ is\_inter\_mark(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{int}\ is\_here\_doc(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00028\ \textcolor{keywordtype}{int}\ is\_whitespace(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{/*check\_group\_op.c*/}}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ is\_open\_brack(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ is\_close\_brack(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ is\_open\_cbrack(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ is\_close\_cbrack(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{/*check\_op.c*/}}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ is\_ctrl\_op(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ is\_redir\_op(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ is\_group\_op(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ is\_onechar\_delim(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ is\_twochar\_delim(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{/*check\_quotes.c*/}}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ is\_quote(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{int}\ is\_quoted\_char(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ is\_simple\_quote(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ is\_back\_quote(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{int}\ is\_double\_quote(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{/*check\_redir\_op.c*/}}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{int}\ is\_redir\_out(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{int}\ is\_redir\_out\_app(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00053\ \textcolor{keywordtype}{int}\ is\_redir\_in(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{int}\ is\_redir\_err(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{int}\ is\_pipe(\textcolor{keywordtype}{char}\ *line,\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{comment}{/*check\_token\_1.c*/}}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{int}\ is\_name(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00059\ \textcolor{keywordtype}{int}\ is\_portable\_filename\_char(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{int}\ is\_blank\_str(\textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{int}\ is\_tk\_in\_out\_app(\textcolor{keywordtype}{int}\ type);}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{int}\ is\_tk\_redir(\textcolor{keywordtype}{int}\ type);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{/*check\_token\_2.c*/}}
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{int}\ classify\_operator(\textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,56 @@
+\doxysection{/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/helpers.h File Reference}
+\hypertarget{helpers_8h}{}\label{helpers_8h}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/helpers.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/helpers.h}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{helpers_8h_a2390feeee04f9728787d1c3681fa7de4}{swap}} (double \texorpdfstring{$\ast$}{*}nbr1, double \texorpdfstring{$\ast$}{*}nbr2)
+\begin{DoxyCompactList}\small\item\em This function swaps numbers\textquotesingle{} position if the first parameter is bigger than the second parameter. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{helpers_8h_af76f1e2ba6d0bc43dda150eb5a8a4d01}{ft\+\_\+atof}} (const char \texorpdfstring{$\ast$}{*}nptr)
+\begin{DoxyCompactList}\small\item\em Convert a string to a double. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{helpers_8h_af76f1e2ba6d0bc43dda150eb5a8a4d01}\index{helpers.h@{helpers.h}!ft\_atof@{ft\_atof}}
+\index{ft\_atof@{ft\_atof}!helpers.h@{helpers.h}}
+\doxysubsubsection{\texorpdfstring{ft\_atof()}{ft\_atof()}}
+{\footnotesize\ttfamily \label{helpers_8h_af76f1e2ba6d0bc43dda150eb5a8a4d01} 
+double ft\+\_\+atof (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{nptr}{}\end{DoxyParamCaption})}
+
+
+
+Convert a string to a double. 
+
+This function converts a string representation of a number to a double value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nptr} & The string to be converted. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The converted double value. 
+\end{DoxyReturn}
+\Hypertarget{helpers_8h_a2390feeee04f9728787d1c3681fa7de4}\index{helpers.h@{helpers.h}!swap@{swap}}
+\index{swap@{swap}!helpers.h@{helpers.h}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily \label{helpers_8h_a2390feeee04f9728787d1c3681fa7de4} 
+void swap (\begin{DoxyParamCaption}\item[{double \texorpdfstring{$\ast$}{*}}]{nbr1}{, }\item[{double \texorpdfstring{$\ast$}{*}}]{nbr2}{}\end{DoxyParamCaption})}
+
+
+
+This function swaps numbers\textquotesingle{} position if the first parameter is bigger than the second parameter. 
+
+ABOUT THE HEADER \doxylink{helpers_8h}{HELPERS.\+H}
+
+This header contains auxiliary functions for the program as a whole, i.\+e., functions that aren\textquotesingle{}t subfunctions of a specific task in a given module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nbr1} & Receives the first number to be compared. \\
+\hline
+{\em nbr2} & Receives the second the number to be compared. \\
+\hline
+\end{DoxyParams}

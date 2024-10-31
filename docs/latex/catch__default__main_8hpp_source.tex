@@ -1,0 +1,53 @@
+\doxysection{catch\+\_\+default\+\_\+main.\+hpp}
+\hypertarget{catch__default__main_8hpp_source}{}\label{catch__default__main_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_default\_main.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_default\_main.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 20/05/2011.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2011\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_DEFAULT\_MAIN\_HPP\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_DEFAULT\_MAIN\_HPP\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_session.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_platform.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ \_\_OBJC\_\_}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_WCHAR)\ \&\&\ defined(CATCH\_PLATFORM\_WINDOWS)\ \&\&\ defined(\_UNICODE)\ \&\&\ !defined(DO\_NOT\_USE\_WMAIN)}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Standard\ C/C++\ Win32\ Unicode\ wmain\ entry\ point}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \textcolor{keywordtype}{int}\ wmain\ (\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{wchar\_t}\ *\ argv[],\ \textcolor{keywordtype}{wchar\_t}\ *\ [])\ \{}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Standard\ C/C++\ main\ entry\ point}}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{int}\ main\ (\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ *\ argv[])\ \{}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_catch_1_1_session}{Catch::Session}}().run(\ argc,\ argv\ );}
+\DoxyCodeLine{00025\ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ \_\_OBJC\_\_}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ Objective-\/C\ entry\ point}}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ main\ (\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ *\ \textcolor{keyword}{const}\ argv[])\ \{}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#if\ !CATCH\_ARC\_ENABLED}}
+\DoxyCodeLine{00032\ \ \ \ \ NSAutoreleasePool\ *\ pool\ =\ [[NSAutoreleasePool\ alloc]\ init];}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ Catch::registerTestMethods();}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ result\ =\ \mbox{\hyperlink{class_catch_1_1_session}{Catch::Session}}().run(\ argc,\ (\textcolor{keywordtype}{char}**)argv\ );}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#if\ !CATCH\_ARC\_ENABLED}}
+\DoxyCodeLine{00039\ \ \ \ \ [pool\ drain];}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00043\ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_OBJC\_\_}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_DEFAULT\_MAIN\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

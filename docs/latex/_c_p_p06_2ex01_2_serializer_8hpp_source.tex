@@ -1,0 +1,29 @@
+\doxysection{Serializer.\+hpp}
+\hypertarget{_c_p_p06_2ex01_2_serializer_8hpp_source}{}\label{_c_p_p06_2ex01_2_serializer_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP06/ex01/Serializer.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP/CPP06/ex01/Serializer.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SERIALIZER\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SERIALIZER\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}data.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_serializer}{Serializer}}\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_serializer}{Serializer}}();}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_serializer}{Serializer}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_serializer}{Serializer}}\&\ src);}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_serializer}{Serializer}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_serializer}{Serializer}}\&\ rhs);}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_serializer}{\string~Serializer}}();}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uintptr\_t\ \ \ \ serialize(\mbox{\hyperlink{struct_data}{Data}}*\ ptr);}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_data}{Data}}*\ \ \ \ \ \ \ \ deserialize(uintptr\_t\ raw);}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00020\ \textcolor{comment}{uintptr\_t\ est\ un\ type\ entier\ non\ signé\ capable\ de\ contenir\ un\ pointeur.\ }}
+\DoxyCodeLine{00021\ \textcolor{comment}{Il\ est\ défini\ dans\ l'en-\/tête\ <cstdint>.}}
+\DoxyCodeLine{00022\ \textcolor{comment}{Il\ est\ utilisé\ pour\ assurer\ que\ la\ conversion\ entre\ un\ pointeur\ et\ un\ entier\ peut\ être\ faite\ sans\ perte\ d'information.}}
+\DoxyCodeLine{00023\ \textcolor{comment}{*/}}
+
+\end{DoxyCode}

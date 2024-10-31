@@ -1,0 +1,53 @@
+\doxysection{camera.\+h}
+\hypertarget{mini_r_t__example_2include_2camera_8h_source}{}\label{mini_r_t__example_2include_2camera_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/camera.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_example/include/camera.h}}
+\mbox{\hyperlink{mini_r_t__example_2include_2camera_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ camera.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ yde-\/goes\ <yde-\/goes@student.42sp.org.br>\ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/04/18\ 12:29:11\ by\ mdias-\/ma\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/06/16\ 13:39:48\ by\ yde-\/goes\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ CAMERA\_H}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#\ define\ CAMERA\_H}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{tuples_8h}{tuples.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{matrices_8h}{matrices.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#\ include\ "{}\mbox{\hyperlink{rays_8h}{rays.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__camera}{s\_camera}}}
+\DoxyCodeLine{00045\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ hsize;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ vsize;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ field\_of\_view;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ half\_width;}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ half\_height;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ pixel\_size;}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ transform;}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ inverse;}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ transpose;}
+\DoxyCodeLine{00055\ \}\ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_adad03c73139d662c0f9a3e58dd42d39a}{t\_camera}};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00058\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VIEW\_TRANSFORM.C\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00059\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00075\ \mbox{\hyperlink{structs__matrix}{t\_matrix}}\ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_ab21760516af333b2c94bbdae6b2f431b}{view\_transform}}(\mbox{\hyperlink{structs__tuple}{t\_point}}\ from,\ \mbox{\hyperlink{structs__tuple}{t\_point}}\ to,\ \mbox{\hyperlink{structs__tuple}{t\_vector}}\ up);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00078\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CAMERA.C\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00079\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00098\ \mbox{\hyperlink{structs__camera}{t\_camera}}\ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_aa10e754128068eaf74204ab2a6bf2a9b}{new\_camera}}(\textcolor{keywordtype}{float}\ hsize,\ \textcolor{keywordtype}{float}\ vsize,\ \textcolor{keywordtype}{float}\ field\_of\_view);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00121\ \mbox{\hyperlink{structs__ray}{t\_ray}}\ \ \ \ \ \ \mbox{\hyperlink{mini_r_t__example_2include_2camera_8h_a16dcc190f688dae547023204eca8ebe9}{ray\_for\_pixel}}(\mbox{\hyperlink{structs__camera}{t\_camera}}\ *camera,\ \textcolor{keywordtype}{float}\ px,\ \textcolor{keywordtype}{float}\ py);}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

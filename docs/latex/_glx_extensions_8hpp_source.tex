@@ -1,0 +1,256 @@
+\doxysection{Glx\+Extensions.\+hpp}
+\hypertarget{_glx_extensions_8hpp_source}{}\label{_glx_extensions_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/sfml-\/src/src/SFML/Window/Unix/GlxExtensions.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/sfml-\/src/src/SFML/Window/Unix/GlxExtensions.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ SFML\ -\/\ Simple\ and\ Fast\ Multimedia\ Library}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Copyright\ (C)\ 2007-\/2018\ Laurent\ Gomila\ (laurent@sfml-\/dev.org)}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ This\ software\ is\ provided\ 'as-\/is',\ without\ any\ express\ or\ implied\ warranty.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ In\ no\ event\ will\ the\ authors\ be\ held\ liable\ for\ any\ damages\ arising\ from\ the\ use\ of\ this\ software.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ Permission\ is\ granted\ to\ anyone\ to\ use\ this\ software\ for\ any\ purpose,}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ including\ commercial\ applications,\ and\ to\ alter\ it\ and\ redistribute\ it\ freely,}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ subject\ to\ the\ following\ restrictions:}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ 1.\ The\ origin\ of\ this\ software\ must\ not\ be\ misrepresented;}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ you\ must\ not\ claim\ that\ you\ wrote\ the\ original\ software.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ If\ you\ use\ this\ software\ in\ a\ product,\ an\ acknowledgment}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ in\ the\ product\ documentation\ would\ be\ appreciated\ but\ is\ not\ required.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ 2.\ Altered\ source\ versions\ must\ be\ plainly\ marked\ as\ such,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ and\ must\ not\ be\ misrepresented\ as\ being\ the\ original\ software.}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ 3.\ This\ notice\ may\ not\ be\ removed\ or\ altered\ from\ any\ source\ distribution.}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifndef\ SF\_POINTER\_C\_GENERATED\_HEADER\_GLXWIN\_HPP}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ SF\_POINTER\_C\_GENERATED\_HEADER\_GLXWIN\_HPP}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#if\ defined(\_\_glxext\_h\_)\ ||\ defined(\_\_glx\_glxext\_h\_)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#error\ Attempt\ to\ include\ glx\_exts\ after\ including\ glxext.h}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ \_\_glxext\_h\_}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ \_\_glx\_glxext\_h\_}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <X11/Xlib.h>}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ <X11/Xutil.h>}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ <GL/glx.h>}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#ifdef\ CODEGEN\_FUNCPTR}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#undef\ CODEGEN\_FUNCPTR}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CODEGEN\_FUNCPTR}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ CODEGEN\_FUNCPTR}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#ifndef\ GL\_LOAD\_GEN\_BASIC\_OPENGL\_TYPEDEFS}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ GL\_LOAD\_GEN\_BASIC\_OPENGL\_TYPEDEFS}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLenum;}
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ GLboolean;}
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLbitfield;}
+\DoxyCodeLine{00049\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{char}\ GLbyte;}
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{short}\ GLshort;}
+\DoxyCodeLine{00051\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ GLint;}
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ GLsizei;}
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ GLubyte;}
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ GLushort;}
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLuint;}
+\DoxyCodeLine{00056\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{float}\ GLfloat;}
+\DoxyCodeLine{00057\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{float}\ GLclampf;}
+\DoxyCodeLine{00058\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{double}\ GLdouble;}
+\DoxyCodeLine{00059\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{double}\ GLclampd;}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ GLvoid\ void}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_LOAD\_GEN\_BASIC\_OPENGL\_TYPEDEFS}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#ifndef\ GL\_LOAD\_GEN\_BASIC\_OPENGL\_TYPEDEFS}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ GL\_LOAD\_GEN\_BASIC\_OPENGL\_TYPEDEFS}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GL\_LOAD\_GEN\_BASIC\_OPENGL\_TYPEDEFS}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#ifndef\ GLEXT\_64\_TYPES\_DEFINED}}
+\DoxyCodeLine{00073\ \textcolor{comment}{//\ This\ code\ block\ is\ duplicated\ in\ glext.h,\ so\ must\ be\ protected}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ GLEXT\_64\_TYPES\_DEFINED}}
+\DoxyCodeLine{00075\ \textcolor{comment}{//\ Define\ int32\_t,\ int64\_t,\ and\ uint64\_t\ types\ for\ UST/MSC}}
+\DoxyCodeLine{00076\ \textcolor{comment}{//\ (as\ used\ in\ the\ GLX\_OML\_sync\_control\ extension).}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#if\ defined(\_\_STDC\_VERSION\_\_)\ \&\&\ \_\_STDC\_VERSION\_\_\ >=\ 199901L}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#elif\ defined(\_\_sun\_\_)\ ||\ defined(\_\_digital\_\_)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#if\ defined(\_\_STDC\_\_)}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#if\ defined(\_\_arch64\_\_)\ ||\ defined(\_LP64)}}
+\DoxyCodeLine{00083\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int64\_t;}
+\DoxyCodeLine{00084\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ uint64\_t;}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00086\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int64\_t;}
+\DoxyCodeLine{00087\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ uint64\_t;}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_arch64\_\_}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_STDC\_\_}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#elif\ defined(\ \_\_VMS\ )\ ||\ defined(\_\_sgi)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#elif\ defined(\_\_SCO\_\_)\ ||\ defined(\_\_USLC\_\_)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#elif\ defined(\_\_UNIXOS2\_\_)\ ||\ defined(\_\_SOL64\_\_)}}
+\DoxyCodeLine{00095\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int32\_t;}
+\DoxyCodeLine{00096\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ int64\_t;}
+\DoxyCodeLine{00097\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ uint64\_t;}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#elif\ defined(\_WIN32)\ \&\&\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#elif\ defined(\_WIN32)}}
+\DoxyCodeLine{00101\ \textcolor{keyword}{typedef}\ \_\_int32\ int32\_t;}
+\DoxyCodeLine{00102\ \textcolor{keyword}{typedef}\ \_\_int64\ int64\_t;}
+\DoxyCodeLine{00103\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \_\_int64\ uint64\_t;}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00105\ \textcolor{comment}{//\ Fallback\ if\ nothing\ above\ works}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_GLXFBConfigRec\ *GLXFBConfig;}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{typedef}\ XID\ GLXContextID;}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_GLXcontextRec\ *GLXContext;}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{typedef}\ XID\ GLXPixmap;}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{typedef}\ XID\ GLXDrawable;}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{typedef}\ XID\ GLXPbuffer;}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{typedef}\ void\ (APIENTRY\ *\_\_GLXextFuncPtr)(void);}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{typedef}\ XID\ GLXVideoCaptureDeviceNV;}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GLXVideoDeviceNV;}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{typedef}\ XID\ GLXVideoSourceSGIX;}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_GLXFBConfigRec\ *GLXFBConfigSGIX;}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{typedef}\ XID\ GLXPbufferSGIX;}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ pipeName[80];\ \textcolor{comment}{//\ Should\ be\ [GLX\_HYPERPIPE\_PIPE\_NAME\_LENGTH\_SGIX]}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ networkId;}
+\DoxyCodeLine{00124\ \}\ \mbox{\hyperlink{struct_g_l_x_hyperpipe_network_s_g_i_x}{GLXHyperpipeNetworkSGIX}};}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ pipeName[80];\ \textcolor{comment}{//\ Should\ be\ [GLX\_HYPERPIPE\_PIPE\_NAME\_LENGTH\_SGIX]}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ channel;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ participationType;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ timeSlice;}
+\DoxyCodeLine{00130\ \}\ \mbox{\hyperlink{struct_g_l_x_hyperpipe_config_s_g_i_x}{GLXHyperpipeConfigSGIX}};}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ pipeName[80];\ \textcolor{comment}{//\ Should\ be\ [GLX\_HYPERPIPE\_PIPE\_NAME\_LENGTH\_SGIX]}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ srcXOrigin,\ srcYOrigin,\ srcWidth,\ srcHeight;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ destXOrigin,\ destYOrigin,\ destWidth,\ destHeight;}
+\DoxyCodeLine{00135\ \}\ \mbox{\hyperlink{struct_g_l_x_pipe_rect}{GLXPipeRect}};}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ pipeName[80];\ \textcolor{comment}{//\ Should\ be\ [GLX\_HYPERPIPE\_PIPE\_NAME\_LENGTH\_SGIX]}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ XOrigin,\ YOrigin,\ maxHeight,\ maxWidth;}
+\DoxyCodeLine{00139\ \}\ \mbox{\hyperlink{struct_g_l_x_pipe_rect_limits}{GLXPipeRectLimits}};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00142\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_EXT\_swap\_control;}
+\DoxyCodeLine{00146\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_MESA\_swap\_control;}
+\DoxyCodeLine{00147\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_SGI\_swap\_control;}
+\DoxyCodeLine{00148\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_EXT\_framebuffer\_sRGB;}
+\DoxyCodeLine{00149\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_ARB\_framebuffer\_sRGB;}
+\DoxyCodeLine{00150\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_ARB\_multisample;}
+\DoxyCodeLine{00151\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_SGIX\_pbuffer;}
+\DoxyCodeLine{00152\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_ARB\_create\_context;}
+\DoxyCodeLine{00153\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ sfglx\_ext\_ARB\_create\_context\_profile;}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ GLX\_MAX\_SWAP\_INTERVAL\_EXT\ 0x20F2}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ GLX\_SWAP\_INTERVAL\_EXT\ 0x20F1}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#define\ GLX\_FRAMEBUFFER\_SRGB\_CAPABLE\_EXT\ 0x20B2}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ GLX\_FRAMEBUFFER\_SRGB\_CAPABLE\_ARB\ 0x20B2}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ GLX\_SAMPLES\_ARB\ 100001}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ GLX\_SAMPLE\_BUFFERS\_ARB\ 100000}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#define\ GLX\_ACCUM\_BUFFER\_BIT\_SGIX\ 0x00000080}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ GLX\_AUX\_BUFFERS\_BIT\_SGIX\ 0x00000010}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ GLX\_BACK\_LEFT\_BUFFER\_BIT\_SGIX\ 0x00000004}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ GLX\_BACK\_RIGHT\_BUFFER\_BIT\_SGIX\ 0x00000008}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ GLX\_BUFFER\_CLOBBER\_MASK\_SGIX\ 0x08000000}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ GLX\_DAMAGED\_SGIX\ 0x8020}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ GLX\_DEPTH\_BUFFER\_BIT\_SGIX\ 0x00000020}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ GLX\_EVENT\_MASK\_SGIX\ 0x801F}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ GLX\_FRONT\_LEFT\_BUFFER\_BIT\_SGIX\ 0x00000001}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ GLX\_FRONT\_RIGHT\_BUFFER\_BIT\_SGIX\ 0x00000002}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ GLX\_HEIGHT\_SGIX\ 0x801E}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ GLX\_LARGEST\_PBUFFER\_SGIX\ 0x801C}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ GLX\_MAX\_PBUFFER\_HEIGHT\_SGIX\ 0x8017}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ GLX\_MAX\_PBUFFER\_PIXELS\_SGIX\ 0x8018}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#define\ GLX\_MAX\_PBUFFER\_WIDTH\_SGIX\ 0x8016}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#define\ GLX\_OPTIMAL\_PBUFFER\_HEIGHT\_SGIX\ 0x801A}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ GLX\_OPTIMAL\_PBUFFER\_WIDTH\_SGIX\ 0x8019}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ GLX\_PBUFFER\_BIT\_SGIX\ 0x00000004}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ GLX\_PBUFFER\_SGIX\ 0x8023}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#define\ GLX\_PRESERVED\_CONTENTS\_SGIX\ 0x801B}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#define\ GLX\_SAMPLE\_BUFFERS\_BIT\_SGIX\ 0x00000100}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ GLX\_SAVED\_SGIX\ 0x8021}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ GLX\_STENCIL\_BUFFER\_BIT\_SGIX\ 0x00000040}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#define\ GLX\_WIDTH\_SGIX\ 0x801D}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#define\ GLX\_WINDOW\_SGIX\ 0x8022}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_DEBUG\_BIT\_ARB\ 0x00000001}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_FLAGS\_ARB\ 0x2094}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_FORWARD\_COMPATIBLE\_BIT\_ARB\ 0x00000002}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_MAJOR\_VERSION\_ARB\ 0x2091}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_MINOR\_VERSION\_ARB\ 0x2092}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_COMPATIBILITY\_PROFILE\_BIT\_ARB\ 0x00000002}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_CORE\_PROFILE\_BIT\_ARB\ 0x00000001}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ GLX\_CONTEXT\_PROFILE\_MASK\_ARB\ 0x9126}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#ifndef\ GLX\_EXT\_swap\_control}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#define\ GLX\_EXT\_swap\_control\ 1}}
+\DoxyCodeLine{00203\ \textcolor{keyword}{extern}\ void\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXSwapIntervalEXT)(Display\ *,\ GLXDrawable,\ int);}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#define\ glXSwapIntervalEXT\ sf\_ptrc\_glXSwapIntervalEXT}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GLX\_EXT\_swap\_control}}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \textcolor{comment}{//\ Declare\ entry\ point\ even\ if\ GLX\ header\ already\ provides\ glXSwapIntervalMESA}}
+\DoxyCodeLine{00208\ \textcolor{comment}{//\ We\ won't\ make\ use\ of\ an\ alias\ here}}
+\DoxyCodeLine{00209\ \textcolor{keyword}{extern}\ int\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXSwapIntervalMESA)(int);}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#ifndef\ GLX\_SGI\_swap\_control}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#define\ GLX\_SGI\_swap\_control\ 1}}
+\DoxyCodeLine{00213\ \textcolor{keyword}{extern}\ int\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXSwapIntervalSGI)(int);}
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\#define\ glXSwapIntervalSGI\ sf\_ptrc\_glXSwapIntervalSGI}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GLX\_SGI\_swap\_control}}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#ifndef\ GLX\_SGIX\_pbuffer}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#define\ GLX\_SGIX\_pbuffer\ 1}}
+\DoxyCodeLine{00219\ \textcolor{keyword}{extern}\ GLXPbufferSGIX\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXCreateGLXPbufferSGIX)(Display*,\ GLXFBConfigSGIX,\ \textcolor{keywordtype}{unsigned}\ int,\ \textcolor{keywordtype}{unsigned}\ int,\ \textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ glXCreateGLXPbufferSGIX\ sf\_ptrc\_glXCreateGLXPbufferSGIX}}
+\DoxyCodeLine{00221\ \textcolor{keyword}{extern}\ void\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXDestroyGLXPbufferSGIX)(Display*,\ GLXPbufferSGIX);}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#define\ glXDestroyGLXPbufferSGIX\ sf\_ptrc\_glXDestroyGLXPbufferSGIX}}
+\DoxyCodeLine{00223\ \textcolor{keyword}{extern}\ void\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXGetSelectedEventSGIX)(Display*,\ GLXDrawable,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}*);}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\#define\ glXGetSelectedEventSGIX\ sf\_ptrc\_glXGetSelectedEventSGIX}}
+\DoxyCodeLine{00225\ \textcolor{keyword}{extern}\ int\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXQueryGLXPbufferSGIX)(Display*,\ GLXPbufferSGIX,\ int,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ glXQueryGLXPbufferSGIX\ sf\_ptrc\_glXQueryGLXPbufferSGIX}}
+\DoxyCodeLine{00227\ \textcolor{keyword}{extern}\ void\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXSelectEventSGIX)(Display*,\ GLXDrawable,\ \textcolor{keywordtype}{unsigned}\ long);}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ glXSelectEventSGIX\ sf\_ptrc\_glXSelectEventSGIX}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GLX\_SGIX\_pbuffer}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\#ifndef\ GLX\_ARB\_create\_context}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#define\ GLX\_ARB\_create\_context\ 1}}
+\DoxyCodeLine{00233\ \textcolor{keyword}{extern}\ GLXContext\ (CODEGEN\_FUNCPTR\ *sf\_ptrc\_glXCreateContextAttribsARB)(Display*,\ GLXFBConfig,\ GLXContext,\ Bool,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}*);}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ glXCreateContextAttribsARB\ sf\_ptrc\_glXCreateContextAttribsARB}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GLX\_ARB\_create\_context}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \textcolor{keyword}{enum}\ sfglx\_LoadStatus}
+\DoxyCodeLine{00239\ \{}
+\DoxyCodeLine{00240\ \ \ \ \ sfglx\_LOAD\_FAILED\ =\ 0,}
+\DoxyCodeLine{00241\ \ \ \ \ sfglx\_LOAD\_SUCCEEDED\ =\ 1}
+\DoxyCodeLine{00242\ \};}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \textcolor{keywordtype}{int}\ sfglx\_LoadFunctions(Display\ *display,\ \textcolor{keywordtype}{int}\ screen);}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00248\ \}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_\_cplusplus}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SF\_POINTER\_C\_GENERATED\_HEADER\_GLXWIN\_HPP}}
+
+\end{DoxyCode}

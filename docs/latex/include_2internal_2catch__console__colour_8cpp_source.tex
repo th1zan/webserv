@@ -1,0 +1,249 @@
+\doxysection{catch\+\_\+console\+\_\+colour.\+cpp}
+\hypertarget{include_2internal_2catch__console__colour_8cpp_source}{}\label{include_2internal_2catch__console__colour_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_console\_colour.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_console\_colour.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 25/2/2012.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2012\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ clang\ diagnostic\ push}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ clang\ diagnostic\ ignored\ "{}-\/Wexit-\/time-\/destructors"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}catch\_console\_colour.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}catch\_errno\_guard.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_config.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}catch\_stream.h"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}catch\_context.h"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}catch\_platform.h"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}catch\_debugger.h"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}catch\_windows\_h\_proxy.h"{}}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }IColourImpl\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~IColourImpl()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ use(\ Colour::Code\ \_colourCode\ )\ =\ 0;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }NoColourImpl\ :\ IColourImpl\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ use(\ Colour::Code\ )\textcolor{keyword}{\ override\ }\{\}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ IColourImpl*\ instance()\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ NoColourImpl\ s\_instance;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&s\_instance;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \}\ \textcolor{comment}{//\ anon\ namespace}}
+\DoxyCodeLine{00046\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#if\ !defined(\ CATCH\_CONFIG\_COLOUR\_NONE\ )\ \&\&\ !defined(\ CATCH\_CONFIG\_COLOUR\_WINDOWS\ )\ \&\&\ !defined(\ CATCH\_CONFIG\_COLOUR\_ANSI\ )}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#\ \ \ ifdef\ CATCH\_PLATFORM\_WINDOWS}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ define\ CATCH\_CONFIG\_COLOUR\_WINDOWS}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#\ \ \ else}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ define\ CATCH\_CONFIG\_COLOUR\_ANSI}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#\ \ \ endif}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#if\ defined\ (\ CATCH\_CONFIG\_COLOUR\_WINDOWS\ )\ }}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00060\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{class\ }Win32ColourImpl\ :\ \textcolor{keyword}{public}\ IColourImpl\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ Win32ColourImpl()\ :\ stdoutHandle(\ GetStdHandle(STD\_OUTPUT\_HANDLE)\ )}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ CONSOLE\_SCREEN\_BUFFER\_INFO\ csbiInfo;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ GetConsoleScreenBufferInfo(\ stdoutHandle,\ \&csbiInfo\ );}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ originalForegroundAttributes\ =\ csbiInfo.wAttributes\ \&\ \string~(\ BACKGROUND\_GREEN\ |\ BACKGROUND\_RED\ |\ BACKGROUND\_BLUE\ |\ BACKGROUND\_INTENSITY\ );}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ originalBackgroundAttributes\ =\ csbiInfo.wAttributes\ \&\ \string~(\ FOREGROUND\_GREEN\ |\ FOREGROUND\_RED\ |\ FOREGROUND\_BLUE\ |\ FOREGROUND\_INTENSITY\ );}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ use(\ Colour::Code\ \_colourCode\ )\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\ \_colourCode\ )\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::None:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ originalForegroundAttributes\ );}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::White:\ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_GREEN\ |\ FOREGROUND\_RED\ |\ FOREGROUND\_BLUE\ );}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Red:\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_RED\ );}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Green:\ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_GREEN\ );}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Blue:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_BLUE\ );}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Cyan:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_BLUE\ |\ FOREGROUND\_GREEN\ );}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Yellow:\ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_RED\ |\ FOREGROUND\_GREEN\ );}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Grey:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ 0\ );}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::LightGrey:\ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_INTENSITY\ );}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightRed:\ \ \ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_INTENSITY\ |\ FOREGROUND\_RED\ );}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightGreen:\ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_INTENSITY\ |\ FOREGROUND\_GREEN\ );}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightWhite:\ \ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_INTENSITY\ |\ FOREGROUND\_GREEN\ |\ FOREGROUND\_RED\ |\ FOREGROUND\_BLUE\ );}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightYellow:\ \ \textcolor{keywordflow}{return}\ setTextAttribute(\ FOREGROUND\_INTENSITY\ |\ FOREGROUND\_RED\ |\ FOREGROUND\_GREEN\ );}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Bright:\ CATCH\_INTERNAL\_ERROR(\ \textcolor{stringliteral}{"{}not\ a\ colour"{}}\ );}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_ERROR(\ \textcolor{stringliteral}{"{}Unknown\ colour\ requested"{}}\ );}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setTextAttribute(\ WORD\ \_textAttribute\ )\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ SetConsoleTextAttribute(\ stdoutHandle,\ \_textAttribute\ |\ originalBackgroundAttributes\ );}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ HANDLE\ stdoutHandle;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ WORD\ originalForegroundAttributes;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ WORD\ originalBackgroundAttributes;}
+\DoxyCodeLine{00103\ \ \ \ \ \};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ IColourImpl*\ platformColourInstance()\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ Win32ColourImpl\ s\_instance;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ IConfigPtr\ config\ =\ getCurrentContext().getConfig();}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ UseColour::YesOrNo\ colourMode\ =\ config}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ config-\/>useColour()}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ :\ UseColour::Auto;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ colourMode\ ==\ UseColour::Auto\ )}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ colourMode\ =\ UseColour::Yes;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ colourMode\ ==\ UseColour::Yes}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \&s\_instance}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ :\ NoColourImpl::instance();}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \}\ \textcolor{comment}{//\ end\ anon\ namespace}}
+\DoxyCodeLine{00120\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#elif\ defined(\ CATCH\_CONFIG\_COLOUR\_ANSI\ )\ }}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00127\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{comment}{//\ use\ POSIX/\ ANSI\ console\ terminal\ codes}}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{comment}{//\ Thanks\ to\ Adam\ Strzelecki\ for\ original\ contribution}}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{comment}{//\ (http://github.com/nanoant)}}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{comment}{//\ https://github.com/philsquared/Catch/pull/131}}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{class\ }PosixColourImpl\ :\ \textcolor{keyword}{public}\ IColourImpl\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ use(\ Colour::Code\ \_colourCode\ )\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\ \_colourCode\ )\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::None:}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::White:\ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[0m"{}}\ );}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Red:\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[0;31m"{}}\ );}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Green:\ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[0;32m"{}}\ );}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Blue:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[0;34m"{}}\ );}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Cyan:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[0;36m"{}}\ );}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Yellow:\ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[0;33m"{}}\ );}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Grey:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[1;30m"{}}\ );}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::LightGrey:\ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[0;37m"{}}\ );}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightRed:\ \ \ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[1;31m"{}}\ );}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightGreen:\ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[1;32m"{}}\ );}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightWhite:\ \ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[1;37m"{}}\ );}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::BrightYellow:\ \ \textcolor{keywordflow}{return}\ setColour(\ \textcolor{stringliteral}{"{}[1;33m"{}}\ );}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Colour::Bright:\ CATCH\_INTERNAL\_ERROR(\ \textcolor{stringliteral}{"{}not\ a\ colour"{}}\ );}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ CATCH\_INTERNAL\_ERROR(\ \textcolor{stringliteral}{"{}Unknown\ colour\ requested"{}}\ );}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ IColourImpl*\ instance()\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ PosixColourImpl\ s\_instance;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&s\_instance;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setColour(\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \_escapeCode\ )\ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ getCurrentContext().getConfig()-\/>stream()}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{charliteral}{'\(\backslash\)033'}\ <<\ \_escapeCode;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \};}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{bool}\ useColourOnPlatform()\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#if\ defined(CATCH\_PLATFORM\_MAC)\ ||\ defined(CATCH\_PLATFORM\_IPHONE)}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ !isDebuggerActive()\ \&\&}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#if\ !(defined(\_\_DJGPP\_\_)\ \&\&\ defined(\_\_STRICT\_ANSI\_\_))}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ isatty(STDOUT\_FILENO)}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{false}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00179\ \ \ \ \ \}}
+\DoxyCodeLine{00180\ \ \ \ \ IColourImpl*\ platformColourInstance()\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ ErrnoGuard\ guard;}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ IConfigPtr\ config\ =\ getCurrentContext().getConfig();}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ UseColour::YesOrNo\ colourMode\ =\ config}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ config-\/>useColour()}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ :\ UseColour::Auto;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ colourMode\ ==\ UseColour::Auto\ )}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ colourMode\ =\ useColourOnPlatform()}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ UseColour::Yes}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ UseColour::No;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ colourMode\ ==\ UseColour::Yes}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ PosixColourImpl::instance()}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ :\ NoColourImpl::instance();}
+\DoxyCodeLine{00193\ \ \ \ \ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \}\ \textcolor{comment}{//\ end\ anon\ namespace}}
+\DoxyCodeLine{00196\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#else\ \ }\textcolor{comment}{//\ not\ Windows\ or\ ANSI\ ///////////////////////////////////////////////}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keyword}{static}\ IColourImpl*\ platformColourInstance()\ \{\ \textcolor{keywordflow}{return}\ NoColourImpl::instance();\ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ Windows/\ ANSI/\ None}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \ \ \ \ Colour::Colour(\ Code\ \_colourCode\ )\ \{\ use(\ \_colourCode\ );\ \}}
+\DoxyCodeLine{00211\ \ \ \ \ Colour::Colour(\ Colour\&\&\ other\ )\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ m\_moved\ =\ other.m\_moved;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ other.m\_moved\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00214\ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \ \ \ \ Colour\&\ Colour::operator=(\ Colour\&\&\ other\ )\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ m\_moved\ =\ other.m\_moved;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ other.m\_moved\ \ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00219\ \ \ \ \ \}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ Colour::\string~Colour()\{\ \textcolor{keywordflow}{if}(\ !m\_moved\ )\ use(\ None\ );\ \}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordtype}{void}\ Colour::use(\ Code\ \_colourCode\ )\ \{}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ IColourImpl*\ impl\ =\ platformColourInstance();}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Strictly\ speaking,\ this\ cannot\ possibly\ happen.}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ However,\ under\ some\ conditions\ it\ does\ happen\ (see\ \#1626),}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ this\ change\ is\ small\ enough\ that\ we\ can\ let\ practicality}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ triumph\ over\ purity\ in\ this\ case.}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (impl\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ impl-\/>use(\ \_colourCode\ );}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00232\ \ \ \ \ \}}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \ \ \ \ std::ostream\&\ operator\ <<\ (\ std::ostream\&\ os,\ Colour\ \textcolor{keyword}{const}\&\ )\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00236\ \ \ \ \ \}}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ clang\ diagnostic\ pop}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00243\ }
+
+\end{DoxyCode}

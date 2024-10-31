@@ -1,0 +1,32 @@
+\doxysection{catch\+\_\+tag\+\_\+alias\+\_\+autoregistrar.\+h}
+\hypertarget{catch__tag__alias__autoregistrar_8h_source}{}\label{catch__tag__alias__autoregistrar_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_tag\_alias\_autoregistrar.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_tag\_alias\_autoregistrar.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 27/07/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_TAG\_ALIAS\_AUTOREGISTRAR\_H\_INCLUDED}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_TAG\_ALIAS\_AUTOREGISTRAR\_H\_INCLUDED}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_common.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{struct\ }RegistrarForTagAliases\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ RegistrarForTagAliases(\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ alias,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ tag,\ SourceLineInfo\ \textcolor{keyword}{const}\&\ lineInfo\ );}
+\DoxyCodeLine{00016\ \ \ \ \ \};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ CATCH\_REGISTER\_TAG\_ALIAS(\ alias,\ spec\ )\ \(\backslash\)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ CATCH\_INTERNAL\_START\_WARNINGS\_SUPPRESSION\ \(\backslash\)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ CATCH\_INTERNAL\_SUPPRESS\_GLOBALS\_WARNINGS\ \(\backslash\)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ namespace\{\ Catch::RegistrarForTagAliases\ INTERNAL\_CATCH\_UNIQUE\_NAME(\ AutoRegisterTagAlias\ )(\ alias,\ spec,\ CATCH\_INTERNAL\_LINEINFO\ );\ \}\ \(\backslash\)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ CATCH\_INTERNAL\_STOP\_WARNINGS\_SUPPRESSION}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_TAG\_ALIAS\_AUTOREGISTRAR\_H\_INCLUDED}}
+
+\end{DoxyCode}

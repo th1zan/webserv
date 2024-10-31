@@ -1,0 +1,47 @@
+\doxysection{s\+\_\+hit Struct Reference}
+\hypertarget{structs__hit}{}\label{structs__hit}\index{s\_hit@{s\_hit}}
+
+
+The structure t\+\_\+hit stores a linked list of ray-\/shape intersections\textquotesingle{} values.  
+
+
+
+
+{\ttfamily \#include $<$shapes.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structs__hit_a8722183c739059341f5b5a2db6254c6b}\label{structs__hit_a8722183c739059341f5b5a2db6254c6b} 
+double {\bfseries t}
+\item 
+\Hypertarget{structs__hit_a69225f788f5ea4f9d112ae95bbf3812b}\label{structs__hit_a69225f788f5ea4f9d112ae95bbf3812b} 
+\mbox{\hyperlink{structs__shape}{t\+\_\+shape}} \texorpdfstring{$\ast$}{*} {\bfseries object}
+\item 
+\Hypertarget{structs__hit_a74a6bbdfc6e63e0c4733d45d40949932}\label{structs__hit_a74a6bbdfc6e63e0c4733d45d40949932} 
+\mbox{\hyperlink{structs__hit}{t\+\_\+hit}} \texorpdfstring{$\ast$}{*} {\bfseries next}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The structure t\+\_\+hit stores a linked list of ray-\/shape intersections\textquotesingle{} values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & Stores the distance between the origin of the ray and the point of intersection. \\
+\hline
+{\em object} & Stores information about the shape that is being intersected. \\
+\hline
+{\em next} & Stores the next intersection value of one ray casting, if any. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/\mbox{\hyperlink{mini_r_t__example_2include_2shapes_8h}{shapes.\+h}}\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240311/src/header/shapes.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240322/src/header/shapes.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240403/src/header/shapes.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240408/src/header/shapes.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/src/header/shapes.\+h\end{DoxyCompactItemize}

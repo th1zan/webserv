@@ -1,0 +1,27 @@
+\doxysection{iter.\+h}
+\hypertarget{saved__20240728_2_c_p_p07_2ex01_2iter_8h_source}{}\label{saved__20240728_2_c_p_p07_2ex01_2iter_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP07/ex01/iter.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/CPP\_saved\_20240728/CPP07/ex01/iter.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ITER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ITER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//template<pointeur/(adresse)\ du\ tableau,\ int\ longueur,\ pointeur\ sur\ fonction\ >}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ A,\ \textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{00006\ \textcolor{keywordtype}{void}\ iter(\mbox{\hyperlink{class_a}{A}}*\ ptrTab,\ \textcolor{keywordtype}{int}\ len,\ F\ ptrFct)\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ len;\ ++i)\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ ptrFct(ptrTab[i]);}
+\DoxyCodeLine{00009\ \ \ \ \ \}}
+\DoxyCodeLine{00010\ \}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00013\ \textcolor{comment}{Implement\ a\ function\ template\ iter\ that\ takes\ 3\ parameters\ and\ returns\ nothing.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{•\ The\ first\ parameter\ is\ the\ address\ of\ an\ array.}}
+\DoxyCodeLine{00015\ \textcolor{comment}{•\ The\ second\ one\ is\ the\ length\ of\ the\ array.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{•\ The\ third\ one\ is\ a\ function\ that\ will\ be\ call\ on\ every\ element\ of\ the\ array.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{Turn\ in\ a\ main.cpp\ file\ that\ contains\ your\ tests.\ Provide\ enough\ code\ to\ generate\ a\ test\ executable.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{Your\ iter\ function\ template\ must\ work\ with\ any\ type\ of\ array.\ The\ third\ parameter\ can\ be\ an\ instantiated\ function\ template.}}
+\DoxyCodeLine{00019\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

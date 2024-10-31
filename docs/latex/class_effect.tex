@@ -1,0 +1,78 @@
+\doxysection{Effect Class Reference}
+\hypertarget{class_effect}{}\label{class_effect}\index{Effect@{Effect}}
+Inheritance diagram for Effect\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_effect}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_effect_a409291db11c835d76ee94a2abfc90983}\label{class_effect_a409291db11c835d76ee94a2abfc90983} 
+const std\+::string \& {\bfseries get\+Name} () const
+\item 
+\Hypertarget{class_effect_a7f926c8c6b21664461745f4c62cf7d0b}\label{class_effect_a7f926c8c6b21664461745f4c62cf7d0b} 
+void {\bfseries load} ()
+\item 
+\Hypertarget{class_effect_a857a5b45439813ecc71e8e931c98f6a2}\label{class_effect_a857a5b45439813ecc71e8e931c98f6a2} 
+void {\bfseries update} (float time, float x, float y)
+\item 
+void \mbox{\hyperlink{class_effect_a6a3a393e127581c7f84e1278b5be0438}{draw}} (\mbox{\hyperlink{classsf_1_1_render_target}{sf\+::\+Render\+Target}} \&target, \mbox{\hyperlink{classsf_1_1_render_states}{sf\+::\+Render\+States}} states) const
+\begin{DoxyCompactList}\small\item\em Draw the object to a render target. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classsf_1_1_drawable}{sf\+::\+Drawable}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Drawable} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_effect_a2a4eaf667af8ea6498b77fe532c5a43d}\label{class_effect_a2a4eaf667af8ea6498b77fe532c5a43d} 
+static void {\bfseries set\+Font} (const \mbox{\hyperlink{classsf_1_1_font}{sf\+::\+Font}} \&font)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_effect_a6c1c4ec803a1aa5dcbd34a6cf92fd8d5}\label{class_effect_a6c1c4ec803a1aa5dcbd34a6cf92fd8d5} 
+{\bfseries Effect} (const std\+::string \&name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classsf_1_1_drawable}{sf\+::\+Drawable}}}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_effect_aa66af317229f52d12619b7e720c500d3}\label{class_effect_aa66af317229f52d12619b7e720c500d3} 
+static const \mbox{\hyperlink{classsf_1_1_font}{sf\+::\+Font}} \& {\bfseries get\+Font} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_effect_a6a3a393e127581c7f84e1278b5be0438}\index{Effect@{Effect}!draw@{draw}}
+\index{draw@{draw}!Effect@{Effect}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_effect_a6a3a393e127581c7f84e1278b5be0438} 
+void Effect\+::draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classsf_1_1_render_target}{sf\+::\+Render\+Target}} \&}]{target}{, }\item[{\mbox{\hyperlink{classsf_1_1_render_states}{sf\+::\+Render\+States}}}]{states}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Draw the object to a render target. 
+
+This is a pure virtual function that has to be implemented by the derived class to define how the drawable should be drawn.
+
+
+\begin{DoxyParams}{Parameters}
+{\em target} & Render target to draw to \\
+\hline
+{\em states} & Current render states \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classsf_1_1_drawable_a90d2c88bba9b035a0844eccb380ef631}{sf\+::\+Drawable}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/push\+\_\+swap/push\+\_\+swap\+\_\+visualizer/build/\+\_\+deps/sfml-\/src/examples/shader/Effect.\+hpp\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/push\+\_\+swap/push\+\_\+swap\+\_\+visualizer/build/\+\_\+deps/sfml-\/src/examples/shader/Shader.\+cpp\end{DoxyCompactItemize}

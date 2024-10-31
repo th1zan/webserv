@@ -1,0 +1,62 @@
+\doxysection{mlx\+\_\+new\+\_\+window.\+h}
+\hypertarget{mini_r_t_2mini_r_t__saved__20240311_2src_2lib_2minilibx_2mlx__new__window_8h_source}{}\label{mini_r_t_2mini_r_t__saved__20240311_2src_2lib_2minilibx_2mlx__new__window_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240311/src/lib/minilibx/mlx\_new\_window.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/miniRT\_saved\_20240311/src/lib/minilibx/mlx\_new\_window.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ mlx\_int.h\ for\ minilibx}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ ol@staff.42.fr}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ include\ opengl\ needed\ before\ mlx\_int.h}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#import\ <Cocoa/Cocoa.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#import\ "{}mlx\_int.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{@interface\ }\mbox{\hyperlink{interface_n_s_window_event}{NSWindowEvent}}\ :\ NSWindow}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \ \ func\_t\ \ \ \ event\_funct[MAX\_EVENT];}
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ *(event\_param[MAX\_EVENT]);}
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ keyrepeat;}
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ keyflag;}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ size\_x;}
+\DoxyCodeLine{00019\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ size\_y;}
+\DoxyCodeLine{00020\ \}}
+\DoxyCodeLine{00021\ -\/\ (\mbox{\hyperlink{interface_n_s_window_event}{NSWindowEvent}}\ *)\ initWithContentRect:(NSRect)rect\ styleMask:(NSUInteger)winstyle\ backing:(NSBackingStoreType)bck\ defer:(BOOL)\ dfr;}
+\DoxyCodeLine{00022\ -\/\ (void)\ setEvent:(\textcolor{keywordtype}{int})event\ andFunc:(func\_t)func\ andParam:(\textcolor{keywordtype}{void}\ *)param;}
+\DoxyCodeLine{00023\ -\/\ (void)\ setKeyRepeat:(\textcolor{keywordtype}{int})mode;}
+\DoxyCodeLine{00024\ -\/\ (void)\ exposeNotification:(NSNotification\ *)note;}
+\DoxyCodeLine{00025\ -\/\ (void)\ closeNotification:(NSNotification\ *)note;}
+\DoxyCodeLine{00026\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{@interface\ }\mbox{\hyperlink{interface_mlx_win}{MlxWin}}\ :\ NSOpenGLView}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{interface_n_s_window_event}{NSWindowEvent}}\ \ \ \ \ \ \ \ *win;}
+\DoxyCodeLine{00032\ \ \ NSOpenGLContext\ \ \ *ctx;}
+\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{structglsl__info__s}{glsl\_info\_t}}\ \ \ \ \ \ \ \ glsl;}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ openglwin;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ size\_x;}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ size\_y;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ pixel\_nb;}
+\DoxyCodeLine{00040\ \ \ GLuint\ \ \ \ \ \ \ \ pixel\_vbuffer;}
+\DoxyCodeLine{00041\ \ \ GLuint\ \ \ \ \ \ \ \ pixel\_texture;}
+\DoxyCodeLine{00042\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ *pixtexbuff;}
+\DoxyCodeLine{00043\ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ -\/\ (id)\ initWithRect:\ (NSRect)rect\ andTitle:\ (NSString\ *)title\ pfaAttrs:\ (NSOpenGLPixelFormatAttribute\ *)attrs;}
+\DoxyCodeLine{00046\ -\/\ (void)\ selectGLContext;}
+\DoxyCodeLine{00047\ -\/\ (void)\ flushGLContext;}
+\DoxyCodeLine{00048\ -\/\ (void)\ pixelPutColor:\ (\textcolor{keywordtype}{int})color\ X:(\textcolor{keywordtype}{int})x\ Y:(\textcolor{keywordtype}{int})y;}
+\DoxyCodeLine{00049\ -\/\ (void)\ mlx\_gl\_draw;}
+\DoxyCodeLine{00050\ -\/\ (void)\ mlx\_gl\_draw\_img:(\mbox{\hyperlink{structmlx__img__list__s}{mlx\_img\_list\_t}}\ *)img\ andCtx:(\mbox{\hyperlink{structmlx__img__ctx__s}{mlx\_img\_ctx\_t}}\ *)imgctx\ andX:(\textcolor{keywordtype}{int})x\ andY:(\textcolor{keywordtype}{int})y;}
+\DoxyCodeLine{00051\ -\/\ (void)\ mlx\_gl\_draw\_font:(\mbox{\hyperlink{structmlx__img__list__s}{mlx\_img\_list\_t}}\ *)img\ andCtx:(\mbox{\hyperlink{structmlx__img__ctx__s}{mlx\_img\_ctx\_t}}\ *)imgctx\ andX:(\textcolor{keywordtype}{int})x\ andY:(\textcolor{keywordtype}{int})y\ andColor:(\textcolor{keywordtype}{int})color\ glyphX:(\textcolor{keywordtype}{int})gx\ glyphY:(\textcolor{keywordtype}{int})gy;}
+\DoxyCodeLine{00052\ -\/\ (NSOpenGLContext\ *)\ ctx;}
+\DoxyCodeLine{00053\ -\/\ (void)\ setEvent:(\textcolor{keywordtype}{int})event\ andFunc:(func\_t)func\ andParam:(\textcolor{keywordtype}{void}\ *)param;}
+\DoxyCodeLine{00054\ -\/\ (void)\ setKeyRepeat:(\textcolor{keywordtype}{int})mode;}
+\DoxyCodeLine{00055\ -\/\ (void)\ ctxNeedsUpdate;}
+\DoxyCodeLine{00056\ \textcolor{keyword}{@end}}
+
+\end{DoxyCode}

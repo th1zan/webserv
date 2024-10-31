@@ -1,0 +1,43 @@
+\doxysection{catch\+\_\+test\+\_\+registry.\+cpp}
+\hypertarget{catch__test__registry_8cpp_source}{}\label{catch__test__registry_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_test\_registry.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_test\_registry.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 25/07/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_test\_registry.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_compiler\_capabilities.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}catch\_test\_case\_registry\_impl.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_registry\_hub.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{auto}\ makeTestInvoker(\ \textcolor{keywordtype}{void}(*testAsFunction)()\ )\ noexcept\ -\/>\ ITestInvoker*\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}(std::nothrow)\ TestInvokerAsFunction(\ testAsFunction\ );}
+\DoxyCodeLine{00017\ \ \ \ \ \}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ NameAndTags::NameAndTags(\ StringRef\ \textcolor{keyword}{const}\&\ name\_\ ,\ StringRef\ \textcolor{keyword}{const}\&\ tags\_\ )\ noexcept\ :\ name(\ name\_\ ),\ tags(\ tags\_\ )\ \{\}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ AutoReg::AutoReg(\ ITestInvoker*\ invoker,\ SourceLineInfo\ \textcolor{keyword}{const}\&\ lineInfo,\ StringRef\ \textcolor{keyword}{const}\&\ classOrMethod,\ NameAndTags\ \textcolor{keyword}{const}\&\ nameAndTags\ )\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ CATCH\_TRY\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ getMutableRegistryHub()}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .registerTest(}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ makeTestCase(}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ invoker,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ extractClassName(\ classOrMethod\ ),}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nameAndTags,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lineInfo));}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}\ CATCH\_CATCH\_ALL\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Do\ not\ throw\ when\ constructing\ global\ objects,\ instead\ register\ the\ exception\ to\ be\ processed\ later}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ getMutableRegistryHub().registerStartupException();}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ AutoReg::\string~AutoReg()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00037\ \}}
+
+\end{DoxyCode}

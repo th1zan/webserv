@@ -1,0 +1,47 @@
+\doxysection{execution.\+h}
+\hypertarget{minishell__clean_2src_2header_2execution_8h_source}{}\label{minishell__clean_2src_2header_2execution_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/execution.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/execution.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ execution.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/08/16\ 12:15:49\ by\ mlachat\ \ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/11/03\ 14:17:34\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ EXECUTION\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ EXECUTION\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*execution.c*/}}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{void}\ \ \ \ free\_resources(\textcolor{keywordtype}{char}\ **cmd,\ \textcolor{keywordtype}{char}\ ***arg\_table);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_fork\_error(\textcolor{keywordtype}{char}\ **cmd,\ \textcolor{keywordtype}{char}\ ***arg\_table);}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ \ \ \ exe\_child\_process(\mbox{\hyperlink{structs__env}{t\_env}}\ *env,\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ *tmp,\ \textcolor{keywordtype}{char}\ **cmd,\ \textcolor{keywordtype}{char}\ ***arg\_table);}
+\DoxyCodeLine{00020\ \textcolor{keywordtype}{int}\ \ \ \ \ execute\_non\_builtin(\mbox{\hyperlink{structs__env}{t\_env}}\ *env,\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ *tmp);}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{int}\ \ \ \ \ execution(\mbox{\hyperlink{structs__env}{t\_env}}\ *env,\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{/*handle\_cmd.c*/}}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{int}\ \ \ \ \ cmd\_arg\_list\_to\_table(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{char}\ ***arg\_table,\ \textcolor{keywordtype}{char}\ **cmd);}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{int}\ \ \ \ \ tk\_arg\_to\_table(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{char}\ \ ***arg\_table);}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ \ \ \ \ check\_and\_set\_path(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk,\ \textcolor{keywordtype}{char}\ *cmd,\ \textcolor{keywordtype}{char}\ *path);}
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{int}\ \ \ \ \ get\_cmd\_path(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/*status.c*/}}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{void}\ \ \ \ free\_and\_replace(\textcolor{keywordtype}{char}\ **env,\ \textcolor{keywordtype}{char}\ *new\_var,\ \textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{char}\ \ \ \ **create\_new\_env(\textcolor{keywordtype}{char}\ **env,\ \textcolor{keywordtype}{char}\ *new\_var,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ \ \ \ \ save\_status\_var\_in\_env(\mbox{\hyperlink{structs__env}{t\_env}}\ *env\_tk);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \ \ \ \ update\_status\_variable(\mbox{\hyperlink{structs__env}{t\_env}}\ *env,\ \textcolor{keywordtype}{int}\ bin\_status,\ \textcolor{keywordtype}{int}\ status\_built\_in);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{/*wait\_and\_close.c*/}}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{int}\ \ \ \ \ fd\_is\_standard(\textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ \ \ \ \ close\_all\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ \ \ \ \ wait\_all\_pid(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ \ \ \ \ get\_status\_info(\textcolor{keywordtype}{int}\ status);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

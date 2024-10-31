@@ -1,0 +1,92 @@
+\doxysection{catch\+\_\+capture\+\_\+matchers.\+h}
+\hypertarget{catch__capture__matchers_8h_source}{}\label{catch__capture__matchers_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_capture\_matchers.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_capture\_matchers.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 9/8/2017}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2017\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_CAPTURE\_MATCHERS\_HPP\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_CAPTURE\_MATCHERS\_HPP\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_capture.hpp"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_matchers.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}catch\_matchers\_exception.hpp"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}catch\_matchers\_floating.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}catch\_matchers\_generic.hpp"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}catch\_matchers\_string.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}catch\_matchers\_vector.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}catch\_stringref.h"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ ArgT,\ \textcolor{keyword}{typename}\ MatcherT>}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{class\ }MatchExpr\ :\ \textcolor{keyword}{public}\ ITransientExpression\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ ArgT\ \textcolor{keyword}{const}\&\ m\_arg;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ MatcherT\ m\_matcher;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ StringRef\ m\_matcherString;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ MatchExpr(\ ArgT\ \textcolor{keyword}{const}\&\ arg,\ MatcherT\ \textcolor{keyword}{const}\&\ matcher,\ StringRef\ \textcolor{keyword}{const}\&\ matcherString\ )}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ :\ \ \ ITransientExpression\{\ true,\ matcher.match(\ arg\ )\ \},}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ m\_arg(\ arg\ ),}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ m\_matcher(\ matcher\ ),}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ m\_matcherString(\ matcherString\ )}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \{\}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ streamReconstructedExpression(\ std::ostream\ \&os\ )\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ matcherAsString\ =\ m\_matcher.toString();}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ Catch::Detail::stringify(\ m\_arg\ )\ <<\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ matcherAsString\ ==\ Detail::unprintableString\ )}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ m\_matcherString;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ matcherAsString;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{using\ }StringMatcher\ =\ Matchers::Impl::MatcherBase<std::string>;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ handleExceptionMatchExpr(\ AssertionHandler\&\ handler,\ StringMatcher\ \textcolor{keyword}{const}\&\ matcher,\ StringRef\ \textcolor{keyword}{const}\&\ matcherString\ \ );}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ ArgT,\ \textcolor{keyword}{typename}\ MatcherT>}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{auto}\ makeMatchExpr(\ ArgT\ \textcolor{keyword}{const}\&\ arg,\ MatcherT\ \textcolor{keyword}{const}\&\ matcher,\ StringRef\ \textcolor{keyword}{const}\&\ matcherString\ \ )\ -\/>\ MatchExpr<ArgT,\ MatcherT>\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ MatchExpr<ArgT,\ MatcherT>(\ arg,\ matcher,\ matcherString\ );}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ INTERNAL\_CHECK\_THAT(\ macroName,\ matcher,\ resultDisposition,\ arg\ )\ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ do\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Catch::AssertionHandler\ catchAssertionHandler(\ macroName\#\#\_catch\_sr,\ CATCH\_INTERNAL\_LINEINFO,\ CATCH\_INTERNAL\_STRINGIFY(arg)\ "{},\ "{}\ CATCH\_INTERNAL\_STRINGIFY(matcher),\ resultDisposition\ );\ \(\backslash\)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ INTERNAL\_CATCH\_TRY\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ catchAssertionHandler.handleExpr(\ Catch::makeMatchExpr(\ arg,\ matcher,\ \#matcher\#\#\_catch\_sr\ )\ );\ \(\backslash\)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ INTERNAL\_CATCH\_CATCH(\ catchAssertionHandler\ )\ \(\backslash\)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ INTERNAL\_CATCH\_REACT(\ catchAssertionHandler\ )\ \(\backslash\)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \}\ while(\ false\ )}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ INTERNAL\_CATCH\_THROWS\_MATCHES(\ macroName,\ exceptionType,\ resultDisposition,\ matcher,\ ...\ )\ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ do\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ Catch::AssertionHandler\ catchAssertionHandler(\ macroName\#\#\_catch\_sr,\ CATCH\_INTERNAL\_LINEINFO,\ CATCH\_INTERNAL\_STRINGIFY(\_\_VA\_ARGS\_\_)\ "{},\ "{}\ CATCH\_INTERNAL\_STRINGIFY(exceptionType)\ "{},\ "{}\ CATCH\_INTERNAL\_STRINGIFY(matcher),\ resultDisposition\ );\ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if(\ catchAssertionHandler.allowThrows()\ )\ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ try\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ static\_cast<void>(\_\_VA\_ARGS\_\_\ );\ \(\backslash\)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ catchAssertionHandler.handleUnexpectedExceptionNotThrown();\ \(\backslash\)}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \(\backslash\)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ catch(\ exceptionType\ const\&\ ex\ )\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ catchAssertionHandler.handleExpr(\ Catch::makeMatchExpr(\ ex,\ matcher,\ \#matcher\#\#\_catch\_sr\ )\ );\ \(\backslash\)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \(\backslash\)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ catch(\ ...\ )\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ catchAssertionHandler.handleUnexpectedInflightException();\ \(\backslash\)}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \(\backslash\)}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ else\ \(\backslash\)}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ catchAssertionHandler.handleThrowingCallSkipped();\ \(\backslash\)}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ INTERNAL\_CATCH\_REACT(\ catchAssertionHandler\ )\ \(\backslash\)}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\ \ \ \ \}\ while(\ false\ )}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_CAPTURE\_MATCHERS\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

@@ -1,0 +1,22 @@
+\doxysection{catch\+\_\+tag\+\_\+alias\+\_\+autoregistrar.\+cpp}
+\hypertarget{catch__tag__alias__autoregistrar_8cpp_source}{}\label{catch__tag__alias__autoregistrar_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_tag\_alias\_autoregistrar.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_tag\_alias\_autoregistrar.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}catch\_tag\_alias\_autoregistrar.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}catch\_compiler\_capabilities.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_registry\_hub.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \ \ \ \ RegistrarForTagAliases::RegistrarForTagAliases(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ alias,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ tag,\ SourceLineInfo\ \textcolor{keyword}{const}\&\ lineInfo)\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ CATCH\_TRY\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \ \ \ \ getMutableRegistryHub().registerTagAlias(alias,\ tag,\ lineInfo);}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \}\ CATCH\_CATCH\_ALL\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Do\ not\ throw\ when\ constructing\ global\ objects,\ instead\ register\ the\ exception\ to\ be\ processed\ later}}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ getMutableRegistryHub().registerStartupException();}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00014\ \ \ \ \ \}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \}}
+
+\end{DoxyCode}

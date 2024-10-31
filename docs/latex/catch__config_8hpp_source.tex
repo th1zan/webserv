@@ -1,0 +1,139 @@
+\doxysection{catch\+\_\+config.\+hpp}
+\hypertarget{catch__config_8hpp_source}{}\label{catch__config_8hpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_config.hpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_config.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 08/11/2010.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2010\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_CONFIG\_HPP\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_CONFIG\_HPP\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_test\_spec\_parser.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_config.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ Libstdc++\ doesn't\ like\ incomplete\ classes\ for\ unique\_ptr}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}catch\_stream.h"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifndef\ CATCH\_CONFIG\_CONSOLE\_WIDTH}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ CATCH\_CONFIG\_CONSOLE\_WIDTH\ 80}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{struct\ }IStream;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_catch_1_1_config_data}{ConfigData}}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listTests\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listTags\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listReporters\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listTestNamesOnly\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ showSuccessfulTests\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldDebugBreak\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ noThrow\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ showHelp\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ showInvisibles\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ filenamesAsTags\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ libIdentify\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ abortAfter\ =\ -\/1;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rngSeed\ =\ 0;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ benchmarkNoAnalysis\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ benchmarkSamples\ =\ 100;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ benchmarkConfidenceInterval\ =\ 0.95;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ benchmarkResamples\ =\ 100000;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ std::chrono::milliseconds::rep\ benchmarkWarmupTime\ =\ 100;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ Verbosity\ verbosity\ =\ Verbosity::Normal;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ WarnAbout::What\ warnings\ =\ WarnAbout::Nothing;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ ShowDurations::OrNot\ showDurations\ =\ ShowDurations::DefaultForReporter;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ minDuration\ =\ -\/1;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ RunTests::InWhatOrder\ runOrder\ =\ RunTests::InDeclarationOrder;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ UseColour::YesOrNo\ useColour\ =\ UseColour::Auto;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ WaitForKeypress::When\ waitForKeypress\ =\ WaitForKeypress::Never;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ std::string\ outputFilename;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ std::string\ name;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ std::string\ processName;}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#ifndef\ CATCH\_CONFIG\_DEFAULT\_REPORTER}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ CATCH\_CONFIG\_DEFAULT\_REPORTER\ "{}console"{}}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ std::string\ reporterName\ =\ CATCH\_CONFIG\_DEFAULT\_REPORTER;}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#undef\ CATCH\_CONFIG\_DEFAULT\_REPORTER}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ std::vector<std::string>\ testsOrTags;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ std::vector<std::string>\ sectionsToRun;}
+\DoxyCodeLine{00071\ \ \ \ \ \};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_catch_1_1_config}{Config}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_catch_1_1_i_config}{IConfig}}\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_config}{Config}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_config}{Config}}(\ \mbox{\hyperlink{struct_catch_1_1_config_data}{ConfigData}}\ \textcolor{keyword}{const}\&\ data\ );}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_catch_1_1_config}{\string~Config}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ getFilename()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listTests()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listTestNamesOnly()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listTags()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ listReporters()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ std::string\ getProcessName()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ getReporterName()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ std::vector<std::string>\ \textcolor{keyword}{const}\&\ getTestsOrTags()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ std::vector<std::string>\ \textcolor{keyword}{const}\&\ getSectionsToRun()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_test_spec}{TestSpec}}\ \textcolor{keyword}{const}\&\ testSpec()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ hasTestFilters()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ showHelp()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ IConfig\ interface}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ allowThrows()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ std::ostream\&\ stream()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ std::string\ name()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ includeSuccessfulResults()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ warnAboutMissingAssertions()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ warnAboutNoTests()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ ShowDurations::OrNot\ showDurations()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ minDuration()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ RunTests::InWhatOrder\ runOrder()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ rngSeed()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ UseColour::YesOrNo\ useColour()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldDebugBreak()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ abortAfter()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ showInvisibles()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ Verbosity\ verbosity()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ benchmarkNoAnalysis()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ benchmarkSamples()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ benchmarkConfidenceInterval()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ benchmarkResamples()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ std::chrono::milliseconds\ benchmarkWarmupTime()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_catch_1_1_i_stream}{IStream}}\ \textcolor{keyword}{const}*\ openStream();}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_catch_1_1_config_data}{ConfigData}}\ m\_data;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ std::unique\_ptr<IStream\ const>\ m\_stream;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_test_spec}{TestSpec}}\ m\_testSpec;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_hasTestFilters\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00129\ \ \ \ \ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_CONFIG\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

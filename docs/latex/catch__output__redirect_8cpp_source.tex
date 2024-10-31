@@ -1,0 +1,153 @@
+\doxysection{catch\+\_\+output\+\_\+redirect.\+cpp}
+\hypertarget{catch__output__redirect_8cpp_source}{}\label{catch__output__redirect_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_output\_redirect.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_output\_redirect.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 28/04/2018.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}catch\_output\_redirect.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}catch\_enforce.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <cstdio>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_NEW\_CAPTURE)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \#include\ <io.h>}\ \ \ \ \ \ \textcolor{comment}{//\_dup\ and\ \_dup2}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \#define\ dup\ \_dup}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ \#define\ dup2\ \_dup2}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ \#define\ fileno\ \_fileno}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \#include\ <unistd.h>}\ \ \textcolor{comment}{//\ dup\ and\ dup2}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ RedirectedStream::RedirectedStream(\ std::ostream\&\ originalStream,\ std::ostream\&\ redirectionStream\ )}
+\DoxyCodeLine{00032\ \ \ \ \ :\ \ \ m\_originalStream(\ originalStream\ ),}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ m\_redirectionStream(\ redirectionStream\ ),}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ m\_prevBuf(\ m\_originalStream.rdbuf()\ )}
+\DoxyCodeLine{00035\ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ m\_originalStream.rdbuf(\ m\_redirectionStream.rdbuf()\ );}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ RedirectedStream::\string~RedirectedStream()\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ m\_originalStream.rdbuf(\ m\_prevBuf\ );}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ RedirectedStdOut::RedirectedStdOut()\ :\ m\_cout(\ Catch::cout(),\ m\_rss.get()\ )\ \{\}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{auto}\ RedirectedStdOut::str()\ const\ -\/>\ std::\textcolor{keywordtype}{string}\ \{\ \textcolor{keywordflow}{return}\ m\_rss.str();\ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ RedirectedStdErr::RedirectedStdErr()}
+\DoxyCodeLine{00047\ \ \ \ \ :\ \ \ m\_cerr(\ Catch::cerr(),\ m\_rss.get()\ ),}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ m\_clog(\ Catch::clog(),\ m\_rss.get()\ )}
+\DoxyCodeLine{00049\ \ \ \ \ \{\}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{auto}\ RedirectedStdErr::str()\ const\ -\/>\ std::\textcolor{keywordtype}{string}\ \{\ \textcolor{keywordflow}{return}\ m\_rss.str();\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ RedirectedStreams::RedirectedStreams(std::string\&\ redirectedCout,\ std::string\&\ redirectedCerr)}
+\DoxyCodeLine{00053\ \ \ \ \ :\ \ \ m\_redirectedCout(redirectedCout),}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ m\_redirectedCerr(redirectedCerr)}
+\DoxyCodeLine{00055\ \ \ \ \ \{\}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ RedirectedStreams::\string~RedirectedStreams()\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ m\_redirectedCout\ +=\ m\_redirectedStdOut.str();}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ m\_redirectedCerr\ +=\ m\_redirectedStdErr.str();}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_NEW\_CAPTURE)}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00065\ \ \ \ \ TempFile::TempFile()\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tmpnam\_s(m\_buffer))\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_RUNTIME\_ERROR(\textcolor{stringliteral}{"{}Could\ not\ get\ a\ temp\ filename"{}});}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fopen\_s(\&m\_file,\ m\_buffer,\ \textcolor{stringliteral}{"{}w+"{}}))\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[100];}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strerror\_s(buffer,\ errno))\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_RUNTIME\_ERROR(\textcolor{stringliteral}{"{}Could\ not\ translate\ errno\ to\ a\ string"{}});}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_RUNTIME\_ERROR(\textcolor{stringliteral}{"{}Could\ not\ open\ the\ temp\ file:\ '"{}}\ <<\ m\_buffer\ <<\ \textcolor{stringliteral}{"{}'\ because:\ "{}}\ <<\ buffer);}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00078\ \ \ \ \ TempFile::TempFile()\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ m\_file\ =\ std::tmpfile();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_file)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ CATCH\_RUNTIME\_ERROR(\textcolor{stringliteral}{"{}Could\ not\ create\ a\ temp\ file."{}});}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ TempFile::\string~TempFile()\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TBD:\ What\ to\ do\ about\ errors\ here?}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ std::fclose(m\_file);}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ manually\ create\ the\ file\ on\ Windows\ only,\ on\ Linux}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ it\ will\ be\ autodeleted}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ std::remove(m\_buffer);}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ FILE*\ TempFile::getFile()\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_file;}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ std::string\ TempFile::getContents()\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ std::stringstream\ sstr;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[100]\ =\ \{\};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ std::rewind(m\_file);}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (std::fgets(buffer,\ \textcolor{keyword}{sizeof}(buffer),\ m\_file))\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ sstr\ <<\ buffer;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sstr.str();}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ OutputRedirect::OutputRedirect(std::string\&\ stdout\_dest,\ std::string\&\ stderr\_dest)\ :}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ m\_originalStdout(dup(1)),}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ m\_originalStderr(dup(2)),}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ m\_stdoutDest(stdout\_dest),}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ m\_stderrDest(stderr\_dest)\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ dup2(fileno(m\_stdoutFile.getFile()),\ 1);}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ dup2(fileno(m\_stderrFile.getFile()),\ 2);}
+\DoxyCodeLine{00119\ \ \ \ \ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ OutputRedirect::\string~OutputRedirect()\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ Catch::cout()\ <<\ std::flush;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ fflush(stdout);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Since\ we\ support\ overriding\ these\ streams,\ we\ flush\ cerr}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ even\ though\ std::cerr\ is\ unbuffered}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ Catch::cerr()\ <<\ std::flush;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ Catch::clog()\ <<\ std::flush;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ fflush(stderr);}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ dup2(m\_originalStdout,\ 1);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ dup2(m\_originalStderr,\ 2);}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ m\_stdoutDest\ +=\ m\_stdoutFile.getContents();}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ m\_stderrDest\ +=\ m\_stderrFile.getContents();}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CATCH\_CONFIG\_NEW\_CAPTURE}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \}\ \textcolor{comment}{//\ namespace\ Catch}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#if\ defined(CATCH\_CONFIG\_NEW\_CAPTURE)}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\ \ \ \ \#undef\ dup}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\ \ \ \ \#undef\ dup2}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\ \ \ \ \#undef\ fileno}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

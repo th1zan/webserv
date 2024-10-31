@@ -1,0 +1,33 @@
+\doxysection{catch\+\_\+suppress\+\_\+warnings.\+h}
+\hypertarget{catch__suppress__warnings_8h_source}{}\label{catch__suppress__warnings_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_suppress\_warnings.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_suppress\_warnings.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Copyright\ 2014\ Two\ Blue\ Cubes\ Ltd}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#\ \ \ ifdef\ \_\_ICC\ }\textcolor{comment}{//\ icpc\ defines\ the\ \_\_clang\_\_\ macro}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ pragma\ warning(push)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ pragma\ warning(disable:\ 161\ 1682)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#\ \ \ else\ }\textcolor{comment}{//\ \_\_ICC}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ pragma\ clang\ diagnostic\ push}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ pragma\ clang\ diagnostic\ ignored\ "{}-\/Wpadded"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ pragma\ clang\ diagnostic\ ignored\ "{}-\/Wswitch-\/enum"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#\ \ \ \ \ \ \ pragma\ clang\ diagnostic\ ignored\ "{}-\/Wcovered-\/switch-\/default"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#\ \ \ \ endif}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#elif\ defined\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \textcolor{comment}{//\ Because\ REQUIREs\ trigger\ GCC's\ -\/Wparentheses,\ and\ because\ still}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \textcolor{comment}{//\ supported\ version\ of\ g++\ have\ only\ buggy\ support\ for\ \_Pragmas,}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \textcolor{comment}{//\ Wparentheses\ have\ to\ be\ suppressed\ globally.}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wparentheses"{}\ }\textcolor{comment}{//\ See\ \#674\ for\ details}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ push}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wunused-\/variable"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#\ \ \ \ pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wpadded"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,75 @@
+\doxysection{catch\+\_\+test\+\_\+case\+\_\+registry\+\_\+impl.\+h}
+\hypertarget{catch__test__case__registry__impl_8h_source}{}\label{catch__test__case__registry__impl_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_test\_case\_registry\_impl.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/include/internal/catch\_test\_case\_registry\_impl.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Phil\ on\ 7/1/2011}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *\ \ Copyright\ 2010\ Two\ Blue\ Cubes\ Ltd.\ All\ rights\ reserved.}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ TWOBLUECUBES\_CATCH\_TEST\_CASE\_REGISTRY\_IMPL\_HPP\_INCLUDED}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ TWOBLUECUBES\_CATCH\_TEST\_CASE\_REGISTRY\_IMPL\_HPP\_INCLUDED}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}catch\_test\_registry.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}catch\_test\_spec.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}catch\_interfaces\_config.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <ios>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }Catch\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{class\ }TestCase;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{struct\ }IConfig;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ std::vector<TestCase>\ sortTests(\ IConfig\ \textcolor{keyword}{const}\&\ config,\ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ unsortedTestCases\ );}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{bool}\ isThrowSafe(\ TestCase\ \textcolor{keyword}{const}\&\ testCase,\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ matchTest(\ TestCase\ \textcolor{keyword}{const}\&\ testCase,\ TestSpec\ \textcolor{keyword}{const}\&\ testSpec,\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ enforceNoDuplicateTestCases(\ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ functions\ );}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ std::vector<TestCase>\ filterTests(\ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ testCases,\ TestSpec\ \textcolor{keyword}{const}\&\ testSpec,\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00033\ \ \ \ \ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ getAllTestCasesSorted(\ IConfig\ \textcolor{keyword}{const}\&\ config\ );}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_catch_1_1_test_registry}{TestRegistry}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_catch_1_1_i_test_case_registry}{ITestCaseRegistry}}\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_catch_1_1_test_registry}{\string~TestRegistry}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ registerTest(\ \mbox{\hyperlink{class_catch_1_1_test_case}{TestCase}}\ \textcolor{keyword}{const}\&\ testCase\ );}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ getAllTests()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ std::vector<TestCase>\ \textcolor{keyword}{const}\&\ getAllTestsSorted(\ \mbox{\hyperlink{struct_catch_1_1_i_config}{IConfig}}\ \textcolor{keyword}{const}\&\ config\ )\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ std::vector<TestCase>\ m\_functions;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{mutable}\ RunTests::InWhatOrder\ m\_currentSortOrder\ =\ RunTests::InDeclarationOrder;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{mutable}\ std::vector<TestCase>\ m\_sortedFunctions;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ std::size\_t\ m\_unnamedCount\ =\ 0;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ std::ios\_base::Init\ m\_ostreamInit;\ \textcolor{comment}{//\ Forces\ cout/\ cerr\ to\ be\ initialised}}
+\DoxyCodeLine{00050\ \ \ \ \ \};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_catch_1_1_test_invoker_as_function}{TestInvokerAsFunction}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_catch_1_1_i_test_invoker}{ITestInvoker}}\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ void(*m\_testAsFunction)();}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_catch_1_1_test_invoker_as_function}{TestInvokerAsFunction}}(\ \textcolor{keywordtype}{void}(*testAsFunction)()\ )\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ invoke()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00060\ \ \ \ \ \};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ std::string\ extractClassName(\ \mbox{\hyperlink{class_catch_1_1_string_ref}{StringRef}}\ \textcolor{keyword}{const}\&\ classOrQualifiedMethodName\ );}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \}\ \textcolor{comment}{//\ end\ namespace\ Catch}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TWOBLUECUBES\_CATCH\_TEST\_CASE\_REGISTRY\_IMPL\_HPP\_INCLUDED}}
+
+\end{DoxyCode}

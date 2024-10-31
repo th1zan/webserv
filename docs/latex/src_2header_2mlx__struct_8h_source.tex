@@ -1,0 +1,55 @@
+\doxysection{mlx\+\_\+struct.\+h}
+\hypertarget{src_2header_2mlx__struct_8h_source}{}\label{src_2header_2mlx__struct_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/src/header/mlx\_struct.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/miniRT/src/header/mlx\_struct.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ mlx\_struct.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/04/26\ 09:31:25\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/04/08\ 12:47:08\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ MLX\_STRUCT\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ MLX\_STRUCT\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__scn}{s\_scn}}\ \ \ \mbox{\hyperlink{structs__scn}{t\_scn}};}
+\DoxyCodeLine{00017\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__world}{s\_world}}\ \ \ \mbox{\hyperlink{structs__world}{t\_world}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__canevas}{s\_canevas}}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ debug\_mode;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ *mlx\_ptr;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ *win\_ptr;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ *img\_ptr;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *addr;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ bpp;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ line\_len;}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ endian;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ win\_width;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ win\_height;}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{double}\ \ a\_r;}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{structs__scn}{t\_scn}}\ \ *scene;}
+\DoxyCodeLine{00034\ \}\ \ \ \mbox{\hyperlink{structs__canevas}{t\_canevas}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ miniRT.c}}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ \ \ \ \ init\_cnv(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *cnv);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ \ \ \ \ main(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ **scene\_name);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ mlx\_events.c}}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \ \ \ \ free\_and\_exit(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *mlx\_cnv);}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_input(\textcolor{keywordtype}{int}\ keysym,\ \mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *cnv);}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{int}\ \ \ \ \ close\_window(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *mlx\_cnv);}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_events(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *mlx\_cnv);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ mlx\_utils.c}}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ \ \ \ \ print\_on\_window(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *cnv,\ \textcolor{keywordtype}{char}\ *win\_title);}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{int}\ \ \ \ \ \mbox{\hyperlink{canvas_8h_a731f80f9807c1cca7291fb558359c2a8}{show\_window}}(\mbox{\hyperlink{structs__canevas}{t\_canevas}}\ *cnv);}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

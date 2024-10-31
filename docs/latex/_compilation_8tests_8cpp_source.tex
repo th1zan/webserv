@@ -1,0 +1,274 @@
+\doxysection{Compilation.\+tests.\+cpp}
+\hypertarget{_compilation_8tests_8cpp_source}{}\label{_compilation_8tests_8cpp_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/projects/SelfTest/UsageTests/Compilation.tests.cpp@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/push\_swap/push\_swap\_visualizer/build/\_deps/catch2-\/src/projects/SelfTest/UsageTests/Compilation.tests.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ Created\ by\ Martin\ on\ 17/02/2017.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Distributed\ under\ the\ Boost\ Software\ License,\ Version\ 1.0.\ (See\ accompanying}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ file\ LICENSE\_1\_0.txt\ or\ copy\ at\ http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Setup\ for\ \#1403\ -\/-\/\ look\ for\ global\ overloads\ of\ operator\ <<\ for\ classes}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ in\ a\ different\ namespace.}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{structfoo}{foo}}\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structfoo_1_1helper__1403}{helper\_1403}}\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\mbox{\hyperlink{structfoo_1_1helper__1403}{helper\_1403}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00017\ \ \ \ \ \};}
+\DoxyCodeLine{00018\ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }bar\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Ts>}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structbar_1_1_type_list}{TypeList}}\ \{\};}
+\DoxyCodeLine{00023\ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wmissing-\/declarations"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ std::ostream\&\ operator<<(std::ostream\&\ out,\ \mbox{\hyperlink{structfoo_1_1helper__1403}{foo::helper\_1403}}\ \textcolor{keyword}{const}\&)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordflow}{return}\ out\ <<\ \textcolor{stringliteral}{"{}[1403\ helper]"{}};}
+\DoxyCodeLine{00030\ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}catch.hpp"{}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{namespace\ }\{\ \textcolor{keyword}{namespace\ }CompilationTests\ \{}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#ifndef\ COMPILATION\_TEST\_HELPERS\_INCLUDED\ }\textcolor{comment}{//\ Don't\ compile\ this\ more\ than\ once\ per\ TU}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ COMPILATION\_TEST\_HELPERS\_INCLUDED}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ Comparison\ operators\ can\ return\ non-\/booleans.}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{//\ This\ is\ unusual,\ but\ should\ be\ supported.}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{struct\ }logic\_t\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ logic\_t\ operator<\ (logic\_t)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ logic\_t\ \mbox{\hyperlink{namespacesf_a9c0477225ec01865c550da5b3b2b6cc5}{operator<=}}(logic\_t)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ logic\_t\ operator>\ (logic\_t)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ logic\_t\ \mbox{\hyperlink{namespacesf_a68124f60ee7ee08073bd1894d69b0ed2}{operator>=}}(logic\_t)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ logic\_t\ operator==(logic\_t)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ logic\_t\ operator!=(logic\_t)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{operator}\ bool()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ This\ is\ a\ minimal\ example\ for\ an\ issue\ we\ have\ found\ in\ 1.7.0}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structfoo}{foo}}\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{00058\ \ \ \ \ \};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ T\ \&val,\ \mbox{\hyperlink{structfoo}{foo}}\ f)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ val\ ==\ f.i;}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{struct\ }Y\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ uint32\_t\ v\ :\ 1;}
+\DoxyCodeLine{00067\ \ \ \ \ \};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ throws\_int(\textcolor{keywordtype}{bool}\ b)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (b)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ 1;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{bool}\ templated\_tests(T\ t)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ a\ =\ 3;}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ REQUIRE(a\ ==\ t);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ CHECK(a\ ==\ t);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ REQUIRE\_THROWS(throws\_int(\textcolor{keyword}{true}));}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ CHECK\_THROWS\_AS(throws\_int(\textcolor{keyword}{true}),\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ REQUIRE\_NOTHROW(throws\_int(\textcolor{keyword}{false}));}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#ifndef\ CATCH\_CONFIG\_DISABLE\_MATCHERS}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ REQUIRE\_THAT(\textcolor{stringliteral}{"{}aaa"{}},\ Catch::EndsWith(\textcolor{stringliteral}{"{}aaa"{}}));}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{class_a}{A}}\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ std::ostream\ \&operator<<(std::ostream\ \&o,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_a}{A}}\ \&)\ \{\ \textcolor{keywordflow}{return}\ o\ <<\ 0;\ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{class_b}{B}}\ :\ \textcolor{keyword}{private}\ \mbox{\hyperlink{class_a}{A}}\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keywordtype}{int})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ push}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ ignored\ "{}-\/Wunused-\/function"{}}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#ifdef\ \_\_GNUC\_\_}}
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ Note\ that\ because\ -\/\string~GCC\string~-\/,\ this\ warning\ cannot\ be\ silenced\ temporarily,\ by\ pushing\ diagnostic\ stack...}}
+\DoxyCodeLine{00104\ \textcolor{comment}{//\ Luckily\ it\ is\ firing\ in\ test\ files\ and\ thus\ can\ be\ silenced\ for\ the\ whole\ file,\ without\ losing\ much.}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wunused-\/function"{}}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{class_b}{B}}\ f();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ std::ostream\ g();}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#ifdef\ \_\_clang\_\_}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ pop}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename},\ \textcolor{keyword}{typename}>}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{struct\ }Fixture\_1245\ \{\};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#809"{}})\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structfoo}{foo}}\ f;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ f.i\ =\ 42;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ REQUIRE(42\ ==\ f);}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00129\ \textcolor{comment}{//\ Changes\ to\ REQUIRE\_THROWS\_AS\ made\ it\ stop\ working\ in\ a\ template\ in}}
+\DoxyCodeLine{00130\ \textcolor{comment}{//\ an\ unfixable\ way\ (as\ long\ as\ C++03\ compatibility\ is\ being\ kept).}}
+\DoxyCodeLine{00131\ \textcolor{comment}{//\ To\ prevent\ these\ from\ happening\ in\ the\ future,\ this\ needs\ to\ compile}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#833"{}})\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ REQUIRE(templated\_tests<int>(3));}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{comment}{//\ Test\ containing\ example\ where\ original\ stream\ insertable\ check\ breaks\ compilation}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#872"{}})\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_a}{A}}\ dummy;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ CAPTURE(dummy);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b}{B}}\ x;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ REQUIRE\ (x\ ==\ 4);}
+\DoxyCodeLine{00146\ \ \ \ \ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#1027"{}})\ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ Y\ y\{0\};}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ REQUIRE(y.v\ ==\ 0);}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ REQUIRE(0\ ==\ y.v);}
+\DoxyCodeLine{00153\ \ \ \ \ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{comment}{//\ Comparison\ operators\ can\ return\ non-\/booleans.}}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{comment}{//\ This\ is\ unusual,\ but\ should\ be\ supported.}}
+\DoxyCodeLine{00157\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#1147"{}})\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ logic\_t\ t1,\ t2;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ REQUIRE(t1\ ==\ t2);}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ REQUIRE(t1\ !=\ t2);}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ REQUIRE(t1\ <\ \ t2);}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ REQUIRE(t1\ >\ \ t2);}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ REQUIRE(t1\ <=\ t2);}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ REQUIRE(t1\ >=\ t2);}
+\DoxyCodeLine{00165\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{comment}{//\ unsigned\ array}}
+\DoxyCodeLine{00168\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#1238"{}})\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ uarr[]\ =\ \textcolor{stringliteral}{"{}123"{}};}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ CAPTURE(uarr);}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{signed}\ \textcolor{keywordtype}{char}\ sarr[]\ =\ \textcolor{stringliteral}{"{}456"{}};}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ CAPTURE(sarr);}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ REQUIRE(std::memcmp(uarr,\ \textcolor{stringliteral}{"{}123"{}},\ \textcolor{keyword}{sizeof}(uarr))\ ==\ 0);}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ REQUIRE(std::memcmp(sarr,\ \textcolor{stringliteral}{"{}456"{}},\ \textcolor{keyword}{sizeof}(sarr))\ ==\ 0);}
+\DoxyCodeLine{00176\ \ \ \ \ \}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ TEST\_CASE\_METHOD((Fixture\_1245<int,\ int>),\ \textcolor{stringliteral}{"{}\#1245"{}},\ \textcolor{stringliteral}{"{}[compilation]"{}})\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ SUCCEED();}
+\DoxyCodeLine{00180\ \ \ \ \ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#1403"{}},\ \textcolor{stringliteral}{"{}[compilation]"{}})\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structfoo_1_1helper__1403}{::foo::helper\_1403}}\ h1,\ h2;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ REQUIRE(h1\ ==\ h2);}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}Optionally\ static\ assertions"{}},\ \textcolor{stringliteral}{"{}[compilation]"{}})\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ STATIC\_REQUIRE(\ std::is\_void<void>::value\ );}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ STATIC\_REQUIRE\_FALSE(\ std::is\_void<int>::value\ );}
+\DoxyCodeLine{00190\ \ \ \ \ \}}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#1548"{}},\ \textcolor{stringliteral}{"{}[compilation]"{}})\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ namespace\ }bar;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ REQUIRE(std::is\_same<\mbox{\hyperlink{structbar_1_1_type_list}{TypeList<int>}},\ \mbox{\hyperlink{structbar_1_1_type_list}{TypeList<int>}}>::value);}
+\DoxyCodeLine{00195\ \ \ \ \ \}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{comment}{//\ \#925}}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keyword}{using\ }signal\_t\ =\ void\ (*)\ (\textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keyword}{struct\ }TestClass\ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ signal\_t\ testMethod\_uponComplete\_arg\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00202\ \ \ \ \ \};}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keyword}{namespace\ }utility\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ synchronizing\_callback(\ \textcolor{keywordtype}{void}\ *\ )\ \{\ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#if\ defined\ (\_MSC\_VER)}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#pragma\ warning(push)}}
+\DoxyCodeLine{00210\ \textcolor{comment}{//\ The\ function\ pointer\ comparison\ below\ triggers\ warning\ because\ of}}
+\DoxyCodeLine{00211\ \textcolor{comment}{//\ calling\ conventions}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#pragma\ warning(disable:4244)}}
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00214\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}\#925:\ comparing\ function\ pointer\ to\ function\ address\ failed\ to\ compile"{}},\ \textcolor{stringliteral}{"{}[!nonportable]"{}}\ )\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ TestClass\ test;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ REQUIRE(utility::synchronizing\_callback\ !=\ test.testMethod\_uponComplete\_arg);}
+\DoxyCodeLine{00217\ \ \ \ \ \}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#if\ defined\ (\_MSC\_VER)}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#pragma\ warning(pop)}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ TEST\_CASE(\ \textcolor{stringliteral}{"{}\#1027:\ Bitfields\ can\ be\ captured"{}}\ )\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Y\ \{}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ v\ :\ 1;}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ Y\ y\{\ 0\ \};}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ REQUIRE(\ y.v\ ==\ 0\ );}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ REQUIRE(\ 0\ ==\ y.v\ );}
+\DoxyCodeLine{00229\ \ \ \ \ \}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ TEST\_CASE(\textcolor{stringliteral}{"{}Lambdas\ in\ assertions"{}})\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ REQUIRE([]()\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}());}
+\DoxyCodeLine{00233\ \ \ \ \ \}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \}\}\ \textcolor{comment}{//\ namespace\ CompilationTests}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keyword}{struct\ }HasBitOperators\ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ value;}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ HasBitOperators\ operator|\ (HasBitOperators\ lhs,\ HasBitOperators\ rhs)\ \{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ lhs.value\ |\ rhs.value\ \};}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ HasBitOperators\ operator\&\ (HasBitOperators\ lhs,\ HasBitOperators\ rhs)\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ lhs.value\ \&\ rhs.value\ \};}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ HasBitOperators\ operator\string^\ (HasBitOperators\ lhs,\ HasBitOperators\ rhs)\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ lhs.value\ \string^\ rhs.value\ \};}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{operator}\ bool()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !!value;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ operator<<(std::ostream\&\ out,\ HasBitOperators\ val)\ \{}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ out\ <<\ \textcolor{stringliteral}{"{}Val:\ "{}}\ <<\ val.value;}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00258\ \ \ \ \ \};}
+\DoxyCodeLine{00259\ \}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ TEST\_CASE(\textcolor{stringliteral}{"{}Assertion\ macros\ support\ bit\ operators\ and\ bool\ conversions"{}},\ \textcolor{stringliteral}{"{}[compilation][bitops]"{}})\ \{}
+\DoxyCodeLine{00262\ \ \ \ \ HasBitOperators\ lhs\{\ 1\ \},\ rhs\{\ 2\ \};}
+\DoxyCodeLine{00263\ \ \ \ \ REQUIRE(lhs\ |\ rhs);}
+\DoxyCodeLine{00264\ \ \ \ \ REQUIRE\_FALSE(lhs\ \&\ rhs);}
+\DoxyCodeLine{00265\ \ \ \ \ REQUIRE(HasBitOperators\{\ 1\ \}\ \&\ HasBitOperators\{\ 1\ \});}
+\DoxyCodeLine{00266\ \ \ \ \ REQUIRE(lhs\ \string^\ rhs);}
+\DoxyCodeLine{00267\ \ \ \ \ REQUIRE\_FALSE(lhs\ \string^\ lhs);}
+\DoxyCodeLine{00268\ \}}
+\DoxyCodeLine{00269\ }
+
+\end{DoxyCode}

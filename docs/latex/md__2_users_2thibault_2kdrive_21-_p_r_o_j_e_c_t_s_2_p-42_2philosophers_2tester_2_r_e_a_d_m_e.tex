@@ -1,0 +1,69 @@
+\chapter{Lazy Philosophers Tester}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e}{}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e}\index{Lazy Philosophers Tester@{Lazy Philosophers Tester}}
+\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md128}%
+\Hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md128}%
+
+
+\doxylink{class_a}{A} semi-\/automatic tester for checking 42\textquotesingle{}s philosophers project (2021 curriculum). ~\newline
+ It allows you to test 2 scenarios\+: ~\newline
+
+\begin{DoxyEnumerate}
+\item when your program should stop, either due to death, enough eaten, or bad input ~\newline
+
+\begin{DoxyItemize}
+\item to be checked manually by the user, based on the expected result listed in yes-\/die.\+txt. ~\newline
+
+\end{DoxyItemize}
+\item when no philosophers should die ~\newline
+
+\begin{DoxyItemize}
+\item this is checked automatically if the program runs for x seconds (default 10) without death. ~\newline
+
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+More tests can be added by editing the appropriate {\ttfamily .txt} files with the input and expected outcome.
+
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md129}{}\doxysection{\texorpdfstring{Installation}{Installation}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md129}
+Clone the tester into the root directory of your philosophers project. ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{https://github.com/MichelleJiam/LazyPhilosophersTester.git}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md130}{}\doxysection{\texorpdfstring{Usage}{Usage}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md130}
+If you haven\textquotesingle{}t already, run {\ttfamily make} in your philo directory to create your {\ttfamily ./philo} executable. ~\newline
+ Then from within the Lazy\+Philosophers\+Tester directory, run {\ttfamily ./test.sh} to start the tester. ~\newline
+ Tester takes an optional 2nd argument of the path to your {\ttfamily philo} executable. ~\newline
+
+
+Example\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./test.sh\ ../philo}
+
+\end{DoxyCode}
+ If not provided, the tester assumes the path is {\ttfamily ../philo} -\/ i.\+e. in same directory as tester directory.\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md131}{}\doxysubsection{\texorpdfstring{Adding tests}{Adding tests}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md131}
+If you wish to add your own tests, open either\+:
+\begin{DoxyEnumerate}
+\item {\ttfamily no-\/die.\+txt} for tests where philos aren\textquotesingle{}t supposed to die, or
+\item {\ttfamily yes-\/die.\+txt} for tests where the program should stop (death, eaten enough, error). ~\newline
+
+\end{DoxyEnumerate}
+
+The 1st line should be your test case, separated by spaces. This is what is inputted into your program. ~\newline
+ The 2nd line should be the expected outcome. This is outputted during the tester for checking purposes. ~\newline
+
+
+Example\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{4\ 310\ 200\ 100}
+\DoxyCodeLine{a\ philo\ should\ die}
+\DoxyCodeLine{5\ 800\ 200\ 200\ 7}
+\DoxyCodeLine{no\ one\ should\ die,\ simulation\ should\ stop\ after\ 7\ eats}
+
+\end{DoxyCode}
+\hypertarget{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md132}{}\doxysection{\texorpdfstring{Credits}{Credits}}\label{md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2philosophers_2tester_2_r_e_a_d_m_e_autotoc_md132}
+Timed-\/checker Python script {\ttfamily Philosophers\+Checker.\+py} \href{https://gist.github.com/jkctech/367fad4aa01c820ffb1b8d29d1ecaa4d}{\texttt{ (link)}} was written by \href{https://gist.github.com/jkctech}{\texttt{ JKCTech}} and modified slightly by me to take an optional timer duration. ~\newline
+ \href{https://stackoverflow.com/a/52581824}{\texttt{ Progress bar function}} written by Vagiz Duseev, found on Stack\+Overflow. 

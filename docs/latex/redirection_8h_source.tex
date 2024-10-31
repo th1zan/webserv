@@ -1,0 +1,60 @@
+\doxysection{redirection.\+h}
+\hypertarget{redirection_8h_source}{}\label{redirection_8h_source}\index{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/redirection.h@{/Users/thibault/kdrive/1-\/PROJECTS/P-\/42/minishell/minishell\_clean/src/header/redirection.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{00004\ \textcolor{comment}{/*\ \ \ redirection.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{00006\ \textcolor{comment}{/*\ \ \ By:\ thibault\ <thibault@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/03\ 14:14:55\ by\ thibault\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2023/11/06\ 15:23:24\ by\ thibault\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ REDIRECTION\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#\ define\ REDIRECTION\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{/*get\_operator\_tk.c*/}}
+\DoxyCodeLine{00017\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_next\_input\_operator\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00018\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_prev\_input\_operator\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00019\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_next\_output\_operator\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00020\ \mbox{\hyperlink{structs__tk}{t\_tk}}\ \ \ \ *get\_prev\_output\_operator\_tk(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{comment}{/*redir\_operator\_fd.c*/}}
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_dup2\_input\_error(\textcolor{keywordtype}{int}\ fd\_in);}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_dup2\_output\_error(\textcolor{keywordtype}{int}\ fd\_out);}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{int}\ \ \ \ \ redirect\_input(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *token);}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{int}\ \ \ \ \ redirect\_output(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *token);}
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{int}\ \ \ \ \ process\_redirection(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *token);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{/*redirection.c*/}}
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_redirection(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \ \ \ \ redir\_operator\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{comment}{/*set\_cmd\_fd.c*/}}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_cmd\_std\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_cmd\_pipe\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ \ \ \ set\_fd\_in(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tmp);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ \ \ \ set\_fd\_out(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tmp);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_cmd\_operator\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{comment}{/*set\_operator\_fd.c*/}}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_default\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{int}\ \ \ \ \ open\_chevron\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tmp,\ \textcolor{keywordtype}{int}\ flags);}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_input\_operator\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_output\_operator\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ \ \ \ \ open\_file\_to\_fd(\textcolor{keywordtype}{char}\ *file,\ \textcolor{keywordtype}{int}\ option);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{comment}{/*set\_pipe\_fd.c*/}}
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_pipe\_fd(\mbox{\hyperlink{structs__tk}{t\_tk}}\ **tk);}
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{int}\ \ \ \ \ duplicate\_fd(\textcolor{keywordtype}{int}\ old\_fd,\ \textcolor{keywordtype}{int}\ new\_fd,\ \textcolor{keywordtype}{char}\ *error\_message);}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{int}\ \ \ \ \ handle\_pipes(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{int}\ \ \ \ \ set\_fd\_for\_pipe(\mbox{\hyperlink{structs__tk}{t\_tk}}\ *tk);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

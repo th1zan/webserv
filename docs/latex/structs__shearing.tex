@@ -1,0 +1,42 @@
+\doxysection{s\+\_\+shearing Struct Reference}
+\hypertarget{structs__shearing}{}\label{structs__shearing}\index{s\_shearing@{s\_shearing}}
+
+
+The struct t\+\_\+shearing is a helper type to allow shearing operation on matrices. Shearing (or skew) is a complex operation where the coordinate is changed in proportion to the other two coordinates. When doing it to a matrix, it means that x will change in proportion to y and z, y will change in proportion to x and z and, lastly, z will change in proportion to x and y. For example, to apply shearing to the x axis of a given matrix, we pass to \doxylink{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7}{shearing()} a struct of type t\+\_\+shearing containing the y and z values. For instance, when done to the y axis, we pass p1 and p2 which stands for x and z. Lastly, when applying it to the z axis, we pass x and y as p1 and p2, respectively.  
+
+
+
+
+{\ttfamily \#include $<$matrices.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structs__shearing_a7825ec06a2a6158dbe9d06206e02e019}\label{structs__shearing_a7825ec06a2a6158dbe9d06206e02e019} 
+double {\bfseries p1}
+\item 
+\Hypertarget{structs__shearing_add03c1e9bc37871e914d7abe4f1d533a}\label{structs__shearing_add03c1e9bc37871e914d7abe4f1d533a} 
+double {\bfseries p2}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The struct t\+\_\+shearing is a helper type to allow shearing operation on matrices. Shearing (or skew) is a complex operation where the coordinate is changed in proportion to the other two coordinates. When doing it to a matrix, it means that x will change in proportion to y and z, y will change in proportion to x and z and, lastly, z will change in proportion to x and y. For example, to apply shearing to the x axis of a given matrix, we pass to \doxylink{matrices_8h_aab8a1e820c4bde5ca4973638bc86dcb7}{shearing()} a struct of type t\+\_\+shearing containing the y and z values. For instance, when done to the y axis, we pass p1 and p2 which stands for x and z. Lastly, when applying it to the z axis, we pass x and y as p1 and p2, respectively. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & The first value to be used as proportion for shearing. \\
+\hline
+{\em p2} & The second value to be used as proportion for shearing. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+example/include/\mbox{\hyperlink{matrices_8h}{matrices.\+h}}\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240311/src/header/matrix.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240322/src/header/matrix.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240403/src/header/matrix.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/mini\+RT\+\_\+saved\+\_\+20240408/src/header/matrix.\+h\item 
+/\+Users/thibault/kdrive/1-\/\+PROJECTS/\+P-\/42/mini\+RT/src/header/matrix.\+h\end{DoxyCompactItemize}
