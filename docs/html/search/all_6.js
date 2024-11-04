@@ -1,7 +1,14 @@
 var searchData=
 [
-  ['6_0',['6',['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu286fb89d1898f3e121df5a65429d7651.html#autotoc_md528',1,'1.9.6'],['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu286fb89d1898f3e121df5a65429d7651.html#autotoc_md370',1,'2.13.6']]],
-  ['6_200_1',['6 0',['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu286fb89d1898f3e121df5a65429d7651.html#autotoc_md573',1,'1.6.0'],['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu286fb89d1898f3e121df5a65429d7651.html#autotoc_md457',1,'2.6.0']]],
-  ['6_201_2',['6 1',['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu286fb89d1898f3e121df5a65429d7651.html#autotoc_md569',1,'1.6.1'],['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu286fb89d1898f3e121df5a65429d7651.html#autotoc_md454',1,'2.6.1']]],
-  ['6_20x_3',['1.6.x',['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu286fb89d1898f3e121df5a65429d7651.html#autotoc_md568',1,'']]]
+  ['détails_20plus_20proche_20du_20code_0',['Plus en détails, plus proche du code',['../index.html#autotoc_md3',1,'']]],
+  ['data_1',['Step 3: Request Processing and Sending Data',['../index.html#autotoc_md18',1,'']]],
+  ['de_20données_2',['Step 3: Traitement de la requête et envoie de données',['../index.html#autotoc_md8',1,'']]],
+  ['de_20la_20requête_20et_20envoie_20de_20données_3',['Step 3: Traitement de la requête et envoie de données',['../index.html#autotoc_md8',1,'']]],
+  ['des_20événements_20des_20sockets_4',['Step 3: PollingManager() - gestion des événements des sockets',['../index.html#autotoc_md7',1,'']]],
+  ['des_20sockets_5',['Step 3: PollingManager() - gestion des événements des sockets',['../index.html#autotoc_md7',1,'']]],
+  ['detail_20closer_20to_20code_6',['In Detail, Closer to Code',['../index.html#autotoc_md13',1,'']]],
+  ['diagram_7',['Diagram',['../index.html#autotoc_md19',1,'']]],
+  ['données_8',['Step 3: Traitement de la requête et envoie de données',['../index.html#autotoc_md8',1,'']]],
+  ['du_20code_9',['Plus en détails, plus proche du code',['../index.html#autotoc_md3',1,'']]],
+  ['du_20projet_10',['Structure du projet',['../index.html#autotoc_md2',1,'']]]
 ];

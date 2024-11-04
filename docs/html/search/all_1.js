@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['location_5fs_0',['location_s',['../structlocation__s.html',1,'']]]
+  ['2_3a_20setup_0',['2: Setup',['../index.html#autotoc_md5',1,'Step 2: Setup'],['../index.html#autotoc_md15',1,'Step 2: Setup']]]
 ];

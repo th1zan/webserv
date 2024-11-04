@@ -1,11 +1,26 @@
+/**
+ * @file Server.hpp
+ * @brief Header file for the Server class and location structure.
+ *
+ * This file contains the declaration of the Server class, which manages
+ * server configurations and handles location directives.
+ */
+
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
 #include "defines.hpp"
 #include "utils.hpp"
 
-typedef struct location_s
-{
+/**
+ * @struct location_s
+ * @brief Represents a location configuration for the server.
+ *
+ * This structure holds the configuration for a specific location, including
+ * root path, allowed methods, redirect rules, autoindex settings, and
+ * CGI configurations.
+ */
+typedef struct location_s {
 	std::string					root;
 	std::vector<std::string>	methods;
 	std::string					redirect;
@@ -13,10 +28,18 @@ typedef struct location_s
 	std::string					tryFile;
 	bool						hasCGI;
 	std::string					cgiPath;
-	std::string					cgiExtension;
-	std::string					uploadTo;
+	std::string					cgiExtension; 
+	std::string					uploadTo; 
 } location_t;
 
+
+/**
+ * @class Server
+ * @brief Manages server configurations and location directives.
+ *
+ * The Server class encapsulates server settings and provides methods
+ * for handling server operations and location configurations.
+ */
 class Server{
 	private:
 			std::string 					_serverName;
@@ -37,12 +60,12 @@ class Server{
 
 
 			//Servers
-			// std::vector<Server>					_serversVector;
+			// std::vector<Server>								_serversVector;
 			std::map<std::string, std::string>					_ServerConfigMap;
 
 
 			//Location
-			std::vector<std::map<std::string, std::string> >		_LocationMapVector;
+			std::vector<std::map<std::string, std::string> >	_LocationMapVector;
 			std::map<std::string, std::string>					_LocationConfigMap;
 			std::map<std::string, location_t>					_LocationMap;
 			void												_getLocationStruct();
@@ -50,28 +73,24 @@ class Server{
 	public:
 			Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string> > tempLocationMapVector);
 			~Server();
-			//called from Service
 			void	createSocket();
 
+
 			//getters
-			bool				getIsDefault();
-			const std::string& 	getHost() const;
-			const std::string& 	getPort() const;
-			int					getSocket() const;
-			const std::string& 	getServerName() const;
-			const std::string&	getRoot() const;
-			const std::string&	getIndex() const;
-			const std::string&	getErrorPage() const;
-			const std::string&	getErrorResponse() const;
-			size_t				getClientMaxBodySize() const;
-
-
+			bool							getIsDefault();
+			const std::string& 				getHost() const;
+			const std::string& 				getPort() const;
+			int								getSocket() const;
+			const std::string& 				getServerName() const;
+			const std::string&				getRoot() const;
+			const std::string&				getIndex() const;
+			const std::string&				getErrorPage() const;
+			const std::string&				getErrorResponse() const;
+			size_t							getClientMaxBodySize() const;
 
 			//utils
-			void 				printServers();
-			void 				printLocation(location_t loc);
-
-
+			void 							printServers();
+			void 							printLocation(location_t loc);
 
 		///verifier que les noms de servers ne sont pas les memes !
 

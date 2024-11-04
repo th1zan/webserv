@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['client_0',['Client',['../class_client.html',1,'']]],
-  ['client_2ecpp_1',['Client.cpp',['../_client_8cpp.html',1,'']]]
+  ['1_3a_20parsing_0',['1: Parsing',['../index.html#autotoc_md4',1,'Step 1: Parsing'],['../index.html#autotoc_md14',1,'Step 1: Parsing']]]
 ];

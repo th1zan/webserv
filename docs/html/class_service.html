@@ -91,28 +91,79 @@ $(function(){ initResizable(false); });
   <div class="headertitle"><div class="title">Service Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Manages server-client interactions and service setup.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_service_8hpp_source.html">Service.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1dfc32c57e0e331b1e108b7fcb99c46f" id="r_a1dfc32c57e0e331b1e108b7fcb99c46f"><td class="memItemLeft" align="right" valign="top"><a id="a1dfc32c57e0e331b1e108b7fcb99c46f" name="a1dfc32c57e0e331b1e108b7fcb99c46f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Service</b> (int argc, char **argv)</td></tr>
+<tr class="memitem:a1dfc32c57e0e331b1e108b7fcb99c46f" id="r_a1dfc32c57e0e331b1e108b7fcb99c46f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dfc32c57e0e331b1e108b7fcb99c46f">Service</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:a1dfc32c57e0e331b1e108b7fcb99c46f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a> object, sets up signal handling, and parses the configuration file.  <br /></td></tr>
 <tr class="separator:a1dfc32c57e0e331b1e108b7fcb99c46f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6c3577b59652ac817d1d76aaccee904" id="r_af6c3577b59652ac817d1d76aaccee904"><td class="memItemLeft" align="right" valign="top"><a id="af6c3577b59652ac817d1d76aaccee904" name="af6c3577b59652ac817d1d76aaccee904"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~Service</b> ()</td></tr>
+<tr class="memdesc:af6c3577b59652ac817d1d76aaccee904"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for <a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a>, closes all sockets in the polling vector. <br /></td></tr>
+<tr class="separator:af6c3577b59652ac817d1d76aaccee904"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8f99e666dc010048f7f5118fa2533d8" id="r_ad8f99e666dc010048f7f5118fa2533d8"><td class="memItemLeft" align="right" valign="top"><a id="ad8f99e666dc010048f7f5118fa2533d8" name="ad8f99e666dc010048f7f5118fa2533d8"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setup</b> ()</td></tr>
+<tr class="memdesc:ad8f99e666dc010048f7f5118fa2533d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the server setup, binds addresses, and adds sockets to the polling vector. <br /></td></tr>
 <tr class="separator:ad8f99e666dc010048f7f5118fa2533d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac18efac5a9bae6da704f9095faab5ad5" id="r_ac18efac5a9bae6da704f9095faab5ad5"><td class="memItemLeft" align="right" valign="top"><a id="ac18efac5a9bae6da704f9095faab5ad5" name="ac18efac5a9bae6da704f9095faab5ad5"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>launch</b> ()</td></tr>
+<tr class="memdesc:ac18efac5a9bae6da704f9095faab5ad5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begins the main polling loop to handle client connections and server actions. <br /></td></tr>
 <tr class="separator:ac18efac5a9bae6da704f9095faab5ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d7f51b2ed83178830c8befa3ca3d598" id="r_a4d7f51b2ed83178830c8befa3ca3d598"><td class="memItemLeft" align="right" valign="top"><a id="a4d7f51b2ed83178830c8befa3ca3d598" name="a4d7f51b2ed83178830c8befa3ca3d598"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>printServersInfo</b> ()</td></tr>
 <tr class="separator:a4d7f51b2ed83178830c8befa3ca3d598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65e15b4b6e030bcd4e78f79ccb91e75f" id="r_a65e15b4b6e030bcd4e78f79ccb91e75f"><td class="memItemLeft" align="right" valign="top"><a id="a65e15b4b6e030bcd4e78f79ccb91e75f" name="a65e15b4b6e030bcd4e78f79ccb91e75f"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>printServiceInfo</b> ()</td></tr>
+<tr class="memdesc:a65e15b4b6e030bcd4e78f79ccb91e75f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the server info. <br /></td></tr>
 <tr class="separator:a65e15b4b6e030bcd4e78f79ccb91e75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manages server-client interactions and service setup. </p>
+<dl class="section note"><dt>Note</dt><dd>The addrinfo structure is used for addressing information in socket programming. It contains various fields for managing socket connections, including options, address family, socket type, and more.</dd></dl>
+<p>struct addrinfo { int ai_flags; // options int ai_family; // adress family (ipv4, ipv6) (AF_INET, AF_INET6, etc.) int ai_socktype; // kind of socket (SOCK_STREAM, SOCK_DGRAM, etc.) int ai_protocol; // protocol (IPPROTO_TCP, IPPROTO_UDP, etc.) size_t ai_addrlen; // adress size struct sockaddr *ai_addr; // socket addr char *ai_canonname; // canonical nam struct addrinfo *ai_next; // pointer to the nex struct };</p>
+<p>The <a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a> class is responsible for initializing services, managing connections, and handling client requests. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a1dfc32c57e0e331b1e108b7fcb99c46f" name="a1dfc32c57e0e331b1e108b7fcb99c46f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dfc32c57e0e331b1e108b7fcb99c46f">&#9670;&#160;</a></span>Service()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Service::Service </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>argc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>argv</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a <a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a> object, sets up signal handling, and parses the configuration file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argv</td><td>'.conf' file. </td></tr>
+    <tr><td class="paramname">argc</td><td>0 or 1.</td></tr>
+    <tr><td class="paramname">argc</td><td>Argument count from command line. </td></tr>
+    <tr><td class="paramname">argv</td><td>Argument values from command line. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/thibault/kdrive/1-PROJECTS/P-42/webserv/include/<a class="el" href="_service_8hpp_source.html">Service.hpp</a></li>
-<li>/Users/thibault/kdrive/1-PROJECTS/P-42/webserv/src/<b>Service.cpp</b></li>
+<li>/Users/thibault/kdrive/1-PROJECTS/P-42/webserv/src/<a class="el" href="_service_8cpp.html">Service.cpp</a></li>
+<li>/Users/thibault/kdrive/1-PROJECTS/P-42/webserv/src/<b>tempshitfile.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

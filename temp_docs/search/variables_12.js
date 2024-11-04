@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['sample_5fnumber_0',['sample_number',['../group__flac__format.html#ga96a62923f1443fd3a5a3498e701e6ecf',1,'FLAC__StreamMetadata_SeekPoint']]],
+  ['sample_5frate_1',['sample_rate',['../group__flac__format.html#gacc23daa576f4e75885bf4f2b69cee1be',1,'FLAC__FrameHeader']]],
+  ['samplecount_2',['sampleCount',['../structsf_1_1_sound_file_reader_1_1_info.html#a74b40b4693d7000571484736d1367167',1,'sf::SoundFileReader::Info::sampleCount'],['../structsf_1_1_sound_stream_1_1_chunk.html#af47f5d94012acf8b11f056ba77aff97a',1,'sf::SoundStream::Chunk::sampleCount']]],
+  ['samplerate_3',['sampleRate',['../structsf_1_1_sound_file_reader_1_1_info.html#a06ef71c19e7de190b294ae02c361f752',1,'sf::SoundFileReader::Info']]],
+  ['samples_4',['samples',['../structsf_1_1_sound_stream_1_1_chunk.html#aa3b84d69adbe663a17a7671626076df4',1,'sf::SoundStream::Chunk']]],
+  ['savedprogram_5',['savedProgram',['../structsf_1_1_shader_1_1_uniform_binder.html#a81f2e3635edec67bd8297f283864c4b6',1,'sf::Shader::UniformBinder']]],
+  ['sensor_6',['sensor',['../classsf_1_1_event.html#acdeacbb321655b962e27d08eeec5a190',1,'sf::Event']]],
+  ['shader_7',['shader',['../classsf_1_1_render_states.html#ad4f79ecdd0c60ed0d24fbe555b221bd8',1,'sf::RenderStates']]],
+  ['shift_8',['shift',['../structsf_1_1_event_1_1_key_event.html#a776af1a3ca79abeeec18ebf1c0065aa9',1,'sf::Event::KeyEvent']]],
+  ['size_9',['size',['../struct_g_l_f_wgammaramp.html#ad620e1cffbff9a32c51bca46301b59a5',1,'GLFWgammaramp::size'],['../classsf_1_1_event.html#a85dae56a377eeffd39183c3f6fc96cb9',1,'sf::Event::size']]],
+  ['socketcount_10',['socketCount',['../structsf_1_1_socket_selector_1_1_socket_selector_impl.html#a2d1388b77ff27a192c5ec8f1cc0a5dd7',1,'sf::SocketSelector::SocketSelectorImpl']]],
+  ['socketsready_11',['socketsReady',['../structsf_1_1_socket_selector_1_1_socket_selector_impl.html#a2d5250461877c3c527013669d61104b1',1,'sf::SocketSelector::SocketSelectorImpl']]],
+  ['srgbcapable_12',['sRgbCapable',['../structsf_1_1_context_settings.html#ac93b041bfb6cbd36034997797708a0a3',1,'sf::ContextSettings']]],
+  ['stencilbits_13',['stencilBits',['../structsf_1_1_context_settings.html#ac2e788c201ca20e84fd38a28071abd29',1,'sf::ContextSettings']]],
+  ['stream_5foffset_14',['stream_offset',['../group__flac__format.html#ga6028398e99f937b002618af677d32c9f',1,'FLAC__StreamMetadata_SeekPoint']]],
+  ['system_15',['system',['../structsf_1_1_event_1_1_key_event.html#ac0557f7edc2a608ec65175fdd843afc5',1,'sf::Event::KeyEvent']]]
+];

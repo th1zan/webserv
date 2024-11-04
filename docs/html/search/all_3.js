@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['server_0',['Server',['../class_server.html',1,'']]],
-  ['service_1',['Service',['../class_service.html',1,'']]],
-  ['serviceinfo_2',['serviceInfo',['../structservice_info.html',1,'']]]
+  ['and_20sending_20data_0',['Step 3: Request Processing and Sending Data',['../index.html#autotoc_md18',1,'']]],
+  ['aperçu_1',['Comment Webserv fonctionne, bref aperçu',['../index.html#autotoc_md1',1,'']]]
 ];

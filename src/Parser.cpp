@@ -1,3 +1,8 @@
+/**
+ * @file Parser.cpp
+ * @brief 
+ */
+
 #include "Parser.hpp"
 
 Parser::Parser(int argc, char **argv){
@@ -57,6 +62,7 @@ void Parser::_parseFile() {
 		//Analyze token's wordsVect to define token's category and push it to _tokensList
 		Token tmpToken;
 
+
 		if (wordsVect.empty()) {
 			tmpToken.type = TK_EMPTY;
 			tmpToken.value = "";
@@ -95,9 +101,13 @@ void Parser::_parseFile() {
 		}
 
 		else{
-			std::cout << "in: '_parseFile'" << std::endl;
+			//DEBUG
+			// std::cout << "in: '_parseFile'" << std::endl;
 			throw std::runtime_error(ERR_INVALID_KEY(line));
 		}
+
+		//DEBUG
+		// std::cout << "in _parseFile:: tmpToken " << tmpToken.type << " - " << tmpToken.value <<std::endl;
 				
 	}
 	this->_checkBracket();
@@ -153,12 +163,13 @@ void Parser::_getConfigAndInitServers(){
 			//Check configuration (Server and Location)
 			this->_checkConfigs();
 
-			
-
 			// DEBUG
 			// std::cout << std::endl << "in :: '_getConfigAndInitServers': " << std::endl;
 			// std::cout << "Server n°: " << this->_nServer << std::endl;
 			// printMap(_tempServerConfigMap);
+
+			
+			//DEBUG
 			// for (std::vector<std::map<std::string, std::string> >::iterator it = _tempLocationMapVector.begin(); it != _tempLocationMapVector.end(); ++it) {
 			// 	std::cout << std::endl;
 			// 	std::cout << "new Location:" << std::endl;
@@ -166,9 +177,8 @@ void Parser::_getConfigAndInitServers(){
 			// }
 
 			//Server instanciation with their parametres (include their location(s))
-			// Server tmpServ(this->_serversVector, this->_tempServerConfigMap, this->_tempLocationMapVector);
+
 			
-			// this->_serversVector.push_back(tmpServ);
 			this->_serversVector.push_back(Server(this->_serversVector, this->_tempServerConfigMap, this->_tempLocationMapVector));
 			
 			//DEBUG
@@ -197,18 +207,23 @@ void Parser::_getConfigFromTokens(){
 	for (;this->_nbLine< this->_tokensVector.size(); this->_nbLine++) {
 		
 		//DEBUG
-		// std::cout << "print _nbline: " << this->_nbLine 
-		// << ", _tokensVector[this->_nbLine].type: " << _tokensVector[this->_nbLine].type
-		// << ", _tokensVector[this->_nbLine].value: " << _tokensVector[this->_nbLine].value
+		// std::cout << "[BEGIN] print _nbline: " << this->_nbLine 
+		// << ", .type: " << _tokensVector[this->_nbLine].type
+		// << ", .value: " << _tokensVector[this->_nbLine].value
 		// << std::endl;
 		
 		if (this->_tokensVector[this->_nbLine].type == TK_TOKEN)
 		{
-			
+			//DEBUG
+			// std::cout << "[GO TO] TOKEN" << std::endl;
+
 			this->_getServerParam();
 		}
 		else if (this->_tokensVector[this->_nbLine].type == TK_LOCATION)
 		{
+			//DEBUG
+			// std::cout << "[GO TO] LOCATION" << std::endl;
+
 			this->_getLocationParam();
 
 			//add the _tempServerConfigMap.LocationMap to _tempLocationMapVector
@@ -222,21 +237,29 @@ void Parser::_getConfigFromTokens(){
 
 			this->_tempLocationConfigMap.clear();
 		}
-		else if (this->_tokensVector[this->_nbLine].type == TK_SERVER)
-			break;//end of server bloc
-		this->_nbLine++;
+		else if (this->_tokensVector[this->_nbLine].type == TK_SERVER){
+			//DEBUG
+			// std::cout << "[RETURN] END SERVER BLOC" << std::endl;
+			return;//end of server bloc
+		}
+		
+		//DEBUG
+		// std::cout << "[END] print _nbline: " << this->_nbLine 
+		// << ", .type: " << _tokensVector[this->_nbLine].type
+		// << ", .value: " << _tokensVector[this->_nbLine].value
+		// << std::endl;
 	}
 	
 	
 }
 
 void Parser::_getServerParam(){
-	for (;this->_nbLine< this->_tokensVector.size(); ++this->_nbLine) {
+	for (;this->_nbLine< this->_tokensVector.size(); this->_nbLine++) {
 				
 		if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET
 			|| this->_tokensVector[this->_nbLine].type == TK_LOCATION)
 		{
-				this->_nbLine = this->_nbLine-2;
+				this->_nbLine = this->_nbLine-1;
 				return;//end of Server bloc
 		}
 
@@ -956,7 +979,9 @@ void Parser::_getParamFromToken(int enumToken){
 	//DEBUG
 	// std::cout << "in :: '_getParamFromToken'::" << std::endl;
 
-	if (this->_tokensVector[this->_nbLine].type == TK_EMPTY || this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET)
+	if (this->_tokensVector[this->_nbLine].type == TK_EMPTY
+	|| this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET
+	|| this->_tokensVector[this->_nbLine].type == TK_COMMENT)
 		return;
 
 	std::string line = this->_tokensVector[this->_nbLine].value;

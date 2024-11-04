@@ -1,7 +1,297 @@
-\chapter{webserv}
-\hypertarget{index}{}\label{index}\index{webserv@{webserv}}
+\chapter{Webserv}
+\hypertarget{index}{}\label{index}\index{Webserv@{Webserv}}
 \label{index_md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2webserv_2_r_e_a_d_m_e}%
 \Hypertarget{index_md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2webserv_2_r_e_a_d_m_e}%
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{-\/of-\/contents}
+
+\end{DoxyCode}
+ \hypertarget{index_autotoc_md0}{}\doxysection{\texorpdfstring{En Français}{En Français}}\label{index_autotoc_md0}
+\hypertarget{index_autotoc_md1}{}\doxysubsection{\texorpdfstring{Comment Webserv fonctionne, bref aperçu}{Comment Webserv fonctionne, bref aperçu}}\label{index_autotoc_md1}
+Il y a 3 étapes principales\+:
+\begin{DoxyItemize}
+\item {\bfseries{\doxylink{class_parser}{Parser}}} un fichier {\ttfamily .conf} pour obtenir les paramètres de chaque serveur (oui, il peut y en avoir plusieurs). Par exemple l\textquotesingle{}adresse et le port d\textquotesingle{}écoute se trouve dans le {\ttfamily server.\+conf}.
+\item {\bfseries{Setup}} les (sockets des) serveurs. Chaque socket est lié à un port. Il s\textquotesingle{}agit in fine de créer les sockets d\textquotesingle{}écoute pour chaque serveur. et de les ajouter à la "{}liste de surveillance"{} (polling list) afin de détecter lorsqu\textquotesingle{}un client se connecte sur le socket.
+\item {\bfseries{Launch}} les serveurs. C\textquotesingle{}est-\/à-\/dire lancer la boucle infinie qui \+:
+\begin{DoxyItemize}
+\item attend que la liste de surveillance des sockets remonte un événement au système.
+\item réagit à cet événement. Cette boucle comprend donc la communication Client-\/\+Server qui implique l\textquotesingle{}utilisation des méthodes HTML (GET; POST, DELETE) et l\textquotesingle{}utilisation des CGI.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysubsection{\texorpdfstring{Structure du projet}{Structure du projet}}\label{index_autotoc_md2}
+Avant de détailler les étapes, il faut avoir une idée de la structure du projet.
+
+Le projet comporte 4 classes\+:
+\begin{DoxyItemize}
+\item {\bfseries{\doxylink{class_service}{Service}}}. Une classe est \doxylink{class_service}{Service} est instanciée en premier. Elle est centrale car elle fait le lien entre les étapes Parsing/\+Setup/\+Launch puis fait la surveillance des sockets. Elle contient (notamment) les variables suivantes\+:
+\begin{DoxyItemize}
+\item la liste des serveurs (un vecteur)
+\item la liste des clients (un vecteur)
+\item la liste de surveillance des sockets (un vecteur)
+\end{DoxyItemize}
+\item {\bfseries{\doxylink{class_parser}{Parser}}}. Une seule instance de la classe \doxylink{class_parser}{Parser} est créé par l\textquotesingle{}instance de \doxylink{class_service}{Service}. La classe comporte toutes les fonctions de parsing et variables temporaires qui permettront de créer les instances de la classe \doxylink{class_server}{Server}.
+\item {\bfseries{Serveur}}. Le fichier de configuration {\ttfamily .conf} contient des "{}blocs"{} serveurs ({\ttfamily server \{ ... \}}avec des paramètres. Une instance de la classe \doxylink{class_server}{Server} est créé pour chaque bloc et contient les différents paramètres parsés.
+\item {\bfseries{\doxylink{class_client}{Client}}}. A chaque connexion d\textquotesingle{}un client au serveur, une instance de la classe \doxylink{class_client}{Client} est créée . Elle contient toutes les informations concernant le client (notamment)\+:
+\begin{DoxyItemize}
+\item le serveur auquel le client est connecté ()
+\item le socket du client
+\item la requête du client
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysubsection{\texorpdfstring{Plus en détails, plus proche du code}{Plus en détails, plus proche du code}}\label{index_autotoc_md3}
+\hypertarget{index_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Step 1\+: Parsing}{Step 1\+: Parsing}}\label{index_autotoc_md4}
+
+\begin{DoxyEnumerate}
+\item Main instancie {\ttfamily \doxylink{class_service}{Service}} avec le fichier{\ttfamily server.\+conf}
+\item Le constructeur de {\ttfamily \doxylink{class_service}{Service}} instancie un {\ttfamily \doxylink{class_parser}{Parser}} qui lit le fichier {\ttfamily .conf} pour analyser chaque bloc {\ttfamily server\{\}}.
+\item {\ttfamily \doxylink{class_parser}{Parser}} créé une instance de {\ttfamily Serveur} pour chaque bloc {\ttfamily server\{\}}. Ces instances sont stockées dans le {\ttfamily server\+Vector}.
+\item {\ttfamily \doxylink{class_service}{Service}} récupère le {\ttfamily server\+Vector} en provenance de {\ttfamily \doxylink{class_parser}{Parser}}. 
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{Step 2\+: Setup}{Step 2\+: Setup}}\label{index_autotoc_md5}
+
+\begin{DoxyEnumerate}
+\item {\ttfamily main} appelle la méthode {\ttfamily setup()} de {\ttfamily \doxylink{class_service}{Service}}.
+\item L\textquotesingle{}instance de {\ttfamily \doxylink{class_service}{Service}} exécute pour {\bfseries{chaque serveur}} se trouvant dans {\ttfamily server\+Vector}, \+: a. {\ttfamily getaddrinfo()} pour obtenir les informations d\textquotesingle{}adresse du serveur, b. {\ttfamily socket()} pour créer un socket. c. {\ttfamily bind} pour lier le socket à un port. d. {\ttfamily listen()} pour mettre le socket en mode écoute. e. puis ajoute le socket au vecteur {\ttfamily polling\+Fd\+Vector} pour le surveiller ultérieurement. 
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md6}{}\doxysubsubsection{\texorpdfstring{Step 3\+: Launch}{Step 3\+: Launch}}\label{index_autotoc_md6}
+
+\begin{DoxyEnumerate}
+\item {\ttfamily main} appelle la méthode {\ttfamily launch()} de {\ttfamily \doxylink{class_service}{Service}}
+\item {\ttfamily launch()} exécute {\bfseries{en boucle}} (en attendant le signal d\textquotesingle{}extinction) \+: a.{\ttfamily poll()} pour lancer la surveillance des sockets (plus précisément des files descriptors liées au socket).
+\begin{DoxyItemize}
+\item {\ttfamily poll()}prend {\ttfamily polling\+Fd\+Vector} en entrée puis se bloque.
+\item {\ttfamily poll()} se débloque lorsqu\textquotesingle{}un socket remonte un événement ou lorsque qu\textquotesingle{}un "{}timeout"{} est atteint.
+\item {\ttfamily poll()} se débloque et permet d\textquotesingle{}exécuter la suite des instructions mais {\bfseries{il ne dit pas quel est le socket ni quel est le type d\textquotesingle{}événement qui s\textquotesingle{}est produit}}. b.{\ttfamily Polling\+Manager()} pour parcourir les sockets afin de déterminer quel socket a remonté quel type d\textquotesingle{}événement afin d\textquotesingle{}envoyer des données ou de recevoir des données.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{Step 3\+: Polling\+Manager() -\/ gestion des événements des sockets}{Step 3\+: Polling\+Manager() -\/ gestion des événements des sockets}}\label{index_autotoc_md7}
+Il y a 3 types d\textquotesingle{}événements pouvant être remonté par un socket\+: erreur, prêt à lire, prêt à écrire.
+
+A. Le socket a une {\bfseries{erreur}} ({\itshape POLLERR}, {\itshape POLLHUP}, {\itshape POLLNVAL}). Alors l\textquotesingle{}erreur est traitée avec un message d\textquotesingle{}erreur et la fermeture de connexion.
+
+B. Le socket annonce qu\textquotesingle{}il est prêt pour la {\bfseries{lecture de données}} ({\itshape POLLIN}). Cela signifie qu\textquotesingle{}il a quelque chose à lire dans son buffer. L\textquotesingle{}action dépend du type de socket.
+\begin{DoxyItemize}
+\item Si c\textquotesingle{}est un socket de {\bfseries{serveur}} (qui écoute les connexions, donc configuré avec {\ttfamily listen()}), alors la connexion est {\ttfamily accept()}. (Initialement, il n\textquotesingle{}y a que des sockets de serveur)
+\begin{DoxyItemize}
+\item {\ttfamily accept()}retourne un nouveau socket (file descriptor) dédié au nouveau client.
+\item Ce file descriptor est ajouté au {\ttfamily polling\+Fd\+Vector} pour être surveillé par {\ttfamily poll()}
+\item Une nouvelle instance de {\ttfamily \doxylink{class_client}{Client}} est créée.
+\end{DoxyItemize}
+\item Si c\textquotesingle{}est un socket de {\bfseries{client}} (qui représente une connexion existante), les données envoyées par le client sont lues avec {\ttfamily recv()} et ajoutées à la variable {\ttfamily \+\_\+request} de l\textquotesingle{}instance {\ttfamily \doxylink{class_client}{Client}}.
+\end{DoxyItemize}
+
+C. Si le socket du serveur est prêt pour l\textquotesingle{}{\bfseries{envoi de données}} ({\itshape POLLOUT}) cela signifie que le buffer est vide et donc prêt à être remplie avec des informations à transmettre au client.\hypertarget{index_autotoc_md8}{}\doxysubsubsubsection{\texorpdfstring{Step 3\+: Traitement de la requête et envoie de données}{Step 3\+: Traitement de la requête et envoie de données}}\label{index_autotoc_md8}
+Le principe est le suivant.
+\begin{DoxyEnumerate}
+\item Le client envoie une requête HTML, par exemple\+:
+\end{DoxyEnumerate}
 
 
-Balbalsba 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{GET\ /index.html\ HTTP/2}
+\DoxyCodeLine{Host:\ www.example.com}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Le serveur parse la requête ({\ttfamily \+\_\+request})pour identifier\+:
+\begin{DoxyItemize}
+\item l\textquotesingle{}hôte ({\ttfamily Host}). Il faut vérifier que l\textquotesingle{}hôte est existe dans la liste des serveurs {\ttfamily servers\+Vector}
+\item la méthode {\ttfamily GET / POST /\+DELETE}
+\end{DoxyItemize}
+\item Envoyer la réponse qui comprend\+:
+\begin{DoxyItemize}
+\item Statut \+: code indiquant le résultat de la requête (200 OK, 404 Not Found, etc.).
+\item En-\/têtes \+: informations sur la réponse (type de contenu, date, etc.).
+\item Corps \+: données renvoyées par le serveur (HTML, JSON, etc.).
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+{\bfseries{Exemple de réponse HTTP \+:}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{HTTP/1.1\ 200\ OK}
+\DoxyCodeLine{Content-\/Type:\ text/html}
+\DoxyCodeLine{Content-\/Length:\ 138}
+\DoxyCodeLine{}
+\DoxyCodeLine{<html>}
+\DoxyCodeLine{<body>}
+\DoxyCodeLine{<h1>Hello,\ World!</h1>}
+\DoxyCodeLine{</body>}
+\DoxyCodeLine{</html>}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{In english (thanks chat\+GPT)}{In english (thanks chat\+GPT)}}\label{index_autotoc_md10}
+\hypertarget{index_autotoc_md11}{}\doxysubsection{\texorpdfstring{How Webserv Works\+: Quick Overview}{How Webserv Works\+: Quick Overview}}\label{index_autotoc_md11}
+There are three main steps\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Parse}} a {\ttfamily .conf} file to get the settings for each server (there can be multiple servers). For example, the listening address and port are in {\ttfamily server.\+conf}.
+\item {\bfseries{Setup}} the server sockets. Each socket is linked to a port. This involves creating listening sockets for each server and adding them to a "{}polling list"{} to detect when a client connects to a socket.
+\item {\bfseries{Launch}} the servers. This means starting an infinite loop that\+:
+\begin{DoxyItemize}
+\item Waits for the polling list to report an event to the system.
+\item Reacts to that event.
+\end{DoxyItemize}
+
+This loop includes client-\/server communication, using HTML methods (GET, POST, DELETE), and CGI.
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md12}{}\doxysubsection{\texorpdfstring{Project Structure}{Project Structure}}\label{index_autotoc_md12}
+Before detailing the steps, it\textquotesingle{}s important to understand the project structure.
+
+The project has four classes\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{\doxylink{class_service}{Service}}}\+: This class is instantiated first. It\textquotesingle{}s central as it links the Parsing/\+Setup/\+Launch steps and monitors the sockets. It contains\+:
+\begin{DoxyItemize}
+\item A list of servers (a vector).
+\item A list of clients (a vector).
+\item A polling list for sockets (a vector).
+\end{DoxyItemize}
+\item {\bfseries{\doxylink{class_parser}{Parser}}}\+: Only one instance is created by the \doxylink{class_service}{Service} instance. It contains all parsing functions and temporary variables to create \doxylink{class_server}{Server} instances.
+\item {\bfseries{\doxylink{class_server}{Server}}}\+: The {\ttfamily .conf} file contains server "{}blocks"{} ({\ttfamily server \{ ... \}} with parameters). An instance of the \doxylink{class_server}{Server} class is created for each block and contains parsed parameters.
+\item {\bfseries{\doxylink{class_client}{Client}}}\+: Each time a client connects to the server, a \doxylink{class_client}{Client} instance is created. It contains information about the client, including\+:
+\begin{DoxyItemize}
+\item The server to which the client is connected.
+\item The client\textquotesingle{}s socket.
+\item The client\textquotesingle{}s request.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{index_autotoc_md13}{}\doxysubsection{\texorpdfstring{In Detail, Closer to Code}{In Detail, Closer to Code}}\label{index_autotoc_md13}
+\hypertarget{index_autotoc_md14}{}\doxysubsubsection{\texorpdfstring{Step 1\+: Parsing}{Step 1\+: Parsing}}\label{index_autotoc_md14}
+
+\begin{DoxyEnumerate}
+\item Main creates {\ttfamily \doxylink{class_service}{Service}} with {\ttfamily server.\+conf}.
+\item {\ttfamily \doxylink{class_service}{Service}} constructor creates a {\ttfamily \doxylink{class_parser}{Parser}} that reads the {\ttfamily .conf} file to analyze each {\ttfamily server\{\}} block.
+\item {\ttfamily \doxylink{class_parser}{Parser}} creates a {\ttfamily \doxylink{class_server}{Server}} instance for each {\ttfamily server\{\}} block. These instances are stored in {\ttfamily server\+Vector}.
+\item {\ttfamily \doxylink{class_service}{Service}} retrieves {\ttfamily server\+Vector} from {\ttfamily \doxylink{class_parser}{Parser}}.
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md15}{}\doxysubsubsection{\texorpdfstring{Step 2\+: Setup}{Step 2\+: Setup}}\label{index_autotoc_md15}
+
+\begin{DoxyEnumerate}
+\item {\ttfamily main} calls the {\ttfamily setup()} method of {\ttfamily \doxylink{class_service}{Service}}.
+\item For {\bfseries{each server}} in {\ttfamily server\+Vector}, {\ttfamily \doxylink{class_service}{Service}} instance executes\+:
+\begin{DoxyItemize}
+\item {\ttfamily getaddrinfo()} to get server address info.
+\item {\ttfamily socket()} to create a socket.
+\item {\ttfamily bind} to link the socket to a port.
+\item {\ttfamily listen()} to set the socket to listening mode.
+\item Adds the socket to {\ttfamily polling\+Fd\+Vector} to monitor it later.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md16}{}\doxysubsubsection{\texorpdfstring{Step 3\+: Launch}{Step 3\+: Launch}}\label{index_autotoc_md16}
+
+\begin{DoxyEnumerate}
+\item {\ttfamily main} calls the {\ttfamily launch()} method of {\ttfamily \doxylink{class_service}{Service}}.
+\item {\ttfamily launch()} runs {\bfseries{in a loop}} (until a shutdown signal) and\+:
+\begin{DoxyItemize}
+\item {\ttfamily poll()} to monitor sockets (specifically file descriptors linked to sockets).
+\item {\ttfamily poll()} takes {\ttfamily polling\+Fd\+Vector} as input and blocks.
+\item {\ttfamily poll()} unblocks when a socket reports an event or a timeout is reached.
+\item {\ttfamily poll()} unblocks but {\bfseries{doesn\textquotesingle{}t specify which socket or event type occurred}}.
+\item {\ttfamily Polling\+Manager()} checks sockets to determine which socket triggered which event to handle data sending or receiving.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md17}{}\doxysubsubsubsection{\texorpdfstring{Step 3\+: Polling\+Manager() -\/ Socket Event Management}{Step 3\+: Polling\+Manager() -\/ Socket Event Management}}\label{index_autotoc_md17}
+Three event types can be reported by a socket\+: error, ready to read, ready to write.
+
+A. If a socket has an {\bfseries{error}} ({\itshape POLLERR}, {\itshape POLLHUP}, {\itshape POLLNVAL}), the error is handled with an error message and connection closure.
+
+B. If a socket is ready for {\bfseries{data reading}} ({\itshape POLLIN}), it has data in its buffer. Action depends on socket type\+:
+\begin{DoxyItemize}
+\item For a {\bfseries{server}} socket (listening for connections, set with {\ttfamily listen()}), the connection is {\ttfamily accept()}.
+\begin{DoxyItemize}
+\item {\ttfamily accept()} returns a new socket (file descriptor) for the new client.
+\item This file descriptor is added to {\ttfamily polling\+Fd\+Vector} for {\ttfamily poll()} to monitor.
+\item A new {\ttfamily \doxylink{class_client}{Client}} instance is created.
+\end{DoxyItemize}
+\item For a {\bfseries{client}} socket (representing an existing connection), data sent by the client is read with {\ttfamily recv()} and added to the {\ttfamily \doxylink{class_client}{Client}} instance\textquotesingle{}s {\ttfamily \+\_\+request} variable.
+\end{DoxyItemize}
+
+C. If a server socket is ready for {\bfseries{data sending}} ({\itshape POLLOUT}), the buffer is empty and ready to be filled with information to send to the client.\hypertarget{index_autotoc_md18}{}\doxysubsubsubsection{\texorpdfstring{Step 3\+: Request Processing and Sending Data}{Step 3\+: Request Processing and Sending Data}}\label{index_autotoc_md18}
+The process is as follows\+:
+
+
+\begin{DoxyEnumerate}
+\item The client sends an HTML request, for example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{GET\ /index.html\ HTTP/2}
+\DoxyCodeLine{Host:\ www.example.com}
+
+\end{DoxyCode}
+
+\item The server parses the request ({\ttfamily \+\_\+request}) to identify\+:
+\begin{DoxyItemize}
+\item The host ({\ttfamily Host}). It verifies if the host exists in the {\ttfamily servers\+Vector}.
+\item The method (GET, POST, DELETE).
+\end{DoxyItemize}
+\item The server then sends a response, which includes\+:
+\begin{DoxyItemize}
+\item {\bfseries{Status}}\+: A code indicating the result of the request (e.\+g., 200 OK, 404 Not Found).
+\item {\bfseries{Headers}}\+: Information about the response (content type, date, etc.).
+\item {\bfseries{Body}}\+: The data returned by the server (HTML, JSON, etc.).
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+{\bfseries{Example of an HTTP response\+:}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{HTTP/1.1\ 200\ OK}
+\DoxyCodeLine{Content-\/Type:\ text/html}
+\DoxyCodeLine{Content-\/Length:\ 138}
+\DoxyCodeLine{}
+\DoxyCodeLine{<html>}
+\DoxyCodeLine{<body>}
+\DoxyCodeLine{<h1>Hello,\ World!</h1>}
+\DoxyCodeLine{</body>}
+\DoxyCodeLine{</html>}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md19}{}\doxysection{\texorpdfstring{Diagram}{Diagram}}\label{index_autotoc_md19}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{flowchart\ TD}
+\DoxyCodeLine{\ \ \ \ subgraph\ Parsing}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ A1[Start]\ -\/-\/>\ B[Parse\ Configuration\ File]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ B\ -\/-\/>\ C[Create\ Service\ Instance]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ C\ -\/-\/>\ D[Create\ Parser\ Instance]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ D\ -\/-\/>\ E[Parse\ .conf\ File\ \&\ Create\ Server\ Instances]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ E\ -\/-\/>\ F[Store\ Server\ Instances\ in\ serverVector]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ F\ -\/-\/>\ G[Retrieve\ serverVector\ in\ Service]}
+\DoxyCodeLine{\ \ \ \ end}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ subgraph\ Setup}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ G\ -\/-\/>\ H[Setup\ Sockets\ for\ Each\ Server]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ H\ -\/-\/>\ I[Get\ Server\ Address\ Info]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ I\ -\/-\/>\ J[Create\ Socket]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ J\ -\/-\/>\ K[Bind\ Socket\ to\ Port]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ K\ -\/-\/>\ L[Set\ Socket\ to\ Listening\ Mode]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ L\ -\/-\/>\ M[Add\ Socket\ to\ pollingFdVector]}
+\DoxyCodeLine{\ \ \ \ end}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ subgraph\ Launch}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ M\ -\/-\/>\ N[Launch\ Servers]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ N\ -\/-\/>\ O[Start\ Infinite\ Loop]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ O\ -\/-\/>\ P[Poll\ Sockets]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ P\ -\/-\/>\ Q[Check\ for\ Events]}
+\DoxyCodeLine{\ \ \ \ end}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ subgraph\ Event\_Handling}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ Q\ -\/-\/>|Error|\ R[Handle\ Error\ \&\ Close\ Connection]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ Q\ -\/-\/>|Ready\ to\ Read|\ S[Accept\ Connection\ or\ Read\ Data]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ S\ -\/-\/>\ T[Create\ Client\ Instance\ or\ Read\ to\ Client\ Request]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ Q\ -\/-\/>|Ready\ to\ Write|\ U[Prepare\ Data\ to\ Send]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ U\ -\/-\/>\ V[Send\ Data\ to\ Client]}
+\DoxyCodeLine{\ \ \ \ end}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ subgraph\ Request\_Processing}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ V\ -\/-\/>\ W[Process\ Client\ Request]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ W\ -\/-\/>\ X[Parse\ Request:\ Identify\ Host\ \&\ Method]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ X\ -\/-\/>\ Y[Send\ HTTP\ Response]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ Y\ -\/-\/>\ Z[End]}
+\DoxyCodeLine{\ \ \ \ end}
+
+\end{DoxyCode}
+ 

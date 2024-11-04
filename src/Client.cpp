@@ -1,4 +1,15 @@
 
+/**
+ * @file Client.cpp
+ * @brief Implementation of the Client class for handling client requests in the web server.
+ *
+ * This file contains the definitions of the member functions of the Client class, which
+ * is responsible for managing client connections, processing requests, and sending responses
+ * back to the clients. The class handles different HTTP methods such as GET, POST, and DELETE.
+ *
+ * 
+ */
+
 #include "Client.hpp"
 
 // *** Constructor and destructor 
@@ -98,6 +109,8 @@ void Client::handleClientRequest()
 	}
 }
 
+
+//The code below come from the repo  https://github.com/waltergcc/42-webserv
 
 // void	Client::sendResponseToClient()
 // {

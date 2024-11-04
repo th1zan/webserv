@@ -1,3 +1,9 @@
+/**
+ * @file Server.cpp
+ * @brief Implementation of the Parser class for processing the 'server' blocs and 'location' sub-blocs in the configuration file in order to instanciate the server classes.
+ * 
+ */
+
 #include "Server.hpp"
 
 Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string> > tempLocationMapVector) {
@@ -5,7 +11,6 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_ServerConfigMap = tempServerConfigMap;
 	this->_LocationMapVector = tempLocationMapVector;
 	
-
 	//server bloc param
 	this->_serverName = this->_ServerConfigMap[SERVER_N];
 	this->_host = this->_ServerConfigMap[HOST];
@@ -24,18 +29,19 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	{
 		this->_getLocationStruct();
 	}
-	
-
-
-	// ??? Error response
-	// this->_errorResponse = this->_generateErrorResponse();
-
 
 	this->_isDefault = this->_checkDefaultServer(_serversVector);
 	
 	//DEBUG
+	std::cout << "in :: Server constructor" << std::endl;
+	this->printServers();
 	// std::cout << "Server constructor called" << std::endl;
 }
+
+Server::~Server(){
+	// std::cout << "Server destructor called" <<std::endl;
+}
+
 
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	// Utiliser std::stoll pour convertir la chaîne en long
@@ -49,19 +55,6 @@ long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	}
 }
 
-/*
-Location map keywords:
-	LOCATION
-	ALLOW_M
-	TRY
-	RETURN
-	AUTOID
-	ROOT_LOC
-	UPLOAD
-	CGI_P
-	CGI_E
-*/
-
 bool Server::_checkDefaultServer(std::vector<Server>&	_serversVector)
 {
 	std::vector<Server>::const_iterator previous = _serversVector.begin();
@@ -72,6 +65,7 @@ bool Server::_checkDefaultServer(std::vector<Server>&	_serversVector)
 	}
 	return true;
 }
+
 void Server::_getLocationStruct() {
 	// DEBUG
 	// std::cout << std::endl << "in: _getLocationStruct:: print _LocationMap (vector):" << std::endl;
@@ -82,13 +76,11 @@ void Server::_getLocationStruct() {
 		// std::cout << std::endl;
 		// printMap(*itMap);
 
-		location_t tmpLoc; // Initialise une structure temporaire
+		location_t tmpLoc;
 
-		// Assigner le champ root
 		if (itMap->find("root") != itMap->end())
 			tmpLoc.root = itMap->find("root")->second;
 
-		// Assigner le champ methods
 		if (itMap->find("allow_methods") != itMap->end()) {
 			std::string methodsStr = itMap->find("allow_methods")->second;
 			std::istringstream iss(methodsStr);
@@ -98,35 +90,28 @@ void Server::_getLocationStruct() {
 			}
 		}
 
-		// Assigner le champ redirect
 		if (itMap->find("return") != itMap->end())
 			tmpLoc.redirect = itMap->find("return")->second;
 
-		// Assigner le champ autoindex
 		if (itMap->find("autoindex") != itMap->end()) {
 			tmpLoc.autoindex = (itMap->find("autoindex")->second == "on");
 		}
 		else
 			tmpLoc.autoindex = false;
 
-		// Assigner le champ tryFile
 		if (itMap->find("try_file") != itMap->end())
 			tmpLoc.tryFile = itMap->find("try_file")->second;
 
-		// Assigner le champ hasCGI
 		if (itMap->find("hasCGI") != itMap->end()) {
 			tmpLoc.hasCGI = (itMap->find("hasCGI")->second == "true");
 		}
 
-		// Assigner le champ cgiPath
 		if (itMap->find("cgi_path") != itMap->end())
 			tmpLoc.cgiPath = itMap->find("cgi_path")->second;
 
-		// Assigner le champ cgiExtension
 		if (itMap->find("cgi_ext") != itMap->end())
 			tmpLoc.cgiExtension = itMap->find("cgi_ext")->second;
 
-		// Assigner le champ uploadTo
 		if (itMap->find("upload_to") != itMap->end())
 			tmpLoc.uploadTo = itMap->find("upload_to")->second;
 
@@ -136,18 +121,6 @@ void Server::_getLocationStruct() {
 		// printLocation(tmpLoc);
 	}
 }
-
-
-
-
-Server::~Server(){
-	// std::cout << "Server destructor called" <<std::endl;
-}
-
-
-
-/******* Public Functions called by Service during Setup() *******/
-
 
 // ---> Getters ---------------------------------------------------------------
 bool Server::getIsDefault(){return (this->_isDefault);}
@@ -160,7 +133,6 @@ const std::string&	Server::getIndex() const{return this->_index;}
 const std::string&	Server::getErrorPage() const{return this->_errorPage;}
 const std::string&	Server::getErrorResponse() const{return this->_errorResponse;}
 size_t				Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
-
 // locationMap const	&Server::getLocations() const{return this->_locations;}
 
 void Server::createSocket()
@@ -182,8 +154,6 @@ void Server::createSocket()
 // {
 // 	this->_locations.insert(location);
 // }
-
-
 
 void Server::printServers() {
 	

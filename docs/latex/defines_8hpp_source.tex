@@ -46,107 +46,101 @@
 \DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ CURSOR\_NEWLINE\ \ \ \ \ \ "{}\(\backslash\)r\(\backslash\)n"{}}}
 \DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ REQUEST\_HOST\ \ \ \ \ \ \ \ "{}Host:\ "{}}}
 \DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \textcolor{comment}{//\ Custom\ Outputs}}
-\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ RED\ \ \ \ \ "{}\(\backslash\)033[0;31m"{}}}
-\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ GREEN\ \ \ "{}\(\backslash\)033[0;32m"{}}}
-\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ BLUE\ \ \ \ "{}\(\backslash\)033[0;34m"{}}}
-\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ RESET\ \ \ "{}\(\backslash\)033[0m"{}}}
-\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ CLEAR\ \ \ "{}\(\backslash\)033c"{}}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \textcolor{comment}{//\ printInfo\ messages}}
-\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ START\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Webserv\ is\ starting..."{}}}
-\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ END\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Webserv\ shutdowned"{}}}
-\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ SHUTDOWN\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Webserv\ is\ shutting\ down..."{}}}
-\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ SET\_SERVER\_MSG(host,\ port)\ \ "{}Server\ "{}\ +\ host\ +\ "{}:"{}\ +\ port\ +\ "{}\ setup\ complete"{}}}
-\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ LAUNCH\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Launching\ servers..."{}}}
-\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ EMPTY\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}"{}}}
-\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ POLLERR\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Error:\ POLLERR"{}}}
-\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ POLLHUP\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Error:\ POLLHUP"{}}}
-\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ POLLNVAL\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Error:\ POLLNVAL"{}}}
-\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ CLOSE\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed"{}}}
-\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ TIMEOUT\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Timeout"{}}}
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \textcolor{comment}{//\ Parser\ check\ input\ errors}}
-\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ ERR\_ARG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Invalid\ arguments\(\backslash\)n\(\backslash\)tUsage:\ ./webserv\ [config\_file]"{}}}
-\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ ERR\_FILE\_CONF(confFile)\ \ \ \ \ \ \ \ \ "{}'"{}+\ confFile\ +\ "{}'\ is\ a\ invalid\ file\(\backslash\)n\(\backslash\)tFile\ must\ have\ a\ name\ and\ must\ be\ .conf"{}}}
-\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ ERR\_OPEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Couldn't\ open\ file\ "{}}}
-\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ ERR\_NO\_SERVER\_CONFIG\ \ \ \ \ \ \ \ \ \ \ \ "{}There\ is\ no\ bloc\ server\ in\ the\ configuration\ file\ "{}}}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \textcolor{comment}{//Parser\ token\ error}}
-\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ ERR\_INVALID\_KEY(line)\ \ \ \ \ \ \ \ \ \ \ "{}Invalid\ keyword\ on\ line:\ '"{}\ +\ line\ +\ "{}'"{}}}
-\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ ERR\_SEMICOLON(line)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Missing\ ';'\ at\ line\ '"{}\ +\ line\ +"{}'"{}}}
-\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ ERR\_CLOSING\_BRACKETS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Missing\ closing\ bracket"{}}}
-\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ ERR\_OPENING\_BRACKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Missing\ opening\ bracket"{}}}
-\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ ERR\_SERV\_FORBIDDEN\_DIRECTIVE(directive)\ \ \ \ \ "{}Directive\ '"{}\ +\ directive\ +\ "{}'\ is\ not\ allowed\ in\ Server\ block"{}}}
-\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ ERR\_LOC\_FORBIDDEN\_DIRECTIVE(directive)\ \ \ \ \ \ "{}Directive\ '"{}\ +\ directive\ +\ "{}'\ is\ not\ allowed\ in\ Location\ block"{}}}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00082\ \textcolor{comment}{//Bloc\ Server\ error}}
-\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ ERR\_PORT\_INPUT(port)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}+\ port\ +\ "{}'\ is\ not\ a\ valid\ port\ number.\ Port\ must\ be\ a\ number\ between\ 0\ and\ 65535"{}}}
-\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ ERR\_HOST\_INPUT(host)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}+\ host\ +\ "{}'\ is\ not\ a\ valid\ host\ name\ or\ ip\ adresse."{}}}
-\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ ERR\_DIRECTORY(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ path\ +\ "{}'\ is\ not\ a\ valid\ directory"{}}}
-\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ ERR\_NOT\_FILE\_NOT\_DIR(path)\ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ path\ +\ "{}'\ is\ neither\ a\ regular\ file\ nor\ a\ directory."{}}}
-\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ ERR\_FILE\_INFO(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Error\ retrieving\ file\ info\ for:\ '"{}\ +\ path\ +\ "{}'"{}}}
-\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ ERR\_OPEN\_DIR(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Unable\ to\ open\ directory:\ '"{}\ +\ path\ +\ "{}'"{}}}
-\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ ERR\_PATH(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ path\ +\ "{}'\ is\ not\ a\ valid\ path"{}}}
-\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ ERR\_WRITE\_PERM(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Write\ access\ denied\ for\ path:\ '"{}\ +\ path\ +\ "{}'"{}}}
-\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ ERR\_SERV\_DIRECTIVE\_MISSING(directive)\ \ \ "{}Missing\ Directive\ '"{}\ +\ directive\ +\ "{}'\ in\ Server\ block"{}}}
-\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ ERR\_LOC\_DIRECTIVE\_MISSING(directive)\ \ \ \ "{}Missing\ Directive\ '"{}\ +\ directive\ +\ "{}'\ in\ Location\ block"{}}}
-\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ ERR\_FILE(file)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Couldn't\ open\ file\ '"{}\ +\ file\ +\ "{}'\ ."{}}}
-\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_INPUT(size)\ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ not\ a\ valid\ size.\ Size\ must\ be\ a\ number\ positive\ or\ a\ number\ followed\ by\ a\ sufix\ (b\ -\/\ B,\ k\ -\/\ K,\ m\ -\/\ M,\ g\ -\/\ G)"{}}}
-\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_RANGE(size)\ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ not\ a\ valid\ size.\ The\ max\ value\ allowed\ is\ 10G\ (10737418240\ bytes)"{}}}
-\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_CONVERSION(size)\ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ not\ a\ valid\ number."{}}}
-\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_CONVERSION\_LONG(size)\ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ a\ number\ too\ large\ for\ long."{}}}
-\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ ERR\_INVALID\_SERVER\_NAME(server)\ \ \ \ \ "{}'"{}+\ server\ +\ "{}'\ is\ not\ a\ valid\ server\ name,\ only\ alphanumeric,\ hyphens,\ and\ periods\ are\ allowed\ "{}}}
-\DoxyCodeLine{00099\ }
-\DoxyCodeLine{00100\ \textcolor{comment}{//Bloc\ Location\ Error}}
-\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ ERR\_LOCATION(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Location's\ path\ needs\ to\ begin\ with\ a\ '/'\ "{}}}
-\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ ERR\_INVALID\_METHOD(method,\ directive)\ \ \ "{}The\ method\ '"{}\ +\ method\ +\ "{}'\ in\ the\ directive'value\ :'"{}\ +\ directive\ +\ "{}'\ ."{}}}
-\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ ERR\_AUTOINDEX\ \ \ "{}The\ autoinde\ value\ should\ be\ 'on'\ or\ 'off'"{}}}
-\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ ERR\_ERR\_CGI\_DOT(extension)\ \ \ \ \ \ \ \ \ \ "{}Extension\ '"{}\ +\ extension\ +\ "{}'\ must\ start\ with\ a\ point\ (.)"{}\ }}
-\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ ERR\_ERR\_CGI\_EXT(extension)\ \ \ \ \ \ \ \ \ \ "{}Unsupported\ CGI\ extension:\ '"{}\ +\ extension\ +\ "{}'"{}\ }}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ Custom\ Outputs}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ RED\ \ \ \ \ "{}\(\backslash\)033[0;31m"{}}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ GREEN\ \ \ "{}\(\backslash\)033[0;32m"{}}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ BLUE\ \ \ \ "{}\(\backslash\)033[0;34m"{}}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ RESET\ \ \ "{}\(\backslash\)033[0m"{}}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ CLEAR\ \ \ "{}\(\backslash\)033c"{}}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ printInfo\ messages}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ START\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Webserv\ is\ starting..."{}}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ END\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Webserv\ shutdowned"{}}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ SHUTDOWN\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Webserv\ is\ shutting\ down..."{}}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ SET\_SERVER\_MSG(host,\ port)\ \ \ \ \ \ "{}Server\ "{}\ +\ host\ +\ "{}:"{}\ +\ port\ +\ "{}\ setup\ complete"{}}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ LAUNCH\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Launching\ servers..."{}}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ EMPTY\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}"{}}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ POLLERR\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Error:\ POLLERR"{}}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ POLLHUP\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Error:\ POLLHUP"{}}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ POLLNVAL\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Error:\ POLLNVAL"{}}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ CLOSE\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed"{}}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ TIMEOUT\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Connection\ closed.\ Timeout"{}}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{comment}{//\ Parser\ check\ input\ errors}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ ERR\_ARG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Invalid\ arguments\(\backslash\)n\(\backslash\)tUsage:\ ./webserv\ [config\_file]"{}}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ ERR\_FILE\_CONF(confFile)\ \ \ \ \ \ \ \ \ "{}'"{}+\ confFile\ +\ "{}'\ is\ a\ invalid\ file\(\backslash\)n\(\backslash\)tFile\ must\ have\ a\ name\ and\ must\ be\ .conf"{}}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ ERR\_OPEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Couldn't\ open\ file\ "{}}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ ERR\_NO\_SERVER\_CONFIG\ \ \ \ \ \ \ \ \ \ \ \ "{}There\ is\ no\ bloc\ server\ in\ the\ configuration\ file\ "{}}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{comment}{//Parser\ token\ error}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ ERR\_INVALID\_KEY(line)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Invalid\ keyword\ on\ line:\ '"{}\ +\ line\ +\ "{}'"{}}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ ERR\_SEMICOLON(line)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Missing\ ';'\ at\ line\ '"{}\ +\ line\ +"{}'"{}}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ ERR\_CLOSING\_BRACKETS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Missing\ closing\ bracket"{}}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ ERR\_OPENING\_BRACKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Missing\ opening\ bracket"{}}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ ERR\_SERV\_FORBIDDEN\_DIRECTIVE(directive)\ \ \ \ \ "{}Directive\ '"{}\ +\ directive\ +\ "{}'\ is\ not\ allowed\ in\ Server\ block"{}}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ ERR\_LOC\_FORBIDDEN\_DIRECTIVE(directive)\ \ \ \ \ \ "{}Directive\ '"{}\ +\ directive\ +\ "{}'\ is\ not\ allowed\ in\ Location\ block"{}}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{comment}{//Bloc\ Server\ error}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ ERR\_PORT\_INPUT(port)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}+\ port\ +\ "{}'\ is\ not\ a\ valid\ port\ number.\ Port\ must\ be\ a\ number\ between\ 0\ and\ 65535"{}}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ ERR\_HOST\_INPUT(host)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}+\ host\ +\ "{}'\ is\ not\ a\ valid\ host\ name\ or\ ip\ adresse."{}}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ ERR\_DIRECTORY(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ path\ +\ "{}'\ is\ not\ a\ valid\ directory"{}}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ ERR\_NOT\_FILE\_NOT\_DIR(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ path\ +\ "{}'\ is\ neither\ a\ regular\ file\ nor\ a\ directory."{}}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ ERR\_FILE\_INFO(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Error\ retrieving\ file\ info\ for:\ '"{}\ +\ path\ +\ "{}'"{}}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ ERR\_OPEN\_DIR(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Unable\ to\ open\ directory:\ '"{}\ +\ path\ +\ "{}'"{}}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ ERR\_PATH(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ path\ +\ "{}'\ is\ not\ a\ valid\ path"{}}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ ERR\_WRITE\_PERM(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Write\ access\ denied\ for\ path:\ '"{}\ +\ path\ +\ "{}'"{}}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ ERR\_SERV\_DIRECTIVE\_MISSING(directive)\ \ \ "{}Missing\ Directive\ '"{}\ +\ directive\ +\ "{}'\ in\ Server\ block"{}}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ ERR\_LOC\_DIRECTIVE\_MISSING(directive)\ \ \ \ "{}Missing\ Directive\ '"{}\ +\ directive\ +\ "{}'\ in\ Location\ block"{}}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ ERR\_FILE(file)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Couldn't\ open\ file\ '"{}\ +\ file\ +\ "{}'\ ."{}}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_INPUT(size)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ not\ a\ valid\ size.\ Size\ must\ be\ a\ number\ positive\ or\ a\ number\ followed\ by\ a\ sufix\ (b\ -\/\ B,\ k\ -\/\ K,\ m\ -\/\ M,\ g\ -\/\ G)"{}}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_RANGE(size)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ not\ a\ valid\ size.\ The\ max\ value\ allowed\ is\ 10G\ (10737418240\ bytes)"{}}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_CONVERSION(size)\ \ \ \ \ \ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ not\ a\ valid\ number."{}}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ ERR\_MAX\_SIZE\_CONVERSION\_LONG(size)\ \ \ \ \ \ "{}'"{}\ +\ size\ +\ "{}'\ is\ a\ number\ too\ large\ for\ long."{}}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ ERR\_INVALID\_SERVER\_NAME(server)\ \ \ \ \ \ \ \ \ "{}'"{}+\ server\ +\ "{}'\ is\ not\ a\ valid\ server\ name,\ only\ alphanumeric,\ hyphens,\ and\ periods\ are\ allowed\ "{}}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{comment}{//Bloc\ Location\ Error}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ ERR\_LOCATION(path)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Location's\ path\ needs\ to\ begin\ with\ a\ '/'\ "{}}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ ERR\_INVALID\_METHOD(method,\ directive)\ \ \ "{}The\ method\ '"{}\ +\ method\ +\ "{}'\ in\ the\ directive'value\ :'"{}\ +\ directive\ +\ "{}'\ ."{}}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ ERR\_AUTOINDEX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}The\ autoinde\ value\ should\ be\ 'on'\ or\ 'off'"{}}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ ERR\_ERR\_CGI\_DOT(extension)\ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Extension\ '"{}\ +\ extension\ +\ "{}'\ must\ start\ with\ a\ point\ (.)"{}\ }}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ ERR\_ERR\_CGI\_EXT(extension)\ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}Unsupported\ CGI\ extension:\ '"{}\ +\ extension\ +\ "{}'"{}\ }}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{comment}{//Setup\ Error}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ ERR\_SOCKET(server)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}failed\ to\ create\ network\ socket\ for\ server\ "{}\ +\ server}}
 \DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \textcolor{comment}{//Setup\ Error}}
-\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ ERR\_SOCKET(server)\ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}failed\ to\ create\ network\ socket\ for\ server\ "{}\ +\ server}}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ }
-\DoxyCodeLine{00112\ \textcolor{comment}{//\ Service\ setServersAddress\ errors}}
-\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ ERR\_SET\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}setsockopt()\ failed:\ "{}}}
-\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ ERR\_GET\_ADDR\_INFO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}getaddrinfo()\ failed:\ "{}}}
-\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ ERR\_BIND\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}bind()\ failed:\ "{}}}
-\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ ERR\_LISTEN\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}listen()\ failed:\ "{}}}
-\DoxyCodeLine{00117\ }
-\DoxyCodeLine{00118\ \textcolor{comment}{//\ Default\ settings}}
-\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ DEFAULT\_CONF\ \ \ \ \ \ \ \ "{}confFiles/default.conf"{}}}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \textcolor{comment}{//\ Service\ launch\ errors}}
-\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ ERR\_POLL\_FAIL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}poll()\ failed"{}}}
-\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ ERR\_ACCEPT\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}accept()\ failed"{}}}
-\DoxyCodeLine{00124\ }
-\DoxyCodeLine{00125\ \textcolor{comment}{//\ Server\ parameters}}
-\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ SERVER\ \ \ \ \ \ "{}server"{}}}
-\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ LISTEN\ \ \ \ \ \ "{}listen"{}}}
-\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ HOST\ \ \ \ \ \ \ \ "{}host"{}}}
-\DoxyCodeLine{00129\ \textcolor{comment}{//\ \#define\ ROOT\ \ \ \ \ "{}root"{}}}
-\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ INDEX\ \ \ \ \ \ \ "{}index"{}}}
-\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ MAX\_SIZE\ \ \ \ "{}client\_max\_body\_size"{}}}
-\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ SERVER\_N\ \ \ \ "{}server\_name"{}}}
-\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ ERROR\_P\ \ \ \ \ "{}error\_page"{}}}
-\DoxyCodeLine{00134\ }
-\DoxyCodeLine{00135\ \textcolor{comment}{//\ Servers'Location\ parameters}}
-\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ LOCATION\ \ \ \ "{}location"{}}}
-\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ ALLOW\_M\ \ \ \ \ "{}allow\_methods"{}}}
-\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ TRY\ \ \ \ \ \ \ \ \ "{}try\_file"{}}}
-\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ RETURN\ \ \ \ \ \ "{}return"{}}}
-\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ AUTOID\ \ \ \ \ \ "{}autoindex"{}}}
-\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ ROOT\_LOC\ \ \ \ "{}root"{}}}
-\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ UPLOAD\ \ \ \ \ \ "{}upload\_to"{}}}
-\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ CGI\_P\ \ \ \ \ \ \ "{}cgi\_path"{}}}
-\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ CGI\_E\ \ \ \ \ \ \ "{}cgi\_ext"{}}}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00107\ \textcolor{comment}{//\ Service\ setServersAddress\ errors}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ ERR\_SET\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}setsockopt()\ failed:\ "{}}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ ERR\_GET\_ADDR\_INFO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}getaddrinfo()\ failed:\ "{}}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ ERR\_BIND\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}bind()\ failed:\ "{}}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ ERR\_LISTEN\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}listen()\ failed:\ "{}}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{comment}{//\ Default\ settings}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ DEFAULT\_CONF\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}confFiles/default.conf"{}}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{comment}{//\ Service\ launch\ errors}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ ERR\_POLL\_FAIL\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}poll()\ failed"{}}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ ERR\_ACCEPT\_SOCKET\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}accept()\ failed"{}}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{comment}{//\ Server\ parameters}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ SERVER\ \ \ \ \ \ "{}server"{}}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ LISTEN\ \ \ \ \ \ "{}listen"{}}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ HOST\ \ \ \ \ \ \ \ "{}host"{}}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ INDEX\ \ \ \ \ \ \ "{}index"{}}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ MAX\_SIZE\ \ \ \ "{}client\_max\_body\_size"{}}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ SERVER\_N\ \ \ \ "{}server\_name"{}}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ ERROR\_P\ \ \ \ \ "{}error\_page"{}}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{comment}{//\ Servers'Location\ parameters}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ LOCATION\ \ \ \ "{}location"{}}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ ALLOW\_M\ \ \ \ \ "{}allow\_methods"{}}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ TRY\ \ \ \ \ \ \ \ \ "{}try\_file"{}}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ RETURN\ \ \ \ \ \ "{}return"{}}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ AUTOID\ \ \ \ \ \ "{}autoindex"{}}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ ROOT\_LOC\ \ \ \ "{}root"{}}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ UPLOAD\ \ \ \ \ \ "{}upload\_to"{}}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ CGI\_P\ \ \ \ \ \ \ "{}cgi\_path"{}}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ CGI\_E\ \ \ \ \ \ \ "{}cgi\_ext"{}}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

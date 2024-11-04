@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Webserv: webserv</title>
+<title>Webserv: Webserv</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -85,12 +85,272 @@ $(function(){ initResizable(false); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">webserv </div></div>
+  <div class="headertitle"><div class="title">Webserv </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2webserv_2_r_e_a_d_m_e"></a></p>
-<p>Balbalsba </p>
-</div></div><!-- PageDoc -->
+<div class="textblock"><p><a class="anchor" id="md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2webserv_2_r_e_a_d_m_e"></a> </p><div class="fragment"><div class="line">-of-contents</div>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md0"></a>
+En Français</h1>
+<h2><a class="anchor" id="autotoc_md1"></a>
+Comment Webserv fonctionne, bref aperçu</h2>
+<p>Il y a 3 étapes principales:</p><ul>
+<li><b><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></b> un fichier <code>.conf</code> pour obtenir les paramètres de chaque serveur (oui, il peut y en avoir plusieurs). Par exemple l'adresse et le port d'écoute se trouve dans le <code>server.conf</code>.</li>
+<li><b>Setup</b> les (sockets des) serveurs. Chaque socket est lié à un port. Il s'agit in fine de créer les sockets d'écoute pour chaque serveur. et de les ajouter à la "liste de surveillance" (polling list) afin de détecter lorsqu'un client se connecte sur le socket.</li>
+<li><b>Launch</b> les serveurs. C'est-à-dire lancer la boucle infinie qui :<ul>
+<li>attend que la liste de surveillance des sockets remonte un événement au système.</li>
+<li>réagit à cet événement. Cette boucle comprend donc la communication Client-Server qui implique l'utilisation des méthodes HTML (GET; POST, DELETE) et l'utilisation des CGI.</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Structure du projet</h2>
+<p>Avant de détailler les étapes, il faut avoir une idée de la structure du projet.</p>
+<p>Le projet comporte 4 classes:</p><ul>
+<li><b><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></b>. Une classe est <a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a> est instanciée en premier. Elle est centrale car elle fait le lien entre les étapes Parsing/Setup/Launch puis fait la surveillance des sockets. Elle contient (notamment) les variables suivantes:<ul>
+<li>la liste des serveurs (un vecteur)</li>
+<li>la liste des clients (un vecteur)</li>
+<li>la liste de surveillance des sockets (un vecteur)</li>
+</ul>
+</li>
+<li><b><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></b>. Une seule instance de la classe <a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a> est créé par l'instance de <a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a>. La classe comporte toutes les fonctions de parsing et variables temporaires qui permettront de créer les instances de la classe <a class="el" href="class_server.html" title="Manages server configurations and location directives.">Server</a>.</li>
+<li><b>Serveur</b>. Le fichier de configuration <code>.conf</code> contient des "blocs" serveurs (<code>server { ... }</code>avec des paramètres. Une instance de la classe <a class="el" href="class_server.html" title="Manages server configurations and location directives.">Server</a> est créé pour chaque bloc et contient les différents paramètres parsés.</li>
+<li><b><a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a></b>. A chaque connexion d'un client au serveur, une instance de la classe <a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a> est créée . Elle contient toutes les informations concernant le client (notamment):<ul>
+<li>le serveur auquel le client est connecté ()</li>
+<li>le socket du client</li>
+<li>la requête du client</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md3"></a>
+Plus en détails, plus proche du code</h2>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Step 1: Parsing</h3>
+<ol type="1">
+<li>Main instancie <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> avec le fichier<code>server.conf</code></li>
+<li>Le constructeur de <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> instancie un <code><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></code> qui lit le fichier <code>.conf</code> pour analyser chaque bloc <code>server{}</code>.</li>
+<li><code><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></code> créé une instance de <code>Serveur</code> pour chaque bloc <code>server{}</code>. Ces instances sont stockées dans le <code>serverVector</code>.</li>
+<li><code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> récupère le <code>serverVector</code> en provenance de <code><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></code>. </li>
+</ol>
+<h3><a class="anchor" id="autotoc_md5"></a>
+Step 2: Setup</h3>
+<ol type="1">
+<li><code>main</code> appelle la méthode <code>setup()</code> de <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code>.</li>
+<li>L'instance de <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> exécute pour <b>chaque serveur</b> se trouvant dans <code>serverVector</code>, : a. <code>getaddrinfo()</code> pour obtenir les informations d'adresse du serveur, b. <code>socket()</code> pour créer un socket. c. <code>bind</code> pour lier le socket à un port. d. <code>listen()</code> pour mettre le socket en mode écoute. e. puis ajoute le socket au vecteur <code>pollingFdVector</code> pour le surveiller ultérieurement. </li>
+</ol>
+<h3><a class="anchor" id="autotoc_md6"></a>
+Step 3: Launch</h3>
+<ol type="1">
+<li><code>main</code> appelle la méthode <code>launch()</code> de <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code></li>
+<li><code>launch()</code> exécute <b>en boucle</b> (en attendant le signal d'extinction) : a.<code>poll()</code> pour lancer la surveillance des sockets (plus précisément des files descriptors liées au socket).<ul>
+<li><code>poll()</code>prend <code>pollingFdVector</code> en entrée puis se bloque.</li>
+<li><code>poll()</code> se débloque lorsqu'un socket remonte un événement ou lorsque qu'un "timeout" est atteint.</li>
+<li><code>poll()</code> se débloque et permet d'exécuter la suite des instructions mais <b>il ne dit pas quel est le socket ni quel est le type d'événement qui s'est produit</b>. b.<code>PollingManager()</code> pour parcourir les sockets afin de déterminer quel socket a remonté quel type d'événement afin d'envoyer des données ou de recevoir des données.</li>
+</ul>
+</li>
+</ol>
+<h4><a class="anchor" id="autotoc_md7"></a>
+Step 3: PollingManager() - gestion des événements des sockets</h4>
+<p>Il y a 3 types d'événements pouvant être remonté par un socket: erreur, prêt à lire, prêt à écrire.</p>
+<p>A. Le socket a une <b>erreur</b> (<em>POLLERR</em>, <em>POLLHUP</em>, <em>POLLNVAL</em>). Alors l'erreur est traitée avec un message d'erreur et la fermeture de connexion.</p>
+<p>B. Le socket annonce qu'il est prêt pour la <b>lecture de données</b> (<em>POLLIN</em>). Cela signifie qu'il a quelque chose à lire dans son buffer. L'action dépend du type de socket.</p><ul>
+<li>Si c'est un socket de <b>serveur</b> (qui écoute les connexions, donc configuré avec <code>listen()</code>), alors la connexion est <code>accept()</code>. (Initialement, il n'y a que des sockets de serveur)<ul>
+<li><code>accept()</code>retourne un nouveau socket (file descriptor) dédié au nouveau client.</li>
+<li>Ce file descriptor est ajouté au <code>pollingFdVector</code> pour être surveillé par <code>poll()</code></li>
+<li>Une nouvelle instance de <code><a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a></code> est créée.</li>
+</ul>
+</li>
+<li>Si c'est un socket de <b>client</b> (qui représente une connexion existante), les données envoyées par le client sont lues avec <code>recv()</code> et ajoutées à la variable <code>_request</code> de l'instance <code><a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a></code>.</li>
+</ul>
+<p>C. Si le socket du serveur est prêt pour l'<b>envoi de données</b> (<em>POLLOUT</em>) cela signifie que le buffer est vide et donc prêt à être remplie avec des informations à transmettre au client.</p>
+<h4><a class="anchor" id="autotoc_md8"></a>
+Step 3: Traitement de la requête et envoie de données</h4>
+<p>Le principe est le suivant.</p><ol type="1">
+<li>Le client envoie une requête HTML, par exemple:</li>
+</ol>
+<div class="fragment"><div class="line">GET /index.html HTTP/2</div>
+<div class="line">Host: www.example.com</div>
+</div><!-- fragment --><ol type="1">
+<li>Le serveur parse la requête (<code>_request</code>)pour identifier:<ul>
+<li>l'hôte (<code>Host</code>). Il faut vérifier que l'hôte est existe dans la liste des serveurs <code>serversVector</code></li>
+<li>la méthode <code>GET / POST /DELETE</code></li>
+</ul>
+</li>
+<li>Envoyer la réponse qui comprend:<ul>
+<li>Statut : code indiquant le résultat de la requête (200 OK, 404 Not Found, etc.).</li>
+<li>En-têtes : informations sur la réponse (type de contenu, date, etc.).</li>
+<li>Corps : données renvoyées par le serveur (HTML, JSON, etc.).</li>
+</ul>
+</li>
+</ol>
+<p><b>Exemple de réponse HTTP :</b></p>
+<div class="fragment"><div class="line">HTTP/1.1 200 OK</div>
+<div class="line">Content-Type: text/html</div>
+<div class="line">Content-Length: 138</div>
+<div class="line"> </div>
+<div class="line">&lt;html&gt;</div>
+<div class="line">&lt;body&gt;</div>
+<div class="line">&lt;h1&gt;Hello, World!&lt;/h1&gt;</div>
+<div class="line">&lt;/body&gt;</div>
+<div class="line">&lt;/html&gt;</div>
+</div><!-- fragment --><hr  />
+<h1><a class="anchor" id="autotoc_md10"></a>
+In english (thanks chatGPT)</h1>
+<h2><a class="anchor" id="autotoc_md11"></a>
+How Webserv Works: Quick Overview</h2>
+<p>There are three main steps:</p>
+<ol type="1">
+<li><b>Parse</b> a <code>.conf</code> file to get the settings for each server (there can be multiple servers). For example, the listening address and port are in <code>server.conf</code>.</li>
+<li><b>Setup</b> the server sockets. Each socket is linked to a port. This involves creating listening sockets for each server and adding them to a "polling list" to detect when a client connects to a socket.</li>
+<li><p class="startli"><b>Launch</b> the servers. This means starting an infinite loop that:</p><ul>
+<li>Waits for the polling list to report an event to the system.</li>
+<li>Reacts to that event.</li>
+</ul>
+<p class="startli">This loop includes client-server communication, using HTML methods (GET, POST, DELETE), and CGI.</p>
+</li>
+</ol>
+<h2><a class="anchor" id="autotoc_md12"></a>
+Project Structure</h2>
+<p>Before detailing the steps, it's important to understand the project structure.</p>
+<p>The project has four classes:</p>
+<ul>
+<li><b><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></b>: This class is instantiated first. It's central as it links the Parsing/Setup/Launch steps and monitors the sockets. It contains:<ul>
+<li>A list of servers (a vector).</li>
+<li>A list of clients (a vector).</li>
+<li>A polling list for sockets (a vector).</li>
+</ul>
+</li>
+<li><b><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></b>: Only one instance is created by the <a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a> instance. It contains all parsing functions and temporary variables to create <a class="el" href="class_server.html" title="Manages server configurations and location directives.">Server</a> instances.</li>
+<li><b><a class="el" href="class_server.html" title="Manages server configurations and location directives.">Server</a></b>: The <code>.conf</code> file contains server "blocks" (<code>server { ... }</code> with parameters). An instance of the <a class="el" href="class_server.html" title="Manages server configurations and location directives.">Server</a> class is created for each block and contains parsed parameters.</li>
+<li><b><a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a></b>: Each time a client connects to the server, a <a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a> instance is created. It contains information about the client, including:<ul>
+<li>The server to which the client is connected.</li>
+<li>The client's socket.</li>
+<li>The client's request.</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md13"></a>
+In Detail, Closer to Code</h2>
+<h3><a class="anchor" id="autotoc_md14"></a>
+Step 1: Parsing</h3>
+<ol type="1">
+<li>Main creates <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> with <code>server.conf</code>.</li>
+<li><code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> constructor creates a <code><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></code> that reads the <code>.conf</code> file to analyze each <code>server{}</code> block.</li>
+<li><code><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></code> creates a <code><a class="el" href="class_server.html" title="Manages server configurations and location directives.">Server</a></code> instance for each <code>server{}</code> block. These instances are stored in <code>serverVector</code>.</li>
+<li><code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> retrieves <code>serverVector</code> from <code><a class="el" href="class_parser.html" title="Parses server configuration files and initializes server instances.">Parser</a></code>.</li>
+</ol>
+<h3><a class="anchor" id="autotoc_md15"></a>
+Step 2: Setup</h3>
+<ol type="1">
+<li><code>main</code> calls the <code>setup()</code> method of <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code>.</li>
+<li>For <b>each server</b> in <code>serverVector</code>, <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code> instance executes:<ul>
+<li><code>getaddrinfo()</code> to get server address info.</li>
+<li><code>socket()</code> to create a socket.</li>
+<li><code>bind</code> to link the socket to a port.</li>
+<li><code>listen()</code> to set the socket to listening mode.</li>
+<li>Adds the socket to <code>pollingFdVector</code> to monitor it later.</li>
+</ul>
+</li>
+</ol>
+<h3><a class="anchor" id="autotoc_md16"></a>
+Step 3: Launch</h3>
+<ol type="1">
+<li><code>main</code> calls the <code>launch()</code> method of <code><a class="el" href="class_service.html" title="Manages server-client interactions and service setup.">Service</a></code>.</li>
+<li><code>launch()</code> runs <b>in a loop</b> (until a shutdown signal) and:<ul>
+<li><code>poll()</code> to monitor sockets (specifically file descriptors linked to sockets).</li>
+<li><code>poll()</code> takes <code>pollingFdVector</code> as input and blocks.</li>
+<li><code>poll()</code> unblocks when a socket reports an event or a timeout is reached.</li>
+<li><code>poll()</code> unblocks but <b>doesn't specify which socket or event type occurred</b>.</li>
+<li><code>PollingManager()</code> checks sockets to determine which socket triggered which event to handle data sending or receiving.</li>
+</ul>
+</li>
+</ol>
+<h4><a class="anchor" id="autotoc_md17"></a>
+Step 3: PollingManager() - Socket Event Management</h4>
+<p>Three event types can be reported by a socket: error, ready to read, ready to write.</p>
+<p>A. If a socket has an <b>error</b> (<em>POLLERR</em>, <em>POLLHUP</em>, <em>POLLNVAL</em>), the error is handled with an error message and connection closure.</p>
+<p>B. If a socket is ready for <b>data reading</b> (<em>POLLIN</em>), it has data in its buffer. Action depends on socket type:</p><ul>
+<li>For a <b>server</b> socket (listening for connections, set with <code>listen()</code>), the connection is <code>accept()</code>.<ul>
+<li><code>accept()</code> returns a new socket (file descriptor) for the new client.</li>
+<li>This file descriptor is added to <code>pollingFdVector</code> for <code>poll()</code> to monitor.</li>
+<li>A new <code><a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a></code> instance is created.</li>
+</ul>
+</li>
+<li>For a <b>client</b> socket (representing an existing connection), data sent by the client is read with <code>recv()</code> and added to the <code><a class="el" href="class_client.html" title="Represents a client connection handling HTTP requests.">Client</a></code> instance's <code>_request</code> variable.</li>
+</ul>
+<p>C. If a server socket is ready for <b>data sending</b> (<em>POLLOUT</em>), the buffer is empty and ready to be filled with information to send to the client.</p>
+<h4><a class="anchor" id="autotoc_md18"></a>
+Step 3: Request Processing and Sending Data</h4>
+<p>The process is as follows:</p>
+<ol type="1">
+<li><p class="startli">The client sends an HTML request, for example:</p>
+<div class="fragment"><div class="line">GET /index.html HTTP/2</div>
+<div class="line">Host: www.example.com</div>
+</div><!-- fragment --></li>
+<li>The server parses the request (<code>_request</code>) to identify:<ul>
+<li>The host (<code>Host</code>). It verifies if the host exists in the <code>serversVector</code>.</li>
+<li>The method (GET, POST, DELETE).</li>
+</ul>
+</li>
+<li>The server then sends a response, which includes:<ul>
+<li><b>Status</b>: A code indicating the result of the request (e.g., 200 OK, 404 Not Found).</li>
+<li><b>Headers</b>: Information about the response (content type, date, etc.).</li>
+<li><b>Body</b>: The data returned by the server (HTML, JSON, etc.).</li>
+</ul>
+</li>
+</ol>
+<p><b>Example of an HTTP response:</b></p>
+<div class="fragment"><div class="line">HTTP/1.1 200 OK</div>
+<div class="line">Content-Type: text/html</div>
+<div class="line">Content-Length: 138</div>
+<div class="line"> </div>
+<div class="line">&lt;html&gt;</div>
+<div class="line">&lt;body&gt;</div>
+<div class="line">&lt;h1&gt;Hello, World!&lt;/h1&gt;</div>
+<div class="line">&lt;/body&gt;</div>
+<div class="line">&lt;/html&gt;</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md19"></a>
+Diagram</h1>
+<div class="fragment"><div class="line">flowchart TD</div>
+<div class="line">    subgraph Parsing</div>
+<div class="line">        A1[Start] --&gt; B[Parse Configuration File]</div>
+<div class="line">        B --&gt; C[Create Service Instance]</div>
+<div class="line">        C --&gt; D[Create Parser Instance]</div>
+<div class="line">        D --&gt; E[Parse .conf File &amp; Create Server Instances]</div>
+<div class="line">        E --&gt; F[Store Server Instances in serverVector]</div>
+<div class="line">        F --&gt; G[Retrieve serverVector in Service]</div>
+<div class="line">    end</div>
+<div class="line">    </div>
+<div class="line">    subgraph Setup</div>
+<div class="line">        G --&gt; H[Setup Sockets for Each Server]</div>
+<div class="line">        H --&gt; I[Get Server Address Info]</div>
+<div class="line">        I --&gt; J[Create Socket]</div>
+<div class="line">        J --&gt; K[Bind Socket to Port]</div>
+<div class="line">        K --&gt; L[Set Socket to Listening Mode]</div>
+<div class="line">        L --&gt; M[Add Socket to pollingFdVector]</div>
+<div class="line">    end</div>
+<div class="line">    </div>
+<div class="line">    subgraph Launch</div>
+<div class="line">        M --&gt; N[Launch Servers]</div>
+<div class="line">        N --&gt; O[Start Infinite Loop]</div>
+<div class="line">        O --&gt; P[Poll Sockets]</div>
+<div class="line">        P --&gt; Q[Check for Events]</div>
+<div class="line">    end</div>
+<div class="line">    </div>
+<div class="line">    subgraph Event_Handling</div>
+<div class="line">        Q --&gt;|Error| R[Handle Error &amp; Close Connection]</div>
+<div class="line">        Q --&gt;|Ready to Read| S[Accept Connection or Read Data]</div>
+<div class="line">        S --&gt; T[Create Client Instance or Read to Client Request]</div>
+<div class="line">        Q --&gt;|Ready to Write| U[Prepare Data to Send]</div>
+<div class="line">        U --&gt; V[Send Data to Client]</div>
+<div class="line">    end</div>
+<div class="line">    </div>
+<div class="line">    subgraph Request_Processing</div>
+<div class="line">        V --&gt; W[Process Client Request]</div>
+<div class="line">        W --&gt; X[Parse Request: Identify Host &amp; Method]</div>
+<div class="line">        X --&gt; Y[Send HTTP Response]</div>
+<div class="line">        Y --&gt; Z[End]</div>
+<div class="line">    end</div>
+</div><!-- fragment --> </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
 <!-- start footer part -->
