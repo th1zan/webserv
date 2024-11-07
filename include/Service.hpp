@@ -69,10 +69,10 @@ class Service
 			std::vector<Server>		_serversVector;
 			std::vector<Client>		_clientVector;
 			std::vector<pollfd>		_pollingFdVector;
-			size_t					_defaultServers;
+			size_t					_nbPrimaryServers;
 			serviceInfo				_tmpServiceInfo;
 
-			void					_initServiceInfo();
+			void					_initTmpServiceInfo();
 			void					_getSetupInfo(std::vector<Server>::iterator server);
 			void					_setReuseableAddress();
 			void					_resetTmpServiceInfo();
@@ -93,6 +93,7 @@ class Service
 			bool					_hasBadRequest();
 			void					_sendDataToClient();
 			void					_checkRequestedServer();
+			size_t					_countPrimaryServers();
 
 
 	public:

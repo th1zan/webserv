@@ -26,9 +26,33 @@ Service::Service(int argc, char **argv){
 
 	this->_serversVector = input.getServersVector();
 
-	//to make it simple at first, _defaultServers = 1
-	this->_defaultServers = 1;
-	// this->_defaultServers = this->_countDefaultServers();
+	//to make it simple at first, _nbPrimaryServers = 1
+	// this->_nbPrimaryServers = 1;
+	this->_nbPrimaryServers = this->_countPrimaryServers();
+	
+	//DEBUG
+	// std::cout << "in Service constructor:: this->_nbPrimaryServers: " << this->_nbPrimaryServers << std::endl;
+
+
+}
+
+
+/**
+ * @brief function to count the the primary server in the _serversVector
+ * A server with an existing host and port is NOT a primary server
+ * 
+ * @return size_t, quantity of primary servers
+ */
+size_t Service::_countPrimaryServers(){
+	serverVector::iterator server = this->_serversVector.begin();
+	size_t count = 0;
+
+	for (; server != this->_serversVector.end(); server++)
+	{
+		if (server->getIsPrimary() == true)
+			count++;
+	}
+	return count;
 }
 
 /**
@@ -47,33 +71,37 @@ Service::~Service(){
 void Service::setup()
 {
 	// printInfo(SETUP_MSG, BLUE);
-	this->_initServiceInfo();
-
-	//DEBUG
-	// this->_serversVector.at(0).printServers();
-	// this->_serversVector.at(1).printServers();
 
 	std::vector<Server>::iterator server = this->_serversVector.begin();
 	for(; server != this->_serversVector.end(); server++)
 	{
+		this->_initTmpServiceInfo();
+
+		//DEBUG
 		// server->printServers();
-		// if (!server->getIsDefault())
-		// 	continue;
+		// std::cout << "in Service::setup(): server->getServerName: " << server->getServerName() << std::endl;
+
+		if (!server->getIsPrimary())
+			continue;
 
 		//DEBUG
 		// std::cout << "TEST 1" << std::endl;
 
-		this->_getSetupInfo(server);
+		this->_getSetupInfo(server); //get socket, host, port
 		// std::cout << "TEST 2" << std::endl;
+
+	
+		this->_setReuseableAddress();
+		// std::cout << "TEST 3" << std::endl;
 
 		// DEBUG
 		// this->printServiceInfo();
 
-		this->_setReuseableAddress();
-		// std::cout << "TEST 3" << std::endl;
-
 		this->_convertHostToAddress();
 		// std::cout << "TEST 4" << std::endl;
+
+		// DEBUG
+		// this->printServiceInfo();
 
 		this->_bindAddressToSocket();
 		// std::cout << "TEST 5" << std::endl;
@@ -95,7 +123,7 @@ void Service::setup()
 /**
  * @brief Initializes temporary ServiceInfo parameters for server setup.
  */
-void Service::_initServiceInfo()
+void Service::_initTmpServiceInfo()
 {
 	std::memset(&this->_tmpServiceInfo.parameters, 0, sizeof(this->_tmpServiceInfo.parameters));
 	this->_tmpServiceInfo.parameters.ai_family = AF_INET;			// IPv4
@@ -169,10 +197,19 @@ void Service::_convertHostToAddress()
  */
 void Service::_bindAddressToSocket()
 {
+	//DEBUG
+	// std::cout << "in _bindAddressToSocket::" << std::endl;
+	// printServiceInfo();
+	
 	if (this->_tmpServiceInfo.address)
 	{
 		if (bind(this->_tmpServiceInfo.listeningSocketFd, this->_tmpServiceInfo.address->ai_addr, this->_tmpServiceInfo.address->ai_addrlen) < 0)
 		{
+			//DEBUG
+			// std::cout << "in _bindAddressToSocket:: ERROR" << std::endl;
+			// printServiceInfo();
+
+
 			this->_resetTmpServiceInfo();
 			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
 		}
@@ -255,6 +292,10 @@ void Service::_pollingManager()
 		this->_resetTmpServiceInfo();
 		this->_getLaunchInfo(i);
 
+		//DEBUG
+		// std::cout << "in : _pollingManager():: i: " << i << std::endl;
+
+
 		// Handle errors first
 		if (this->_hasBadRequest())
 			continue;
@@ -294,9 +335,12 @@ void Service::_pollingManager()
  */
 void Service::_getLaunchInfo(int const i)
 {
-	
+	//DEBUG
+	// std::cout << "in : _getLaunchInfo():: i: " << i << std::endl;
+	// std::cout << "in : _getLaunchInfo():: this->_nbPrimaryServers: " << this->_nbPrimaryServers << std::endl;
+
 	this->_tmpServiceInfo.pollID = i;
-	this->_tmpServiceInfo.clientID = i - this->_defaultServers;
+	this->_tmpServiceInfo.clientID = i - this->_nbPrimaryServers;
 	this->_tmpServiceInfo.listeningSocketFd = this->_pollingFdVector.at(i).fd;
 	this->_tmpServiceInfo.mode = this->_pollingFdVector.at(i).revents;
 	this->_tmpServiceInfo.serverID = this->_getServerIndex();

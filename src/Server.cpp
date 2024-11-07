@@ -21,7 +21,6 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(_ServerConfigMap[MAX_SIZE]);
 	
 	// this->_errorResponse = this->_generateErrorResponse();
-	// this->_isDefault = this->_checkDefaultServer(servers);
 	this->_socket = 0;
 	
 	//get location bloc param to a vector of location_t struct
@@ -30,10 +29,10 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 		this->_getLocationStruct();
 	}
 
-	this->_isDefault = this->_checkDefaultServer(_serversVector);
+	this->_isPrimary = this->_checkPrimaryServer(_serversVector);
 	
 	//DEBUG
-	std::cout << "in :: Server constructor" << std::endl;
+	std::cout << "in :: Server constructor, for _serverName: " << this->_serverName << std::endl;
 	this->printServers();
 	// std::cout << "Server constructor called" << std::endl;
 }
@@ -55,7 +54,14 @@ long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	}
 }
 
-bool Server::_checkDefaultServer(std::vector<Server>&	_serversVector)
+/**
+ * @brief The function checks if there is an other server block with the same Host and Port.
+ * 
+ * @param _serversVector 
+ * @return true if the server is 'unique' 
+ * @return false 
+ */
+bool Server::_checkPrimaryServer(std::vector<Server>&	_serversVector)
 {
 	std::vector<Server>::const_iterator previous = _serversVector.begin();
 	for (; previous != _serversVector.end(); previous++)
@@ -123,7 +129,7 @@ void Server::_getLocationStruct() {
 }
 
 // ---> Getters ---------------------------------------------------------------
-bool Server::getIsDefault(){return (this->_isDefault);}
+bool Server::getIsPrimary(){return (this->_isPrimary);}
 const std::string&	Server::getHost() const{return this->_host;}
 const std::string&	Server::getPort() const{return this->_port;}
 int					Server::getSocket() const{return this->_socket;}
@@ -166,7 +172,7 @@ void Server::printServers() {
 		std::cout << "Error Page: " << this->_errorPage << std::endl;
 		std::cout << "Port: " << this->_port << std::endl;
 		std::cout << "Client Max Body Size: " << this->_clientMaxBodySize << std::endl;
-		std::cout << "Is Default: " << (this->_isDefault ? "Yes" : "No") << std::endl;
+		std::cout << "Is Primary: " << (this->_isPrimary ? "Yes" : "No") << std::endl;
 		
 		// Loop through each location in the server
 		for (std::map<std::string, location_t>::const_iterator locIt = this->_LocationMap.begin(); locIt != this->_LocationMap.end(); ++locIt) {

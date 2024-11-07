@@ -51,10 +51,10 @@ class Server{
 			std::string 					_errorPage;
 			std::string 					_errorResponse;
 			std::vector<location_t>			_tempLocationVector;
-			bool							_isDefault;
+			bool							_isPrimary;
 			int								_socket;
 
-			bool							_checkDefaultServer(std::vector<Server>& _serversVector);
+			bool							_checkPrimaryServer(std::vector<Server>& _serversVector);
 			long 							_getConvertedMaxSize(std::string& maxSizeStr);
 			
 
@@ -77,7 +77,7 @@ class Server{
 
 
 			//getters
-			bool							getIsDefault();
+			bool							getIsPrimary();
 			const std::string& 				getHost() const;
 			const std::string& 				getPort() const;
 			int								getSocket() const;

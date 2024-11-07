@@ -55,6 +55,9 @@ void Client::handleClientRequest()
 	if (method == "GET")
 	{
 		std::string filePath = this->_server.getRoot() + path;
+		//DEBUG
+		// std::cout << std::endl << "in: handleClientRequest:: _server.getRoot(): " << _server.getRoot() << "and path: " << path << std::endl;
+		
 		if (path == "/")
 			filePath = this->_server.getRoot() + "/index.html";
 
