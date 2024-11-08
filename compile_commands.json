@@ -1,0 +1,122 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-std=c++98",
+      "-g",
+      "-I",
+      "include",
+      "-c",
+      "-o",
+      "src/main.o",
+      "src/main.cpp"
+    ],
+    "directory": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv",
+    "file": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/main.cpp",
+    "output": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-std=c++98",
+      "-g",
+      "-I",
+      "include",
+      "-c",
+      "-o",
+      "src/Service.o",
+      "src/Service.cpp"
+    ],
+    "directory": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv",
+    "file": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Service.cpp",
+    "output": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Service.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-std=c++98",
+      "-g",
+      "-I",
+      "include",
+      "-c",
+      "-o",
+      "src/Parser.o",
+      "src/Parser.cpp"
+    ],
+    "directory": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv",
+    "file": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Parser.cpp",
+    "output": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Parser.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-std=c++98",
+      "-g",
+      "-I",
+      "include",
+      "-c",
+      "-o",
+      "src/Server.o",
+      "src/Server.cpp"
+    ],
+    "directory": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv",
+    "file": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Server.cpp",
+    "output": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Server.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-std=c++98",
+      "-g",
+      "-I",
+      "include",
+      "-c",
+      "-o",
+      "src/Client.o",
+      "src/Client.cpp"
+    ],
+    "directory": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv",
+    "file": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Client.cpp",
+    "output": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/Client.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-std=c++98",
+      "-g",
+      "-I",
+      "include",
+      "-c",
+      "-o",
+      "src/utils.o",
+      "src/utils.cpp"
+    ],
+    "directory": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv",
+    "file": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/utils.cpp",
+    "output": "/Users/thibault/kDrive/1-PROJECTS/P-42/webserv/src/utils.o"
+  }
+]

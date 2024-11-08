@@ -6,15 +6,20 @@
 #    By: thibault <thibault@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/30 11:36:55 by wcorrea-          #+#    #+#              #
-#    Updated: 2024/10/25 20:33:05 by thibault         ###   ########.fr        #
+#    Updated: 2024/11/08 14:45:52 by thibault         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = webserv
 
 SRC = src/main.cpp \
-		src/Service.cpp \
-		src/Parser.cpp \
+		src/Service_0.cpp \
+		src/Service_1_setup.cpp \
+		src/Service_2_launch.cpp \
+		src/Parser_0.cpp \
+		src/Parser_1_getConfig.cpp \
+		src/Parser_2_checkServer.cpp \
+		src/Parser_3_checkLocation.cpp \
 		src/Server.cpp \
 		src/Client.cpp \
 		src/utils.cpp
