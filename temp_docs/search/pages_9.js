@@ -1,5 +1,0 @@
-var searchData=
-[
-  ['how_20to_20build_0',['How to Build',['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu6fc782597f75d588c29c040823957124.html',1,'How to Build'],['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu48650f169728873f46544f8f4d0ab0cb.html',1,'How to Build'],['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu0ee42908ac69998b6ed445aac42185a3.html',1,'How to Build'],['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_2push__swap_2push__swap__visualizer_2bu29786dc1d0e88a6bbfb22f1f1846179b.html',1,'How to Build']]],
-  ['how_20to_20contribute_20by_20adding_20more_20exercices_3a_1',['How to contribute by adding more exercices:',['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_242-_e_x_a_m_242-_e_x_a_m_2_c_o_n_t_r_i_b_u_t_i_n_g.html',1,'How to contribute by adding more exercices:'],['../md__2_users_2thibault_2kdrive_21-_p_r_o_j_e_c_t_s_2_p-42_242-_e_x_a_m_2_c_o_n_t_r_i_b_u_t_i_n_g.html',1,'How to contribute by adding more exercices:']]]
-];
