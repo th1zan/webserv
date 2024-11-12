@@ -82,7 +82,7 @@ void Client::handleClientRequest()
 		if (path == "/")
 			filePath = this->_server.getRoot() + "/index.html";
 
-		std::ifstream file(filePath);
+		std::ifstream file(filePath.c_str());
 		if (file.is_open())
 		{
 			std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());

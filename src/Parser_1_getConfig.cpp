@@ -98,8 +98,8 @@ void Parser::_getLocationParam(){
 
 void Parser::_delEndSemiColon(std::string& s){
 	// delete last character (;)
-	if (!s.empty() && s.back() == ';')
-			s.pop_back();
+	if (!s.empty() && s[s.size() - 1] == ';')
+			s.erase(s.size() - 1);
 }
 
 

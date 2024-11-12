@@ -20,6 +20,7 @@ void	signalHandler(int signum);
 void printMap(const std::map<std::string, std::string>& mapToPrint);
 void printInfo(std::string const &s, std::string const &color);
 
-
+/*=== Missing c++98 fucntions ===*/
+long ft_stoll(const std::string& str);
 
 #endif
