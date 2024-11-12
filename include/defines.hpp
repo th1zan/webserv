@@ -6,6 +6,7 @@
 #include <csignal>
 #include <string>
 #include <cstring>
+#include <cstdlib>
 #include <iomanip>
 #include <ctime>
 #include <exception>
@@ -13,7 +14,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <regex>
+//#include <regex>
 #include <fcntl.h>
 #include <stdexcept>
 #include <cctype>
@@ -26,6 +27,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <poll.h>
+#include <limits>
 
 // Global variables
 extern bool	g_shutdown;

@@ -45,7 +45,7 @@ Server::~Server(){
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	// Utiliser std::stoll pour convertir la chaîne en long
 	try {
-		long value = std::stoll(maxSizeStr);
+		long value = ft_stoll(maxSizeStr);
 		return value;
 	} catch (const std::invalid_argument& e) {
 		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION(maxSizeStr));

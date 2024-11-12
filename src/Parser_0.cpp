@@ -57,6 +57,7 @@ std::vector<Server>& Parser::getServersVector(){
  * Each token struct is composed by:
  * - the line (a string)
  * - the type (an enum) : TK_EMPTY, TK_COMMENT, TK_SERVER, TK_LOCATION, TK_CLOSE_BRACKET, TK_TOKEN
+ * 
  */
 void Parser::_parseFile() {
 	std::string line;
@@ -95,7 +96,7 @@ void Parser::_parseFile() {
 			tmpToken.value = line;
 			this->_tokensVector.push_back(tmpToken);
 		}
-		else if ((wordsVect.size() == 2 && wordsVect[0] == "location" && wordsVect[1].back() == '{') ||
+		else if ((wordsVect.size() == 2 && wordsVect[0] == "location" && wordsVect[1][wordsVect[1].size() - 1] == '{') ||// check if size() > 0
 				(wordsVect.size() == 3 && wordsVect[0] == "location" && wordsVect[2] == "{")) {
 			tmpToken.type = TK_LOCATION;
 			tmpToken.value = line;
@@ -111,7 +112,7 @@ void Parser::_parseFile() {
 				||(wordsVect.size() == 4)) {
 			tmpToken.type = TK_TOKEN;
 			tmpToken.value = line;
-			if (line.back() != ';')
+			if (line[line.size() - 1] != ';')// check if size() > 0
 				throw std::runtime_error(ERR_SEMICOLON(line));
 			this->_tokensVector.push_back(tmpToken);
 		}

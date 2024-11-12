@@ -141,7 +141,7 @@ void Parser::_checkLocation(std::string& dirValue) {
 
 		//ANY verification for now, only delete the ending '{'
 
-		 while (!dirValue.empty() && (std::isspace(dirValue.back()) || dirValue.back() == '{')) {
+		 while (!dirValue.empty() && (std::isspace(dirValue[dirValue.size() - 1]) || dirValue[dirValue.size() - 1] == '{')) {
 			dirValue.erase(dirValue.size() - 1);
 		 }
 		// if (dirValue.empty() || dirValue[0] != '/') {
@@ -218,7 +218,9 @@ void Parser::_checkAutoID(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
 
-	std::transform(dirValue.begin(), dirValue.end(), dirValue.begin(), ::tolower);
+	for (std::string::iterator it = dirValue.begin();it != dirValue.end() ;it++)
+		*it = ::tolower(*it);
+
 	if (dirValue != "on" && dirValue != "off")
 		throw std::runtime_error(ERR_AUTOINDEX);
 	
@@ -258,7 +260,7 @@ void Parser::_checkCgiP(std::string& dirValue) {
 	// bool hasCgi = false; //not used for now
 
 	// loop to list the files in the directory and check CGI
-	while ((entry = readdir(dir)) != nullptr) {
+	while ((entry = readdir(dir)) != NULL) {
 		// ignore the special files '.' and '..'
 		if (entry->d_name[0] == '.') {
 			continue;
@@ -291,7 +293,7 @@ void Parser::_checkCgiE(std::string& dirValue) {
 
 
 	//check if there is a '.'
-	if (dirValue.empty() || dirValue.front() != '.') {
+	if (dirValue.empty() || dirValue[0] != '.') {
 		throw std::runtime_error("Extension must start with a point (.)");
 	}
 

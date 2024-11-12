@@ -232,12 +232,12 @@ void Parser::_checkMaxSize(std::string& dirValue) {
 		}
 
 		// Check that the number is positive
-		if (numberStr.empty() || std::stoll(numberStr) <= 0) {
+		if (numberStr.empty() || ft_stoll(numberStr) <= 0) {
 			throw std::runtime_error(ERR_MAX_SIZE_RANGE(dirValue));
 		}
 
 		// Convert the number to long 
-		long sizeValue = std::stoll(numberStr); 
+		long sizeValue = ft_stoll(numberStr); 
 
 		// Apply the factor based on the unit (if provided)
 		if (unit == 'K') {
