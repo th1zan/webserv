@@ -42,7 +42,7 @@ typedef struct location_s {
  */
 class Server{
 	private:
-			std::string 					_serverName;
+			std::vector<std::string>		_serverNameVector;
 			std::string 					_port;
 			std::string 					_host;
 			std::string 					_root;
@@ -56,7 +56,7 @@ class Server{
 
 			bool							_checkPrimaryServer(std::vector<Server>& _serversVector);
 			long 							_getConvertedMaxSize(std::string& maxSizeStr);
-			
+			void							_fillServerNameVector(std::string& serverNames);
 
 
 			//Servers
@@ -65,9 +65,8 @@ class Server{
 
 
 			//Location
-			std::vector<std::map<std::string, std::string> >	_LocationMapVector;
-			std::map<std::string, std::string>					_LocationConfigMap;
-			std::map<std::string, location_t>					_LocationMap;
+			std::vector<std::map<std::string, std::string> >	_LocationMapVector; //for parsing
+			std::map<std::string, location_t>					_LocationMap; //to use
 			void												_getLocationStruct();
 
 	public:
@@ -81,7 +80,7 @@ class Server{
 			const std::string& 				getHost() const;
 			const std::string& 				getPort() const;
 			int								getSocket() const;
-			const std::string& 				getServerName() const;
+			std::vector<std::string>		getServerNameVector() const;
 			const std::string&				getRoot() const;
 			const std::string&				getIndex() const;
 			const std::string&				getErrorPage() const;

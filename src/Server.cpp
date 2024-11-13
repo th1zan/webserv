@@ -12,7 +12,7 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_LocationMapVector = tempLocationMapVector;
 	
 	//server bloc param
-	this->_serverName = this->_ServerConfigMap[SERVER_N];
+	this->_fillServerNameVector(_ServerConfigMap[SERVER_N]);
 	this->_host = this->_ServerConfigMap[HOST];
 	this->_root = this->_ServerConfigMap[ROOT_LOC];
 	this->_index = this->_ServerConfigMap[INDEX];
@@ -32,7 +32,7 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_isPrimary = this->_checkPrimaryServer(_serversVector);
 	
 	//DEBUG
-	std::cout << "in :: Server constructor, for _serverName: " << this->_serverName << std::endl;
+	// std::cout << "in :: Server constructor, for _serverName: " << this->_serverNameVector.at(0) << std::endl;
 	this->printServers();
 	// std::cout << "Server constructor called" << std::endl;
 }
@@ -41,6 +41,18 @@ Server::~Server(){
 	// std::cout << "Server destructor called" <<std::endl;
 }
 
+void Server::_fillServerNameVector(std::string& serverNames) {
+	std::istringstream iss(serverNames);
+	std::string tmpServerName;
+
+	while (iss >> tmpServerName) {
+		this->_serverNameVector.push_back(tmpServerName);
+		//DEBUG
+		// std::cout << "in _fillServerNameVector: tmpServerName: " << tmpServerName << std::endl;
+	}
+	//DEBUG
+	// std::cout << "in _fillServerNameVector: END" << std::endl;
+}
 
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	// Utiliser std::stoll pour convertir la chaîne en long
@@ -133,7 +145,7 @@ bool Server::getIsPrimary(){return (this->_isPrimary);}
 const std::string&	Server::getHost() const{return this->_host;}
 const std::string&	Server::getPort() const{return this->_port;}
 int					Server::getSocket() const{return this->_socket;}
-const std::string&	Server::getServerName() const{return this->_serverName;}
+std::vector<std::string>	Server::getServerNameVector() const{return this->_serverNameVector;}
 const std::string&	Server::getRoot() const{return this->_root;}
 const std::string&	Server::getIndex() const{return this->_index;}
 const std::string&	Server::getErrorPage() const{return this->_errorPage;}
@@ -150,7 +162,7 @@ void Server::createSocket()
 		// std::cout << "in 'createSocket' :: this->_socket: " << this->_socket << std::endl;
 
 		if (this->_socket < 0)
-			throw std::runtime_error(ERR_SOCKET(this->_serverName));
+			throw std::runtime_error(ERR_SOCKET(this->_serverNameVector.at(0)));
 	}
 	// DEBUG
 	// std::cout << "in 'createSocket' :: socket exists and is this->_socket: " << this->_socket << std::endl;
@@ -165,7 +177,11 @@ void Server::printServers() {
 	
 		std::cout << std::endl;
 		std::cout << "----- Server::printServers()----" << std::endl;
-		std::cout << "Server Name: " << this->_serverName << std::endl;
+		std::cout << "Server name(s): ";
+		for (std::vector<std::string>::const_iterator it = _serverNameVector.begin(); it != _serverNameVector.end(); ++it) {
+		std::cout << *it << " ";
+		}
+		std::cout << std::endl;
 		std::cout << "Host: " << this->_host << std::endl;
 		std::cout << "Root: " << this->_root << std::endl;
 		std::cout << "Index: " << this->_index << std::endl;

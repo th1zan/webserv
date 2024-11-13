@@ -229,7 +229,8 @@ void Service::_sendDataToClient()
 }
 
 /**
- * @brief Check id the Server asked by the client exists in serversVector.
+ * @brief Check if the Server asked by the client exists in serversVector.
+ * More precisely: exists in one of the _serverNameVector for each server in serversVector.
  */
 void Service::_checkRequestedServer()
 {
@@ -255,8 +256,8 @@ void Service::_checkRequestedServer()
 	
 	// Get the DEFAULT server associated with the client.
 	Server defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
-	// no change if the requested server is the same as the default server
-	if (requestedServer == defaultServer.getServerName())
+	// no change if the requested server is the same (=could be find the list of serverNameVecor) as the default server.
+	if (std::find(defaultServer.getServerNameVector().begin(), defaultServer.getServerNameVector().end(), requestedServer) != defaultServer.getServerNameVector().end())
 		return;
 
 	// Go through the list of servers
@@ -264,7 +265,8 @@ void Service::_checkRequestedServer()
 	for (; server != this->_serversVector.end(); server++)
 	{
 		// If a server name and host is found, update the client's server.
-		if (requestedServer == server->getServerName() && server->getHost() == defaultServer.getHost())
+		if (std::find(defaultServer.getServerNameVector().begin(), defaultServer.getServerNameVector().end(), requestedServer) != defaultServer.getServerNameVector().end()
+			&& server->getHost() == defaultServer.getHost())
 			this->_clientVector.at(this->_tmpServiceInfo.clientID).changeServer(*server);
 	}
 }

@@ -268,6 +268,15 @@ void Parser::_checkMaxSize(std::string& dirValue) {
 		dirValue = numberStr;
 	}
 
+/**
+ * @brief The function check the validity of the directive 'server_name'
+ * It should contains only alphanumeric, hyphens, and periods characteres.
+ * 
+ * !!! But it could containes mutliple server_name, so the space character is authorized and considerd as a separator.
+ * The list of server_name will be parsed during the server instantiation.
+ * 
+ * @param dirValue: the value of the 'server_name' directive which is a string. 
+ */
 void Parser::_checkServerN(std::string& dirValue) {
 		// Remove the ending semicolon
 		this->_delEndSemiColon(dirValue);
@@ -276,11 +285,12 @@ void Parser::_checkServerN(std::string& dirValue) {
 		if (dirValue.empty()) {
 			throw std::runtime_error(ERR_INVALID_SERVER_NAME(dirValue));
 		}
-
+		//DEBUG
+		// std::cout << "in checkServerN:: ici" << std::endl;
 		for (size_t i = 0; i < dirValue.length(); ++i) {
 			char c = dirValue[i]; // Get the character at index i
 			// Check for valid characters
-			if (!std::isalnum(c) && c != '-' && c != '.') {
+			if (!std::isalnum(c) && c != '-' && c != '.' && c != ' ') {
 				throw std::runtime_error(ERR_INVALID_SERVER_NAME(dirValue));
 			}
 		}
