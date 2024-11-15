@@ -67,11 +67,13 @@ bool	Client::clientIsReadyToReceive() const
  */
 void Client::handleClientRequest()
 {
-	
 	std::istringstream requestStream(this->_request);
 	std::string method, path, version;
 	requestStream >> method >> path >> version;
 	
+	//DEBUG
+		// std::cout << std::endl << "in: handleClientRequest::DEBUG: " << std::endl;
+
 	// GET request
 	if (method == "GET")
 	{

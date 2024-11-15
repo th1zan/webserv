@@ -268,15 +268,17 @@ void Service::_checkRequestedServer()
 	std::vector<std::string> serverNames = defaultServer.getServerNameVector();
 	if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
 		// DEBUG
-		std::cout << "in '_checkRequestedServer':: VALID client's default host: '"
-				  << requestedHost << "' is found in default server's names." << std::endl;
+		// std::cout << "in '_checkRequestedServer':: VALID client's default host: '"
+		// 		  << requestedHost << "' is found in default server's names." << std::endl;
+		
 		return; // Already using the correct server, exit
-	} else {
-		std::cout << "Requested host '" << requestedHost << "' not found in default server's names." << std::endl;
 	}
+	// else {
+	// 	std::cout << "Requested host '" << requestedHost << "' not found in default server's names." << std::endl;
+	// }
 
 	// DEBUG
-	std::cout << "in '_checkRequestedServer':: UPDATE the client's server: " << requestedHost << std::endl;
+	// std::cout << "in '_checkRequestedServer':: UPDATE the client's server: " << requestedHost << std::endl;
 
 	// Loop on each server in the `_serversVector`
 	std::vector<Server>::iterator itServer = this->_serversVector.begin();
@@ -287,23 +289,24 @@ void Service::_checkRequestedServer()
 		std::vector<std::string> serverNames = tmp.getServerNameVector();
 
 		// DEBUG
-		std::cout << "Checking server current server names: ";
-		for (std::vector<std::string>::const_iterator nameIt = serverNames.begin();
-			 nameIt != serverNames.end(); ++nameIt) {
-			std::cout << "'" << *nameIt << "' ";
-		}
-		std::cout << std::endl;
+		// std::cout << "Checking server current server names: ";
+		// for (std::vector<std::string>::const_iterator nameIt = serverNames.begin();
+		// 	 nameIt != serverNames.end(); ++nameIt) {
+		// 	std::cout << "'" << *nameIt << "' ";
+		// }
+		// std::cout << std::endl;
 
 		if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
+			
 			_clientVector.at(_tmpServiceInfo.clientID).changeServer(*itServer);
 
 			// DEBUG
-			std::cout << "FOUND a matching server for the requested host: '" << requestedHost << "'" << std::endl;
+			// std::cout << "FOUND a matching server for the requested host: '" << requestedHost << "'" << std::endl;
 			return;
 		}
 	}
 	// DEBUG
-	std::cout << "No matching server found for the requested host: '" << requestedHost << "'" << std::endl;
+	// std::cout << "No matching server found for the requested host: '" << requestedHost << "'" << std::endl;
 }
 
 /**

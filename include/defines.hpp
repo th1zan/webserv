@@ -121,8 +121,8 @@ extern bool	g_shutdown;
 
 // Server parameters
 #define SERVER		"server"
-#define LISTEN		"listen"
-#define	HOST		"host"
+#define LISTEN		"listen_port"
+#define	HOST		"listen_host"
 #define INDEX		"index"
 #define MAX_SIZE	"client_max_body_size"
 #define SERVER_N	"server_name"

@@ -216,7 +216,6 @@ void Server::printServers() {
 		for (std::map<std::string, std::string>::iterator it = _errorPages.begin(); it != _errorPages.end(); ++it) {
 			std::cout << "\t"<< it->first << " " << it->second << std::endl;
 		}	
-		std::cout << std::endl;
 		std::cout << "Port: " << this->_port << std::endl;
 		std::cout << "Client Max Body Size: " << this->_clientMaxBodySize << std::endl;
 		std::cout << "Is Primary: " << (this->_isPrimary ? "Yes" : "No") << std::endl;
