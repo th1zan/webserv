@@ -72,6 +72,7 @@ class Parser{
 			void	_checkConfigs();
 			void	_delEndSemiColon(std::string& s);
 			void	_checkPath(std::string& dirValue, bool isDir, bool hasWPer = false);
+			bool 	_isNumber(const std::string& str);
 
 			//Directives checking functions:
 			void	_checkListen(std::string& dirValue);

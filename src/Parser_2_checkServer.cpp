@@ -96,7 +96,7 @@ void	Parser::_checkDirectiveValue(){
 		else if (it->first == SERVER_N) {
 			this->_checkServerN(it->second);
 		}
-		else if (it->first == ERROR_P) {
+		else if (it->first.find(ERROR_P) == 0) {
 			this->_checkErrorP(it->second);
 		}
 		//DEBUG
@@ -297,31 +297,56 @@ void Parser::_checkServerN(std::string& dirValue) {
 
 }
 
+/**
+ * @brief This function checks if each values of the server's directive `error_page`lead to a existing and readable file.
+ *
+ * @param dirValue : the string containing the 
+ */
 void Parser::_checkErrorP(std::string& dirValue) {
-		// delete ending ';' if necessary to get a cleaner string later
-		this->_delEndSemiColon(dirValue);
+	// delete ending ';' if necessary to get a cleaner string later
+	this->_delEndSemiColon(dirValue);
 
-		//OLD FASHIONED for root
-		// find 'root' path in the map
-		// std::map<std::string, std::string>::const_iterator it = _tempServerConfigMap.find(ERROR_P);
-		// if (it == _tempServerConfigMap.end()) {
-		// 	throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(dirValue));
-		// }
-		// // Get path
-		// std::string rootDir = it->second; 
+	std::istringstream iss(dirValue);
+	std::string tmpErrorP;
+	std::string lastValue;
 
-		// make fullPath to the file
-		std::string fullPath = this->_tempRootDirPath + "/" + dirValue;
-		// std::cout << fullPath << std::endl;
+	// Extract all values into a vector
+	std::vector<std::string> values;
+	while (iss >> tmpErrorP) {
+		//DEBUG
+		// std::cout << "in : _checkErrorP():: tmpErrorP: " << tmpErrorP << std::endl;
+		values.push_back(tmpErrorP);
+	}
+	
+	//DEBUG : normally this condition is not necessary, to delete before production
+	if (values.empty()) {
+	throw std::runtime_error("Error: No values provided");
+	}
 
-		// Vérifier si le fichier existe
-		int fd = open(fullPath.c_str(), O_RDONLY);
-		if (fd < 0) {
-			throw std::runtime_error(ERR_FILE(fullPath));
-		}
+	// Check all values except the last one
+	for (size_t i = 0; i < values.size() - 1; ++i) {
+	if (!this->_isNumber(values[i])) {
+		throw std::runtime_error("Error: Expected a number but got " + values[i]);
+	}
+	}
 
-		//??? need to check if the file is '.html' and readble as html file ?
+	// The last value should be a valid HTML file path
+	lastValue = values.back();
+	std::string fullPath = this->_tempRootDirPath + "/" + lastValue;
 
-		// close fd
+	// Check if the file exists and is readable
+	int fd = open(fullPath.c_str(), O_RDONLY);
+	if (fd < 0) {
+		throw std::runtime_error(ERR_FILE(fullPath));
+	}
+
+	// Check if the file is an HTML file based on extension
+	if (fullPath.substr(fullPath.find_last_of(".") + 1) != "html") {
 		close(fd);
+		throw std::runtime_error("Error: The file is not an HTML file: " + fullPath);
+	}
+
+	// Close the file descriptor
+	close(fd);
+
 }

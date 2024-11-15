@@ -84,8 +84,21 @@ void Service::printServiceInfo(){
 	std::cout << "  Family: " << _tmpServiceInfo.parameters.ai_family << std::endl;
 	std::cout << "  Socket Type: " << _tmpServiceInfo.parameters.ai_socktype << std::endl;
 	std::cout << "  Protocol: " << _tmpServiceInfo.parameters.ai_protocol << std::endl;
+	std::cout << "  AddrLen: " << _tmpServiceInfo.parameters.ai_addrlen << std::endl;
+	// std::cout << "  ai_addr.sa_family: " << _tmpServiceInfo.parameters.ai_addr->sa_family << std::endl;
+	// std::cout << "  ai_addr.sa_len: " << _tmpServiceInfo.parameters.ai_addr->sa_len << std::endl;	
+	// std::cout << "  Canonical name: " << _tmpServiceInfo.parameters.ai_canonname << std::endl;
 	std::cout << "  Flags: " << _tmpServiceInfo.parameters.ai_flags << std::endl;
 	std::cout << "----- /END Service::printServiceInfo() ----" << std::endl;
 	std::cout << std::endl;
 
 }
+//  * struct addrinfo {
+// 	int              ai_flags;      // options
+// 	int              ai_family;     // adress family (ipv4, ipv6) (AF_INET, AF_INET6, etc.)
+// 	int              ai_socktype;   // kind of socket (SOCK_STREAM, SOCK_DGRAM, etc.)
+// 	int              ai_protocol;   // protocol (IPPROTO_TCP, IPPROTO_UDP, etc.)
+// 	size_t           ai_addrlen;    // adress size
+// 	struct sockaddr *ai_addr;       // socket addr
+// 	char            *ai_canonname;  // canonical name
+// 	struct addrinfo *ai_next;       // pointer to the nex struct

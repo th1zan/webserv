@@ -102,6 +102,14 @@ void Parser::_delEndSemiColon(std::string& s){
 			s.erase(s.size() - 1);
 }
 
+bool Parser::_isNumber(const std::string& str) {
+		for (std::string::const_iterator it = str.begin(); it != str.end(); ++it) {
+			if (!std::isdigit(*it))
+				return false;
+		}
+		return true;
+}
+
 
 /**
  * @brief Extracts and processes a parameter (= directive) from the current token, store it in a temporary map
@@ -178,7 +186,10 @@ void Parser::_getParamFromToken(int enumToken){
 	// std::cout << "in: '_getParamFromToken':: enumToken: " << enumToken << ", dirName= '"<< dirName << "', dirValue= '" << dirValue << "'" <<std::endl;
 
 	//map each token in a _tempServerConfigMap or a _tempLocationConfigMap
-	if (enumToken == TK_SERVER)
+	//The ERROR_P case is special because we could parse multiple times the directive for each kind of error, so we give it a unique "map's key" to not delete it after each occurence.
+	if (enumToken == TK_SERVER && dirName == ERROR_P)
+		this->_tempServerConfigMap[dirName + dirValue] = dirValue; 
+	else if (enumToken == TK_SERVER)
 		this->_tempServerConfigMap[dirName] = dirValue;
 	else if (enumToken == TK_LOCATION){
 		this->_tempLocationConfigMap[dirName] = dirValue;

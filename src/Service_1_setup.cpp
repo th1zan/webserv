@@ -15,7 +15,6 @@
 void Service::setup()
 {
 	// printInfo(SETUP_MSG, BLUE);
-
 	std::vector<Server>::iterator server = this->_serversVector.begin();
 	for(; server != this->_serversVector.end(); server++)
 	{
@@ -129,21 +128,78 @@ void Service::_resetTmpServiceInfo()
  */
 void Service::_convertHostToAddress()
 {
+	
 	if (getaddrinfo(this->_tmpServiceInfo.host.c_str(), this->_tmpServiceInfo.port.c_str(), &this->_tmpServiceInfo.parameters, &this->_tmpServiceInfo.address) != 0)
 	{
 		this->_resetTmpServiceInfo();
 		throw std::runtime_error(ERR_GET_ADDR_INFO + std::string(std::strerror(errno)));
 	}
+
+	//DEBUG
+	// std::cout << "in _convertHostToAddress:: this->_tmpServiceInfo.host.c_str() : " << this->_tmpServiceInfo.host.c_str() << std::endl;
+	// std::cout << "in _convertHostToAddress:: this->_tmpServiceInfo.port.c_str : " << this->_tmpServiceInfo.port.c_str() << std::endl;
+	// std::cout << "in _convertHostToAddress:: this->_tmpServiceInfo.address : " << this->_tmpServiceInfo.address << std::endl;
 }
 
 /**
  * @brief Binds the server address to the socket (after getting the address from the hostname).(see documentation of 'bind()')
+ * 
+ * Note: Check the process using potentially the 8080 port:
  */
 void Service::_bindAddressToSocket()
 {
 	//DEBUG
-	// std::cout << "in _bindAddressToSocket::" << std::endl;
+	// std::cout << "in _bindAddressToSocket:: this->_tmpServiceInfo.address->ai_addrlen : " << (this->_tmpServiceInfo.address->ai_addrlen) << std::endl;
+	// std::cout << "in _bindAddressToSocket:: this->_tmpServiceInfo.address->ai_addr : " << (this->_tmpServiceInfo.address->ai_addr->sa_family) << std::endl;
 	// printServiceInfo();
+
+	//DEBUG
+	// if (this->_tmpServiceInfo.listeningSocketFd < 0) {
+	// std::cerr << "Socket descriptor is invalid." << std::endl;
+	// throw std::runtime_error("Invalid socket descriptor");
+	// }
+
+
+	//DEBUG
+	// if (this->_tmpServiceInfo.address)
+	// {
+	// 	char ipStr[INET6_ADDRSTRLEN]; // Pour stocker l'adresse IP sous forme de chaîne
+	// 	void* addr;
+	// 	std::string ipVersion;
+
+	// 	// Vérifiez si c'est IPv4 ou IPv6
+	// 	if (this->_tmpServiceInfo.address->ai_family == AF_INET) {
+	// 		struct sockaddr_in* ipv4 = (struct sockaddr_in*)this->_tmpServiceInfo.address->ai_addr;
+	// 		addr = &(ipv4->sin_addr);
+	// 		ipVersion = "IPv4";
+	// 	} else if (this->_tmpServiceInfo.address->ai_family == AF_INET6) {
+	// 		struct sockaddr_in6* ipv6 = (struct sockaddr_in6*)this->_tmpServiceInfo.address->ai_addr;
+	// 		addr = &(ipv6->sin6_addr);
+	// 		ipVersion = "IPv6";
+	// 	} else {
+	// 		std::cerr << "Unknown IP family" << std::endl;
+	// 		return;
+	// 	}
+
+	// 	// Convertit l'adresse binaire en chaîne
+	// 	inet_ntop(this->_tmpServiceInfo.address->ai_family, addr, ipStr, sizeof(ipStr));
+
+	// 	// Affiche l'adresse IP et le port
+	// 	std::cout << "Binding to " << ipVersion << " address: " << ipStr << std::endl;
+
+	// 	// Pour obtenir le port
+	// 	int port = 0;
+	// 	if (this->_tmpServiceInfo.address->ai_family == AF_INET) {
+	// 		struct sockaddr_in* ipv4 = (struct sockaddr_in*)this->_tmpServiceInfo.address->ai_addr;
+	// 		port = ntohs(ipv4->sin_port);
+	// 	} 
+	// 	// else if (this->_tmpServiceInfo.address->ai_family == AF_INET6) {
+	// 	// 	struct sockaddr_in6* ipv6 = (struct sockaddr_in6*)this->_tmpServiceInfo.address->ai_addr;
+	// 	// 	port = ntohs(ipv6->sin6_port);
+	// 	// }
+	// 	std::cout << "Port: " << port << std::endl;
+	// }
+
 	
 	if (this->_tmpServiceInfo.address)
 	{
@@ -162,6 +218,7 @@ void Service::_bindAddressToSocket()
 
 /**
  * @brief Sets the socket to listening mode.
+ * 
  */
 void Service::_setSocketListening()
 {

@@ -16,7 +16,8 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_host = this->_ServerConfigMap[HOST];
 	this->_root = this->_ServerConfigMap[ROOT_LOC];
 	this->_index = this->_ServerConfigMap[INDEX];
-	this->_errorPage = this->_ServerConfigMap[ERROR_P];
+	this->_fillErrorPageMap();
+	
 	this->_port = this->_ServerConfigMap[LISTEN];
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(_ServerConfigMap[MAX_SIZE]);
 	
@@ -41,23 +42,48 @@ Server::~Server(){
 	// std::cout << "Server destructor called" <<std::endl;
 }
 
-void Server::_fillServerNameVector(std::string& serverNames) {
+void Server::_fillServerNameVector(std::string& serverNames){
 	std::istringstream iss(serverNames);
-	std::string tmpServerName;
+	std::string word;
 
-	while (iss >> tmpServerName) {
-		this->_serverNameVector.push_back(tmpServerName);
-		//DEBUG
-		// std::cout << "in _fillServerNameVector: tmpServerName: " << tmpServerName << std::endl;
+	while (iss >> word) {
+		_serverNameVector.push_back(word);
 	}
-	//DEBUG
-	// std::cout << "in _fillServerNameVector: END" << std::endl;
+}
+
+void Server::_fillErrorPageMap(){
+	for (std::map<std::string, std::string>::iterator it = _ServerConfigMap.begin(); it != _ServerConfigMap.end(); ++it) {
+		if (it->first.find(ERROR_P) == 0) {
+			std::string errorPageString(it->second);
+			std::istringstream iss(errorPageString);
+			std::string tmpErrorNb;
+			std::string tmpErrorPage;
+			
+			//DEBUG
+			// std::cout << "in : _fillErrorPageMap():: errorPageString: " << errorPageString << std::endl;
+
+			// Extract all values into a vector
+			std::vector<std::string> tmpVec;
+			while (iss >> tmpErrorNb) {
+				//DEBUG
+				// std::cout << "in : _fillErrorPageMap():: tmpErrorNb: " << tmpErrorNb << std::endl; 
+				tmpVec.push_back(tmpErrorNb);
+			}
+			tmpErrorPage = tmpVec.back();
+			// Push all errorNb-errorPage pairs in the map
+			for (size_t i = 0; i < tmpVec.size() - 1; ++i) {
+				//DEBUG
+				// std::cout << "in : _fillErrorPageMap():: tmpVec[i]: " << tmpVec[i] << " tmpErrorPage: " << tmpErrorPage << std::endl;
+				this->_errorPages[tmpVec[i]] = tmpErrorPage;
+			}
+		}
+	}
 }
 
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	// Utiliser std::stoll pour convertir la chaîne en long
 	try {
-		long value = ft_stoll(maxSizeStr);
+		long value = std::stoll(maxSizeStr);
 		return value;
 	} catch (const std::invalid_argument& e) {
 		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION(maxSizeStr));
@@ -142,15 +168,15 @@ void Server::_getLocationStruct() {
 
 // ---> Getters ---------------------------------------------------------------
 bool Server::getIsPrimary(){return (this->_isPrimary);}
-const std::string&	Server::getHost() const{return this->_host;}
-const std::string&	Server::getPort() const{return this->_port;}
-int					Server::getSocket() const{return this->_socket;}
+const std::string&			Server::getHost() const{return this->_host;}
+const std::string&			Server::getPort() const{return this->_port;}
+int							Server::getSocket() const{return this->_socket;}
 std::vector<std::string>	Server::getServerNameVector() const{return this->_serverNameVector;}
-const std::string&	Server::getRoot() const{return this->_root;}
-const std::string&	Server::getIndex() const{return this->_index;}
-const std::string&	Server::getErrorPage() const{return this->_errorPage;}
-const std::string&	Server::getErrorResponse() const{return this->_errorResponse;}
-size_t				Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+const std::string&			Server::getRoot() const{return this->_root;}
+const std::string&			Server::getIndex() const{return this->_index;}
+std::map<std::string, std::string>			Server::getErrorPage() const{return this->_errorPages;}
+const std::string&			Server::getErrorResponse() const{return this->_errorResponse;}
+size_t						Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
 // locationMap const	&Server::getLocations() const{return this->_locations;}
 
 void Server::createSocket()
@@ -160,6 +186,7 @@ void Server::createSocket()
 		this->_socket = socket(AF_INET, SOCK_STREAM, 0);
 		// DEBUG
 		// std::cout << "in 'createSocket' :: this->_socket: " << this->_socket << std::endl;
+		// std::cout << "in 'createSocket' :: this->_serverNameVector.at(0): " << this->_serverNameVector.at(0) << std::endl;
 
 		if (this->_socket < 0)
 			throw std::runtime_error(ERR_SOCKET(this->_serverNameVector.at(0)));
@@ -177,15 +204,19 @@ void Server::printServers() {
 	
 		std::cout << std::endl;
 		std::cout << "----- Server::printServers()----" << std::endl;
-		std::cout << "Server name(s): ";
+		std::cout << "Server Name: " ;
 		for (std::vector<std::string>::const_iterator it = _serverNameVector.begin(); it != _serverNameVector.end(); ++it) {
-		std::cout << *it << " ";
-		}
+			std::cout << *it << " ";
+			}
 		std::cout << std::endl;
 		std::cout << "Host: " << this->_host << std::endl;
 		std::cout << "Root: " << this->_root << std::endl;
 		std::cout << "Index: " << this->_index << std::endl;
-		std::cout << "Error Page: " << this->_errorPage << std::endl;
+		std::cout << "Error Page: " << std::endl;
+		for (std::map<std::string, std::string>::iterator it = _errorPages.begin(); it != _errorPages.end(); ++it) {
+			std::cout << "\t"<< it->first << " " << it->second << std::endl;
+		}	
+		std::cout << std::endl;
 		std::cout << "Port: " << this->_port << std::endl;
 		std::cout << "Client Max Body Size: " << this->_clientMaxBodySize << std::endl;
 		std::cout << "Is Primary: " << (this->_isPrimary ? "Yes" : "No") << std::endl;

@@ -42,22 +42,22 @@ typedef struct location_s {
  */
 class Server{
 	private:
-			std::vector<std::string>		_serverNameVector;
-			std::string 					_port;
-			std::string 					_host;
-			std::string 					_root;
-			std::string 					_index;
-			long							_clientMaxBodySize;
-			std::string 					_errorPage;
-			std::string 					_errorResponse;
-			std::vector<location_t>			_tempLocationVector;
-			bool							_isPrimary;
-			int								_socket;
+			std::vector<std::string>			_serverNameVector;
+			std::string 						_port;
+			std::string 						_host;
+			std::string 						_root;
+			std::string 						_index;
+			long								_clientMaxBodySize;
+			std::map<std::string, std::string>	_errorPages;
+			std::string 						_errorResponse;
+			std::vector<location_t>				_tempLocationVector;
+			bool								_isPrimary;
+			int									_socket;
 
-			bool							_checkPrimaryServer(std::vector<Server>& _serversVector);
-			long 							_getConvertedMaxSize(std::string& maxSizeStr);
-			void							_fillServerNameVector(std::string& serverNames);
-
+			bool								_checkPrimaryServer(std::vector<Server>& _serversVector);
+			long 								_getConvertedMaxSize(std::string& maxSizeStr);
+			void								_fillServerNameVector(std::string& serverNames);
+			void								_fillErrorPageMap();
 
 			//Servers
 			// std::vector<Server>								_serversVector;
@@ -83,7 +83,7 @@ class Server{
 			std::vector<std::string>		getServerNameVector() const;
 			const std::string&				getRoot() const;
 			const std::string&				getIndex() const;
-			const std::string&				getErrorPage() const;
+			std::map<std::string, std::string>				getErrorPage() const;
 			const std::string&				getErrorResponse() const;
 			size_t							getClientMaxBodySize() const;
 

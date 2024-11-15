@@ -18,7 +18,9 @@ void Service::launch()
 
 	while (g_shutdown == false)
 	{
+		
 		this->_initPollingVector(); //init the list (table) of polling sockets
+		
 		this->_pollingManager(); //loop on each socket of the list to check if there is a signal (something to read, send, error). Note: each Service (aka Server bloc) has a socket
 		
 		//DEBUG
@@ -229,46 +231,79 @@ void Service::_sendDataToClient()
 }
 
 /**
- * @brief Check if the Server asked by the client exists in serversVector.
- * More precisely: exists in one of the _serverNameVector for each server in serversVector.
+ * @brief Check if the Server asked by the client `requestedHost`in its HTTP request exists in serversVector.
+ * 1) Extract the `host` (domain name or IP adress) from the client HTTP request
+ * 2) Compare the Client requested host to the name's directive (NOT the `host` directive) of the server associated with this client by default.
+ * 3) If not, 
  */
 void Service::_checkRequestedServer()
 {
-	//1. Get the client's request (to know who is the requested server)
+	// 1. Get the client's request (to know who is the requested server)
 	std::string request = this->_clientVector.at(this->_tmpServiceInfo.clientID).getRequest();
-	std::string requestedServer;
+	std::string requestedHost;
 	size_t pos;
 
 	// 2. Get the "host key" in the request
-	if ((pos = request.find(REQUEST_HOST)))
+	if ((pos = request.find(REQUEST_HOST)) != std::string::npos)
 	{
 		// 3. Get the server name in the "host key"
-		requestedServer = request.substr(pos + std::strlen(REQUEST_HOST));
-		if ((pos = requestedServer.find(CURSOR_NEWLINE)))
-			requestedServer = requestedServer.substr(0, pos);
+		requestedHost = request.substr(pos + std::strlen(REQUEST_HOST));
+		if ((pos = requestedHost.find(CURSOR_NEWLINE)) != std::string::npos)
+			requestedHost = requestedHost.substr(0, pos);
 	}
 	else
-		return;
-
-	// remove port number from the server name
-	if ((pos = requestedServer.find(":")))
-		requestedServer = requestedServer.substr(0, pos);
-	
-	// Get the DEFAULT server associated with the client.
-	Server defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
-	// no change if the requested server is the same (=could be find the list of serverNameVecor) as the default server.
-	if (std::find(defaultServer.getServerNameVector().begin(), defaultServer.getServerNameVector().end(), requestedServer) != defaultServer.getServerNameVector().end())
-		return;
-
-	// Go through the list of servers
-	std::vector<Server>::iterator server = this->_serversVector.begin();
-	for (; server != this->_serversVector.end(); server++)
 	{
-		// If a server name and host is found, update the client's server.
-		if (std::find(defaultServer.getServerNameVector().begin(), defaultServer.getServerNameVector().end(), requestedServer) != defaultServer.getServerNameVector().end()
-			&& server->getHost() == defaultServer.getHost())
-			this->_clientVector.at(this->_tmpServiceInfo.clientID).changeServer(*server);
+		// If REQUEST_HOST is not found, exit the function
+		return;
 	}
+
+	// Remove port number from the server name
+	if ((pos = requestedHost.find(":")) != std::string::npos)
+		requestedHost = requestedHost.substr(0, pos);
+
+	// Get the server associated with the client by default
+	Server defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
+
+	// DEBUG
+	std::vector<std::string> serverNames = defaultServer.getServerNameVector();
+	if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
+		// DEBUG
+		std::cout << "in '_checkRequestedServer':: VALID client's default host: '"
+				  << requestedHost << "' is found in default server's names." << std::endl;
+		return; // Already using the correct server, exit
+	} else {
+		std::cout << "Requested host '" << requestedHost << "' not found in default server's names." << std::endl;
+	}
+
+	// DEBUG
+	std::cout << "in '_checkRequestedServer':: UPDATE the client's server: " << requestedHost << std::endl;
+
+	// Loop on each server in the `_serversVector`
+	std::vector<Server>::iterator itServer = this->_serversVector.begin();
+	for (; itServer != this->_serversVector.end(); ++itServer) {
+		Server tmp = *itServer;
+
+		// Store the server names in a local variable
+		std::vector<std::string> serverNames = tmp.getServerNameVector();
+
+		// DEBUG
+		std::cout << "Checking server current server names: ";
+		for (std::vector<std::string>::const_iterator nameIt = serverNames.begin();
+			 nameIt != serverNames.end(); ++nameIt) {
+			std::cout << "'" << *nameIt << "' ";
+		}
+		std::cout << std::endl;
+
+		if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
+			_clientVector.at(_tmpServiceInfo.clientID).changeServer(*itServer);
+
+			// DEBUG
+			std::cout << "FOUND a matching server for the requested host: '" << requestedHost << "'" << std::endl;
+			return;
+		}
+	}
+	// DEBUG
+	std::cout << "No matching server found for the requested host: '" << requestedHost << "'" << std::endl;
 }
 
 /**
@@ -293,11 +328,18 @@ int Service::_getServerIndex()
 	//get un SERVER index for for each SERVER serviceInfo. There is a CLIENT index for CLIENT Service Info.
 	//To know if the ServiceInfo is a SERVER, we compare its socket to the socket in ServersVector.
 	std::vector<Server>::iterator server = this->_serversVector.begin();
+	// std::cout << "in '_getServerIndex':: COUCOU "  << std::endl;
 	for (; server != this->_serversVector.end(); server++)
 	{
+		// DEBUGG
+			// std::cout << "in '_getServerIndex':: server->getSocket() : " << server->getSocket() << std::endl;
+			// std::cout << "in '_getServerIndex':: this->_tmpServiceInfo.listeningSocketFd : " << this->_tmpServiceInfo.listeningSocketFd << std::endl;
+			// std::cout << "in '_getServerIndex'::static_cast<int>(server - this->_serversVector.begin()); : " << static_cast<int>(server - this->_serversVector.begin()) << std::endl;
 		
-		if (server->getSocket() == this->_tmpServiceInfo.listeningSocketFd)
+		if (server->getSocket() == this->_tmpServiceInfo.listeningSocketFd){
+			
 			return static_cast<int>(server - this->_serversVector.begin());
+		}
 	}
 	return 0;
 }
