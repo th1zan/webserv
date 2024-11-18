@@ -123,7 +123,7 @@ void Client::handleDeleteRequest(const std::string &path)
         sendResponse(200, "OK", "File Deleted");
 }
 
-bool fileExists(const std::string& path)
+bool Client::fileExists(const std::string& path)
 {
     struct stat buffer;
     return (stat(path.c_str(), &buffer) == 0);
