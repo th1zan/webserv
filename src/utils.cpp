@@ -77,3 +77,16 @@ long ft_stoll(const std::string& str) {
 
     return result * sign;
 }
+
+// void stringTrim(std::string &str)
+// {
+//     const char* whitespace = " \t\n\r";
+//     size_t start = str.find_first_not_of(whitespace);
+//     size_t end = str.find_last_not_of(whitespace);
+//     str = (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
+// }
+
+// bool startsWith(const std::string& str, const std::string& prefix)
+// {
+//     return str.substr(0, prefix.size()) == prefix;
+// }

@@ -141,6 +141,9 @@ const std::string&	Server::getErrorResponse() const{return this->_errorResponse;
 size_t				Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
 // locationMap const	&Server::getLocations() const{return this->_locations;}
 
+// Jannetta - added getter for location map
+const std::map<std::string, location_t>& Server::getLocations() const{return this->_LocationMap;}
+
 void Server::createSocket()
 {
 	if (!this->_socket)
@@ -219,3 +222,4 @@ void Server::printLocation(location_t loc) {
 			std::cout << "----- /END Server::printLocation() ----" << std::endl;
 			std::cout << std::endl;
 }
+

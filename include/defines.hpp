@@ -103,6 +103,10 @@ extern bool	g_shutdown;
 #define ERR_ERR_CGI_DOT(extension)				"Extension '" + extension + "' must start with a point (.)" 
 #define ERR_ERR_CGI_EXT(extension)				"Unsupported CGI extension: '" + extension + "'" 
 
+// Maximum Limits
+#define MAX_LOOP_COUNT 10  // Define the maximum allowed loop iterations for location checks
+#define MAX_URI_LENGTH 2048 // adjust as needed
+
 //Setup Error
 #define ERR_SOCKET(server)						"failed to create network socket for server " + server
 

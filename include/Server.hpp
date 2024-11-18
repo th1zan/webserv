@@ -56,8 +56,7 @@ class Server{
 
 			bool							_checkPrimaryServer(std::vector<Server>& _serversVector);
 			long 							_getConvertedMaxSize(std::string& maxSizeStr);
-			
-
+		
 
 			//Servers
 			// std::vector<Server>								_serversVector;
@@ -87,6 +86,7 @@ class Server{
 			const std::string&				getErrorPage() const;
 			const std::string&				getErrorResponse() const;
 			size_t							getClientMaxBodySize() const;
+			const std::map<std::string, location_t>& getLocations() const;  // Jannetta's function
 
 			//utils
 			void 							printServers();

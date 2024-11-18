@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thibault <thibault@student.42.fr>          +#+  +:+       +#+         #
+#    By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/30 11:36:55 by wcorrea-          #+#    #+#              #
-#    Updated: 2024/11/08 14:45:52 by thibault         ###   ########.fr        #
+#    Updated: 2024/11/18 10:56:37 by zsoltani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,10 @@ SRC = src/main.cpp \
 		src/Parser_3_checkLocation.cpp \
 		src/Server.cpp \
 		src/Client.cpp \
+		src/Client_Request.cpp \
+		src/Client_Response.cpp \
+		src/Client_File.cpp \
+		src/Client_CGI.cpp \
 		src/utils.cpp
 
 OBJS = ${SRC:.cpp=.o}
@@ -48,4 +52,4 @@ fclean:	clean
 
 re: clean all
 
-.PHONY: all clean re
+.PHONY: all clean fclean re

@@ -62,76 +62,208 @@ bool	Client::clientIsReadyToReceive() const
 /* --- Jannetta function ---*/
 
 /**
+ * @brief Processes the client request by delegating to method-specific handlers.
+ */
+
+
+
+// working function which I want to split in separate functions for GET POST DELETE
+/**
  * @brief Function to parse the (HTTP) request.
  * The parsing should identify the method (GET, POST, DELETE), acts, and send the response.
  */
-void Client::handleClientRequest()
-{
+// void Client::handleClientRequest()
+// {
 	
-	std::istringstream requestStream(this->_request);
-	std::string method, path, version;
-	requestStream >> method >> path >> version;
+// 	std::istringstream requestStream(this->_request);
+// 	std::string method, path, version;
+// 	requestStream >> method >> path >> version;
 	
-	// GET request
-	if (method == "GET")
-	{
-		std::string filePath = this->_server.getRoot() + path;
-		//DEBUG
-		// std::cout << std::endl << "in: handleClientRequest:: _server.getRoot(): " << _server.getRoot() << "and path: " << path << std::endl;
+// 	// GET request
+// 	if (method == "GET")
+// 	{
+// 		std::string filePath = this->_server.getRoot() + path;
+// 		//DEBUG
+// 		// std::cout << std::endl << "in: handleClientRequest:: _server.getRoot(): " << _server.getRoot() << "and path: " << path << std::endl;
 		
-		if (path == "/")
-			filePath = this->_server.getRoot() + "/index.html";
+// 		if (path == "/")
+// 			filePath = this->_server.getRoot() + "/index.html";
 
-		std::ifstream file(filePath.c_str());
-		if (file.is_open())
-		{
-			std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+// 		std::ifstream file(filePath.c_str());
+// 		if (file.is_open())
+// 		{
+// 			std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-			std::ostringstream response;
-			response << "HTTP/1.1 200 OK\r\n";
-			response << "Content-Length: " << fileContents.size() << "\r\n";
-			response << "\r\n";
-			response << fileContents;
+// 			std::ostringstream response;
+// 			response << "HTTP/1.1 200 OK\r\n";
+// 			response << "Content-Length: " << fileContents.size() << "\r\n";
+// 			response << "\r\n";
+// 			response << fileContents;
 
-			send(this->_socket, response.str().c_str(), response.str().size(), 0);
-		}
-		else
-		{
-			const char* notFoundResponse = "HTTP/1.1 404 Not Found\r\nContent-Length: 13\r\n\r\n404 Not Found";
-			send(this->_socket, notFoundResponse, strlen(notFoundResponse), 0);
-		}
-	}
+// 			send(this->_socket, response.str().c_str(), response.str().size(), 0);
+// 		}
+// 		else
+// 		{
+// 			const char* notFoundResponse = "HTTP/1.1 404 Not Found\r\nContent-Length: 13\r\n\r\n404 Not Found";
+// 			send(this->_socket, notFoundResponse, strlen(notFoundResponse), 0);
+// 		}
+// 	}
 
-	// POST request
-	else if (method == "POST")
-	{
-		const char* postResponse = "HTTP/1.1 200 OK\r\nContent-Length: 7\r\n\r\nPOST OK";
-		send(this->_socket, postResponse, strlen(postResponse), 0);
-	}
+// 	// POST request
+// 	else if (method == "POST")
+// 	{
+// 		const char* postResponse = "HTTP/1.1 200 OK\r\nContent-Length: 7\r\n\r\nPOST OK";
+// 		send(this->_socket, postResponse, strlen(postResponse), 0);
+// 	}
 
-	// DELETE request
-	else if (method == "DELETE")
-	{
-		std::string filePath = this->_server.getRoot() + path;
+// 	// DELETE request
+// 	else if (method == "DELETE")
+// 	{
+// 		std::string filePath = this->_server.getRoot() + path;
 
-		if (std::remove(filePath.c_str()) == 0)
-		{
-			const char* deleteResponse = "HTTP/1.1 200 OK\r\nContent-Length: 12\r\n\r\nFile Deleted";
-			send(this->_socket, deleteResponse, strlen(deleteResponse), 0);
-		}
-		else
-		{
-			const char* notFoundResponse = "HTTP/1.1 404 Not Found\r\nContent-Length: 13\r\n\r\n404 Not Found";
-			send(this->_socket, notFoundResponse, strlen(notFoundResponse), 0);
-		}
-	}
-	// any other methods not implemented
-	else
-	{
-		const char* notImplementedResponse = "HTTP/1.1 501 Not Implemented\r\nContent-Length: 19\r\n\r\n501 Not Implemented";
-		send(this->_socket, notImplementedResponse, strlen(notImplementedResponse), 0);
-	}
-}
+// 		if (std::remove(filePath.c_str()) == 0)
+// 		{
+// 			const char* deleteResponse = "HTTP/1.1 200 OK\r\nContent-Length: 12\r\n\r\nFile Deleted";
+// 			send(this->_socket, deleteResponse, strlen(deleteResponse), 0);
+// 		}
+// 		else
+// 		{
+// 			const char* notFoundResponse = "HTTP/1.1 404 Not Found\r\nContent-Length: 13\r\n\r\n404 Not Found";
+// 			send(this->_socket, notFoundResponse, strlen(notFoundResponse), 0);
+// 		}
+// 	}
+// 	// any other methods not implemented
+// 	else
+// 	{
+// 		const char* notImplementedResponse = "HTTP/1.1 501 Not Implemented\r\nContent-Length: 19\r\n\r\n501 Not Implemented";
+// 		send(this->_socket, notImplementedResponse, strlen(notImplementedResponse), 0);
+// 	}
+// }
+
+
+
+// Code I lost after switching to dev branch
+// #include "Client.hpp"
+
+// Client::Client(Server server, int socket)
+//     : _server(server), _socket(socket), _sentRequest(false), _lastRequest(std::time(nullptr)) {}
+
+// Client::~Client() {}
+
+// const std::string& Client::getRequest() const { return _request; }
+
+// bool Client::validateHeaders()
+// {
+//     if (_headers.find("Host") == _headers.end() || _httpVersion != "HTTP/1.1")
+//         return false;
+//     return true;
+// }
+
+// bool Client::fileExists(const std::string& path) const
+// {
+//     struct stat fileStat;
+//     return (stat(path.c_str(), &fileStat) == 0);
+// }
+
+// void Client::stringTrim(std::string& str, const std::string& whitespace)
+// {
+//     size_t start = str.find_first_not_of(whitespace);
+//     str = (start == std::string::npos) ? "" : str.substr(start);
+
+//     size_t end = str.find_last_not_of(whitespace);
+//     str = (end == std::string::npos) ? "" : str.substr(0, end + 1);
+// }
+
+// void Client::sendResponse(int statusCode, const std::string& statusMessage, const std::string& body)
+// {
+//     std::ostringstream response;
+//     response << "HTTP/1.1 " << statusCode << " " << statusMessage << "\r\n";
+//     response << "Content-Length: " << body.size() << "\r\n\r\n" << body;
+//     send(_socket, response.str().c_str(), response.str().size(), 0);
+// }
+
+// void Client::sendErrorResponse(int statusCode, const std::string& statusMessage)
+// {
+//     std::ostringstream body;
+//     body << "<html><body><h1>" << statusCode << " " << statusMessage << "</h1></body></html>";
+//     sendResponse(statusCode, statusMessage, body.str());
+// }
+
+// void Client::handleClientRequest()
+// {
+//     std::istringstream requestStream(_request);
+//     requestStream >> _method >> _resourcePath >> _httpVersion;
+
+//     if (!validateHeaders())
+//     {
+//         sendErrorResponse(400, "Bad Request");
+//         return;
+//     }
+
+//     if (_method == "GET")
+//         handleGetRequest(_resourcePath);
+//     else if (_method == "POST")
+//         handlePostRequest(_resourcePath);
+//     else if (_method == "DELETE")
+//         handleDeleteRequest(_resourcePath);
+//     else
+//         sendErrorResponse(501, "Not Implemented");
+// }
+
+// void Client::handleGetRequest(const std::string& path)
+// {
+//     std::string filePath = _server.getRoot() + (path == "/" ? "/index.html" : path);
+
+//     if (!fileExists(filePath))
+//     {
+//         sendErrorResponse(404, "Not Found");
+//         return;
+//     }
+
+//     std::ifstream file(filePath.c_str());
+//     if (file.is_open())
+//     {
+//         std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+//         sendResponse(200, "OK", fileContents);
+//     }
+//     else
+//         sendErrorResponse(403, "Forbidden");
+// }
+
+// void Client::handlePostRequest(const std::string& path)
+// {
+//     // Handle POST logic here (e.g., file upload)
+//     sendResponse(200, "OK", "POST request processed");
+// }
+
+// void Client::handleDeleteRequest(const std::string& path)
+// {
+//     std::string filePath = _server.getRoot() + path;
+
+//     if (!fileExists(filePath))
+//     {
+//         sendErrorResponse(404, "Not Found");
+//         return;
+//     }
+
+//     if (std::remove(filePath.c_str()) != 0)
+//         sendErrorResponse(403, "Forbidden");
+//     else
+//         sendResponse(200, "OK", "File deleted successfully");
+// }
+
+// void Client::processFileUpload()
+// {
+//     // Placeholder for file upload logic
+// }
+
+// void Client::executeCgi(const std::string& cgiPath)
+// {
+//     // Placeholder for CGI execution
+//     sendResponse(200, "OK", "CGI script executed");
+// }
+
+
 
 /************************************************************************************************************/
 

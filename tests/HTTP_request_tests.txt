@@ -1,0 +1,60 @@
+# Valid GET request to root
+curl -v -X GET http://localhost:8080/
+
+# Valid GET request to upload endpoint
+curl -v -X GET http://localhost:8080/upload
+
+# Valid GET request with query string
+curl -v -X GET "http://localhost:8080/?key=value"
+
+# Invalid GET request (nonexistent resource)
+curl -v -X GET http://localhost:8080/nonexistent
+
+
+# Valid POST with no payload
+curl -v -X POST http://localhost:8080/upload/testfile.txt -d ""
+
+# Valid POST with small payload
+curl -v -X POST http://localhost:8080/upload/testfile.txt -d "test=data"
+
+# Valid POST with file upload
+curl -v -X POST http://localhost:8080/upload/testfile.txt --data-binary @testfile.txt
+
+# Invalid POST with missing Content-Length
+curl -v -X POST http://localhost:8080/upload/testfile.txt -H "Content-Length: "
+
+# Invalid POST with payload exceeding max body size
+dd if=/dev/zero of=largefile.txt bs=1 count=11000
+curl -v -X POST http://localhost:8080/upload/largefile.txt --data-binary @largefile.txt
+
+
+# Valid DELETE request for existing file
+curl -v -X DELETE http://localhost:8080/upload/testfile.txt
+
+# Invalid DELETE request for nonexistent file
+curl -v -X DELETE http://localhost:8080/upload/nonexistentfile.txt
+
+# Invalid DELETE request to root (not allowed)
+curl -v -X DELETE http://localhost:8080/
+
+
+# Invalid URL characters
+curl -v -X GET "http://localhost:8080/invalid|char"
+
+# Missing required headers (e.g., Host)
+curl -v --http1.1 --header "" http://localhost:8080/
+
+# Invalid HTTP method
+curl -v -X INVALID http://localhost:8080/
+
+
+Valid HTTP version
+curl -X GET "http://localhost:8080/" --http1.1
+Output -> index.html code
+
+Invalid HTTP version
+curl -X GET "http://localhost:8080/" --http1.0
+curl -v --http1.0 http://localhost:8080/
+
+Output
+<html><body><h1>505 HTTP Version Not Supported</h1></body></html>
