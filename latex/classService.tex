@@ -1,0 +1,69 @@
+\hypertarget{classService}{}\doxysection{Service Class Reference}
+\label{classService}\index{Service@{Service}}
+
+
+Manages server-\/client interactions and service setup.  
+
+
+
+
+{\ttfamily \#include $<$Service.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classService_a1dfc32c57e0e331b1e108b7fcb99c46f}{Service}} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{classService}{Service}} object, sets up signal handling, and parses the configuration file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classService_af6c3577b59652ac817d1d76aaccee904}\label{classService_af6c3577b59652ac817d1d76aaccee904}} 
+\mbox{\hyperlink{classService_af6c3577b59652ac817d1d76aaccee904}{$\sim$\+Service}} ()
+\begin{DoxyCompactList}\small\item\em Destructor for \mbox{\hyperlink{classService}{Service}}, closes all sockets in the polling vector. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classService_ad8f99e666dc010048f7f5118fa2533d8}\label{classService_ad8f99e666dc010048f7f5118fa2533d8}} 
+void \mbox{\hyperlink{classService_ad8f99e666dc010048f7f5118fa2533d8}{setup}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the server setup, binds addresses, and adds sockets to the polling vector. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classService_ac18efac5a9bae6da704f9095faab5ad5}\label{classService_ac18efac5a9bae6da704f9095faab5ad5}} 
+void \mbox{\hyperlink{classService_ac18efac5a9bae6da704f9095faab5ad5}{launch}} ()
+\begin{DoxyCompactList}\small\item\em Begins the main polling loop to handle client connections and server actions. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classService_a4d7f51b2ed83178830c8befa3ca3d598}\label{classService_a4d7f51b2ed83178830c8befa3ca3d598}} 
+void {\bfseries print\+Servers\+Info} ()
+\item 
+\mbox{\Hypertarget{classService_a65e15b4b6e030bcd4e78f79ccb91e75f}\label{classService_a65e15b4b6e030bcd4e78f79ccb91e75f}} 
+void \mbox{\hyperlink{classService_a65e15b4b6e030bcd4e78f79ccb91e75f}{print\+Service\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Print the server info. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages server-\/client interactions and service setup. 
+
+\begin{DoxyNote}{Note}
+The addrinfo structure is used for addressing information in socket programming. It contains various fields for managing socket connections, including options, address family, socket type, and more.
+\end{DoxyNote}
+struct addrinfo \{ int ai\+\_\+flags; // options int ai\+\_\+family; // adress family (ipv4, ipv6) (AF\+\_\+\+INET, AF\+\_\+\+INET6, etc.) int ai\+\_\+socktype; // kind of socket (SOCK\+\_\+\+STREAM, SOCK\+\_\+\+DGRAM, etc.) int ai\+\_\+protocol; // protocol (IPPROTO\+\_\+\+TCP, IPPROTO\+\_\+\+UDP, etc.) size\+\_\+t ai\+\_\+addrlen; // adress size struct sockaddr $\ast$ai\+\_\+addr; // socket addr char $\ast$ai\+\_\+canonname; // canonical nam struct addrinfo $\ast$ai\+\_\+next; // pointer to the nex struct \};
+
+The \mbox{\hyperlink{classService}{Service}} class is responsible for initializing services, managing connections, and handling client requests. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classService_a1dfc32c57e0e331b1e108b7fcb99c46f}\label{classService_a1dfc32c57e0e331b1e108b7fcb99c46f}} 
+\index{Service@{Service}!Service@{Service}}
+\index{Service@{Service}!Service@{Service}}
+\doxysubsubsection{\texorpdfstring{Service()}{Service()}}
+{\footnotesize\ttfamily Service\+::\+Service (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Constructs a \mbox{\hyperlink{classService}{Service}} object, sets up signal handling, and parses the configuration file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & \textquotesingle{}.conf\textquotesingle{} file. \\
+\hline
+{\em argc} & 0 or 1. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{Service_8hpp}{Service.\+hpp}}\item 
+src/\mbox{\hyperlink{Service__0_8cpp}{Service\+\_\+0.\+cpp}}\item 
+src/\mbox{\hyperlink{Service__1__setup_8cpp}{Service\+\_\+1\+\_\+setup.\+cpp}}\item 
+src/\mbox{\hyperlink{Service__2__launch_8cpp}{Service\+\_\+2\+\_\+launch.\+cpp}}\end{DoxyCompactItemize}
