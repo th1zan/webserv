@@ -23,7 +23,7 @@ jobs:
       run: doxygen ./docs/Doxyfile
 
     - name: Check generated files
-      run: ls /public
+      run: ls ./public
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
