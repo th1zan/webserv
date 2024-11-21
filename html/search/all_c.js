@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7eservice_34',['~Service',['../classService.html#af6c3577b59652ac817d1d76aaccee904',1,'Service']]]
+  ['webserv_2ehpp_32',['webserv.hpp',['../webserv_8hpp.html',1,'']]],
+  ['webserver_33',['WebServer',['../classWebServer.html',1,'']]]
 ];
