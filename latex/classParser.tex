@@ -1,0 +1,60 @@
+\hypertarget{classParser}{}\doxysection{Parser Class Reference}
+\label{classParser}\index{Parser@{Parser}}
+
+
+Parses server configuration files and initializes server instances.  
+
+
+
+
+{\ttfamily \#include $<$Parser.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classParser_ae56e1020ba5a40b15bfcd3704cb01bd4}{Parser}} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em Instatiate a \mbox{\hyperlink{classParser}{Parser}} object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classParser_a6901a77af77a6b42faedef2fd4109ba8}\label{classParser_a6901a77af77a6b42faedef2fd4109ba8}} 
+std\+::vector$<$ \mbox{\hyperlink{classServer}{Server}} $>$ \& {\bfseries get\+Servers\+Vector} ()
+\item 
+\mbox{\Hypertarget{classParser_a3628b5f989a6050e1611e3d520d651fe}\label{classParser_a3628b5f989a6050e1611e3d520d651fe}} 
+std\+::set$<$ std\+::string $>$ {\bfseries get\+Supported\+Extensions} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Parses server configuration files and initializes server instances. 
+
+The \mbox{\hyperlink{classParser}{Parser}} class processes input arguments, reads configuration files, and initializes server instances based on the parsed data. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classParser_ae56e1020ba5a40b15bfcd3704cb01bd4}\label{classParser_ae56e1020ba5a40b15bfcd3704cb01bd4}} 
+\index{Parser@{Parser}!Parser@{Parser}}
+\index{Parser@{Parser}!Parser@{Parser}}
+\doxysubsubsection{\texorpdfstring{Parser()}{Parser()}}
+{\footnotesize\ttfamily Parser\+::\+Parser (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Instatiate a \mbox{\hyperlink{classParser}{Parser}} object. 
+
+
+\begin{DoxyItemize}
+\item check the input file
+\item init the parsing of the file 
+\begin{DoxyParams}{Parameters}
+{\em argc} & max 1 configuration file \\
+\hline
+{\em argv} & the name of the configuration file \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Parser_8hpp}{Parser.\+hpp}}\item 
+\mbox{\hyperlink{Parser__0_8cpp}{Parser\+\_\+0.\+cpp}}\item 
+\mbox{\hyperlink{Parser__1__getConfig_8cpp}{Parser\+\_\+1\+\_\+get\+Config.\+cpp}}\item 
+\mbox{\hyperlink{Parser__2__checkServer_8cpp}{Parser\+\_\+2\+\_\+check\+Server.\+cpp}}\item 
+\mbox{\hyperlink{Parser__3__checkLocation_8cpp}{Parser\+\_\+3\+\_\+check\+Location.\+cpp}}\end{DoxyCompactItemize}

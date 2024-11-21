@@ -1,0 +1,71 @@
+\hypertarget{classClient}{}\doxysection{Client Class Reference}
+\label{classClient}\index{Client@{Client}}
+
+
+Represents a client connection handling HTTP requests.  
+
+
+
+
+{\ttfamily \#include $<$Client.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classClient_a8d57417dbebf64a9ac2a483c9892387e}\label{classClient_a8d57417dbebf64a9ac2a483c9892387e}} 
+{\bfseries Client} (\mbox{\hyperlink{classServer}{Server}} server, int socket)
+\item 
+void \mbox{\hyperlink{classClient_ac7b9069263880e7d69b03ef142b3b742}{append\+Request}} (char const $\ast$buffer, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em If the buffer is not empty (there is still bytes read by the recv()), its content is append to the \mbox{\hyperlink{classClient}{Client}}\textquotesingle{}s \+\_\+request variable. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classClient_ae0e2e8e77ff76ff8756a9dfb4432f5a7}\label{classClient_ae0e2e8e77ff76ff8756a9dfb4432f5a7}} 
+bool \mbox{\hyperlink{classClient_ae0e2e8e77ff76ff8756a9dfb4432f5a7}{is\+Timeout}} () const
+\begin{DoxyCompactList}\small\item\em The function checks if there is no timeout between the time the server receive the request and time to respond (= if the connection and the server are fast enough) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classClient_aff7773dc3255e11d1379b044fd0dbe46}\label{classClient_aff7773dc3255e11d1379b044fd0dbe46}} 
+bool \mbox{\hyperlink{classClient_aff7773dc3255e11d1379b044fd0dbe46}{client\+Is\+Ready\+To\+Receive}} () const
+\begin{DoxyCompactList}\small\item\em The function checks if the client has finished to send a request, so he\textquotesingle{}s ready to receive. The client is ready if a) \char`\"{}sent\+Request = true\char`\"{} OR b) the request ends by the sequence (REQUEST\+\_\+\+END) \char`\"{}\textbackslash{}r\textbackslash{}n\textbackslash{}r\textbackslash{}n\char`\"{}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classClient_ad037b55073a4c87f3596b309d9faa5f2}\label{classClient_ad037b55073a4c87f3596b309d9faa5f2}} 
+void \mbox{\hyperlink{classClient_ad037b55073a4c87f3596b309d9faa5f2}{handle\+Client\+Request}} ()
+\begin{DoxyCompactList}\small\item\em Function to parse the (HTTP) request. The parsing should identify the method (GET, POST, DELETE), acts, and send the response. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classClient_a06392a0f07a529dfcd54e84b59028ec0}\label{classClient_a06392a0f07a529dfcd54e84b59028ec0}} 
+const std\+::string \& {\bfseries get\+Request} () const
+\item 
+\mbox{\Hypertarget{classClient_a06ebd2f899bc03be21167382312fb4aa}\label{classClient_a06ebd2f899bc03be21167382312fb4aa}} 
+const \mbox{\hyperlink{classServer}{Server}} \& {\bfseries get\+Server} () const
+\item 
+\mbox{\Hypertarget{classClient_a3ca2b3a3932ef967baac2b292ded8b5f}\label{classClient_a3ca2b3a3932ef967baac2b292ded8b5f}} 
+void {\bfseries change\+Server} (\mbox{\hyperlink{classServer}{Server}} server)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a client connection handling HTTP requests. 
+
+The \mbox{\hyperlink{classClient}{Client}} class is responsible for managing client requests, checking their validity, and interacting with the associated \mbox{\hyperlink{classServer}{Server}} instance. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classClient_ac7b9069263880e7d69b03ef142b3b742}\label{classClient_ac7b9069263880e7d69b03ef142b3b742}} 
+\index{Client@{Client}!appendRequest@{appendRequest}}
+\index{appendRequest@{appendRequest}!Client@{Client}}
+\doxysubsubsection{\texorpdfstring{appendRequest()}{appendRequest()}}
+{\footnotesize\ttfamily void Client\+::append\+Request (\begin{DoxyParamCaption}\item[{char const $\ast$}]{buffer,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+If the buffer is not empty (there is still bytes read by the recv()), its content is append to the \mbox{\hyperlink{classClient}{Client}}\textquotesingle{}s \+\_\+request variable. 
+
+This function is public and called from a \mbox{\hyperlink{classService}{Service}} instance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & variable with data to append to the request \\
+\hline
+{\em size} & size of the buffer \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Client_8hpp}{Client.\+hpp}}\item 
+\mbox{\hyperlink{Client_8cpp}{Client.\+cpp}}\item 
+tempshitfile.\+cpp\end{DoxyCompactItemize}

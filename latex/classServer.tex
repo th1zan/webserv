@@ -1,0 +1,67 @@
+\hypertarget{classServer}{}\doxysection{Server Class Reference}
+\label{classServer}\index{Server@{Server}}
+
+
+Manages server configurations and location directives.  
+
+
+
+
+{\ttfamily \#include $<$Server.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classServer_ab0176328d5a5ad052fd20f9ff5425003}\label{classServer_ab0176328d5a5ad052fd20f9ff5425003}} 
+{\bfseries Server} (std\+::vector$<$ \mbox{\hyperlink{classServer}{Server}} $>$ \&\+\_\+servers\+Vector, std\+::map$<$ std\+::string, std\+::string $>$ temp\+Server\+Config\+Map, std\+::vector$<$ std\+::map$<$ std\+::string, std\+::string $>$ $>$ temp\+Location\+Map\+Vector)
+\item 
+\mbox{\Hypertarget{classServer_afa110e18047a3345bca72ed32ca3ce95}\label{classServer_afa110e18047a3345bca72ed32ca3ce95}} 
+void {\bfseries create\+Socket} ()
+\item 
+\mbox{\Hypertarget{classServer_ab863ef09b03d664d26cdbbcd6209dde4}\label{classServer_ab863ef09b03d664d26cdbbcd6209dde4}} 
+bool {\bfseries get\+Is\+Primary} ()
+\item 
+\mbox{\Hypertarget{classServer_a9bee8c2b3b12051505d99e74e5ccd53b}\label{classServer_a9bee8c2b3b12051505d99e74e5ccd53b}} 
+const std\+::string \& {\bfseries get\+Host} () const
+\item 
+\mbox{\Hypertarget{classServer_af34e0e517a9f817655fa9504eacae45d}\label{classServer_af34e0e517a9f817655fa9504eacae45d}} 
+const std\+::string \& {\bfseries get\+Port} () const
+\item 
+\mbox{\Hypertarget{classServer_a5a358b09f15fe9e4fd0616946d98c0f5}\label{classServer_a5a358b09f15fe9e4fd0616946d98c0f5}} 
+int {\bfseries get\+Socket} () const
+\item 
+\mbox{\Hypertarget{classServer_a7ce7a696c1f840b151b75e5e97c0d7e3}\label{classServer_a7ce7a696c1f840b151b75e5e97c0d7e3}} 
+const std\+::string \& {\bfseries get\+Server\+Name} () const
+\item 
+\mbox{\Hypertarget{classServer_a87d32374024b0e3da8dd6a6bd97777d0}\label{classServer_a87d32374024b0e3da8dd6a6bd97777d0}} 
+const std\+::string \& {\bfseries get\+Root} () const
+\item 
+\mbox{\Hypertarget{classServer_a9e3ae2d1498ff1b335a8145e9759704f}\label{classServer_a9e3ae2d1498ff1b335a8145e9759704f}} 
+const std\+::string \& {\bfseries get\+Index} () const
+\item 
+\mbox{\Hypertarget{classServer_a8d9688899673eb7bb5ee5f7b660b8338}\label{classServer_a8d9688899673eb7bb5ee5f7b660b8338}} 
+const std\+::string \& {\bfseries get\+Error\+Page} () const
+\item 
+\mbox{\Hypertarget{classServer_a0a1e362e8a61195a79923179af5ec02c}\label{classServer_a0a1e362e8a61195a79923179af5ec02c}} 
+const std\+::string \& {\bfseries get\+Error\+Response} () const
+\item 
+\mbox{\Hypertarget{classServer_a0d44728dcb2ad2f6171d866db33dae05}\label{classServer_a0d44728dcb2ad2f6171d866db33dae05}} 
+size\+\_\+t {\bfseries get\+Client\+Max\+Body\+Size} () const
+\item 
+\mbox{\Hypertarget{classServer_a1bd2b12b697a92b785437be95c8a8bc7}\label{classServer_a1bd2b12b697a92b785437be95c8a8bc7}} 
+void {\bfseries print\+Servers} ()
+\item 
+\mbox{\Hypertarget{classServer_a39cda1d70726eb2b9161308569c66b0a}\label{classServer_a39cda1d70726eb2b9161308569c66b0a}} 
+void {\bfseries print\+Location} (\mbox{\hyperlink{structlocation__s}{location\+\_\+t}} loc)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages server configurations and location directives. 
+
+The \mbox{\hyperlink{classServer}{Server}} class encapsulates server settings and provides methods for handling server operations and location configurations. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Server_8hpp}{Server.\+hpp}}\item 
+\mbox{\hyperlink{Server_8cpp}{Server.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,51 @@
+digraph "utils.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="utils.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Provides utility functions for various operations such as time retrieval, signal handling,..."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Client.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Client_8hpp.html",tooltip="Header file for the Client class."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Service.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Service_8hpp.html",tooltip="Header file for the Service class and serviceInfo structure."];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="webserv.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$webserv_8hpp.html",tooltip="Main header file for the web server application."];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="main.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$src_2main_8cpp.html",tooltip="The main create an instance of a Service (the webserv), then set it up and launch it."];
+  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Service_0.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Service__0_8cpp.html",tooltip="Implementation of the Service class responsible for server management and client connection handling."];
+  Node3 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Service_1_setup.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Service__1__setup_8cpp.html",tooltip="Implementation of the Service class responsible for server management and client connection handling."];
+  Node3 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Service_2_launch.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Service__2__launch_8cpp.html",tooltip="Implementation of the Service class responsible for server management and client connection handling."];
+  Node2 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Client.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Client_8cpp.html",tooltip="Implementation of the Client class for handling client requests in the web server."];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Parser.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Parser_8hpp.html",tooltip="Header file for the Parser class."];
+  Node10 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Parser_0.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Parser__0_8cpp.html",tooltip="This file containes _parseFile() function who tokenize each line of the configuration file...."];
+  Node10 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Parser_1_getConfig.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Parser__1__getConfig_8cpp.html",tooltip="This file containes the functions used to get the configuration from each token."];
+  Node10 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Parser_2_checkServer.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Parser__2__checkServer_8cpp.html",tooltip="This file containes the functions used to check the 'Server' parameters except for its Location param..."];
+  Node10 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="Parser_3_checkLocation.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Parser__3__checkLocation_8cpp.html",tooltip="This file containes the functions used to check the Location parameters in each 'Server'."];
+  Node10 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="Server.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Server_8hpp.html",tooltip="Header file for the Server class and location structure."];
+  Node15 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="Server.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Server_8cpp.html",tooltip="Implementation of the Parser class for processing the 'server' blocs and 'location' sub-blocs in the ..."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}
