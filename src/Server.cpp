@@ -6,46 +6,116 @@
 
 #include "Server.hpp"
 
+/**
+ * @brief Constructs a `Server` object with the parsed configuration parameters.
+ * 
+ * The configuration data consists of a map for server settings and a vector of maps for location-specific settings.
+ * These parameters are used to set up various attributes of the server, 
+ * such as host, root directory, index file, and more.
+ * 
+ * 
+ * @details The constructor performs the following operations:
+ * - Uploads raw parameters from the provided maps (Server bloc parameters) and vector (multiple Location bloc parameters).
+ * - Extracts and assigns server attributes such as server name, host, root, index, and port.
+ * - Initializes the server socket to zero.
+ * - Determines if this server instance is the primary one by checking other instances in `_serversVector`.
+ */
 Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string> > tempLocationMapVector) {
 
+	//upload the "raw" parameters from 1 maps corresponding to the server bloc Server and 1 vector of map corresponding to the Location blocs.
 	this->_ServerConfigMap = tempServerConfigMap;
 	this->_LocationMapVector = tempLocationMapVector;
 	
-	//server bloc param
-	this->_serverName = this->_ServerConfigMap[SERVER_N];
+	//extract the parameters from maps
+	this->_fillServerNameVector(_ServerConfigMap[SERVER_N]);
 	this->_host = this->_ServerConfigMap[HOST];
 	this->_root = this->_ServerConfigMap[ROOT_LOC];
 	this->_index = this->_ServerConfigMap[INDEX];
-	this->_errorPage = this->_ServerConfigMap[ERROR_P];
+	this->_fillErrorPageMap();
 	this->_port = this->_ServerConfigMap[LISTEN];
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(_ServerConfigMap[MAX_SIZE]);
 	
+	//if any error_page directive, create one
 	// this->_errorResponse = this->_generateErrorResponse();
+
+	//initialisation
 	this->_socket = 0;
 	
-	//get location bloc param to a vector of location_t struct
+	//get location bloc parameters from to `tempLocationMapVector` to a vector of struct location_t 
 	if (!tempLocationMapVector.empty())
 	{
 		this->_getLocationStruct();
 	}
 
+	//check if there is other instance of server with the same `_host` `_port`
 	this->_isPrimary = this->_checkPrimaryServer(_serversVector);
 	
-	//DEBUG
-	std::cout << "in :: Server constructor, for _serverName: " << this->_serverName << std::endl;
+	//DEBUG log 
 	this->printServers();
-	// std::cout << "Server constructor called" << std::endl;
 }
 
+/**
+ * The Server class destructor.
+ */
 Server::~Server(){
-	// std::cout << "Server destructor called" <<std::endl;
 }
 
+/**
+ * The function `_fillServerNameVector` reads a string of server names, splits it into individual
+ * words, and stores them in a vector.
+ *
+ */
+void Server::_fillServerNameVector(std::string& serverNames){
+	std::istringstream iss(serverNames);
+	std::string word;
 
+	while (iss >> word) {
+		_serverNameVector.push_back(word);
+	}
+}
+
+/**
+ * The function `_fillErrorPageMap` iterates through a map, extracts error numbers and corresponding
+ * error pages name, and populates another map with these pairs (errorNumber <-> errorPage).
+ */
+void Server::_fillErrorPageMap(){
+	for (std::map<std::string, std::string>::iterator it = _ServerConfigMap.begin(); it != _ServerConfigMap.end(); ++it) {
+		if (it->first.find(ERROR_P) == 0) {
+			std::string errorPageString(it->second);
+			std::istringstream iss(errorPageString);
+			std::string tmpErrorNb;
+			std::string tmpErrorPage;
+
+			// Extract all values into a vector
+			std::vector<std::string> tmpVec;
+			while (iss >> tmpErrorNb)
+			{
+				tmpVec.push_back(tmpErrorNb);
+			}
+			tmpErrorPage = tmpVec.back();
+
+			// Push all errorNb-errorPage pairs in the map
+			for (size_t i = 0; i < tmpVec.size() - 1; ++i) {
+				this->_errorPages[tmpVec[i]] = tmpErrorPage;
+			}
+		}
+	}
+}
+
+/**
+ * The function `_getConvertedMaxSize` converts a string to a long using `std::stoll` and
+ * handles potential exceptions.
+ * 
+ * @param maxSizeStr The `maxSizeStr` parameter is a `std::string` that represents the maximum size
+ * value that needs to be converted to a `long` integer. The `_getConvertedMaxSize` function attempts
+ * to convert this string value to a `long` using `std::stoll` and handles
+ * 
+ * @return The function `_getConvertedMaxSize` is returning a `long` value after converting the
+ * `maxSizeStr` string parameter to a long using `std::stoll`.
+ */
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
-	// Utiliser std::stoll pour convertir la chaîne en long
 	try {
-		long value = ft_stoll(maxSizeStr);
+		long value = std::stoll(maxSizeStr);
 		return value;
 	} catch (const std::invalid_argument& e) {
 		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION(maxSizeStr));
@@ -72,15 +142,12 @@ bool Server::_checkPrimaryServer(std::vector<Server>&	_serversVector)
 	return true;
 }
 
+/**
+ * The function `_getLocationStruct` iterates through a vector of maps to extract and store
+ * location-related data into a custom data structure.
+ */
 void Server::_getLocationStruct() {
-	// DEBUG
-	// std::cout << std::endl << "in: _getLocationStruct:: print _LocationMap (vector):" << std::endl;
-
 	for (std::vector<std::map<std::string, std::string> >::iterator itMap = _LocationMapVector.begin(); itMap != _LocationMapVector.end(); ++itMap) {
-		
-		// DEBUG
-		// std::cout << std::endl;
-		// printMap(*itMap);
 
 		location_t tmpLoc;
 
@@ -133,23 +200,20 @@ void Server::_getLocationStruct() {
 
         this->_LocationMap[itMap->find("location")->second] = tmpLoc;
 		this->_LocationMap[itMap->find("location")->second]=(tmpLoc);
-
-		// DEBUG
-		// printLocation(tmpLoc);
 	}
 }
 
 // ---> Getters ---------------------------------------------------------------
 bool Server::getIsPrimary(){return (this->_isPrimary);}
-const std::string&	Server::getHost() const{return this->_host;}
-const std::string&	Server::getPort() const{return this->_port;}
-int					Server::getSocket() const{return this->_socket;}
-const std::string&	Server::getServerName() const{return this->_serverName;}
-const std::string&	Server::getRoot() const{return this->_root;}
-const std::string&	Server::getIndex() const{return this->_index;}
-const std::string&	Server::getErrorPage() const{return this->_errorPage;}
-const std::string&	Server::getErrorResponse() const{return this->_errorResponse;}
-size_t				Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+const std::string&			Server::getHost() const{return this->_host;}
+const std::string&			Server::getPort() const{return this->_port;}
+int							Server::getSocket() const{return this->_socket;}
+std::vector<std::string>	Server::getServerNameVector() const{return this->_serverNameVector;}
+const std::string&			Server::getRoot() const{return this->_root;}
+const std::string&			Server::getIndex() const{return this->_index;}
+std::map<std::string, std::string>			Server::getErrorPage() const{return this->_errorPages;}
+const std::string&			Server::getErrorResponse() const{return this->_errorResponse;}
+size_t						Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
 // locationMap const	&Server::getLocations() const{return this->_locations;}
 
 // Jannetta - added getter for location map
@@ -185,30 +249,30 @@ void Server::createSocket()
 	if (!this->_socket)
 	{
 		this->_socket = socket(AF_INET, SOCK_STREAM, 0);
-		// DEBUG
-		// std::cout << "in 'createSocket' :: this->_socket: " << this->_socket << std::endl;
-
 		if (this->_socket < 0)
-			throw std::runtime_error(ERR_SOCKET(this->_serverName));
+			throw std::runtime_error(ERR_SOCKET(this->_serverNameVector.at(0)));
 	}
-	// DEBUG
-	// std::cout << "in 'createSocket' :: socket exists and is this->_socket: " << this->_socket << std::endl;
 }
-
-// void Server::addLocation(locationPair location)
-// {
-// 	this->_locations.insert(location);
-// }
-
+/**
+ * The function `printServers` in the `Server` class prints detailed information about server
+ * configurations and locations.
+ */
 void Server::printServers() {
 	
 		std::cout << std::endl;
 		std::cout << "----- Server::printServers()----" << std::endl;
-		std::cout << "Server Name: " << this->_serverName << std::endl;
+		std::cout << "Server Name: " ;
+		for (std::vector<std::string>::const_iterator it = _serverNameVector.begin(); it != _serverNameVector.end(); ++it) {
+			std::cout << *it << " ";
+			}
+		std::cout << std::endl;
 		std::cout << "Host: " << this->_host << std::endl;
 		std::cout << "Root: " << this->_root << std::endl;
 		std::cout << "Index: " << this->_index << std::endl;
-		std::cout << "Error Page: " << this->_errorPage << std::endl;
+		std::cout << "Error Page: " << std::endl;
+		for (std::map<std::string, std::string>::iterator it = _errorPages.begin(); it != _errorPages.end(); ++it) {
+			std::cout << "\t"<< it->first << " " << it->second << std::endl;
+		}	
 		std::cout << "Port: " << this->_port << std::endl;
 		std::cout << "Client Max Body Size: " << this->_clientMaxBodySize << std::endl;
 		std::cout << "Is Primary: " << (this->_isPrimary ? "Yes" : "No") << std::endl;
@@ -245,6 +309,10 @@ void Server::printServers() {
 		std::cout << std::endl;
 }
 
+/**
+ * The function `Server::printLocation` prints information about a location configuration in a server.
+ * 
+ */
 void Server::printLocation(location_t loc) {
 	
 		std::cout << std::endl;

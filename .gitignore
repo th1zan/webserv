@@ -1,5 +1,12 @@
+#.DS-Store
+*.DS_Store
+
 # Folders
 ignore/
+docs/html
+docs/latex
+docs/docs
+.vscode/
 
 # Prerequisites
 *.d

@@ -42,31 +42,30 @@ typedef struct location_s {
  */
 class Server{
 	private:
-			std::string 					_serverName;
-			std::string 					_port;
-			std::string 					_host;
-			std::string 					_root;
-			std::string 					_index;
-			long							_clientMaxBodySize;
-			std::string 					_errorPage;
-			std::string 					_errorResponse;
-			std::vector<location_t>			_tempLocationVector;
-			bool							_isPrimary;
-			int								_socket;
+			std::vector<std::string>			_serverNameVector;
+			std::string 						_port;
+			std::string 						_host;
+			std::string 						_root;
+			std::string 						_index;
+			long								_clientMaxBodySize;
+			std::map<std::string, std::string>	_errorPages;
+			std::string 						_errorResponse;
+			std::vector<location_t>				_tempLocationVector;
+			bool								_isPrimary;
+			int									_socket;
 
-			bool							_checkPrimaryServer(std::vector<Server>& _serversVector);
-			long 							_getConvertedMaxSize(std::string& maxSizeStr);
-		
+			bool								_checkPrimaryServer(std::vector<Server>& _serversVector);
+			long 								_getConvertedMaxSize(std::string& maxSizeStr);
+			void								_fillServerNameVector(std::string& serverNames);
+			void								_fillErrorPageMap();
 
-			//Servers
 			// std::vector<Server>								_serversVector;
 			std::map<std::string, std::string>					_ServerConfigMap;
 
 
 			//Location
-			std::vector<std::map<std::string, std::string> >	_LocationMapVector;
-			std::map<std::string, std::string>					_LocationConfigMap;
-			std::map<std::string, location_t>					_LocationMap;
+			std::vector<std::map<std::string, std::string> >	_LocationMapVector; //for parsing
+			std::map<std::string, location_t>					_LocationMap; //to use
 			void												_getLocationStruct();
 
 	public:
@@ -74,16 +73,15 @@ class Server{
 			~Server();
 			void	createSocket();
 
-
 			//getters
 			bool							getIsPrimary();
 			const std::string& 				getHost() const;
 			const std::string& 				getPort() const;
 			int								getSocket() const;
-			const std::string& 				getServerName() const;
+			std::vector<std::string>		getServerNameVector() const;
 			const std::string&				getRoot() const;
 			const std::string&				getIndex() const;
-			const std::string&				getErrorPage() const;
+			std::map<std::string, std::string>				getErrorPage() const;
 			const std::string&				getErrorResponse() const;
 			size_t							getClientMaxBodySize() const;
 			const std::map<std::string, location_t>& getLocations() const;  // Jannetta's function
@@ -92,8 +90,6 @@ class Server{
 			//utils
 			void 							printServers();
 			void 							printLocation(location_t loc);
-
-		///verifier que les noms de servers ne sont pas les memes !
 
 };
 

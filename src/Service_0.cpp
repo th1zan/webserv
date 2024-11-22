@@ -10,14 +10,16 @@
 #include "defines.hpp"
 
 /**
- * @brief Constructs a Service object, sets up signal handling, and parses the configuration file.
- * @param argv '.conf' file.
- * @param argc 0 or 1.
+ * The Service constructor initializes signal handling and parses a configuration file to set up server
+ * information.
+ * @param argv The '.conf' file.
+ * @param argc values allowed: 0 or 1.
  */
+
 Service::Service(int argc, char **argv){
 	printInfo(START_MSG, GREEN);
 
-	 // Intercepts signals for socket handling and interruption.
+	// Intercepts signals for socket handling and interruption.
 	std::signal(SIGPIPE, SIG_IGN); // Ignore SIGPIPE errors for sockets.
 	std::signal(SIGINT, signalHandler);
 
@@ -29,11 +31,6 @@ Service::Service(int argc, char **argv){
 	//to make it simple at first, _nbPrimaryServers = 1
 	// this->_nbPrimaryServers = 1;
 	this->_nbPrimaryServers = this->_countPrimaryServers();
-	
-	//DEBUG
-	// std::cout << "in Service constructor:: this->_nbPrimaryServers: " << this->_nbPrimaryServers << std::endl;
-
-
 }
 
 /**
@@ -47,7 +44,7 @@ Service::~Service(){
 }
 
 /**
- * @brief function to count the the primary server in the _serversVector
+ * @brief function to count the umber of primary server in the _serversVector
  * A server with an existing host and port is NOT a primary server
  * 
  * @return size_t, quantity of primary servers
@@ -84,6 +81,10 @@ void Service::printServiceInfo(){
 	std::cout << "  Family: " << _tmpServiceInfo.parameters.ai_family << std::endl;
 	std::cout << "  Socket Type: " << _tmpServiceInfo.parameters.ai_socktype << std::endl;
 	std::cout << "  Protocol: " << _tmpServiceInfo.parameters.ai_protocol << std::endl;
+	std::cout << "  AddrLen: " << _tmpServiceInfo.parameters.ai_addrlen << std::endl;
+	// std::cout << "  ai_addr.sa_family: " << _tmpServiceInfo.parameters.ai_addr->sa_family << std::endl;
+	// std::cout << "  ai_addr.sa_len: " << _tmpServiceInfo.parameters.ai_addr->sa_len << std::endl;	
+	// std::cout << "  Canonical name: " << _tmpServiceInfo.parameters.ai_canonname << std::endl;
 	std::cout << "  Flags: " << _tmpServiceInfo.parameters.ai_flags << std::endl;
 	std::cout << "----- /END Service::printServiceInfo() ----" << std::endl;
 	std::cout << std::endl;
