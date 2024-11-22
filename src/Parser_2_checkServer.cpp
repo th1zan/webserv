@@ -5,37 +5,31 @@
 
 #include "Parser.hpp"
 
-
+/**
+ * The function _checkConfigs() calls _checkServerParam() and _checkLocationParam() to validate
+ * server and location parameters.
+ */
 void Parser::_checkConfigs(){
 	this->_checkServerParam();
 	this->_checkLocationParam();
-
-	//DEBUG
-	// std::cout << "in :: '_checkConfigs': print _tempServerConfigMap" << std::endl;
-	// printMap(this->_tempServerConfigMap);
-	// printMap(*this->_tempLocationMapVector.begin());
-	
-}
-
-
-void	Parser::_checkServerParam(){
-
-	this->_checkDirectiveName();
-	this->_checkDirectiveValue();
-
 }
 
 
 /**
- * @brief 
- * 
+ * The function `_checkServerParam` checks the directive name and value.
+ */
+void	Parser::_checkServerParam(){
+	this->_checkDirectiveName();
+	this->_checkDirectiveValue();
+}
+
+
+/**
+ * The function `_checkDirectiveName` ensures that certain mandatory parameters are present and that
+ * certain forbidden parameters are not present in a server configuration map.
  */
 void	Parser::_checkDirectiveName(){
-	//DEBUG
-	// std::cout << "in :: '_checkDirectiveName'" << std::endl;
-
 	std::string const mandatoryParam[] = {LISTEN, HOST, ROOT_LOC, INDEX, MAX_SIZE};
-	//forbiden = Location parameter
 	std::string const forbiddenParam[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
 
 	for (int i = 0; i < 5; i++)
@@ -50,15 +44,15 @@ void	Parser::_checkDirectiveName(){
 		if (this->_tempServerConfigMap.find(forbiddenParam[i]) != this->_tempServerConfigMap.end())
 			throw std::runtime_error(ERR_SERV_FORBIDDEN_DIRECTIVE(forbiddenParam[i]));
 	}
-
 }
 
 
+/**
+ * The function `_checkDirectiveValue` iterates through a map of server configuration directives,
+ * checking each one for validity and performing specific checks based on the directive type.
+ */
 
 void	Parser::_checkDirectiveValue(){
-
-	//DEBUG
-	// std::cout << "in :: '_checkDirectiveValue'" << std::endl;
 
 	//first check and get the 'root' directive because this path is needed for further checks
 	// find 'root' path in the map, check it and put it in a '_tempRootDirPath'
@@ -69,12 +63,10 @@ void	Parser::_checkDirectiveValue(){
 	this->_checkRoot(it->second);
 	this->_tempRootDirPath = it->second;
 
-
-
 	//then check other directive
 	for (std::map<std::string, std::string>::iterator it = _tempServerConfigMap.begin(); it != _tempServerConfigMap.end(); ++it) {
 		if (it->second == SERVER) {
-			//_checkServer should chekcthe closing parenthesis, but it's already done before
+			//_checkServer should chekc the closing parenthesis, but it's already done before
 			// this->_checkServer();
 			continue;
 		}
@@ -85,7 +77,7 @@ void	Parser::_checkDirectiveValue(){
 			this->_checkHost(it->second);
 		}
 		else if (it->first == ROOT_LOC) {
-			//nothing, already done;
+			//nothing, check already done;
 		}
 		else if (it->first == INDEX) {
 			this->_checkIndex(it->second);
@@ -99,24 +91,28 @@ void	Parser::_checkDirectiveValue(){
 		else if (it->first.find(ERROR_P) == 0) {
 			this->_checkErrorP(it->second);
 		}
-		//DEBUG
-		// std::cout << "in :: '_checkDirectiveValue'" << std::endl;
-		// std::cout << "it->second = " << it->second <<std::endl;
 	}	
 }
 
+/**
+ * The function `_checkRoot` removes the trailing semicolon from a string and checks if it is a valid
+ * path.
+ * 
+ * @param dirValue The `dirValue` parameter in the `_checkRoot` function is a reference to a
+ * `std::string` variable. It is used within the function to perform certain operations like removing a
+ * trailing semicolon and checking the path.
+ */
 void Parser::_checkRoot(std::string& dirValue) {
 
 	/*function seems identical to _checkReturn !!! probably possible to use it*/ 
-
-	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
-
 	this->_checkPath(dirValue, true);
 }
-
-
-//---Directives checking functions---//
+/**
+ * The function `_checkListen` validates if a given string represents a valid port number within
+ * the range of 0 to 65535.
+ * 
+ */
 
 void Parser::_checkListen(std::string& dirValue) {
 		// delete ending ';' if necessary to get a cleaner string later
@@ -132,6 +128,11 @@ void Parser::_checkListen(std::string& dirValue) {
 		}
 }
 
+/**
+ * The function `_checkHost` validates whether a given string is a valid host name or IP address and
+ * throws a runtime error if it is not.
+ * 
+ */
 void Parser::_checkHost(std::string& dirValue) {
 	this->_delEndSemiColon(dirValue);
 
@@ -140,6 +141,13 @@ void Parser::_checkHost(std::string& dirValue) {
 	}
 }
 
+/**
+ * The function checks if a given string is a valid hostname by ensuring that it only contains
+ * alphanumeric characters, dots, and hyphens.
+ * 
+ * @return The function `_isValidHostName` returns a boolean value, indicating whether the input string
+ * `str` is a valid host name or not.
+ */
 bool Parser::_isValidHostName(const std::string& str) {
 	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it) {
 		if (!std::isalnum(*it) && *it != '.' && *it != '-') {
@@ -150,6 +158,14 @@ bool Parser::_isValidHostName(const std::string& str) {
 }
 
 
+/**
+ * The function `_isValidIpAddress` checks if a given string represents a valid IPv4 address with four
+ * octets separated by periods.
+ * 
+ * @return a boolean value indicating whether the input string is a valid IP address. If the input
+ * string contains exactly 4 segments separated by '.', and each segment is composed only of digits and
+ * falls within the range of 0 to 255, the function returns true. Otherwise, it returns false.
+ */
 bool Parser::_isValidIpAddress(const std::string& str) {
 	size_t pos = 0;
 	int octet;
@@ -176,8 +192,15 @@ bool Parser::_isValidIpAddress(const std::string& str) {
 	return (count == 3);
 }
 
-
-
+/**
+ * The function `_checkIndex` checks if a file exists by constructing a full path and attempting to
+ * open it.
+ * 
+ * @param dirValue `dirValue` is a string that represents a directory value. It is used to construct
+ * the full path to a file by appending it to the temporary root directory path. The function
+ * `_checkIndex` then checks if the file specified by the constructed full path exists by attempting to
+ * open it for reading.
+ */
 void Parser::_checkIndex(std::string& dirValue) {
 	// delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
@@ -193,8 +216,14 @@ void Parser::_checkIndex(std::string& dirValue) {
 	}
 	close(fd);
 }
-
-
+/**
+ * The function `_checkMaxSize` in C++ parses a string representing a size value with optional units
+ * (K, M, G) and checks if it is within a specified range.
+ * 
+ * @param dirValue The code snippet you provided is a function named `_checkMaxSize` in a class called
+ * `Parser`. This function is responsible for parsing a string representing a size value with optional
+ * units (K, M, G) and performing various checks on the input.
+ */
 void Parser::_checkMaxSize(std::string& dirValue) {
 		// Remove the ending semicolon
 		this->_delEndSemiColon(dirValue);
@@ -249,11 +278,6 @@ void Parser::_checkMaxSize(std::string& dirValue) {
 		}
 
 		//long long doesn't exist in CPP98
-		// const long long max_size = 10LL * 1024 * 1024 * 1024; // 10G in bytes
-		// if (sizeValue > max_size) {
-		// 	throw std::runtime_error(ERR_MAX_SIZE_RANGE(dirValue));
-		// }
-
 		// Check that the size does not exceed 10G (= 5 * 2 GB)
 		const long max_chunk_size = 2L * 1024L * 1024L * 1024L; // 2 GB in bytes
 		const int num_chunks = 5;
@@ -261,10 +285,7 @@ void Parser::_checkMaxSize(std::string& dirValue) {
 			throw std::runtime_error(ERR_MAX_SIZE_RANGE(dirValue));
 		}
 
-
-		// std::cout << "Valid size: " << dirValue << " (in bytes: " << sizeValue << ")" << std::endl;
-
-		 // Convert the number to long 
+		// Convert the number to long 
 		dirValue = numberStr;
 	}
 
@@ -285,8 +306,7 @@ void Parser::_checkServerN(std::string& dirValue) {
 		if (dirValue.empty()) {
 			throw std::runtime_error(ERR_INVALID_SERVER_NAME(dirValue));
 		}
-		//DEBUG
-		// std::cout << "in checkServerN:: ici" << std::endl;
+	
 		for (size_t i = 0; i < dirValue.length(); ++i) {
 			char c = dirValue[i]; // Get the character at index i
 			// Check for valid characters
@@ -298,10 +318,11 @@ void Parser::_checkServerN(std::string& dirValue) {
 }
 
 /**
- * @brief This function checks if each values of the server's directive `error_page`lead to a existing and readable file.
- *
- * @param dirValue : the string containing the 
+ * The function `_checkErrorP` parses a string to extract values, validates them, and checks if the
+ * last value corresponds to a valid HTML file path.
+ * 
  */
+
 void Parser::_checkErrorP(std::string& dirValue) {
 	// delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
@@ -325,9 +346,9 @@ void Parser::_checkErrorP(std::string& dirValue) {
 
 	// Check all values except the last one
 	for (size_t i = 0; i < values.size() - 1; ++i) {
-	if (!this->_isNumber(values[i])) {
-		throw std::runtime_error("Error: Expected a number but got " + values[i]);
-	}
+		if (!this->_isNumber(values[i])) {
+			throw std::runtime_error("Error: Expected a number but got " + values[i]);
+		}
 	}
 
 	// The last value should be a valid HTML file path
@@ -348,5 +369,4 @@ void Parser::_checkErrorP(std::string& dirValue) {
 
 	// Close the file descriptor
 	close(fd);
-
 }

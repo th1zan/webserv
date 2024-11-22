@@ -10,14 +10,16 @@
 #include "defines.hpp"
 
 /**
- * @brief Constructs a Service object, sets up signal handling, and parses the configuration file.
- * @param argv '.conf' file.
- * @param argc 0 or 1.
+ * The Service constructor initializes signal handling and parses a configuration file to set up server
+ * information.
+ * @param argv The '.conf' file.
+ * @param argc values allowed: 0 or 1.
  */
+
 Service::Service(int argc, char **argv){
 	printInfo(START_MSG, GREEN);
 
-	 // Intercepts signals for socket handling and interruption.
+	// Intercepts signals for socket handling and interruption.
 	std::signal(SIGPIPE, SIG_IGN); // Ignore SIGPIPE errors for sockets.
 	std::signal(SIGINT, signalHandler);
 
@@ -29,11 +31,6 @@ Service::Service(int argc, char **argv){
 	//to make it simple at first, _nbPrimaryServers = 1
 	// this->_nbPrimaryServers = 1;
 	this->_nbPrimaryServers = this->_countPrimaryServers();
-	
-	//DEBUG
-	// std::cout << "in Service constructor:: this->_nbPrimaryServers: " << this->_nbPrimaryServers << std::endl;
-
-
 }
 
 /**
@@ -47,7 +44,7 @@ Service::~Service(){
 }
 
 /**
- * @brief function to count the the primary server in the _serversVector
+ * @brief function to count the umber of primary server in the _serversVector
  * A server with an existing host and port is NOT a primary server
  * 
  * @return size_t, quantity of primary servers
@@ -93,12 +90,3 @@ void Service::printServiceInfo(){
 	std::cout << std::endl;
 
 }
-//  * struct addrinfo {
-// 	int              ai_flags;      // options
-// 	int              ai_family;     // adress family (ipv4, ipv6) (AF_INET, AF_INET6, etc.)
-// 	int              ai_socktype;   // kind of socket (SOCK_STREAM, SOCK_DGRAM, etc.)
-// 	int              ai_protocol;   // protocol (IPPROTO_TCP, IPPROTO_UDP, etc.)
-// 	size_t           ai_addrlen;    // adress size
-// 	struct sockaddr *ai_addr;       // socket addr
-// 	char            *ai_canonname;  // canonical name
-// 	struct addrinfo *ai_next;       // pointer to the nex struct

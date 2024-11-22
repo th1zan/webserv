@@ -10,26 +10,24 @@
 #include "defines.hpp"
 
 /**
- * @brief Begins the main polling loop to handle client connections and server actions.
+ * The `launch` function continuously initializes and polls a list of sockets until a shutdown signal
+ * is received.
  */
 void Service::launch()
 {
-	printInfo(LAUNCH_MSG, BLUE);
-
 	while (g_shutdown == false)
 	{
-		
-		this->_initPollingVector(); //init the list (table) of polling sockets
-		
-		this->_pollingManager(); //loop on each socket of the list to check if there is a signal (something to read, send, error). Note: each Service (aka Server bloc) has a socket
-		
-		//DEBUG
-		// std::cout << "server is launched" << std::endl;
+		//init the list (table) of polling sockets
+		this->_initPollingVector();
+
+		//loop on each socket of the list to check if there is a signal (something to read, send, error). Note: each Service (aka Server bloc) has a socket
+		this->_pollingManager(); 
 	}
 }
 
 /**
- * @brief Initializes the polling vector by calling poll on the sockets.
+ * The function _initPollingVector() uses poll() to survey file descriptors without blocking the main
+ * process and throws an error if the poll operation fails.
  */
 void Service::_initPollingVector()
 {
@@ -39,7 +37,9 @@ void Service::_initPollingVector()
 }
 
 /**
- * @brief Manages polling events for each socket, handling client-server interactions.
+ * The function `_pollingManager` iterates through a vector of socket file descriptors, resets
+ * temporary service information, retrieves launch information, handles errors, and performs actions
+ * based on the socket mode (POLLIN or POLLOUT).
  */
 void Service::_pollingManager()
 {
@@ -48,10 +48,6 @@ void Service::_pollingManager()
 	{
 		this->_resetTmpServiceInfo();
 		this->_getLaunchInfo(i);
-
-		//DEBUG
-		// std::cout << "in : _pollingManager():: i: " << i << std::endl;
-
 
 		// Handle errors first
 		if (this->_hasBadRequest())
@@ -63,39 +59,35 @@ void Service::_pollingManager()
 			if (this->_isServerSocket()) // If SERVER's socket, accept connection
 			{
 				this->_acceptConnection();
-				// // DEBUG
-				std::cout << "accept connection" << std::endl;
 			}
 			else // If CLIENT's socket, read data
 			{
 				this->_readDataFromClient();
-				// DEBUG
-				// std::cout << "read data from client " << std::endl;
 			}
 		}
 		else if (this->_tmpServiceInfo.mode & POLLOUT) // Ready to send data (POLLOUT)
 		{
 			this->_sendDataToClient();
-
-			// DEBUGG
-			// std::cout << "read data from client " << std::endl;
-			// std::cout << "in '_readDataFromClient:: this->_tmpServiceInfo.clientID : " << this->_tmpServiceInfo.clientID << std::endl;
 		}
-		// DEBUG
-		// std::cout << "loop in polling manager" << std::endl;
 	}
 }
 
+
 /**
- * @brief Retrieves launch-specific information for each socket in the polling vector.
+ * @brief  @brief Retrieves launch-specific information for each socket in the polling vector.
+ * 
+ * For example: assigns a unique client ID to the socket based on its index in the polling vector.
+ * 
+ * The client ID is calculated by subtracting the number of primary servers (listening sockets)
+ * from the current index in the polling vector. This is because the first `nbPrimaryServers` 
+ * entries in the polling vector correspond to listening sockets, and the subsequent entries 
+ * represent client connections. Therefore, the client IDs start after the primary servers' 
+ * indices and provide a zero-based index for client connections.
+ * 
  * @param i Index of the socket in the polling vector.
  */
 void Service::_getLaunchInfo(int const i)
 {
-	//DEBUG
-	// std::cout << "in : _getLaunchInfo():: i: " << i << std::endl;
-	// std::cout << "in : _getLaunchInfo():: this->_nbPrimaryServers: " << this->_nbPrimaryServers << std::endl;
-
 	this->_tmpServiceInfo.pollID = i;
 	this->_tmpServiceInfo.clientID = i - this->_nbPrimaryServers;
 	this->_tmpServiceInfo.listeningSocketFd = this->_pollingFdVector.at(i).fd;
@@ -110,7 +102,6 @@ void Service::_getLaunchInfo(int const i)
  */
 bool Service::_isServerSocket()
 {
-
 	//the socket can be a server or a client socket. We compare the socket to the server's list sockets to know if it's a server or a client
 	std::vector<Server>::iterator server = this->_serversVector.begin();
 	for (; server != this->_serversVector.end(); server++)
@@ -122,62 +113,53 @@ bool Service::_isServerSocket()
 }
 
 /**
- * @brief Accepts a new client connection on the server socket.
+ * The `_acceptConnection` function accepts a new connection on the server side, creates a new
+ * socket for the client, sets it to non-blocking mode, and adds the client to a vector of clients
+ * associated with the server.
  */
 void Service::_acceptConnection()
 {
-	//accept() a connection on the server side means create a new connectionSocketFd for the client .
-	//accept() return a new file descriptor
-	//The (listening) socket is still waiting (listening) for new client's connexion
+	/*
+		- accept() a connection on the server side means create a new connectionSocketFd for the client .
+		- accept() return a new file descriptor
+		The (listening) socket is still waiting (listening) for new client's connexion
+	*/
 
 	this->_tmpServiceInfo.connectionSocketFd = accept(this->_tmpServiceInfo.listeningSocketFd, NULL, NULL);
 
 	if (this->_tmpServiceInfo.connectionSocketFd < 0)
 		throw std::runtime_error(ERR_ACCEPT_SOCKET);
 	
-	fcntl(this->_tmpServiceInfo.connectionSocketFd, F_SETFL, O_NONBLOCK);	// fctnl() can set socket to non-blocking
+	// fctnl() can set socket to non-blocking
+	fcntl(this->_tmpServiceInfo.connectionSocketFd, F_SETFL, O_NONBLOCK);
 	
 	//push a new (instance of) Client "linked" to the server (with the serverID and the socket fd) in the Client vector
 	this->_clientVector.push_back(Client(this->_serversVector.at(this->_tmpServiceInfo.serverID), this->_tmpServiceInfo.connectionSocketFd));
 
-	this->_addSocketToPollSockVec(); //update the list of socket with the first client
+	//update the list of socket with the first client
+	this->_addSocketToPollSockVec();
 }
 
 /**
- * @brief Reads data from a client socket into the buffer.
+ * The function `_readDataFromClient` reads data from a client socket into the buffer and appends it to a vector, with
+ * an option to close the connection if no data is received.
  */
 void Service::_readDataFromClient()
 {
-	
-	// DEBUGG
-	// std::cout << "in '_readDataFromClient:: this->_tmpServiceInfo.listeningSocketFd : " << this->_tmpServiceInfo.listeningSocketFd << std::endl;
-	// printServiceInfo();
-
 	char	buffer[BUFFER_SIZE] = {0};
+
 	//the buffer is filled with the content passing to the listeningSocketFd then the content is "read" with recv()
 	int		bytes = recv(this->_tmpServiceInfo.listeningSocketFd, buffer, BUFFER_SIZE, 0);
-
-		// DEBUGG
-		// std::cout << "in '_readDataFromClient:: buffer : " << std::endl << buffer << std::endl;
-		// std::cout << "in '_readDataFromClient:: bytes : " << bytes << std::endl;
-
-
-	//
 	
 	if (bytes > 0){
-		// DEBUGG
-		// std::cout << "in '_readDataFromClient:: this->_tmpServiceInfo.clientID : " << this->_tmpServiceInfo.clientID << std::endl;
-
-
 		this->_clientVector.at(this->_tmpServiceInfo.clientID).appendRequest(buffer, bytes);
 
-		// DEBUGG
+		// DEBUGG: read the request
 		std::cout << "in '_readDataFromClient:: buffer : " << buffer << std::endl;
 	}
 	else
 		this->_closeConnection(EMPTY_MSG);
 }
-
 
 /**
  * @brief Checks if there is a polling error or if the socket is disconnected.
@@ -231,10 +213,21 @@ void Service::_sendDataToClient()
 }
 
 /**
- * @brief Check if the Server asked by the client `requestedHost`in its HTTP request exists in serversVector.
- * 1) Extract the `host` (domain name or IP adress) from the client HTTP request
- * 2) Compare the Client requested host to the name's directive (NOT the `host` directive) of the server associated with this client by default.
- * 3) If not, 
+ * @brief Validates the server requested by the client in its HTTP request and ensures it is correctly associated.
+ *
+ * This function checks if the server specified in the client's HTTP request (`Host` header) exists
+ * within the available servers. It performs the following steps:
+ *
+ * 1. Extracts the `Host` (domain name or IP address) from the client's HTTP request.
+ * 2. Removes any port number appended to the host, if present.
+ * 3. Compares the extracted host with the names of the default server associated with the client.
+ *    - If the requested host matches one of the default server's names, the function exits as no change is needed.
+ * 4. If the host does not match the default server, iterates over all servers in `_serversVector` to find
+ *    a matching server name.
+ *    - If a match is found, updates the client's associated server to the matching server.
+ * 5. If no matching server is found, the client's association remains unchanged.
+ * 
+ * This ensures that the client is connected to the correct server based on the host specified in their request.
  */
 void Service::_checkRequestedServer()
 {
@@ -264,23 +257,13 @@ void Service::_checkRequestedServer()
 	// Get the server associated with the client by default
 	Server defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
 
-	// DEBUG
+	//Find if the requested host from the HTTP request corresponds to one of the server's names
 	std::vector<std::string> serverNames = defaultServer.getServerNameVector();
 	if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
-		// DEBUG
-		// std::cout << "in '_checkRequestedServer':: VALID client's default host: '"
-		// 		  << requestedHost << "' is found in default server's names." << std::endl;
-		
 		return; // Already using the correct server, exit
 	}
-	// else {
-	// 	std::cout << "Requested host '" << requestedHost << "' not found in default server's names." << std::endl;
-	// }
 
-	// DEBUG
-	// std::cout << "in '_checkRequestedServer':: UPDATE the client's server: " << requestedHost << std::endl;
-
-	// Loop on each server in the `_serversVector`
+	// If it does not correspond, loop on each server in the `_serversVector` to find the correct server's name
 	std::vector<Server>::iterator itServer = this->_serversVector.begin();
 	for (; itServer != this->_serversVector.end(); ++itServer) {
 		Server tmp = *itServer;
@@ -288,25 +271,11 @@ void Service::_checkRequestedServer()
 		// Store the server names in a local variable
 		std::vector<std::string> serverNames = tmp.getServerNameVector();
 
-		// DEBUG
-		// std::cout << "Checking server current server names: ";
-		// for (std::vector<std::string>::const_iterator nameIt = serverNames.begin();
-		// 	 nameIt != serverNames.end(); ++nameIt) {
-		// 	std::cout << "'" << *nameIt << "' ";
-		// }
-		// std::cout << std::endl;
-
 		if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
-			
 			_clientVector.at(_tmpServiceInfo.clientID).changeServer(*itServer);
-
-			// DEBUG
-			// std::cout << "FOUND a matching server for the requested host: '" << requestedHost << "'" << std::endl;
 			return;
 		}
 	}
-	// DEBUG
-	// std::cout << "No matching server found for the requested host: '" << requestedHost << "'" << std::endl;
 }
 
 /**
@@ -321,24 +290,25 @@ void Service::_closeConnection(std::string const &msg)
 		printInfo(msg, RED);
 }
 
-
 /**
- * @brief Retrieves the server index for the current socket.
- * @return Server index as integer.
- */
+ * @brief Determines the index of the server associated with the current socket in the servers vector.
+ *
+ * This function iterates through the `_serversVector` to find the server whose listening socket
+ * matches the socket file descriptor stored in `_tmpServiceInfo.listeningSocketFd`. The index of
+ * this server in the vector is returned.
+ *
+ * @return The index of the matching server within the `_serversVector` as an integer. Returns 0 if no match is found.
+ *
+ * @note This function assumes that each server has a unique listening socket, and it is used
+ * to identify servers in contexts where multiple servers are managed by the service.
+ */	
 int Service::_getServerIndex()
 {
 	//get un SERVER index for for each SERVER serviceInfo. There is a CLIENT index for CLIENT Service Info.
 	//To know if the ServiceInfo is a SERVER, we compare its socket to the socket in ServersVector.
 	std::vector<Server>::iterator server = this->_serversVector.begin();
-	// std::cout << "in '_getServerIndex':: COUCOU "  << std::endl;
 	for (; server != this->_serversVector.end(); server++)
 	{
-		// DEBUGG
-			// std::cout << "in '_getServerIndex':: server->getSocket() : " << server->getSocket() << std::endl;
-			// std::cout << "in '_getServerIndex':: this->_tmpServiceInfo.listeningSocketFd : " << this->_tmpServiceInfo.listeningSocketFd << std::endl;
-			// std::cout << "in '_getServerIndex'::static_cast<int>(server - this->_serversVector.begin()); : " << static_cast<int>(server - this->_serversVector.begin()) << std::endl;
-		
 		if (server->getSocket() == this->_tmpServiceInfo.listeningSocketFd){
 			
 			return static_cast<int>(server - this->_serversVector.begin());
