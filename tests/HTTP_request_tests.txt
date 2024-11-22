@@ -17,43 +17,43 @@ curl -v -X POST http://localhost:8080/upload/testfile.txt -d ""
 # Valid POST with small payload
 curl -v -X POST http://localhost:8080/upload/testfile.txt -d "test=data"
 
-# Valid POST with file upload
+# Valid POST with file upload -KO
 curl -v -X POST http://localhost:8080/upload/testfile.txt --data-binary @testfile.txt
 
 # Invalid POST with missing Content-Length
 curl -v -X POST http://localhost:8080/upload/testfile.txt -H "Content-Length: "
 
-# Invalid POST with payload exceeding max body size
-dd if=/dev/zero of=largefile.txt bs=1 count=11000
+# Invalid POST with payload exceeding max body size - OK - 413 Payload Too Large
+dd if=/dev/zero of=largefile.txt bs=1 count=11000000
 curl -v -X POST http://localhost:8080/upload/largefile.txt --data-binary @largefile.txt
 
 
-# Valid DELETE request for existing file
+# Valid DELETE request for existing file - OK File Deleted
 curl -v -X DELETE http://localhost:8080/upload/testfile.txt
 
 # Invalid DELETE request for nonexistent file
-curl -v -X DELETE http://localhost:8080/upload/nonexistentfile.txt
+curl -v -X DELETE http://localhost:8080/upload/nonexistentfile.txt - OK 404 Not Found
 
-# Invalid DELETE request to root (not allowed)
+# Invalid DELETE request to root (not allowed) -OK 403 Forbidden
 curl -v -X DELETE http://localhost:8080/
 
 
-# Invalid URL characters
+# Invalid URL characters - OK 400 Bad Request: Invalid Character in URL
 curl -v -X GET "http://localhost:8080/invalid|char"
 
-# Missing required headers (e.g., Host)
+# Missing required headers (e.g., Host)  - KO HTTP/1.1 200 OK
 curl -v --http1.1 --header "" http://localhost:8080/
 
-# Invalid HTTP method
+# Invalid HTTP method - OK 501 Not Implemented
 curl -v -X INVALID http://localhost:8080/
 
 
-Valid HTTP version
+Valid HTTP version - OK 
 curl -X GET "http://localhost:8080/" --http1.1
 Output -> index.html code
 
-Invalid HTTP version
-curl -X GET "http://localhost:8080/" --http1.0
+Invalid HTTP version - OK 505 HTTP Version Not Supported: Use HTTP/1.1
+curl -X GET "http://localhost:8080/" --http1.0 
 curl -v --http1.0 http://localhost:8080/
 
 Output
@@ -66,12 +66,12 @@ curl -v -X POST http://localhost:8080/upload/testfile.txt \
 -H "Content-Type: text/plain" \
 --data-binary "This is a simple plain text content."
 
-
+OK 
 curl -v -X POST http://localhost:8080/upload/sample.png \
 -H "Content-Type: image/png" \
 --data-binary @webSites/main/42.png
 
-
+OK
 curl -v -X POST http://localhost:8080/upload/data.json \
 -H "Content-Type: application/json" \
 --data-binary '{"key": "value", "number": 42}'
@@ -133,7 +133,7 @@ output
 
 Edge Cases
 
-	1.	Empty Payload
+	1.	Empty Payload  - OK 
 
 curl -v -X POST http://localhost:8080/upload/empty_file.txt \
 -H "Content-Type: text/plain" \
@@ -147,7 +147,7 @@ output
 * Connection #0 to host localhost left intact
 File uploaded successfully%  
 
-2.	Empty File in Multipart
+2.	Empty File in Multipart - OK 
 curl -v -X POST http://localhost:8080/upload/empty_multipart_file.txt \
 -H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundary" \
 --data-binary $'------WebKitFormBoundary\r\nContent-Disposition: form-data; name="file"; filename="empty_file.txt"\r\nContent-Type: text/plain\r\n\r\n\r\n------WebKitFormBoundary--'
@@ -160,7 +160,7 @@ output
 Multipart file uploaded successfully%   
 
 
-3.	Filename with Special Characters
+3.	Filename with Special Characters - OK
 
 curl -v -X POST http://localhost:8080/upload/special_@_#_$.txt \
 -H "Content-Type: text/plain" \
@@ -174,7 +174,7 @@ Output > Content-Type: text/plain
 * Connection #0 to host localhost left intact
 File uploaded successfully%   
 
-	4.	Unsupported Content-Type
+	4.	Unsupported Content-Type - OK
 
 curl -v -X POST http://localhost:8080/upload/unsupported_file.type \
 -H "Content-Type: application/x-unsupported" \
@@ -186,6 +186,11 @@ output
 < 
 * Connection #0 to host localhost left intact
 <html><body><h1>415 Unsupported Media Type</h1></body></html>%
+
+
+redirect 
+The server should respond with a 301 Moved Permanently or 302 Found status code
+curl -v http://localhost:8080/redirect
 
 
 Integration Tests
