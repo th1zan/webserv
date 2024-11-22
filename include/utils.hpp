@@ -23,4 +23,8 @@ void printInfo(std::string const &s, std::string const &color);
 /*=== Missing c++98 fucntions ===*/
 long ft_stoll(const std::string& str);
 
+/* === Janneta's utils functions HTTP parsing === */ 
+void stringTrim(std::string &str); 
+// bool startsWith(const std::string& str, const std::string& prefix); // not used so far in current version
+
 #endif

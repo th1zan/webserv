@@ -1,16 +1,16 @@
 #include "Client.hpp"
 
 // // Handle client request
-// void Client::handleClientRequest() { /* ... */ }
+// void Client::handleClientRequest()
 
 // // Validate request
-// bool Client::_checkRequest() { /* ... */ }
-// bool Client::_checkFirstLine(std::stringstream &ss) { /* ... */ }
-// bool Client::_checkAndGetHeaders(std::stringstream &ss) { /* ... */ }
-// bool Client::_checkAndGetPayload(std::stringstream &ss) { /* ... */ }
+// bool Client::_checkRequest()
+// bool Client::_checkFirstLine(std::stringstream &ss)
+// bool Client::_checkAndGetHeaders(std::stringstream &ss)
+// bool Client::_checkAndGetPayload(std::stringstream &ss)
 
 // // Validate URL
-// bool Client::isUrlValid(const std::string &url) const { /* ... */ }
+// bool Client::isUrlValid(const std::string &url) const 
 
 
 // Handle client request
@@ -158,6 +158,15 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
     //     sendErrorResponse(400, "Bad Request: Empty Host Header");
     //     return false;
     // }
+    // Validate Content-Type (for POST requests - optional check, can be removed later)
+    if (_method == "POST")
+    {
+        if (_headers.find("Content-Type") == _headers.end())
+        {
+            sendErrorResponse(400, "Bad Request: Missing Content-Type Header");
+            return false;
+        }
+    }
     return true;
 }
 

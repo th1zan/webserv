@@ -44,22 +44,133 @@ void Client::handleGetRequest(const std::string& path)
 
 // Handle POST requests
 //TODO Add a check for allowed file extensions(?)
-void Client::handlePostRequest(const std::string &path)
-{
-    std::string uploadDirectory = _server.getRoot() + "/upload/";
-    std::string fileName = path.substr(path.find_last_of('/') + 1);
+//TODO parse multipart/form-data requests
 
-    // Check if a filename is provided in the path
-    if (fileName.empty())
+void Client::handlePostRequest(const std::string &path)
+ {
+    // Retrieve location configuration for this request
+    location_t locationConfig = _server.getLocationConfig(path);
+    std::cout << "Path: " << path << ", Has CGI: " << locationConfig.hasCGI 
+          << ", CGI Extension: " << locationConfig.cgiExtension << std::endl;
+    
+    // Check if the path is a CGI script
+    if (locationConfig.hasCGI && path.find(locationConfig.cgiExtension) != std::string::npos)
     {
-        sendErrorResponse(400, "Bad Request: No file name provided");
+        std::cout << "Executing CGI script: " << path << std::endl;
+        executeCgi(locationConfig.cgiPath, path); // Placeholder for actual CGI execution
+        return;
+    }
+    else
+        std::cout << "Not a CGI script" << std::endl;
+
+    // Validate Content-Type header
+    std::map<std::string, std::string>::iterator it = _headers.find("Content-Type");
+    std::string contentType;
+    if (it == _headers.end()) // Fallback to text/plain if Content-Type is missing
+        contentType = "text/plain";
+    else
+    {
+        contentType = it->second;
+        stringTrim(contentType); // Trim whitespace
+    }
+    // degug to remove
+    std::cout << "Normalized Content-Type: " << contentType << std::endl;
+    // Handle multipart form data
+    if (contentType.find("multipart/form-data") != std::string::npos)
+    {
+        size_t boundaryPos = contentType.find("boundary=");
+        if (boundaryPos == std::string::npos)
+        {
+            sendErrorResponse(400, "Missing boundary parameter in Content-Type");
+            return;
+        }
+        std::string boundary = contentType.substr(boundaryPos + 9); // Skip "boundary="
+        handleMultipartFormData(path, boundary);
+    } 
+    // Handle plain text, JSON or x-www-form-urlencoded payloads (if we handle them)
+    else if (contentType == "text/plain" || contentType == "application/json" || contentType == "application/x-www-form-urlencoded" || 
+            contentType == "image/png" || contentType == "image/jpeg" || contentType == "image/gif" ||
+            contentType == "pdf") // we can add more supported content types
+    {
+        uploadFile(path);
+        std::cout << "Handling Content-Type: " << contentType << " for path: " << path << std::endl;
+    }
+    // Unsupported Content-Type
+    else
+        sendErrorResponse(415, "Unsupported Media Type");
+}
+
+// Handle multipart form data
+void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
+{
+    // Derive the upload directory and file path
+    std::string uploadDirectory = _server.getRoot() + "/upload/";
+    std::string fileName = path.substr(path.find_last_of('/') + 1); // Use the path to get the file name
+
+    if (fileName.empty())
+        fileName = "uploaded_file"; // Fallback to default name
+    std::string filePath = uploadDirectory + fileName;
+
+    size_t boundaryStart = _requestPayload.find("--" + boundary);
+    if (boundaryStart == std::string::npos)
+    {
+        sendErrorResponse(400, "Invalid multipart body");
         return;
     }
 
-    // Construct the full file path
+    size_t contentStart = _requestPayload.find("\r\n\r\n", boundaryStart) + 4; // Skip to content
+    size_t contentEnd = _requestPayload.find("\r\n--" + boundary, contentStart);
+    if (contentStart == std::string::npos || contentEnd == std::string::npos)
+    {
+        sendErrorResponse(400, "Malformed multipart section");
+        return;
+    }
+    std::string fileContent = _requestPayload.substr(contentStart, contentEnd - contentStart);
+// Save file content
+    std::ofstream outFile(filePath.c_str(), std::ios::binary);
+    if (!outFile.is_open())
+    {
+        sendErrorResponse(500, "Internal Server Error: Unable to open file for writing");
+        return;
+    }
+    outFile.write(fileContent.c_str(), fileContent.size());
+    outFile.close();
+
+    sendResponse(200, "OK", "Multipart file uploaded successfully");
+}
+
+// Upload a file to the server
+void Client::uploadFile(const std::string &path)
+{
+    // Retrieve location configuration
+    location_t locationConfig = _server.getLocationConfig(path);
+    
+    // Debugging to ensure `uploadTo` is used
+    std::cout << "Using uploadTo: " << locationConfig.uploadTo << std::endl;
+
+        // Determine upload directory
+    std::string uploadDirectory = _server.getRoot();
+    if (!locationConfig.uploadTo.empty())
+    {
+        if (locationConfig.uploadTo.front() != '/')
+            uploadDirectory += "/";
+        uploadDirectory += locationConfig.uploadTo;
+    }
+
+    // Ensure the upload directory ends with a '/'
+    if (uploadDirectory.back() != '/')
+        uploadDirectory += "/";
+
+    // Derive the full file path
+    std::string fileName = path.substr(path.find_last_of('/') + 1);
+    if (fileName.empty())
+        fileName = "default_upload.txt"; // Default name
     std::string filePath = uploadDirectory + fileName;
 
-    // Try uploading the file
+    // Debugging resolved path
+    std::cout << "Resolved upload path: " << filePath << std::endl;
+
+    // Open a file to write the payload
     std::ofstream outFile(filePath.c_str(), std::ios::binary);
     if (!outFile.is_open())
     {
@@ -67,28 +178,7 @@ void Client::handlePostRequest(const std::string &path)
         return;
     }
 
-    // Write the payload to the file
-    outFile.write(_requestPayload.c_str(), _requestPayload.size());
-    outFile.close();
-
-    // Send a success response
-    sendResponse(200, "OK", "File uploaded successfully");
-}
-
-void Client::uploadFile(const std::string &path)
-{
-    // Derive the file path directly in the upload directory
-    std::string filePath = _server.getRoot() + path;
-
-    // Open a file to write the payload
-    std::ofstream outFile(filePath.c_str(), std::ios::binary);
-    if (!outFile.is_open())
-    {
-        sendErrorResponse(500, "Internal Server Error");
-        return;
-    }
-
-    // Write the request payload to the file
+    // Write the request payload to the file 
     outFile.write(_requestPayload.c_str(), _requestPayload.size());
     outFile.close();
 

@@ -110,6 +110,12 @@ void Server::_getLocationStruct() {
 
 		if (itMap->find("hasCGI") != itMap->end()) {
 			tmpLoc.hasCGI = (itMap->find("hasCGI")->second == "true");
+			// Debug to ensure hasCGI is parsed correctly (Jannetta) - to remove later
+			std::cout << "Assigning hasCgi: " << tmpLoc.hasCGI << " for location " << itMap->find("location")->second << std::endl;
+			std::cout << "Location: " << itMap->find("location")->second
+			<< ", Has CGI: " << tmpLoc.hasCGI
+			<< ", CGI Path: " << tmpLoc.cgiPath
+			<< ", CGI Extension: " << tmpLoc.cgiExtension << std::endl;
 		}
 
 		if (itMap->find("cgi_path") != itMap->end())
@@ -119,8 +125,13 @@ void Server::_getLocationStruct() {
 			tmpLoc.cgiExtension = itMap->find("cgi_ext")->second;
 
 		if (itMap->find("upload_to") != itMap->end())
+		{
 			tmpLoc.uploadTo = itMap->find("upload_to")->second;
+			// Debug to ensure upload_to is parsed correctly
+    		std::cout << "Parsed upload_to: " << tmpLoc.uploadTo << " for location: " << itMap->find("location")->second << std::endl;
+		}
 
+        this->_LocationMap[itMap->find("location")->second] = tmpLoc;
 		this->_LocationMap[itMap->find("location")->second]=(tmpLoc);
 
 		// DEBUG
@@ -143,6 +154,31 @@ size_t				Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
 
 // Jannetta - added getter for location map
 const std::map<std::string, location_t>& Server::getLocations() const{return this->_LocationMap;}
+
+location_t Server::getLocationConfig(const std::string &path) const
+{
+    const std::map<std::string, location_t> &locations = getLocations();
+    const location_t *matchedLocation = NULL;
+    size_t matchedPrefixLength = 0;
+
+    for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
+	{
+        if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength)
+		{
+            matchedLocation = &(it->second);
+            matchedPrefixLength = it->first.length();
+        }
+    }
+
+    if (matchedLocation)
+	{
+        // Debugging to ensure the correct location is matched
+        std::cout << "Matched location: " << matchedPrefixLength << ", uploadTo: " << matchedLocation->uploadTo << std::endl;
+        return *matchedLocation;
+    }
+
+    throw std::runtime_error("No matching location found for path: " + path);
+}
 
 void Server::createSocket()
 {
@@ -190,6 +226,14 @@ void Server::printServers() {
 			std::cout << "  CGI Path: " << tmploc.cgiPath << std::endl;
 			std::cout << "  CGI Extension: " << tmploc.cgiExtension << std::endl;
 			std::cout << "  Upload To: " << tmploc.uploadTo << std::endl;
+			
+			// Jannetta's DEBUG - to delete later
+			// Debug for location information
+        	std::cout << "Location Name: " << locIt->first
+                  << ", Has CGI: " << (tmploc.hasCGI ? "Yes" : "No")
+                  << ", CGI Path: " << tmploc.cgiPath
+                  << ", CGI Extension: " << tmploc.cgiExtension << std::endl;
+
 
 			std::cout << "  Methods: ";
 			for (std::vector<std::string>::const_iterator methodIt = tmploc.methods.begin(); methodIt != tmploc.methods.end(); ++methodIt) {

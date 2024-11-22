@@ -87,7 +87,8 @@ class Server{
 			const std::string&				getErrorResponse() const;
 			size_t							getClientMaxBodySize() const;
 			const std::map<std::string, location_t>& getLocations() const;  // Jannetta's function
-
+			location_t getLocationConfig(const std::string &path) const; // Jannetta's function
+			
 			//utils
 			void 							printServers();
 			void 							printLocation(location_t loc);

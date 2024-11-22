@@ -257,7 +257,7 @@ void Parser::_checkCgiP(std::string& dirValue) {
 	}
 
 	struct dirent* entry;
-	// bool hasCgi = false; //not used for now
+	bool hasCgi = false; //not used for now // Jannetta put it back to test cgi
 
 	// loop to list the files in the directory and check CGI
 	while ((entry = readdir(dir)) != NULL) {
@@ -269,18 +269,34 @@ void Parser::_checkCgiP(std::string& dirValue) {
 		// get the filePath
 		std::string filePath = fullPath + "/" + entry->d_name;
 		struct stat fileInfo;
-
+		
+        std::cout << "Checking file: " << filePath << std::endl; // Jannetta's DEBUG - to detele later
 		// Get info
 		if (stat(filePath.c_str(), &fileInfo) == 0) {
 			// check if the file is regular (not a directory and not a link/alias) AND executable
 			if ((fileInfo.st_mode & S_IFREG) && (fileInfo.st_mode & S_IXUSR)) {
+				hasCgi = true;
 				this->_tempLocationConfigMap["hasCgi"] = "true";
+                std::cout << "Set hasCgi to true for location." << std::endl; // Debug: Confirm detection Jannetta's DEBUG - to detele later
 				break;
 			}
-		}
+			else
+			{
+                // Debug: Explain why a file was skipped
+                std::cout << "Skipped file: " << filePath 
+                          << " (isRegular: " << ((fileInfo.st_mode & S_IFREG) != 0)
+                          << ", isExecutable: " << ((fileInfo.st_mode & S_IXUSR) != 0)
+                          << ")" << std::endl;
+            }
+        } 
+		else
+		{
+            std::cerr << "Error checking file: " << filePath << std::endl;
+        }
+		
 	}
 	closedir(dir);
-
+	std::cout << "CGI Check: " << (hasCgi ? "Found CGI" : "No CGI") << " in " << dirValue << std::endl; // Jannetta's DEBUG - to detele later
 }
 
 void Parser::_checkCgiE(std::string& dirValue) {

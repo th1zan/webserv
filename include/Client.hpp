@@ -39,6 +39,8 @@ class Client
 		void		handlePostRequest(const std::string& path); ///< Handles POST requests.
 		void		handleDeleteRequest(const std::string& path); ///< Handles DELETE requests.
 		
+		void		handleMultipartFormData(const std::string &path, const std::string &boundary);
+		
 		void		sendResponse(int statusCode, const std::string& statusMessage, const std::string& body); ///< Sends HTTP response
 		void		sendRedirectResponse(int statusCode, const std::string &location); ///< Sends HTTP redirect response
 		void		sendErrorResponse(int statusCode, const std::string& statusMessage); ///< Sends HTTP error response

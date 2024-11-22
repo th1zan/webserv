@@ -58,3 +58,185 @@ curl -v --http1.0 http://localhost:8080/
 
 Output
 <html><body><h1>505 HTTP Version Not Supported</h1></body></html>
+
+
+POST
+
+curl -v -X POST http://localhost:8080/upload/testfile.txt \
+-H "Content-Type: text/plain" \
+--data-binary "This is a simple plain text content."
+
+
+curl -v -X POST http://localhost:8080/upload/sample.png \
+-H "Content-Type: image/png" \
+--data-binary @webSites/main/42.png
+
+
+curl -v -X POST http://localhost:8080/upload/data.json \
+-H "Content-Type: application/json" \
+--data-binary '{"key": "value", "number": 42}'
+
+
+Single File Multipart Upload
+curl -v -X POST http://localhost:8080/upload/single_file.txt \
+-H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundary" \
+--data-binary $'------WebKitFormBoundary\r\nContent-Disposition: form-data; name="file"; filename="single_file.txt"\r\nContent-Type: text/plain\r\n\r\nSingle file content.\r\n------WebKitFormBoundary--'
+
+Output:
+> Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+> Content-Length: 175
+> 
+< HTTP/1.1 200 OK
+< Content-Length: 36
+< 
+* Connection #0 to host localhost left intact
+Multipart file uploaded successfully%  
+
+	Multiple Files in Multipart
+
+curl -v -X POST http://localhost:8080/upload/multiple_files \
+-H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundary" \
+--data-binary $'------WebKitFormBoundary\r\nContent-Disposition: form-data; name="file1"; filename="file1.txt"\r\nContent-Type: text/plain\r\n\r\nContent of file 1.\r\n------WebKitFormBoundary\r\nContent-Disposition: form-data; name="file2"; filename="file2.json"\r\nContent-Type: application/json\r\n\r\n{"key": "value"}\r\n------WebKitFormBoundary--'
+
+Error Cases
+Missing Content-Type - KO
+curl -v -X POST http://localhost:8080/upload/missing_content_type.txt \
+--data-binary "Missing Content-Type header."
+output 
+> Content-Type: application/x-www-form-urlencoded
+> 
+< HTTP/1.1 200 OK
+< Content-Length: 26
+< 
+* Connection #0 to host localhost left intact
+File uploaded successfully%
+
+2.	Missing Payload - OK
+curl -v -X POST http://localhost:8080/upload/no_payload.txt \
+-H "Content-Type: text/plain"
+Output 
+* Excess found writing body: excess = 146, size = 54, maxdownload = 54, bytecount = 54
+* Closing connection
+<html><body><h1>411 Length Required</h1></body></html>%    
+
+3. Invalid Boundary in Multipart  - OK
+curl -v -X POST http://localhost:8080/upload/invalid_boundary.txt \
+-H "Content-Type: multipart/form-data; boundary=INVALIDBOUNDARY" \
+--data-binary $'------INVALIDBOUNDARY\r\nContent-Disposition: form-data; name="file"; filename="test.txt"\r\nContent-Type: text/plain\r\n\r\nInvalid boundary content.\r\n------INVALIDBOUNDARY--'
+output 
+< HTTP/1.1 400 Malformed multipart section
+< Content-Length: 66
+< 
+* Connection #0 to host localhost left intact
+<html><body><h1>400 Malformed multipart section</h1></body></html>%       
+
+
+Edge Cases
+
+	1.	Empty Payload
+
+curl -v -X POST http://localhost:8080/upload/empty_file.txt \
+-H "Content-Type: text/plain" \
+--data-binary ""	
+output 
+> Content-Length: 0
+> 
+< HTTP/1.1 200 OK
+< Content-Length: 26
+< 
+* Connection #0 to host localhost left intact
+File uploaded successfully%  
+
+2.	Empty File in Multipart
+curl -v -X POST http://localhost:8080/upload/empty_multipart_file.txt \
+-H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundary" \
+--data-binary $'------WebKitFormBoundary\r\nContent-Disposition: form-data; name="file"; filename="empty_file.txt"\r\nContent-Type: text/plain\r\n\r\n\r\n------WebKitFormBoundary--'
+
+output
+< HTTP/1.1 200 OK
+< Content-Length: 36
+< 
+* Connection #0 to host localhost left intact
+Multipart file uploaded successfully%   
+
+
+3.	Filename with Special Characters
+
+curl -v -X POST http://localhost:8080/upload/special_@_#_$.txt \
+-H "Content-Type: text/plain" \
+--data-binary "File with special characters in the filename."
+Output > Content-Type: text/plain
+> Content-Length: 45
+> 
+< HTTP/1.1 200 OK
+< Content-Length: 26
+< 
+* Connection #0 to host localhost left intact
+File uploaded successfully%   
+
+	4.	Unsupported Content-Type
+
+curl -v -X POST http://localhost:8080/upload/unsupported_file.type \
+-H "Content-Type: application/x-unsupported" \
+--data-binary "Content with unsupported Content-Type."
+
+output 
+< HTTP/1.1 415 Unsupported Media Type
+< Content-Length: 61
+< 
+* Connection #0 to host localhost left intact
+<html><body><h1>415 Unsupported Media Type</h1></body></html>%
+
+
+Integration Tests
+
+	1.	File Upload Followed by Retrieval (GET)
+
+curl -v -X POST http://localhost:8080/upload/file_to_get.txt \
+-H "Content-Type: text/plain" \
+--data-binary "This file will be retrieved via GET."
+
+curl -v http://localhost:8080/upload/file_to_get.txt
+
+curl -X POST http://localhost:8080/upload/file_to_get.txt \
+-H "Content-Type: text/plain" \
+--data-binary "This file will be retrieved via GET."
+
+curl http://localhost:8080/upload/file_to_get.txt 
+Output
+File uploaded successfullyThis file will be retrieved via GET.
+
+	2.	Delete Uploaded File
+curl -v -X POST http://localhost:8080/upload/to_be_deleted.txt \
+-H "Content-Type: text/plain" \
+--data-binary "This file will be deleted."
+
+curl -v -X DELETE http://localhost:8080/upload/to_be_deleted.txt
+
+
+ curl -X POST http://localhost:8080/upload/to_be_deleted.txt \ 
+-H "Content-Type: text/plain" \
+--data-binary "This file will be deleted."
+
+curl -X DELETE http://localhost:8080/upload/to_be_deleted.txt 
+File uploaded successfullyFile Deleted%   
+
+
+works:
+ curl -v -X POST http://localhost:8080/upload/subject.pdf \
+-H "Content-Type: pdf" \
+--data-binary @en.subject_webserv.pdf -H "Expect:"
+
+doesnt work:
+curl -v -X POST http://localhost:8080/upload/sunject.pdf \
+-H "Content-Type: pdf" \      
+--data-binary @en.subject_webserv.pdf
+
+Current output - need to fix?:
+HTTP/1.1 413 Payload Too Large
+< Content-Length: 56
+* HTTP error before end of send, stop sending
+< 
+* Closing connection
+<html><body><h1>413 Payload Too Large</h1></body></html>%
+
