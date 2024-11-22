@@ -5,6 +5,7 @@
 ignore/
 docs/html
 docs/latex
+docs/docs
 .vscode/
 
 # Prerequisites
