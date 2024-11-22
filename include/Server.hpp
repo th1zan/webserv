@@ -59,7 +59,6 @@ class Server{
 			void								_fillServerNameVector(std::string& serverNames);
 			void								_fillErrorPageMap();
 
-			//Servers
 			// std::vector<Server>								_serversVector;
 			std::map<std::string, std::string>					_ServerConfigMap;
 
@@ -73,7 +72,6 @@ class Server{
 			Server(std::vector<Server>&	_serversVector, std::map<std::string, std::string> tempServerConfigMap, std::vector<std::map<std::string, std::string> > tempLocationMapVector);
 			~Server();
 			void	createSocket();
-
 
 			//getters
 			bool							getIsPrimary();
@@ -90,8 +88,6 @@ class Server{
 			//utils
 			void 							printServers();
 			void 							printLocation(location_t loc);
-
-		///verifier que les noms de servers ne sont pas les memes !
 
 };
 

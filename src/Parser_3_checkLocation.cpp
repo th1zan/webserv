@@ -5,32 +5,31 @@
 
 #include "Parser.hpp"
 
+/**
+ * The function _checkLocationParam() in C++ calls two other functions to check directory name and
+ * value.
+ */
 void	Parser::_checkLocationParam(){
 
 	this->_checkLocDirName();
 	this->_checkLocDirValue();
 }
 
+/**
+ * The function `_checkLocDirName` iterates through a vector of maps, checking for forbidden parameters
+ * in each map. The parameters come from Location blocs in the cnfig file.
+ */
 void	Parser::_checkLocDirName(){
 	
 	for(std::vector<std::map<std::string, std::string> >::const_iterator itVec = this->_tempLocationMapVector.begin(); itVec != this->_tempLocationMapVector.end(); itVec++){
 		_tempLocationConfigMap = *itVec;
-		//DEBUG
-		// std::cout << "in :: '_checkLocDirName'" << std::endl;
-		// printMap(*it);
-
-		//No need to control location
+		
+		//No need to control LOCATION parameter and any mandatory parameters for location
 		// std::string const mandatoryParam[] = {LOCATION};
 
 		//forbiden = Location parameter
 		std::string const forbiddenParam[] = {LISTEN, HOST, ROOT_LOC, INDEX, MAX_SIZE, SERVER_N, ERROR_P};
-
-		// for (int i = 0; i < 1; i++)
-		// {
-		// 	if (_tempLocationConfigMap.find(mandatoryParam[i]) == _tempLocationConfigMap.end())
-		// 		throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(mandatoryParam[i]));
-		// }
-		
+	
 		for (int i = 0; i < 7; i++)
 		{
 			if (this->_tempLocationConfigMap.find(forbiddenParam[i]) != this->_tempLocationConfigMap.end())
@@ -39,22 +38,14 @@ void	Parser::_checkLocDirName(){
 	}
 }
 
-
+/**
+ * The function `_checkLocDirValue` iterates through a vector of maps and calls different check
+ * functions based on the key in each map. It checks the value of each directive in a Location bloc.
+ */
 void	Parser::_checkLocDirValue(){
-	//DEBUG
-	// std::cout << "in _checkLocDirValue::" << std::endl;
-	
 
-	for(std::vector<std::map<std::string, std::string> >::iterator itVec = this->_tempLocationMapVector.begin(); itVec != this->_tempLocationMapVector.end(); itVec++){
-
-		//DEBUG
-		// std::cout << "New Location" << std::endl;
-		// printMap(*itVec);
-		
-		for (std::map<std::string, std::string>::iterator itMap = itVec->begin(); itMap != itVec->end(); ++itMap) {
-			//DEBUG
-			// std::cout << "itMap->first:" << itMap->first << std::endl;
-			
+	for(std::vector<std::map<std::string, std::string> >::iterator itVec = this->_tempLocationMapVector.begin(); itVec != this->_tempLocationMapVector.end(); itVec++){		
+		for (std::map<std::string, std::string>::iterator itMap = itVec->begin(); itMap != itVec->end(); ++itMap) {	
 			if (itMap->first == LOCATION) {
 				this->_checkLocation(itMap->second);
 			}
@@ -82,14 +73,24 @@ void	Parser::_checkLocDirValue(){
 			else if (itMap->first == CGI_E) {
 				this->_checkCgiE(itMap->second);
 			}
-
-			//DEBUG
-			// std::cout << " in _checkLocDirValue:: itMap->first:" << itMap->first << ", itMap->second: " << itMap->second << std::endl;
 		}
 	}
-
 }
 
+/**
+ * The `_checkPath` function verifies the existence, type, and write permission of a specified path in
+ * C++.
+ * 
+ * @param path The `path` parameter is a string that represents the path to a file or directory that
+ * needs to be checked for existence, type (directory or file), and write permission.
+ * @param isDir The `isDir` parameter in the `_checkPath` function is a boolean flag that indicates
+ * whether the path being checked should be a directory (`true`) or not (`false`). This parameter helps
+ * the function determine whether the path should be validated as a directory or a regular file.
+ * @param hasWPerm The `hasWPerm` parameter in the `_checkPath` function is a boolean flag that
+ * indicates whether the path should have write permission checked. If `hasWPerm` is set to `true`, the
+ * function will verify if the path has write permission by checking the access rights using the
+ * `access
+ */
 void Parser::_checkPath(std::string& path, bool isDir, bool hasWPerm) {
 	struct stat info;
 
@@ -99,8 +100,6 @@ void Parser::_checkPath(std::string& path, bool isDir, bool hasWPerm) {
 	if (access(fullPath.c_str(), F_OK) != 0) {
 		throw std::runtime_error(ERR_DIRECTORY(fullPath));
 	}
-
-	// throw std::runtime_error(ERR_DIRECTORY(dirValue));
 
 	// Get file information
 	if (stat(fullPath.c_str(), &info) != 0) {
@@ -119,8 +118,7 @@ void Parser::_checkPath(std::string& path, bool isDir, bool hasWPerm) {
 	} else {
 		throw std::runtime_error(ERR_NOT_FILE_NOT_DIR(fullPath));
 	}
-	
-	// Check for write access
+
 	// Check for write access if hasWPerm is true
 	if (hasWPerm && access(fullPath.c_str(), W_OK) != 0) {
 		throw std::runtime_error(ERR_PATH(fullPath));
@@ -128,33 +126,36 @@ void Parser::_checkPath(std::string& path, bool isDir, bool hasWPerm) {
 }
 
 
-//------ Directives' Location checking functions:
+/**
+ * The function `_checkLocation` removes trailing curly braces from a string
+ * representing a location value.
+ * 
+ */
 void Parser::_checkLocation(std::string& dirValue) {
-		//DEBUG
-		// std::cout << "in: _checkLocation:: dirValue = " << dirValue << std::endl;
 
-		
-		/*
-		The value after `location` determines which segment of a URL or which type of file the block applies to.
-		 It can be a specific path, a file extension, or a regex pattern.
-		*/
+	/*
+	The value after `location` determines which segment of a URL or which type of file the block applies to.
+		It can be a specific path, a file extension, or a regex pattern.
+	*/
 
-		//ANY verification for now, only delete the ending '{'
+	//ANY verification for now, only delete the ending '{'
+	while (!dirValue.empty() && (std::isspace(dirValue[dirValue.size() - 1]) || dirValue[dirValue.size() - 1] == '{')) {
+	dirValue.erase(dirValue.size() - 1);
+	}
 
-		 while (!dirValue.empty() && (std::isspace(dirValue[dirValue.size() - 1]) || dirValue[dirValue.size() - 1] == '{')) {
-			dirValue.erase(dirValue.size() - 1);
-		 }
-		// if (dirValue.empty() || dirValue[0] != '/') {
-		// 	throw std::runtime_error(ERR_LOCATION(dirValue));
-		// }
+	// if (dirValue.empty() || dirValue[0] != '/') {
+	// 	throw std::runtime_error(ERR_LOCATION(dirValue));
+	// }
 }
 
+/**
+ * The function `_checkAllowM` validates if the methods in a given string are allowed (GET, POST,
+ * DELETE).
+ * 
+ */
 void Parser::_checkAllowM(std::string& dirValue) {
-	// std::cout << " in _checkAllowM:: BEFORE dirValue:" << dirValue << std::endl;
 	// delete ending ';' if necessary to get a cleaner string later
 		this->_delEndSemiColon(dirValue);
-
-	// std::cout << " in _checkAllowM:: AFTER dirValue:" << dirValue <<std::endl;
 
 	// Set of allowed methods
 	std::set<std::string> allowedMethods;
@@ -170,25 +171,19 @@ void Parser::_checkAllowM(std::string& dirValue) {
 			throw std::runtime_error(ERR_INVALID_METHOD(method, dirValue));
 		}
 	}
-
 }
 
+/**
+ * The function `_checkTry` checks if a file exists at a specified directory path and throws a runtime
+ * error if the file does not exist.
+ * 
+ */
 void Parser::_checkTry(std::string& dirValue) {
 
 	/*function seems identical to _checkIndex !!! probably possible to use it*/ 
 
 	// delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
-
-	//OLD FASHIONED
-	// find 'root' path in the map
-	// std::map<std::string, std::string>::const_iterator it = _tempServerConfigMap.find(ROOT_LOC);
-	// if (it == _tempServerConfigMap.end()) {
-	// 	throw std::runtime_error(ERR_SERV_DIRECTIVE_MISSING(dirValue));
-	// }
-	// // Get path
-	// std::string rootDir = it->second; 
-	// this->_delEndSemiColon(rootDir);
 
 	// make fullPath to the file
 	std::string fullPath = this->_tempRootDirPath + "/" + dirValue;
@@ -202,7 +197,13 @@ void Parser::_checkTry(std::string& dirValue) {
 	close(fd);
 }
 
-
+/**
+ * The function `_checkReturn` checks and cleans a given string representing a directory path.
+ * 
+ * @param dirValue The `dirValue` parameter in the `_checkReturn` function is a reference to a
+ * `std::string` variable. It is used to store a directory value that will be checked and processed
+ * within the function.
+ */
 void Parser::_checkReturn(std::string& dirValue) {
 
 	/*function seems identical to _checkRoot !!! probably possible to use it*/ 
@@ -213,7 +214,10 @@ void Parser::_checkReturn(std::string& dirValue) {
 }
 
 
-
+/**
+ * The function `_checkAutoID` checks if the input string is either "on" or "off" after converting it
+ * to lowercase.
+ */
 void Parser::_checkAutoID(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
@@ -223,18 +227,22 @@ void Parser::_checkAutoID(std::string& dirValue) {
 
 	if (dirValue != "on" && dirValue != "off")
 		throw std::runtime_error(ERR_AUTOINDEX);
-	
-	//DEBUG
-	// std::cout << "in _checkAutoID:: dirValue = " << dirValue << std::endl;
 }
 
-
+/**
+ * The function `_checkRootLoc` checks and cleans a directory path.
+ * 
+ */
 void Parser::_checkRootLoc(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
 	this->_checkPath(dirValue, true);
 }
 
+/**
+ * The function `_checkUpload` checks and cleans a directory path.
+ * 
+ */
 void Parser::_checkUpload(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
@@ -242,6 +250,27 @@ void Parser::_checkUpload(std::string& dirValue) {
 }
 
 
+/**
+ * @brief Checks for executable CGI files in a specified directory path.
+ *
+ * This function inspects a directory to determine if it contains any 
+ * executable files that can be used as CGI scripts. It performs the 
+ * following operations:
+ * - Cleans up the directory path by removing any trailing semicolon.
+ * - Validates the directory path to ensure it is accessible and correctly formatted.
+ * - Opens the directory and iterates through its entries, checking each file.
+ * - Identifies regular files that have execute permissions, indicating potential CGI scripts.
+ * - Updates a temporary configuration map to reflect the presence of CGI files.
+ *
+ * @param dirValue A reference to the string representing the directory path to be checked.
+ *                 This path is cleaned and validated within the function.
+ *
+ * @throws std::runtime_error If the directory cannot be opened, an exception is thrown 
+ *         with an appropriate error message.
+ *
+ * @note The function modifies the `_tempLocationConfigMap` to set "hasCgi" to "true" 
+ *       if any executable CGI files are found in the directory.
+ */
 void Parser::_checkCgiP(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
@@ -280,9 +309,15 @@ void Parser::_checkCgiP(std::string& dirValue) {
 		}
 	}
 	closedir(dir);
-
 }
 
+/**
+ * The function `_checkCgiE` checks if a given file extension is supported for CGI processing.
+ * 
+ * @param dirValue The `dirValue` parameter in the `_checkCgiE` function is a reference to a
+ * `std::string` variable. It is used to store the directory value that needs to be checked for a valid
+ * CGI extension {".cgi", ".pl", ".py", ".sh", ".php"}.
+ */
 void Parser::_checkCgiE(std::string& dirValue) {
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
@@ -290,7 +325,6 @@ void Parser::_checkCgiE(std::string& dirValue) {
 	//list of supported extension (created in a dedicated function 'getSupportedExtensions')
 	// const std::set<std::string> supportedExtensions = {".cgi", ".pl", ".py", ".sh", ".php"}; //initilisation list not possible in CPP98
 	const std::set<std::string>& supportedExtensions = getSupportedExtensions();
-
 
 	//check if there is a '.'
 	if (dirValue.empty() || dirValue[0] != '.') {
@@ -303,7 +337,6 @@ void Parser::_checkCgiE(std::string& dirValue) {
 	}
 }
 
-
 std::set<std::string> Parser::getSupportedExtensions() {
 	std::set<std::string> extensions;
 	extensions.insert(".cgi");
@@ -315,10 +348,8 @@ std::set<std::string> Parser::getSupportedExtensions() {
 }
 
 
-
-
 /*******************************************/
-	// Functions probably not needed
+	// Following functions are probably not needed
 	//- isValidUrl
 	//- urlExists
 /*******************************************/
