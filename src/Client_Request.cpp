@@ -1,19 +1,27 @@
 #include "Client.hpp"
 
-// // Handle client request
 // void Client::handleClientRequest()
-
-// // Validate request
 // bool Client::_checkRequest()
 // bool Client::_checkFirstLine(std::stringstream &ss)
 // bool Client::_checkAndGetHeaders(std::stringstream &ss)
 // bool Client::_checkAndGetPayload(std::stringstream &ss)
-
-// // Validate URL
 // bool Client::isUrlValid(const std::string &url) const 
 
 
-// Handle client request
+/**
+ * @brief Handles the client's request by validating, routing, and processing it.
+ * 
+ * This function performs the following steps:
+ * - Validates the client's HTTP request.
+ * - Determines the resource path and root directory.
+ * - Matches the request with server locations or handles redirects.
+ * - Routes the request to the appropriate handler based on the HTTP method.
+ * 
+ * Supported methods:
+ * - GET
+ * - POST
+ * - DELETE
+ */
 void Client::handleClientRequest()
 {
     // Validate the request format
@@ -48,8 +56,16 @@ void Client::handleClientRequest()
         sendErrorResponse(501, "Not Implemented");
 }
 
-
-// Validate the request
+/**
+ * @brief Validates the client's HTTP request format and content.
+ * 
+ * @details Checks the following:
+ * - Request line (method, path, and version).
+ * - Headers (e.g., Host, Content-Type).
+ * - Payload for POST requests.
+ * 
+ * @return true if the request is valid, false otherwise.
+ */
 bool Client::_checkRequest()
 {
     std::stringstream ss(_request);
@@ -62,7 +78,18 @@ bool Client::_checkRequest()
     return true;
 }
 
-
+/**
+ * @brief Validates the first line of the HTTP request.
+ * 
+ * @details Extracts the method, resource path, and HTTP version from the request line.
+ * Validates the following:
+ * - Supported HTTP versions (only HTTP/1.1 is allowed).
+ * - Supported methods (GET, POST, DELETE).
+ * - Valid URL path characters.
+ * 
+ * @param [in] ss String stream containing the HTTP request.
+ * @return true if the first line is valid, false otherwise.
+ */
 bool Client::_checkFirstLine(std::stringstream &ss)
 {
     std::string line;
@@ -73,13 +100,11 @@ bool Client::_checkFirstLine(std::stringstream &ss)
     std::string token;
     while (lineStream >> token)
         tokens.push_back(token);
-
     if (tokens.size() != 3)
     {
         sendErrorResponse(400, "Bad Request: Invalid Request Line");
         return false;
     }
-
     _method = tokens[0];
     _resourcePath = tokens[1];
     std::string version = tokens[2];
@@ -112,7 +137,16 @@ bool Client::_checkFirstLine(std::stringstream &ss)
     return true;
 }
 
-
+/**
+ * @brief Checks if a given URL is valid.
+ * 
+ * @details A valid URL contains only the following characters:
+ * - Alphanumeric characters
+ * - `-._~:/?#[]@!$&'()*+,;=%`
+ * 
+ * @param [in] url The URL to validate.
+ * @return true if the URL is valid, false otherwise.
+ */
 bool Client::isUrlValid(const std::string &url) const
 {
     const std::string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -126,8 +160,18 @@ bool Client::isUrlValid(const std::string &url) const
     return true;
 }
 
-
-// Parse the headers
+//TODO fix the bug when this command passes curl -v --http1.1 --header "" http://localhost:8080/ Host header should not be empty
+/**
+ * @brief Parses and validates the headers from the HTTP request.
+ * 
+ * @details Validates the following:
+ * - Presence of mandatory headers like Host.
+ * - Content-Type for POST requests.
+ * - Malformed headers.
+ * 
+ * @param [in] ss String stream containing the HTTP request.
+ * @return true if the headers are valid, false otherwise.
+ */
 bool Client::_checkAndGetHeaders(std::stringstream &ss)
 {
     std::string line;
@@ -158,6 +202,7 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
     //     sendErrorResponse(400, "Bad Request: Empty Host Header");
     //     return false;
     // }
+
     // Validate Content-Type (for POST requests - optional check, can be removed later)
     if (_method == "POST")
     {
@@ -170,8 +215,17 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
     return true;
 }
 
-
-// Parse the payload for POST requests
+/**
+ * @brief Parses and validates the payload for POST requests.
+ * 
+ * @details Validates the following:
+ * - Content-Length header is present and valid.
+ * - Payload size does not exceed the server's maximum allowed size.
+ * - Payload is completely received.
+ * 
+ * @param [in] ss String stream containing the HTTP request.
+ * @return true if the payload is valid, false otherwise.
+ */
 bool Client::_checkAndGetPayload(std::stringstream &ss)
 {
     // Only applicable for POST requests
@@ -221,12 +275,23 @@ bool Client::_checkAndGetPayload(std::stringstream &ss)
         sendErrorResponse(400, "Bad Request: Incomplete Payload");
         return false;
     }
-
     return true; // Payload is valid
 }
 
-
-// Check if a location matches the requested resource and update root
+/**
+ * @brief Matches the requested resource with server locations and updates root path if applicable.
+ * 
+ * @details Performs the following operations:
+ * - Finds the best-matching location block based on the resource path.
+ * - Handles redirects if specified in the matched location.
+ * - Checks if the method is allowed in the location.
+ * - Updates the root directory if specified in the location.
+ * 
+ * @param [in, out] root Reference to the root directory to be updated.
+ * @param [in, out] resource Reference to the resource path.
+ * @param [in] loopCount Counter to prevent infinite loops in redirects.
+ * @return -1 if no matching location is found, 1 if a redirect is handled, 0 otherwise.
+ */
 int Client::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 {
     if (loopCount > MAX_LOOP_COUNT)
@@ -245,7 +310,6 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
             matchedPrefixLength = it->first.length();
         }
     }
-
     if (matchedLocation)
     {
         // Handle redirects
@@ -254,7 +318,6 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
             sendRedirectResponse(302, matchedLocation->redirect); // Redirect
             return 1; // Redirect handled
         }
-
         // Check if the method is allowed
         if (std::find(matchedLocation->methods.begin(), matchedLocation->methods.end(), _method) == matchedLocation->methods.end())
             throw std::runtime_error("405 Method Not Allowed");

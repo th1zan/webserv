@@ -14,8 +14,17 @@
 // bool Client::fileExists(const std::string& path) - should I move it to utils?
 
 
-// Handle GET requests
-// TODO add autoindex
+/**
+ * @brief Handles a GET request to retrieve resources from the server.
+ * 
+ * @details This function:
+ * - Resolves the requested file path.
+ * - Serves the default `index.html` for root requests (`/`).
+ * - Handles directory requests with autoindex generation if enabled.
+ * - Sends the file content if the file exists, or an error response otherwise.
+ * 
+ * @param [in] path The requested resource path.
+ */
 void Client::handleGetRequest(const std::string& path)
 {
     // Extract path without query string
@@ -69,7 +78,16 @@ void Client::handleGetRequest(const std::string& path)
 }
 
 
-// Generate an autoindex page for a directory
+/**
+ * @brief Generates an autoindex page for a directory.
+ * 
+ * @details Creates an HTML page listing the directory contents as hyperlinks. 
+ * This function is invoked when autoindexing is enabled for the location.
+ * 
+ * @param [in] directoryPath The path to the directory on the server.
+ * @param [in] requestPath The request path as seen by the client.
+ * @return A string containing the autoindex HTML page.
+ */
 std::string Client::generateAutoindexPage(const std::string &directoryPath, const std::string &requestPath)
 {
     std::ostringstream autoindex;
@@ -97,10 +115,16 @@ std::string Client::generateAutoindexPage(const std::string &directoryPath, cons
     return autoindex.str();
 }
 
-// Handle POST requests
-//TODO Add a check for allowed file extensions(?)
-//TODO parse multipart/form-data requests
-
+/**
+ * @brief Handles a POST request to upload or process data on the server.
+ * 
+ * @details This function:
+ * - Validates the Content-Type header.
+ * - Handles multipart form data uploads or file uploads based on Content-Type.
+ * - Executes CGI scripts if applicable.
+ * 
+ * @param [in] path The path where the resource will be uploaded or processed.
+ */
 void Client::handlePostRequest(const std::string &path)
  {
     // Retrieve location configuration for this request
@@ -109,7 +133,7 @@ void Client::handlePostRequest(const std::string &path)
           << ", CGI Extension: " << locationConfig.cgiExtension << std::endl; // Debugging
     
     // Check if the path is a CGI script
-    if (locationConfig.hasCGI && path.find(locationConfig.cgiExtension) != std::string::npos)
+    if (isCgiPath(path, locationConfig))
     {
         std::cout << "Executing CGI script: " << path << std::endl;
         executeCgi(locationConfig.cgiPath, path); // Placeholder for actual CGI execution
@@ -156,7 +180,14 @@ void Client::handlePostRequest(const std::string &path)
 }
 
 
-// Handle multipart form data
+/**
+ * @brief Handles multipart form data uploads from POST requests.
+ * 
+ * @details Parses the request payload, extracts file content, and saves it to the specified location.
+ * 
+ * @param [in] path The upload path.
+ * @param [in] boundary The boundary string used to separate parts in the multipart data.
+ */
 void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
 {
     // Derive the upload directory and file path
@@ -196,13 +227,20 @@ void Client::handleMultipartFormData(const std::string &path, const std::string 
 }
 
 
-// Upload a file to the server
+/**
+ * @brief Uploads a file to the server.
+ * 
+ * @details Writes the request payload to a file in the appropriate directory. 
+ * The upload directory can be configured per location.
+ * 
+ * @param [in] path The path where the file will be uploaded.
+ */
 void Client::uploadFile(const std::string &path)
 {
     // Retrieve location configuration
     location_t locationConfig = _server.getLocationConfig(path);
     
-    // Debugging to ensure `uploadTo` is used
+    // Debugging to ensure `uploadTo` is used - remove later
     std::cout << "Using uploadTo: " << locationConfig.uploadTo << std::endl;
 
     // Determine upload directory
@@ -241,8 +279,16 @@ void Client::uploadFile(const std::string &path)
     sendResponse(200, "OK", "File uploaded successfully");
 }
 
-
-// Handle DELETE requests
+/**
+ * @brief Handles a DELETE request to remove resources from the server.
+ * 
+ * @details This function:
+ * - Validates the existence of the target file.
+ * - Attempts to delete the file.
+ * - Sends appropriate responses based on success or failure.
+ * 
+ * @param [in] path The path to the file to be deleted.
+ */
 void Client::handleDeleteRequest(const std::string &path)
 {
     // Check if the request path starts with "/upload"
@@ -269,6 +315,12 @@ void Client::handleDeleteRequest(const std::string &path)
         sendResponse(200, "OK", "File Deleted");
 }
 
+/**
+ * @brief Checks if a file exists at the specified path.
+ * 
+ * @param [in] path The path to check.
+ * @return true if the file exists, false otherwise.
+ */
 bool Client::fileExists(const std::string& path)
 {
     struct stat buffer;

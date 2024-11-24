@@ -6,7 +6,16 @@
 // void Client::sendErrorResponse(int statusCode, const std::string &statusMessage) { /* ... */ }
 
 
-// Send a response
+/**
+ * @brief Sends a standard HTTP response to the client.
+ * 
+ * @details Constructs and sends an HTTP response with the given status code, status message, 
+ * and body. Automatically sets the `Content-Length` header based on the body size.
+ * 
+ * @param [in] statusCode The HTTP status code (e.g., 200 for OK, 404 for Not Found).
+ * @param [in] statusMessage The HTTP status message (e.g., "OK", "Not Found").
+ * @param [in] body The response body as a string.
+ */
 void Client::sendResponse(int statusCode, const std::string &statusMessage, const std::string &body)
 {
     std::ostringstream response;
@@ -15,6 +24,15 @@ void Client::sendResponse(int statusCode, const std::string &statusMessage, cons
     send(_socket, response.str().c_str(), response.str().size(), 0);
 }
 
+/**
+ * @brief Sends an HTTP redirect response to the client.
+ * 
+ * @details Constructs and sends an HTTP response with the given status code and location.
+ * The client will be redirected to the specified location.
+ * 
+ * @param [in] statusCode The HTTP status code (e.g., 301 for Moved Permanently, 302 for Found).
+ * @param [in] location The URL to redirect the client to.
+ */
 void Client::sendRedirectResponse(int statusCode, const std::string &location)
 {
     std::ostringstream response;
@@ -24,7 +42,22 @@ void Client::sendRedirectResponse(int statusCode, const std::string &location)
     send(_socket, response.str().c_str(), response.str().size(), 0);
 }
 
-// Send an error response
+/**
+ * @brief Sends an error response to the client.
+ * 
+ * @details Handles the following:
+ * - Attempts to load a custom error page based on the status code and server root directory.
+ * - Sends the custom error page if available; otherwise, sends a default HTML error message.
+ * 
+ * @note Custom error pages are searched for the following status codes:
+ * - 404: Not Found (`404.html`)
+ * - 500: Internal Server Error (`500.html`)
+ * - Other errors: General error page (`error.html`)
+ * 
+ * @param [in] statusCode The HTTP status code indicating the error (e.g., 404, 500).
+ * @param [in] statusMessage The HTTP status message describing the error.
+ */
+
 // TODO: Add custom error pages
 // log error message?
 void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)

@@ -59,6 +59,11 @@ bool	Client::clientIsReadyToReceive() const
 	return (this->_sentRequest == true || this->_request.find(REQUEST_END) != std::string::npos);
 }
 
+
+
+
+
+// to remove later
 /* --- Jannetta function ---*/
 
 /**
