@@ -11,6 +11,7 @@
 
 // // Handle DELETE requests
 // void Client::handleDeleteRequest(const std::string &path)
+// bool Client::fileExists(const std::string& path) - should I move it to utils?
 
 
 // Handle GET requests
@@ -67,6 +68,8 @@ void Client::handleGetRequest(const std::string& path)
         sendErrorResponse(404, "Not Found");
 }
 
+
+// Generate an autoindex page for a directory
 std::string Client::generateAutoindexPage(const std::string &directoryPath, const std::string &requestPath)
 {
     std::ostringstream autoindex;
@@ -103,7 +106,7 @@ void Client::handlePostRequest(const std::string &path)
     // Retrieve location configuration for this request
     location_t locationConfig = _server.getLocationConfig(path);
     std::cout << "Path: " << path << ", Has CGI: " << locationConfig.hasCGI 
-          << ", CGI Extension: " << locationConfig.cgiExtension << std::endl;
+          << ", CGI Extension: " << locationConfig.cgiExtension << std::endl; // Debugging
     
     // Check if the path is a CGI script
     if (locationConfig.hasCGI && path.find(locationConfig.cgiExtension) != std::string::npos)
@@ -142,10 +145,10 @@ void Client::handlePostRequest(const std::string &path)
     // Handle plain text, JSON or x-www-form-urlencoded payloads (if we handle them)
     else if (contentType == "text/plain" || contentType == "application/json" || contentType == "application/x-www-form-urlencoded" || 
             contentType == "image/png" || contentType == "image/jpeg" || contentType == "image/gif" ||
-            contentType == "pdf") // we can add more supported content types
+            contentType == "application/pdf" || contentType == "application/xml" || contentType == "text/html") // we can add more supported content types
     {
         uploadFile(path);
-        std::cout << "Handling Content-Type: " << contentType << " for path: " << path << std::endl;
+        std::cout << "Handling Content-Type: " << contentType << " for path: " << path << std::endl; // Debugging
     }
     // Unsupported Content-Type
     else
@@ -179,7 +182,8 @@ void Client::handleMultipartFormData(const std::string &path, const std::string 
         return;
     }
     std::string fileContent = _requestPayload.substr(contentStart, contentEnd - contentStart);
-// Save file content
+    
+    // Save file content
     std::ofstream outFile(filePath.c_str(), std::ios::binary);
     if (!outFile.is_open())
     {
@@ -188,7 +192,6 @@ void Client::handleMultipartFormData(const std::string &path, const std::string 
     }
     outFile.write(fileContent.c_str(), fileContent.size());
     outFile.close();
-
     sendResponse(200, "OK", "Multipart file uploaded successfully");
 }
 
@@ -202,7 +205,7 @@ void Client::uploadFile(const std::string &path)
     // Debugging to ensure `uploadTo` is used
     std::cout << "Using uploadTo: " << locationConfig.uploadTo << std::endl;
 
-        // Determine upload directory
+    // Determine upload directory
     std::string uploadDirectory = _server.getRoot();
     if (!locationConfig.uploadTo.empty())
     {
@@ -235,8 +238,6 @@ void Client::uploadFile(const std::string &path)
     // Write the request payload to the file 
     outFile.write(_requestPayload.c_str(), _requestPayload.size());
     outFile.close();
-
-    // Send a success response
     sendResponse(200, "OK", "File uploaded successfully");
 }
 
