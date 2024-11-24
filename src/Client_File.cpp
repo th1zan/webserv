@@ -1,17 +1,20 @@
 #include "Client.hpp"
 
 // // Handle GET requests
-// void Client::handleGetRequest(const std::string& path) { /* ... */ }
+// void Client::handleGetRequest(const std::string& path)
+// std::string Client::generateAutoindexPage(const std::string &directoryPath, const std::string &requestPath)
 
 // // Handle POST requests
-// void Client::handlePostRequest(const std::string &path) { /* ... */ }
-// void Client::uploadFile(const std::string &path) { /* ... */ }
+// void Client::handlePostRequest(const std::string &path)
+// void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
+// void Client::uploadFile(const std::string &path)
 
 // // Handle DELETE requests
-// void Client::handleDeleteRequest(const std::string &path) { /* ... */ }
+// void Client::handleDeleteRequest(const std::string &path)
 
 
 // Handle GET requests
+// TODO add autoindex
 void Client::handleGetRequest(const std::string& path)
 {
     // Extract path without query string
@@ -23,7 +26,33 @@ void Client::handleGetRequest(const std::string& path)
     // If the path is "/", serve the default index file
     if (cleanPath == "/")
         filePath = this->_server.getRoot() + "/index.html";
-
+    // autoindex
+    // check if the path is a directory
+    struct stat pathStat;
+    if (stat(filePath.c_str(), &pathStat) == 0 && S_ISDIR(pathStat.st_mode))
+    {
+        // Check for index.html in the directory
+        std::string indexPath = filePath + "/index.html";
+        if (fileExists(indexPath))
+            filePath = indexPath;
+        else
+        {
+            // Check if autoindex is enabled
+            location_t locationConfig = _server.getLocationConfig(cleanPath);
+            if (locationConfig.autoindex)
+            {
+                // Generate the autoindex page
+                std::string autoindexPage = generateAutoindexPage(filePath, cleanPath);
+                sendResponse(200, "OK", autoindexPage);
+                return;
+            }
+            else
+            {
+                sendErrorResponse(403, "Forbidden: Directory listing not allowed");
+                return;
+            }
+        }
+    }
     // Attempt to open the file
     std::ifstream file(filePath.c_str());
     if (file.is_open())
@@ -31,15 +60,38 @@ void Client::handleGetRequest(const std::string& path)
         // Read file contents
         std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
         file.close();
-
         // Send the file contents as the response
         sendResponse(200, "OK", fileContents);
     }
     else
-    {
-        // Send a 404 error if the file is not found
         sendErrorResponse(404, "Not Found");
+}
+
+std::string Client::generateAutoindexPage(const std::string &directoryPath, const std::string &requestPath)
+{
+    std::ostringstream autoindex;
+    autoindex << "<html><body><h1>Index of " << requestPath << "</h1><ul>";
+
+    DIR *dir = opendir(directoryPath.c_str());
+    if (!dir)
+    {
+        sendErrorResponse(500, "Internal Server Error: Cannot open directory");
+        return "";
     }
+
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL)
+    {
+        std::string name = entry->d_name;
+        if (name == ".") continue; // Skip current directory
+        autoindex << "<li><a href=\"" << requestPath;
+        if (requestPath.back() != '/') autoindex << '/';
+        autoindex << name << "\">" << name << "</a></li>";
+    }
+    closedir(dir);
+
+    autoindex << "</ul></body></html>";
+    return autoindex.str();
 }
 
 // Handle POST requests
@@ -100,6 +152,7 @@ void Client::handlePostRequest(const std::string &path)
         sendErrorResponse(415, "Unsupported Media Type");
 }
 
+
 // Handle multipart form data
 void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
 {
@@ -138,6 +191,7 @@ void Client::handleMultipartFormData(const std::string &path, const std::string 
 
     sendResponse(200, "OK", "Multipart file uploaded successfully");
 }
+
 
 // Upload a file to the server
 void Client::uploadFile(const std::string &path)
@@ -185,6 +239,7 @@ void Client::uploadFile(const std::string &path)
     // Send a success response
     sendResponse(200, "OK", "File uploaded successfully");
 }
+
 
 // Handle DELETE requests
 void Client::handleDeleteRequest(const std::string &path)

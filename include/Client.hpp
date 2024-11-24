@@ -38,7 +38,7 @@ class Client
 		void		handleGetRequest(const std::string& path); ///< Handles GET requests.
 		void		handlePostRequest(const std::string& path); ///< Handles POST requests.
 		void		handleDeleteRequest(const std::string& path); ///< Handles DELETE requests.
-		
+		std::string generateAutoindexPage(const std::string &directoryPath, const std::string &requestPath); ///< Generates an autoindex page
 		void		handleMultipartFormData(const std::string &path, const std::string &boundary);
 		
 		void		sendResponse(int statusCode, const std::string& statusMessage, const std::string& body); ///< Sends HTTP response

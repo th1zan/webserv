@@ -311,7 +311,7 @@ void Parser::_checkCgiP(std::string& dirValue) {
 			}
 			else
 			{
-                // Debug: Explain why a file was skipped
+                // Debug: Explain why a file was skipped - to delete later
                 std::cout << "Skipped file: " << filePath 
                           << " (isRegular: " << ((fileInfo.st_mode & S_IFREG) != 0)
                           << ", isExecutable: " << ((fileInfo.st_mode & S_IXUSR) != 0)
