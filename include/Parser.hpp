@@ -94,7 +94,7 @@ class Parser{
 			void	_checkAutoID(std::string& dirValue);
 			void	_checkRootLoc(std::string& dirValue);
 			void	_checkUpload(std::string& dirValue);
-			void	_checkCgiP(std::string& dirValue);
+			void 	_checkCgiP(std::string& dirValue, std::map<std::string, std::string>& locationConfigMap);
 			void	_checkCgiE(std::string& dirValue);
 
 			size_t												_nServer; ///< Number of servers parsed.

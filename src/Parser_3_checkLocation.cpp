@@ -10,7 +10,6 @@
  * value.
  */
 void	Parser::_checkLocationParam(){
-
 	this->_checkLocDirName();
 	this->_checkLocDirValue();
 }
@@ -42,10 +41,13 @@ void	Parser::_checkLocDirName(){
  * The function `_checkLocDirValue` iterates through a vector of maps and calls different check
  * functions based on the key in each map. It checks the value of each directive in a Location bloc.
  */
-void	Parser::_checkLocDirValue(){
+void Parser::_checkLocDirValue() {
+	for (std::vector<std::map<std::string, std::string> >::iterator itVec = this->_tempLocationMapVector.begin();
+		 itVec != this->_tempLocationMapVector.end(); ++itVec) {
+		std::map<std::string, std::string>& locMap = *itVec;
 
-	for(std::vector<std::map<std::string, std::string> >::iterator itVec = this->_tempLocationMapVector.begin(); itVec != this->_tempLocationMapVector.end(); itVec++){		
-		for (std::map<std::string, std::string>::iterator itMap = itVec->begin(); itMap != itVec->end(); ++itMap) {	
+		for (std::map<std::string, std::string>::iterator itMap = locMap.begin();
+			 itMap != locMap.end(); ++itMap) {
 			if (itMap->first == LOCATION) {
 				this->_checkLocation(itMap->second);
 			}
@@ -68,7 +70,7 @@ void	Parser::_checkLocDirValue(){
 				this->_checkUpload(itMap->second);
 			}
 			else if (itMap->first == CGI_P) {
-				this->_checkCgiP(itMap->second);
+				this->_checkCgiP(itMap->second, locMap); // Pass locMap by reference
 			}
 			else if (itMap->first == CGI_E) {
 				this->_checkCgiE(itMap->second);
@@ -271,7 +273,8 @@ void Parser::_checkUpload(std::string& dirValue) {
  * @note The function modifies the `_tempLocationConfigMap` to set "hasCgi" to "true" 
  *       if any executable CGI files are found in the directory.
  */
-void Parser::_checkCgiP(std::string& dirValue) {
+
+void Parser::_checkCgiP(std::string& dirValue, std::map<std::string, std::string>& locMap) {
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
 
@@ -286,8 +289,6 @@ void Parser::_checkCgiP(std::string& dirValue) {
 	}
 
 	struct dirent* entry;
-	bool hasCgi = false; //not used for now // Jannetta put it back to test cgi
-
 	// loop to list the files in the directory and check CGI
 	while ((entry = readdir(dir)) != NULL) {
 		// ignore the special files '.' and '..'
@@ -298,34 +299,21 @@ void Parser::_checkCgiP(std::string& dirValue) {
 		// get the filePath
 		std::string filePath = fullPath + "/" + entry->d_name;
 		struct stat fileInfo;
-		
-        std::cout << "Checking file: " << filePath << std::endl; // Jannetta's DEBUG - to detele later
+
 		// Get info
 		if (stat(filePath.c_str(), &fileInfo) == 0) {
 			// check if the file is regular (not a directory and not a link/alias) AND executable
 			if ((fileInfo.st_mode & S_IFREG) && (fileInfo.st_mode & S_IXUSR)) {
-				hasCgi = true;
-				this->_tempLocationConfigMap["hasCgi"] = "true";
-                std::cout << "Set hasCgi to true for location." << std::endl; // Debug: Confirm detection Jannetta's DEBUG - to detele later
+				locMap[HAS_CGI] = "true"; // Modification directement dans locationConfigMap
 				break;
 			}
-			else
-			{
-                // Debug: Explain why a file was skipped - to delete later
-                std::cout << "Skipped file: " << filePath 
-                          << " (isRegular: " << ((fileInfo.st_mode & S_IFREG) != 0)
-                          << ", isExecutable: " << ((fileInfo.st_mode & S_IXUSR) != 0)
-                          << ")" << std::endl;
-            }
-        } 
+		}
 		else
 		{
-            std::cerr << "Error checking file: " << filePath << std::endl;
-        }
-		
+			std::cerr << "CGI: Error checking file: " << filePath << std::endl;
+		}
 	}
 	closedir(dir);
-	std::cout << "CGI Check: " << (hasCgi ? "Found CGI" : "No CGI") << " in " << dirValue << std::endl; // Jannetta's DEBUG - to detele later
 }
 
 /**

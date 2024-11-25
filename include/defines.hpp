@@ -142,5 +142,6 @@ extern bool	g_shutdown;
 #define UPLOAD		"upload_to"
 #define CGI_P		"cgi_path"
 #define CGI_E		"cgi_ext"
+#define HAS_CGI		"hasCgi"
 
 #endif

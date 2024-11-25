@@ -147,8 +147,7 @@ bool Server::_checkPrimaryServer(std::vector<Server>&	_serversVector)
  * location-related data into a custom data structure.
  */
 void Server::_getLocationStruct() {
-	for (std::vector<std::map<std::string, std::string> >::iterator itMap = _LocationMapVector.begin(); itMap != _LocationMapVector.end(); ++itMap) {
-
+	for (std::vector<std::map<std::string, std::string> >::iterator itMap = _LocationMapVector.begin(); itMap != _LocationMapVector.end(); ++itMap) {		
 		location_t tmpLoc;
 
 		if (itMap->find("root") != itMap->end())
@@ -175,8 +174,8 @@ void Server::_getLocationStruct() {
 		if (itMap->find("try_file") != itMap->end())
 			tmpLoc.tryFile = itMap->find("try_file")->second;
 
-		if (itMap->find("hasCGI") != itMap->end()) {
-			tmpLoc.hasCGI = (itMap->find("hasCGI")->second == "true");
+		if (itMap->find(HAS_CGI) != itMap->end()) {
+			tmpLoc.hasCGI = (itMap->find(HAS_CGI)->second == "true");
 			// Debug to ensure hasCGI is parsed correctly (Jannetta) - to remove later
 			std::cout << "Assigning hasCgi: " << tmpLoc.hasCGI << " for location " << itMap->find("location")->second << std::endl;
 			std::cout << "Location: " << itMap->find("location")->second
