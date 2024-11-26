@@ -102,18 +102,21 @@ void Parser::_parseFile() {
 			tmpToken.value = line;
 			this->_tokensVector.push_back(tmpToken);
 		}
-		else if ((wordsVect.size() == 2)
-				||(wordsVect.size() == 3)
-				||(wordsVect.size() == 4)) {
+		// else if ((wordsVect.size() == 2)
+		// 		||(wordsVect.size() == 3)
+		// 		||(wordsVect.size() == 4))
+		else { //the error_page directive needs to accept unlimited values on a line.
 			tmpToken.type = TK_TOKEN;
 			tmpToken.value = line;
 			if (line[line.size() - 1] != ';')
 				throw std::runtime_error(ERR_SEMICOLON(line));
 			this->_tokensVector.push_back(tmpToken);
 		}
-		else{
-			throw std::runtime_error(ERR_INVALID_KEY(line));
-		}
+		// else{
+		// 	std::cout << "COUCOU" << std::endl;
+		// 	throw std::runtime_error(ERR_INVALID_KEY(line));
+		// 	std::cout << "SALUT" << std::endl;
+		// }
 	}
 	this->_checkBracket();
 	this->_getConfigAndInitServers();	
