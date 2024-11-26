@@ -1,3 +1,20 @@
+waltergcc Tests
+
+curl localhost:8080/index.html - OK
+
+curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/curl_post.py
+no cgi yet, can try 
+curl -X POST -H "Content-Type: text/plain" --data "1234567890" localhost:8080  - OK
+but make sure to write text/plain and not plain/text
+
+curl -X DELETE localhost:8080/upload/upload.txt - OK  - downloaded file appears in the root of webserv folder
+
+curl -X UNKNOWN localhost:8080  - OK - 501 Not Implemented
+
+curl -O localhost:8080/upload/upload.txt  - OK 
+
+
+Jannetta's tests
 # Valid GET request to root
 curl -v -X GET http://localhost:8080/
 
@@ -17,7 +34,7 @@ curl -v -X POST http://localhost:8080/upload/testfile.txt -d ""
 # Valid POST with small payload
 curl -v -X POST http://localhost:8080/upload/testfile.txt -d "test=data"
 
-# Valid POST with file upload -KO
+# Valid POST with file upload -OK - make sure there is testfile in the root or webserv folder
 curl -v -X POST http://localhost:8080/upload/testfile.txt --data-binary @testfile.txt
 
 # Invalid POST with missing Content-Length
@@ -233,7 +250,7 @@ works:
 --data-binary @en.subject_webserv.pdf -H "Expect:"
 
 doesnt work:
-curl -v -X POST http://localhost:8080/upload/sunject.pdf \
+curl -v -X POST http://localhost:8080/upload/subject.pdf \
 -H "Content-Type: pdf" \      
 --data-binary @en.subject_webserv.pdf
 

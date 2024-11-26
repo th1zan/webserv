@@ -140,7 +140,7 @@ void Client::handlePostRequest(const std::string &path)
         return;
     }
     else
-        std::cout << "Not a CGI script" << std::endl;
+        std::cout << "Not a CGI script" << std::endl; // Debugging - remove later
 
     // Validate Content-Type header
     std::map<std::string, std::string>::iterator it = _headers.find("Content-Type");
@@ -172,7 +172,7 @@ void Client::handlePostRequest(const std::string &path)
             contentType == "application/pdf" || contentType == "application/xml" || contentType == "text/html") // we can add more supported content types
     {
         uploadFile(path);
-        std::cout << "Handling Content-Type: " << contentType << " for path: " << path << std::endl; // Debugging
+        std::cout << "Handling Content-Type: " << contentType << " for path: " << path << std::endl; // Debugging - remove later
     }
     // Unsupported Content-Type
     else

@@ -45,46 +45,86 @@ void Client::sendRedirectResponse(int statusCode, const std::string &location)
 /**
  * @brief Sends an error response to the client.
  * 
- * @details Handles the following:
- * - Attempts to load a custom error page based on the status code and server root directory.
- * - Sends the custom error page if available; otherwise, sends a default HTML error message.
+ * @details Handles error responses by:
+ * - Mapping HTTP status codes to custom error page file paths.
+ * - Attempting to load the custom error page based on the status code and server root directory.
+ * - Sending the custom error page if it exists and is accessible.
+ * - Falling back to a default HTML error message if the custom page is unavailable.
  * 
- * @note Custom error pages are searched for the following status codes:
+ * @note Supported status codes with custom error pages include:
+ * - 400: Bad Request (`400.html`)
+ * - 403: Forbidden (`403.html`)
  * - 404: Not Found (`404.html`)
+ * - 405: Method Not Allowed (`405.html`)
+ * - 411: Length Required (`411.html`)
+ * - 413: Payload Too Large (`413.html`)
+ * - 415: Unsupported Media Type (`415.html`)
  * - 500: Internal Server Error (`500.html`)
- * - Other errors: General error page (`error.html`)
+ * - 501: Not Implemented (`501.html`)
+ * For unsupported or missing status codes, a general error page (`error.html`) is used.
  * 
  * @param [in] statusCode The HTTP status code indicating the error (e.g., 404, 500).
  * @param [in] statusMessage The HTTP status message describing the error.
  */
 
-// TODO: Add custom error pages
+// TODO: Add custom error pages - 400, 403, 404, 405, 411, 413, 415, 500, 501
 // log error message?
+// maybe make a map for all those error codesvto avoid so many if else
 void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)
 {
     std::string customErrorPagePath;
-    std::ifstream errorPageFile;
+    std::ifstream errorPageFile; 
     std::string errorPageContent;
 
-    // Handle specific custom error pages
-    if (statusCode == 404)
-        customErrorPagePath = this->_server.getRoot() + "/404.html";
-    else if (statusCode == 500)
-        customErrorPagePath = this->_server.getRoot() + "/500.html";
-	// others error codes?
-	else
-		customErrorPagePath = this->_server.getRoot() + "/error.html";
-    if (!customErrorPagePath.empty())
+    // Map of status codes to error page paths
+    std::map<int, std::string> errorPagePaths;
+    errorPagePaths[400] = "error_pages/400.html";
+    errorPagePaths[403] = "error_pages/403.html";
+    errorPagePaths[404] = "error_pages/404.html";
+    errorPagePaths[405] = "error_pages/405.html";
+    errorPagePaths[411] = "error_pages/411.html";
+    errorPagePaths[413] = "error_pages/413.html";
+    errorPagePaths[415] = "error_pages/415.html";
+    errorPagePaths[500] = "error_pages/500.html";
+    errorPagePaths[501] = "error_pages/501.html";
+    
+    // Find the custom error page path or use a default
+    std::map<int, std::string>::iterator it = errorPagePaths.find(statusCode);
+    if (it != errorPagePaths.end())
+        customErrorPagePath = this->_server.getRoot() + it->second;
+    else
+        customErrorPagePath = this->_server.getRoot() + "error_pages/error.html";
+      
+    // // Handle specific custom error pages
+    // if (statusCode == 400)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/400.html";
+    // else if (statusCode == 403)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/403.html";
+    // else if (statusCode == 404)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/404.html";
+    // else if (statusCode == 405)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/405.html";
+    // else if (statusCode == 411)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/411.html";
+    // else if (statusCode == 413)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/413.html";
+    // else if (statusCode == 415)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/415.html";
+    // else if (statusCode == 500)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/500.html";
+    // else if (statusCode == 501)
+    //     customErrorPagePath = this->_server.getRoot() + "error_pages/501.html";
+	// else
+	// 	customErrorPagePath = this->_server.getRoot() + "error_pages/error.html";
+
+    errorPageFile.open(customErrorPagePath.c_str());
+    if (errorPageFile.is_open())
     {
-        errorPageFile.open(customErrorPagePath.c_str());
-        if (errorPageFile.is_open())
-        {
-            // Read custom error page content
-            errorPageContent = std::string((std::istreambuf_iterator<char>(errorPageFile)), std::istreambuf_iterator<char>());
-            errorPageFile.close();
-            sendResponse(statusCode, statusMessage, errorPageContent);
-            return;
-        }
+        // Read custom error page content
+        errorPageContent = std::string((std::istreambuf_iterator<char>(errorPageFile)), std::istreambuf_iterator<char>());
+        errorPageFile.close();
+        sendResponse(statusCode, statusMessage, errorPageContent);
+        return;
     }
     // Fallback for other status codes or missing custom error pages
     std::ostringstream defaultErrorBody;
