@@ -18,6 +18,25 @@
         header {
             margin-top: 50px;
         }
+        .container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Space between forms */
+        }
+        .form {
+            width: 300px; /* Set uniform width */
+            height: 250px; /* Set uniform height */
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+            box-sizing: border-box;
+        }
         footer {
             margin-top: 50px;
             font-size: 0.9em;
@@ -27,15 +46,44 @@
 <body>
     <header>
 		<h1>Welcome to Webserv</h1>
-        <h2>Made by tsanglar, zsoltani, jmocrom-</h2>
+        <h2></h2>
         <div class="logo-container">
             <img src="42.png" alt="42 Logo" class="logo">
         </div>
+        <h2>Test CGI</h2>
     </header>
+
+    <div class="container">
+        <!-- Age Calculator Form -->
+        <div class="form">
+            <h2>Age Calculator</h2>
+            <form action="http://localhost:8080/cgi/age_calculator.py" method="POST">
+                <label for="year_of_birth">Enter your year of birth:</label>
+                <input type="text" id="year_of_birth" name="year_of_birth" required>
+                <br><br>
+                <button type="submit">Calculate Age</button>
+            </form>
+        </div>
+    
+        <!-- BMI Calculator Form -->
+        <div class="form">
+            <h2>BMI Calculator</h2>
+            <form action="http://localhost:8080/cgi/bmi.py" method="POST">
+                <label for="weight">Enter your weight (kg):</label>
+                <input type="text" id="weight" name="weight" required>
+                <br><br>
+                <label for="height">Enter your height (m):</label>
+                <input type="text" id="height" name="height" required>
+                <br><br>
+                <button type="submit">Calculate BMI</button>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <p>© 2024 Webserv - 42 Lausanne</p>
     </footer>
 
 </body></html>
+
 

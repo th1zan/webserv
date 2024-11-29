@@ -44,12 +44,14 @@ class Client
 		void		sendResponse(int statusCode, const std::string& statusMessage, const std::string& body); ///< Sends HTTP response
 		void		sendRedirectResponse(int statusCode, const std::string &location); ///< Sends HTTP redirect response
 		void		sendErrorResponse(int statusCode, const std::string& statusMessage); ///< Sends HTTP error response
-
+		void		sendCgiResponse(const std::string &cgiOutput); ///< Sends CGI response
+		
 		bool		isCgiPath(const std::string& filePath, const location_t& locationConfig) const; ///< Checks if a file is a CGI script
 		bool		fileExists(const std::string& path); ///< used for DELETE requests
 		void		uploadFile(const std::string &path); ///< Handles file uploads
-		void		executeCgi(const std::string& cgiPath, const std::string& filePath); ///< Executes CGI scripts
-		
+		//void		executeCgi(const std::string& cgiPath, const std::string& filePath, const std::string &method, const std::string &queryString, const std::string &body, const std::string &pathInfo, const std::string &pathTranslated); ///< Executes CGI scripts
+		std::string	executeCgi(const std::string &cgiPath, const std::string &method, const std::string &queryString, 
+								const std::string &body, const std::string &pathInfo, const std::string &scriptFileName);
 		bool		isUrlValid(const std::string &url) const; ///< Checks if a URL chars are valid
 		bool		_checkRequest();
 		bool		_checkFirstLine(std::stringstream &ss);

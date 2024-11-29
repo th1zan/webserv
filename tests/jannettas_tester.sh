@@ -6,6 +6,7 @@
 SERVER="http://localhost:8080"
 UPLOADLIB="../webSites/main/uploadlibrary"
 UPLOADDIR="../webSites/main/upload"
+CGI_PATH="$SERVER/cgi/age_calculator.py"
 
 # Helper function to print test results
 function test_result {
@@ -48,6 +49,7 @@ test_result $? "POST with text file payload returns 200"
 curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: image/png" --data-binary @$UPLOADLIB/sample.png $SERVER/upload/sample.png | grep -q "200"
 test_result $? "POST with PNG image returns 200"
 
+# I get 413 Payload Too Large, try to fix with handling Expect: 100-continue
 curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/pdf" --data-binary @$UPLOADLIB/sample.pdf $SERVER/upload/sample.pdf | grep -q "200"
 test_result $? "POST with PDF file returns 200"
 
@@ -95,7 +97,31 @@ test_result $? "Valid HTTP version (HTTP/1.1) returns 200"
 curl -s -o /dev/null -w "%{http_code}" -X GET $SERVER/ --http1.0 | grep -q "505"
 test_result $? "Invalid HTTP version (HTTP/1.0) returns 505"
 
+
+# --- CGI Tests ---
+# CGI GET Test
+curl -s -o /dev/null -w "%{http_code}" "$CGI_PATH?year_of_birth=1990" | grep -q "200"
+test_result $? "CGI GET request with valid query string returns 200"
+
+curl -s "$CGI_PATH?year_of_birth=1990" | grep -q "Your age is: 34"
+test_result $? "CGI GET request calculates correct age for year_of_birth=1990"
+
+# CGI POST Test
+curl -s -o /dev/null -w "%{http_code}" -X POST -d "year_of_birth=1990" $CGI_PATH | grep -q "200"
+test_result $? "CGI POST request with valid data returns 200"
+
+curl -s -X POST -d "year_of_birth=1990" $CGI_PATH | grep -q "Your age is: 34"
+test_result $? "CGI POST request calculates correct age for year_of_birth=1990"
+
+# maybe we want to return 400 for invalid input - to check later
+curl -s -o /dev/null -w "%{http_code}" -X POST -d "year_of_birth=invalid" $CGI_PATH | grep -q "200"
+test_result $? "CGI POST request with invalid data returns 200"
+
+curl -s -X POST -d "year_of_birth=invalid" $CGI_PATH | grep -q "Invalid input!"
+test_result $? "CGI POST request handles invalid input correctly"
+
 # --- Cleanup Section ---
+sleep 3 # enough time to see files uploaded in upload folder before they are cleanedup
 # Commented out to inspect test results
 rm -f $UPLOADDIR/sample.*
 rm -f $UPLOADDIR/upload

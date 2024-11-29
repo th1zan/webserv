@@ -244,7 +244,7 @@ curl -X DELETE http://localhost:8080/upload/to_be_deleted.txt
 File uploaded successfullyFile Deleted%   
 
 
-works:
+works: - not anymore.. 
  curl -v -X POST http://localhost:8080/upload/subject.pdf \
 -H "Content-Type: pdf" \
 --data-binary @en.subject_webserv.pdf -H "Expect:"
@@ -262,3 +262,5 @@ HTTP/1.1 413 Payload Too Large
 * Closing connection
 <html><body><h1>413 Payload Too Large</h1></body></html>%
 
+Disable the Expect: 100-continue Header: KO
+curl -v -X POST -H "Content-Type: application/pdf" --data-binary @webSites/main/uploadlibrary/sample.pdf --no-keepalive http://localhost:8080/upload/testfile.pdf

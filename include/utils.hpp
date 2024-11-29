@@ -25,6 +25,6 @@ long ft_stoll(const std::string& str);
 
 /* === Janneta's utils functions HTTP parsing === */ 
 void stringTrim(std::string &str); 
-// bool startsWith(const std::string& str, const std::string& prefix); // not used so far in current version
+bool startsWith(const std::string& str, const std::string& prefix); // not used so far in current version
 
 #endif

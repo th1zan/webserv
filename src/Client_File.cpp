@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Client_File.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 16:08:42 by zsoltani          #+#    #+#             */
+/*   Updated: 2024/11/29 20:24:32 by zsoltani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Client.hpp"
 
+// list of functions
 // // Handle GET requests
 // void Client::handleGetRequest(const std::string& path)
 // std::string Client::generateAutoindexPage(const std::string &directoryPath, const std::string &requestPath)
@@ -28,7 +41,13 @@
 void Client::handleGetRequest(const std::string& path)
 {
     // Extract path without query string
-    std::string cleanPath = path.substr(0, path.find('?'));
+    size_t queryPos = path.find('?');
+    std::string cleanPath = (queryPos != std::string::npos) ? path.substr(0, queryPos) : path;
+    std::string queryString = (queryPos != std::string::npos) ? path.substr(queryPos + 1) : "";
+     // Debug the extracted clean path and query string
+    std::cout << "Debug: Full path: " << path << std::endl;
+    std::cout << "Debug: Clean path: " << cleanPath << std::endl;
+    std::cout << "Debug: Query string: " << queryString << std::endl;
 
     // Construct the full file path
     std::string filePath = this->_server.getRoot() + cleanPath;
@@ -36,6 +55,43 @@ void Client::handleGetRequest(const std::string& path)
     // If the path is "/", serve the default index file
     if (cleanPath == "/")
         filePath = this->_server.getRoot() + "/index.html";
+    
+    // Check if the path is a CGI script
+    location_t locationConfig = _server.getLocationConfig(cleanPath);
+    std::cout << "Debug: cleanPath: " << cleanPath << std::endl;
+    std::cout << "Debug: CGI Path: " << locationConfig.cgiPath << std::endl;
+    
+    if (isCgiPath(cleanPath, locationConfig))
+    {
+    // Validate and calculate pathInfo
+    // Calculate the script file name and path info
+    //std::string pathInfo = cleanPath.substr(locationConfig.cgiPath.length());
+
+    std::string pathInfo;
+    if (cleanPath.find(locationConfig.cgiPath) == 0)
+        pathInfo = cleanPath.substr(locationConfig.cgiPath.length());
+    else
+        {
+            std::cerr << "Error: cleanPath does not start with cgiPath!" << std::endl;
+            pathInfo = cleanPath; // Fallback for debugging
+        }
+        //std::cout << "Debug: pathInfo: " << pathInfo << std::endl;
+        // Script file to be executed
+        std::string scriptFileName = this->_server.getRoot() + cleanPath;
+        //std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
+
+        // Python interpreter path
+        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python
+        // Execute CGI and capture output
+        std::string result = executeCgi(scriptPath, "GET", queryString, "", pathInfo, scriptFileName);
+
+        // Send the CGI output as the HTTP response
+        if (!result.empty())
+            sendCgiResponse(result);
+        else
+            sendErrorResponse(500, "Internal Server Error");
+        return;
+    }
     // autoindex
     // check if the path is a directory
     struct stat pathStat;
@@ -127,58 +183,115 @@ std::string Client::generateAutoindexPage(const std::string &directoryPath, cons
  */
 void Client::handlePostRequest(const std::string &path)
  {
-    // Retrieve location configuration for this request
-    location_t locationConfig = _server.getLocationConfig(path);
-    std::cout << "Path: " << path << ", Has CGI: " << locationConfig.hasCGI 
-          << ", CGI Extension: " << locationConfig.cgiExtension << std::endl; // Debugging
+    // Extract path without query string
+    size_t queryPos = path.find('?');
+    std::string cleanPath = (queryPos != std::string::npos) ? path.substr(0, queryPos) : path;
+    std::string queryString = (queryPos != std::string::npos) ? path.substr(queryPos + 1) : "";
+
+    // std::cout << "Debug: Full path: " << path << std::endl;
+    // std::cout << "Debug: Clean path: " << cleanPath << std::endl;
+    // std::cout << "Debug: Query string: " << queryString << std::endl;
     
-    // Check if the path is a CGI script
-    if (isCgiPath(path, locationConfig))
-    {
-        std::cout << "Executing CGI script: " << path << std::endl;
-        executeCgi(locationConfig.cgiPath, path); // Placeholder for actual CGI execution
-        return;
-    }
-    else
-        std::cout << "Not a CGI script" << std::endl; // Debugging - remove later
+    // Retrieve location configuration for this request
+    location_t locationConfig = _server.getLocationConfig(cleanPath);
+    // std::cout << "Debug: Location Config - CGI Path: " << locationConfig.cgiPath
+    //           << ", Has CGI: " << locationConfig.hasCGI
+    //           << ", CGI Extension: " << locationConfig.cgiExtension << std::endl;
 
     // Validate Content-Type header
     std::map<std::string, std::string>::iterator it = _headers.find("Content-Type");
-    std::string contentType;
-    if (it == _headers.end()) // Fallback to text/plain if Content-Type is missing
-        contentType = "text/plain";
-    else
+
+    std::string contentType = (it != _headers.end()) ? it->second : "text/plain";
+    stringTrim(contentType);
+
+    // std::cout << "Normalized Content-Type: " << contentType << std::endl;
+    
+    if (isCgiPath(cleanPath, locationConfig))
     {
-        contentType = it->second;
-        stringTrim(contentType); // Trim whitespace
-    }
-    // degug to remove
-    std::cout << "Normalized Content-Type: " << contentType << std::endl;
-    // Handle multipart form data
-    if (contentType.find("multipart/form-data") != std::string::npos)
-    {
-        size_t boundaryPos = contentType.find("boundary=");
-        if (boundaryPos == std::string::npos)
+        // std::cout << "Debug: cleanPath: " << cleanPath << std::endl;
+        // std::cout << "Debug: CGI Path: " << locationConfig.cgiPath << std::endl;
+
+        // Determine PATH_INFO
+        std::string pathInfo;
+        if (cleanPath.find(locationConfig.cgiPath) == 0)
         {
-            sendErrorResponse(400, "Missing boundary parameter in Content-Type");
+            pathInfo = cleanPath.substr(locationConfig.cgiPath.length());
+            // Correct behavior: Only keep path info beyond the script
+            if (pathInfo.find('/') != 0) // Ensure it starts with a slash
+            {
+                pathInfo = ""; // Reset if no extra path info
+            }
+            else
+            {
+                pathInfo = ""; // No extra path info
+            }
+        }
+        else
+        {
+            std::cerr << "Error: cleanPath does not start with cgiPath!" << std::endl;
+            pathInfo = ""; // Default empty if no extra path info
+        }
+
+        // Script file to be executed
+        std::string scriptFileName = this->_server.getRoot() + cleanPath;
+
+        // Python interpreter path
+        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python
+
+        // std::cout << "Debug: scriptPath: " << scriptPath << std::endl;
+        // std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
+
+        // executeCgi(scriptPath, "POST", queryString, _requestPayload, pathInfo, scriptFileName);
+        std::string result = executeCgi(scriptPath, "POST", queryString, _requestPayload, pathInfo, scriptFileName);
+        //std::cout << "Debug: CGI Result: " << result << std::endl;
+        if (!result.empty())
+            sendCgiResponse(result);
+        else
+            sendErrorResponse(500, "Internal Server Error");
+        return;
+    }
+    // else
+    // {
+    //     std::cout << "Debug: Not a CGI script. Proceeding with standard POST handling." << std::endl; // Debugging
+    // }
+    // Handle file uploads if allowed
+    if (!locationConfig.uploadTo.empty())
+    {
+        if (contentType == "application/json" || contentType == "text/plain" || contentType == "application/octet-stream" ||
+            contentType == "application/pdf" || contentType.find("image/") == 0 || contentType == "application/x-www-form-urlencoded")
+        {
+            uploadFile(path);
             return;
         }
-        std::string boundary = contentType.substr(boundaryPos + 9); // Skip "boundary="
-        handleMultipartFormData(path, boundary);
-    } 
-    // Handle plain text, JSON or x-www-form-urlencoded payloads (if we handle them)
-    else if (contentType == "text/plain" || contentType == "application/json" || contentType == "application/x-www-form-urlencoded" || 
-            contentType == "image/png" || contentType == "image/jpeg" || contentType == "image/gif" ||
-            contentType == "application/pdf" || contentType == "application/xml" || contentType == "text/html") // we can add more supported content types
-    {
-        uploadFile(path);
-        std::cout << "Handling Content-Type: " << contentType << " for path: " << path << std::endl; // Debugging - remove later
+        // Check for multipart form data - maybe we'll remove if not needed
+        else if (contentType.find("multipart/form-data") != std::string::npos)
+        {
+            size_t boundaryPos = contentType.find("boundary=");
+            if (boundaryPos == std::string::npos)
+            {
+                sendErrorResponse(400, "Missing boundary parameter in Content-Type");
+                return;
+            }
+            std::string boundary = contentType.substr(boundaryPos + 9); // Extract boundary
+            handleMultipartFormData(path, boundary); // Handle multipart parsing
+        } 
     }
+    //     else
+    //         sendErrorResponse(415, "Unsupported Media Type for file upload");
+    //     return;
+    // }
+    // // Handle other supported Content-Types (e.g., JSON, plain text, etc.)
+    // if (contentType == "application/json" || contentType == "application/x-www-form-urlencoded")
+    // {
+    //     // Process JSON or form data (e.g., store in database, etc.)
+    //     std::cout << "Processing JSON or form data" << std::endl;
+    //     sendResponse(200, "OK", "POST processed successfully");
+    //     return;
+    // }
     // Unsupported Content-Type
     else
         sendErrorResponse(415, "Unsupported Media Type");
 }
-
 
 /**
  * @brief Handles multipart form data uploads from POST requests.

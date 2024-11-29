@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Client_Response.cpp                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 16:09:12 by zsoltani          #+#    #+#             */
+/*   Updated: 2024/11/29 17:13:10 by zsoltani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Client.hpp"
 
 // // Send responses
@@ -94,28 +106,6 @@ void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)
         customErrorPagePath = this->_server.getRoot() + it->second;
     else
         customErrorPagePath = this->_server.getRoot() + "error_pages/error.html";
-      
-    // // Handle specific custom error pages
-    // if (statusCode == 400)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/400.html";
-    // else if (statusCode == 403)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/403.html";
-    // else if (statusCode == 404)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/404.html";
-    // else if (statusCode == 405)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/405.html";
-    // else if (statusCode == 411)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/411.html";
-    // else if (statusCode == 413)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/413.html";
-    // else if (statusCode == 415)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/415.html";
-    // else if (statusCode == 500)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/500.html";
-    // else if (statusCode == 501)
-    //     customErrorPagePath = this->_server.getRoot() + "error_pages/501.html";
-	// else
-	// 	customErrorPagePath = this->_server.getRoot() + "error_pages/error.html";
 
     errorPageFile.open(customErrorPagePath.c_str());
     if (errorPageFile.is_open())
@@ -130,4 +120,43 @@ void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)
     std::ostringstream defaultErrorBody;
     defaultErrorBody << "<html><body><h1>" << statusCode << " " << statusMessage << "</h1></body></html>";
     sendResponse(statusCode, statusMessage, defaultErrorBody.str());
+} 
+
+void Client::sendCgiResponse(const std::string &cgiOutput)
+{
+    // Find the end of CGI headers (if present)
+    size_t headerEnd = cgiOutput.find("\r\n\r\n");
+    std::string body;
+    std::string contentType = "text/html"; // Default content type
+
+    if (headerEnd != std::string::npos)
+    {
+        // Extract headers and body
+        std::string headers = cgiOutput.substr(0, headerEnd);
+        body = cgiOutput.substr(headerEnd + 4);
+
+        // Parse headers to determine Content-Type
+        size_t contentTypePos = headers.find("Content-type:");
+        if (contentTypePos != std::string::npos)
+        {
+            size_t start = contentTypePos + 13; // Skip "Content-type:"
+            size_t end = headers.find("\r\n", start);
+            contentType = headers.substr(start, end - start);
+            stringTrim(contentType); // Trim whitespace
+        }
+    }
+    else
+    {
+        // If no headers, treat the entire output as the body
+        body = cgiOutput;
+    }
+
+    // Send the response with the parsed Content-Type
+    std::ostringstream response;
+    response << "HTTP/1.1 200 OK\r\n";
+    response << "Content-Type: " << contentType << "\r\n";
+    response << "Content-Length: " << body.size() << "\r\n\r\n";
+    response << body;
+
+    send(_socket, response.str().c_str(), response.str().size(), 0);
 }

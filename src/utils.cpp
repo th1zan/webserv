@@ -86,7 +86,7 @@ void stringTrim(std::string &str)
     str = (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
 }
 
-// bool startsWith(const std::string& str, const std::string& prefix)
-// {
-//     return str.substr(0, prefix.size()) == prefix;
-// }
+bool startsWith(const std::string& str, const std::string& prefix)
+{
+    return str.substr(0, prefix.size()) == prefix;
+}

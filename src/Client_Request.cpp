@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Client_Request.cpp                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/29 16:09:28 by zsoltani          #+#    #+#             */
+/*   Updated: 2024/11/29 16:09:38 by zsoltani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Client.hpp"
 
 // void Client::handleClientRequest()
@@ -24,10 +36,17 @@
  */
 void Client::handleClientRequest()
 {
+    // Set response as "sent" and record the request time
+    this->_sentRequest = true;
+    this->_lastRequest = std::time(NULL);
+    
+    // Log the start of request handling
+    std::cout << "[DEBUG] Start handling request for client on socket: " << _socket << std::endl;
     // Validate the request format
     if (!_checkRequest())
     {
         sendErrorResponse(400, "Bad Request: Invalid request format");
+        std::cerr << "[ERROR] Invalid request format received." << std::endl;
         return;
     }
 
@@ -40,11 +59,14 @@ void Client::handleClientRequest()
     if (locationStatus == -1) // Location not found
     {
         sendErrorResponse(404, "Not Found: Invalid resource location");
+        std::cerr << "[ERROR] Resource location not found: " << resource << std::endl;
         return;
     }
     else if (locationStatus == 1) // Redirect handled
+    {
+        std::cout << "[DEBUG] Redirect handled for resource: " << resource << std::endl;
         return;
-
+    }
     // Route the request based on the HTTP method
     if (_method == "GET")
         handleGetRequest(resource);
@@ -54,6 +76,14 @@ void Client::handleClientRequest()
         handleDeleteRequest(resource);
     else
         sendErrorResponse(501, "Not Implemented");
+        
+    // Clear request and payload after processing
+    this->_request.clear();
+    this->_requestPayload.clear();
+    this->_sentRequest = false;
+
+    // Log the successful processing of the request
+    std::cout << "[DEBUG] Successfully handled request for client on socket: " << _socket << std::endl;
 }
 
 /**
@@ -69,6 +99,7 @@ void Client::handleClientRequest()
 bool Client::_checkRequest()
 {
     std::stringstream ss(_request);
+    std::cerr << "DEBUG: Raw request:\n" << _request << std::endl; // Debug remove later
     _headers.clear();
     _requestPayload.clear();
 
@@ -175,35 +206,57 @@ bool Client::isUrlValid(const std::string &url) const
 bool Client::_checkAndGetHeaders(std::stringstream &ss)
 {
     std::string line;
+    bool hostHeaderFound = false;
+
     while (std::getline(ss, line))
     {
+        stringTrim(line); // Trim whitespace around the line
         if (line == "\r" || line.empty())
-            break;
+            break; // End of headers
 
+        // //check if line starts with "Host:" 
+        // if (startsWith(line, "Host:"))
+        //     hostHeaderFound = true;
+
+        // Find the colon for key-value separation
         size_t colon = line.find(':');
         if (colon == std::string::npos)
         {
             sendErrorResponse(400, "Bad Request: Malformed Header");
             return false;
         }
+        // Extract key and value
         std::string key = line.substr(0, colon);
         std::string value = line.substr(colon + 1);
+        stringTrim(key);
+        stringTrim(value);
+        // Validate header key and value
+        if (key.empty() || value.empty())
+        {
+            sendErrorResponse(400, "Bad Request: Empty Header Key or Value");
+            return false;
+        }
+        // Store the header in the map
         _headers[key] = value;
+        if (key == "Host")
+        {
+            hostHeaderFound = true;
+            // Validate the Host header
+            if (value.empty())
+            {
+                sendErrorResponse(400, "Bad Request: Empty Host Header");
+                return false;
+            }
+        }
     }
-    if (_headers.find("Host") == _headers.end() || _headers["Host"].empty())
+    // Ensure Host header is present
+    if (!hostHeaderFound)
     {
+        std::cerr << "DEBUG: Host header is missing!" << std::endl; // Debug remove later
         sendErrorResponse(400, "Bad Request: Missing Host Header");
         return false;
     }
-    // //fix the bug when this command passes curl -v --http1.1 --header "" http://localhost:8080/ Host header should not be empty
-    // // the code below didnt fix it
-    // if (_headers["Host"].empty())
-    // {
-    //     sendErrorResponse(400, "Bad Request: Empty Host Header");
-    //     return false;
-    // }
-
-    // Validate Content-Type (for POST requests - optional check, can be removed later)
+    //Validate Content-Type (for POST requests - optional check, can be removed later)
     if (_method == "POST")
     {
         if (_headers.find("Content-Type") == _headers.end())
@@ -268,7 +321,7 @@ bool Client::_checkAndGetPayload(std::stringstream &ss)
     // Resize the payload container and read the content
     this->_requestPayload.resize(contentLength);
     ss.read(&this->_requestPayload[0], contentLength);
-
+    std::cout << "DEBUG: Populated _requestPayload: " << _requestPayload << std::endl;
     // Validate if the entire payload was read
     if (ss.gcount() != contentLength)
     {
