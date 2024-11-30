@@ -121,10 +121,10 @@ curl -s -X POST -d "year_of_birth=invalid" $CGI_PATH | grep -q "Invalid input!"
 test_result $? "CGI POST request handles invalid input correctly"
 
 # --- Cleanup Section ---
-sleep 3 # enough time to see files uploaded in upload folder before they are cleanedup
+#sleep 3 # enough time to see files uploaded in upload folder before they are cleanedup
 # Commented out to inspect test results
-rm -f $UPLOADDIR/sample.*
-rm -f $UPLOADDIR/upload
+#rm -f $UPLOADDIR/sample.*
+#rm -f $UPLOADDIR/upload
 # rm -f $UPLOADDIR/file_to_delete.txt
 
 echo "All tests completed!"

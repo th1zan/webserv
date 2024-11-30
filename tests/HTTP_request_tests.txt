@@ -44,6 +44,12 @@ curl -v -X POST http://localhost:8080/upload/testfile.txt -H "Content-Length: "
 dd if=/dev/zero of=largefile.txt bs=1 count=11000000
 curl -v -X POST http://localhost:8080/upload/largefile.txt --data-binary @largefile.txt
 
+curl -v -X POST -H "Content-Type: application/pdf" --data-binary @webSites/main/uploadlibrary/sample.pdf -H "Expect:" http://localhost:8080/upload/sample.pdf
+OK uploads PDF with disabled Expect: 100-continue header 
+
+curl -v -X POST -H "Content-Type: application/pdf" --data-binary @webSites/main/uploadlibrary/sample.pdf http://localhost:8080/upload/sample.pdf
+KO without -H "Expect:
+
 
 # Valid DELETE request for existing file - OK File Deleted
 curl -v -X DELETE http://localhost:8080/upload/testfile.txt
@@ -108,6 +114,11 @@ Output:
 < 
 * Connection #0 to host localhost left intact
 Multipart file uploaded successfully%  
+
+curl -v -X POST http://localhost:8080/upload/sample.txt \
+-H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundary" \
+--data-binary $'------WebKitFormBoundary\r\nContent-Disposition: form-data; name="file"; filename="sample.txt"\r\nContent-Type: text/plain\r\n\r\n'"$(cat /Users/jansol/Desktop/WEBSERV/webserv/webSites/main/uploadlibrary/sample.txt)"$'\r\n------WebKitFormBoundary--'
+
 
 	Multiple Files in Multipart
 
