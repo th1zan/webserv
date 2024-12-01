@@ -275,3 +275,14 @@ HTTP/1.1 413 Payload Too Large
 
 Disable the Expect: 100-continue Header: KO
 curl -v -X POST -H "Content-Type: application/pdf" --data-binary @webSites/main/uploadlibrary/sample.pdf --no-keepalive http://localhost:8080/upload/testfile.pdf
+
+
+curl -v --http1.1 -X POST http://localhost:8080/upload --header "Transfer-Encoding: chunked" --data-binary @-
+
+5
+Hello
+7
+, world!
+0
+
+After entering 0 (end of chunks) and pressing Enter, press Ctrl+D to send EOF (End Of File) to curl.
