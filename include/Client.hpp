@@ -53,6 +53,7 @@ class Client
 		std::string	executeCgi(const std::string &cgiPath, const std::string &method, const std::string &queryString, 
 								const std::string &body, const std::string &pathInfo, const std::string &scriptFileName);
 		bool		isUrlValid(const std::string &url) const; ///< Checks if a URL chars are valid
+		std::string decodeUrl(const std::string &url) const; ///< Decodes percent-encoded URLs (browsers encode invalid chars like '^' to '%5E').
 		bool		_checkRequest();
 		bool		_checkFirstLine(std::stringstream &ss);
 		bool 		_checkAndGetHeaders(std::stringstream &ss);

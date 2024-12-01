@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:12 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/11/29 17:13:10 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/11/30 22:54:03 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void Client::sendRedirectResponse(int statusCode, const std::string &location)
 
 // TODO: Add custom error pages - 400, 403, 404, 405, 411, 413, 415, 500, 501
 // log error message?
-// maybe make a map for all those error codesvto avoid so many if else
+// maybe make a map for all those error codes to avoid so many if else
 void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)
 {
     std::string customErrorPagePath;
@@ -90,22 +90,22 @@ void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)
 
     // Map of status codes to error page paths
     std::map<int, std::string> errorPagePaths;
-    errorPagePaths[400] = "error_pages/400.html";
-    errorPagePaths[403] = "error_pages/403.html";
-    errorPagePaths[404] = "error_pages/404.html";
-    errorPagePaths[405] = "error_pages/405.html";
-    errorPagePaths[411] = "error_pages/411.html";
-    errorPagePaths[413] = "error_pages/413.html";
-    errorPagePaths[415] = "error_pages/415.html";
-    errorPagePaths[500] = "error_pages/500.html";
-    errorPagePaths[501] = "error_pages/501.html";
+    errorPagePaths[400] = "/error_pages/400.html";
+    errorPagePaths[403] = "/error_pages/403.html";
+    errorPagePaths[404] = "/error_pages/404.html";
+    errorPagePaths[405] = "/error_pages/405.html";
+    errorPagePaths[411] = "/error_pages/411.html";
+    errorPagePaths[413] = "/error_pages/413.html";
+    errorPagePaths[415] = "/error_pages/415.html";
+    errorPagePaths[500] = "/error_pages/500.html";
+    errorPagePaths[501] = "/error_pages/501.html";
     
     // Find the custom error page path or use a default
     std::map<int, std::string>::iterator it = errorPagePaths.find(statusCode);
     if (it != errorPagePaths.end())
         customErrorPagePath = this->_server.getRoot() + it->second;
     else
-        customErrorPagePath = this->_server.getRoot() + "error_pages/error.html";
+        customErrorPagePath = this->_server.getRoot() + "/error_pages/error.html";
 
     errorPageFile.open(customErrorPagePath.c_str());
     if (errorPageFile.is_open())
@@ -119,6 +119,8 @@ void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)
     // Fallback for other status codes or missing custom error pages
     std::ostringstream defaultErrorBody;
     defaultErrorBody << "<html><body><h1>" << statusCode << " " << statusMessage << "</h1></body></html>";
+    // Debug: Sending fallback response
+    std::cout << "Debug: Sending fallback error response for status code: " << statusCode << std::endl;
     sendResponse(statusCode, statusMessage, defaultErrorBody.str());
 } 
 

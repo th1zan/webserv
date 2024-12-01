@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:28 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/11/29 16:09:38 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/01 00:07:08 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,12 +183,44 @@ bool Client::isUrlValid(const std::string &url) const
     const std::string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                       "abcdefghijklmnopqrstuvwxyz"
                                       "0123456789-._~:/?#[]@!$&'()*+,;=%";
-    for (std::string::const_iterator it = url.begin(); it != url.end(); ++it)
+    std::string decodedUrl = decodeUrl(url); // Decode the URL first
+    for (std::string::const_iterator it = decodedUrl.begin(); it != decodedUrl.end(); ++it)
     {
         if (allowedChars.find(*it) == std::string::npos)
-            return false;
+            return false; // Invalid character found
     }
-    return true;
+    return true; // All characters are valid
+}
+
+/**
+ * @brief Decodes percent-encoded characters in a URL.
+ * 
+ * @details Converts URL-encoded sequences (e.g., "%20") back to their 
+ * original characters (e.g., space). This is necessary because browsers 
+ * automatically encode invalid characters in URLs, and the server needs 
+ * to decode them to validate and process the URL correctly.
+ * 
+ * @param [in] url The URL to decode.
+ * @return A decoded URL with all percent-encoded characters replaced by their original values.
+ */
+std::string Client::decodeUrl(const std::string &url) const
+{
+    std::string decoded;
+    for (size_t i = 0; i < url.length(); ++i)
+    {
+        if (url[i] == '%' && i + 2 < url.length())
+        {
+            // Convert percent-encoded sequence to character
+            char hex[3] = {url[i + 1], url[i + 2], '\0'};
+            decoded += static_cast<char>(strtol(hex, NULL, 16));
+            i += 2; // Skip the next two characters
+        }
+        else
+        {
+            decoded += url[i];
+        }
+    }
+    return decoded;
 }
 
 //TODO fix the bug when this command passes curl -v --http1.1 --header "" http://localhost:8080/ Host header should not be empty
