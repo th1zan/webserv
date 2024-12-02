@@ -81,7 +81,8 @@ void Client::handleGetRequest(const std::string& path)
         //std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
 
         // Python interpreter path
-        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python
+        // std::string scriptPath = "/usr/bin/python3"; // Hardcoded for Python on linux
+        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python on macOS
         // Execute CGI and capture output
         std::string result = executeCgi(scriptPath, "GET", queryString, "", pathInfo, scriptFileName);
 
@@ -162,7 +163,7 @@ std::string Client::generateAutoindexPage(const std::string &directoryPath, cons
         std::string name = entry->d_name;
         if (name == ".") continue; // Skip current directory
         autoindex << "<li><a href=\"" << requestPath;
-        if (requestPath.back() != '/') autoindex << '/';
+        if (back(requestPath) != '/') autoindex << '/';
         autoindex << name << "\">" << name << "</a></li>";
     }
     closedir(dir);
@@ -236,7 +237,8 @@ void Client::handlePostRequest(const std::string &path)
         std::string scriptFileName = this->_server.getRoot() + cleanPath;
 
         // Python interpreter path
-        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python
+        //std::string scriptPath = "/usr/bin/python3"; // Hardcoded for Python on linux
+        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python for MacOS
 
         // std::cout << "Debug: scriptPath: " << scriptPath << std::endl;
         // std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
@@ -360,13 +362,13 @@ void Client::uploadFile(const std::string &path)
     std::string uploadDirectory = _server.getRoot();
     if (!locationConfig.uploadTo.empty())
     {
-        if (locationConfig.uploadTo.front() != '/')
+        if (front(locationConfig.uploadTo) != '/')
             uploadDirectory += "/";
         uploadDirectory += locationConfig.uploadTo;
     }
 
     // Ensure the upload directory ends with a '/'
-    if (uploadDirectory.back() != '/')
+    if (back(uploadDirectory) != '/')
         uploadDirectory += "/";
 
     // Derive the full file path

@@ -329,7 +329,7 @@ bool Client::_checkAndGetPayload(std::stringstream &ss)
     long contentLength = -1;
     try
     {
-        contentLength = std::stol(it->second);
+        contentLength = ft_stoll(it->second);
         if (contentLength < 0)
         {
             sendErrorResponse(400, "Bad Request: Invalid Content-Length");

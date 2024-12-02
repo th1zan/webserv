@@ -90,3 +90,18 @@ bool startsWith(const std::string& str, const std::string& prefix)
 {
     return str.substr(0, prefix.size()) == prefix;
 }
+
+
+char back(std::string str)
+{
+    if (!str.size())
+        return '\0';
+    return str[str.size() - 1];
+}
+
+char front(std::string str)
+{
+    if (str.empty())
+        return '\0';
+    return str[0];
+}

@@ -27,4 +27,14 @@ long ft_stoll(const std::string& str);
 void stringTrim(std::string &str); 
 bool startsWith(const std::string& str, const std::string& prefix); // not used so far in current version
 
+char back(std::string str);
+char front(std::string str);
+
+template <typename T>
+std::string to_string(const T& value) {
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}
+
 #endif
