@@ -4,6 +4,7 @@
  */
 
 #include "Parser.hpp"
+#include <string>
 
 /**
  * The function _checkLocationParam() in C++ calls two other functions to check directory name and
@@ -212,7 +213,29 @@ void Parser::_checkReturn(std::string& dirValue) {
 
 	// Delete ending ';' if necessary to get a cleaner string later
 	this->_delEndSemiColon(dirValue);
-	this->_checkPath(dirValue, false);
+  
+  //the _checkPath is done later
+  std::vector<std::string> tokens;
+  std::string word;
+  std::string redirect_path;
+  
+  while (dirValue >> word) {
+      tokens.push_back(word);
+  }
+
+  if (tokens.size() == 2) {
+     redirect_err = tokens[0];
+     redirect_path = tokens[1];
+  }
+  else if (tokens.size() == 1) {
+      redirect_path = tokens[0];
+  }
+  else {
+    std::cerr << "Error in "return" directive" << std::endl;
+  }
+  this->_checkPath(redirect_path, false);
+
+
 }
 
 
