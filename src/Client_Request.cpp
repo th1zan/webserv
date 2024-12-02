@@ -67,6 +67,10 @@ void Client::handleClientRequest()
         std::cout << "[DEBUG] Redirect handled for resource: " << resource << std::endl;
         return;
     }
+    else if (locationStatus == -2) {
+        sendErrorResponse(405, "Method Not Allowed");
+        return;
+    }
    /* else if (locationStatus == 2) {
         sendResponse(200, "OK", )
     }*/
@@ -409,7 +413,7 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
         }
         // Check if the method is allowed
         if (std::find(matchedLocation->methods.begin(), matchedLocation->methods.end(), _method) == matchedLocation->methods.end())
-            throw std::runtime_error("405 Method Not Allowed");
+            return -2;
 
         // Update the root if specified
         if (!matchedLocation->root.empty())

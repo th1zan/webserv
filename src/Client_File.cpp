@@ -276,12 +276,13 @@ void Client::handlePostRequest(const std::string &path)
             }
             std::string boundary = contentType.substr(boundaryPos + 9); // Extract boundary
             handleMultipartFormData(path, boundary); // Handle multipart parsing
-        } 
+        }
+        else {
+            sendErrorResponse(415, "Unsupported Media Type for file upload");
+            return;
+        }
     }
-    //     else
-    //         sendErrorResponse(415, "Unsupported Media Type for file upload");
-    //     return;
-    // }
+
     // // Handle other supported Content-Types (e.g., JSON, plain text, etc.)
     // if (contentType == "application/json" || contentType == "application/x-www-form-urlencoded")
     // {
