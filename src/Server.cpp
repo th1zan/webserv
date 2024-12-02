@@ -183,6 +183,8 @@ void Server::_getLocationStruct() {
 			<< ", CGI Path: " << tmpLoc.cgiPath
 			<< ", CGI Extension: " << tmpLoc.cgiExtension << std::endl;
 		}
+		else
+			tmpLoc.hasCGI = false;
 
 		if (itMap->find("cgi_path") != itMap->end())
 			tmpLoc.cgiPath = itMap->find("cgi_path")->second;
