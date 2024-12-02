@@ -52,7 +52,7 @@ void Parser::_checkLocDirName() {
  * of each directive in a Location bloc.
  */
 void Parser::_checkLocDirValue() {
-  for (std::vector<std::map<std::string, std::string>>::iterator itVec =
+  for (std::vector<std::map<std::string, std::string> >::iterator itVec =
            this->_tempLocationMapVector.begin();
        itVec != this->_tempLocationMapVector.end(); ++itVec) {
     std::map<std::string, std::string> &locMap = *itVec;
@@ -220,13 +220,13 @@ void Parser::_checkReturn(std::string &dirValue) {
   // Delete ending ';' if necessary to get a cleaner string later
   this->_delEndSemiColon(dirValue);
 
-  std::istringstream iss = dirValue;
+  std::istringstream iss(dirValue);
   // the _checkPath is done later
   std::vector<std::string> tokens;
   std::string word;
   std::string redirect_path;
+  std::string redirect_err;
 
-  std::string redirect_err, std : string redirect_path;
   while (iss >> word) {
     tokens.push_back(word);
   }
@@ -237,9 +237,13 @@ void Parser::_checkReturn(std::string &dirValue) {
   } else if (tokens.size() == 1) {
     redirect_path = tokens[0];
   } else {
-    std::cerr << "Error in " return " directive" << std::endl;
+    std::cerr << "Error in 'return' directive: more than 2 arguments"
+              << std::endl;
   }
   this->_checkPath(redirect_path, false);
+  if (this->_isNumber(redirect_err)) {
+    std::cerr << "Error in 'return' directive: not a number. " << std::endl;
+  }
 }
 
 /**

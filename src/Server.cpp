@@ -171,7 +171,7 @@ void Server::_getLocationStruct() {
       while (tmp >> word) {
           tokens.push_back(word);
       }
-
+      //the errors are handled during the parsing in '_checkReturn()'
       if (tokens.size() == 2) {
           tmpLoc.redirect_err = tokens[0];
           tmpLoc.redirect_path = tokens[1];
@@ -179,13 +179,7 @@ void Server::_getLocationStruct() {
       else if (tokens.size() == 1) {
           tmpLoc.redirect_path = tokens[0];
       }
-      else {
-        std::cerr << "Error in "return" directive" << std::endl;
-      }
     }
-
-
-    }			
 
 		if (itMap->find("autoindex") != itMap->end()) {
 			tmpLoc.autoindex = (itMap->find("autoindex")->second == "on");
@@ -313,7 +307,7 @@ void Server::printServers() {
 			location_t tmploc = locIt->second;
 			std::cout << "  Location Name: " << locIt->first << std::endl;
 			std::cout << "  Location Root: " << tmploc.root << std::endl;
-			std::cout << "  Redirect: " << tmploc.redirect << std::endl;
+			std::cout << "  Redirect: " << tmploc.redirect_err << tmploc.redirect_path << std::endl;
 			std::cout << "  Autoindex: " << (tmploc.autoindex ? "Enabled" : "Disabled") << std::endl;
 			std::cout << "  Try File: " << tmploc.tryFile << std::endl;
 			std::cout << "  Has CGI: " << (tmploc.hasCGI ? "Yes" : "No") << std::endl;
@@ -349,7 +343,7 @@ void Server::printLocation(location_t loc) {
 		std::cout << "----- Server::printLocation() ----" << std::endl;
 			std::cout << std::endl;
 			std::cout << "  Location Root: " << loc.root << std::endl;
-			std::cout << "  Redirect: " << loc.redirect << std::endl;
+			std::cout << "  Redirect: " << loc.redirect_err << loc.redirect_path << std::endl;
 			std::cout << "  Autoindex: " << (loc.autoindex ? "On" : "Off") << std::endl;
 			std::cout << "  Try File: " << loc.tryFile << std::endl;
 			std::cout << "  Has CGI: " << (loc.hasCGI ? "Yes" : "No") << std::endl;

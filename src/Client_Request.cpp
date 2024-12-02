@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Client.hpp"
+#include <cstdlib>
 
 // void Client::handleClientRequest()
 // bool Client::_checkRequest()
@@ -406,9 +407,9 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
     if (matchedLocation)
     {
         // Handle redirects
-        if (!matchedLocation->redirect.empty())
+        if (!matchedLocation->redirect_path.empty())
         {
-            sendRedirectResponse(302, matchedLocation->redirect); // Redirect
+            sendRedirectResponse(ft_stoll(matchedLocation->redirect_err), matchedLocation->redirect_path); // Redirect
             return 1; // Redirect handled
         }
         // Check if the method is allowed
