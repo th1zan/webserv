@@ -29,7 +29,7 @@ Parser::Parser(int argc, char **argv){
 		throw std::runtime_error(ERR_OPEN + this->_confFilePath);
 		
 	//parse config file
-	this->_parseFiles();
+	this->_parseFile();
 }
 
 /**
