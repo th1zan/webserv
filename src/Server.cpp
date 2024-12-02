@@ -5,6 +5,7 @@
  */
 
 #include "Server.hpp"
+#include <sstream>
 
 /**
  * @brief Constructs a `Server` object with the parsed configuration parameters.
@@ -162,8 +163,29 @@ void Server::_getLocationStruct() {
 			}
 		}
 
-		if (itMap->find("return") != itMap->end())
-			tmpLoc.redirect = itMap->find("return")->second;
+    if (itMap->find("return") != itMap->end()) {
+      std::istringstream tmp(itMap->find("return")->second);
+      std::vector<std::string> tokens;
+      std::string word;
+
+      while (tmp >> word) {
+          tokens.push_back(word);
+      }
+
+      if (tokens.size() == 2) {
+          tmpLoc.redirect_err = tokens[0];
+          tmpLoc.redirect_path = tokens[1];
+      }
+      else if (tokens.size() == 1) {
+          tmpLoc.redirect_path = tokens[0];
+      }
+      else {
+        std::cerr << "Error in "return" directive" << std::endl;
+      }
+    }
+
+
+    }			
 
 		if (itMap->find("autoindex") != itMap->end()) {
 			tmpLoc.autoindex = (itMap->find("autoindex")->second == "on");
@@ -203,16 +225,16 @@ void Server::_getLocationStruct() {
 }
 
 // ---> Getters ---------------------------------------------------------------
-bool Server::getIsPrimary(){return (this->_isPrimary);}
-const std::string&			Server::getHost() const{return this->_host;}
-const std::string&			Server::getPort() const{return this->_port;}
-int							Server::getSocket() const{return this->_socket;}
+bool                      Server::getIsPrimary(){return (this->_isPrimary);}
+const std::string&	      Server::getHost() const{return this->_host;}
+const std::string&	      Server::getPort() const{return this->_port;}
+int							          Server::getSocket() const{return this->_socket;}
 std::vector<std::string>	Server::getServerNameVector() const{return this->_serverNameVector;}
-const std::string&			Server::getRoot() const{return this->_root;}
-const std::string&			Server::getIndex() const{return this->_index;}
+size_t						        Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+const std::string&			  Server::getRoot() const{return this->_root;}
+const std::string&			  Server::getIndex() const{return this->_index;}
 std::map<std::string, std::string>			Server::getErrorPage() const{return this->_errorPages;}
-const std::string&			Server::getErrorResponse() const{return this->_errorResponse;}
-size_t						Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+const std::string&			                Server::getErrorResponse() const{return this->_errorResponse;}
 // locationMap const	&Server::getLocations() const{return this->_locations;}
 
 // Jannetta - added getter for location map
