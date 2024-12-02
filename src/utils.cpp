@@ -105,3 +105,20 @@ char front(std::string str)
         return '\0';
     return str[0];
 }
+
+std::string getPythonPath(){
+    FILE* pipe = popen("which python3", "r");
+    if (!pipe) {
+        std::cerr << "Failed to find Python3." << std::endl;
+        return "";
+    }
+
+    char buffer[128];
+    std::string result = "";
+    while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+        result += buffer;
+    }
+
+    pclose(pipe); // Close the pipe
+    return result;
+}

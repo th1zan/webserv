@@ -81,8 +81,8 @@ void Client::handleGetRequest(const std::string& path)
         //std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
 
         // Python interpreter path
-        // std::string scriptPath = "/usr/bin/python3"; // Hardcoded for Python on linux
-        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python on macOS
+        std::string scriptPath = getPythonPath(); // Get the Python interpreter path
+
         // Execute CGI and capture output
         std::string result = executeCgi(scriptPath, "GET", queryString, "", pathInfo, scriptFileName);
 

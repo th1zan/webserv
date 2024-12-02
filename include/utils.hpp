@@ -37,4 +37,6 @@ std::string to_string(const T& value) {
     return oss.str();
 }
 
+std::string getPythonPath();
+
 #endif

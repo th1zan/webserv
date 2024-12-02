@@ -67,6 +67,9 @@ void Client::handleClientRequest()
         std::cout << "[DEBUG] Redirect handled for resource: " << resource << std::endl;
         return;
     }
+   /* else if (locationStatus == 2) {
+        sendResponse(200, "OK", )
+    }*/
     // Route the request based on the HTTP method
     if (_method == "GET")
         handleGetRequest(resource);
@@ -385,6 +388,7 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
     const std::map<std::string, location_t> &locations = _server.getLocations();
     const location_t *matchedLocation = NULL;
     size_t matchedPrefixLength = 0;
+
 
     // Find the best matching location
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
