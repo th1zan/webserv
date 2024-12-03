@@ -116,7 +116,7 @@ void Server::_fillErrorPageMap(){
  */
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	try {
-		long value = std::stoll(maxSizeStr);
+		long value = ft_stoll(maxSizeStr);
 		return value;
 	} catch (const std::invalid_argument& e) {
 		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION(maxSizeStr));
@@ -202,6 +202,8 @@ void Server::_getLocationStruct() {
 			<< ", CGI Path: " << tmpLoc.cgiPath
 			<< ", CGI Extension: " << tmpLoc.cgiExtension << std::endl;
 		}
+		else
+			tmpLoc.hasCGI = false;
 
 		if (itMap->find("cgi_path") != itMap->end())
 			tmpLoc.cgiPath = itMap->find("cgi_path")->second;
@@ -243,26 +245,49 @@ location_t Server::getLocationConfig(const std::string &path) const
     const location_t *matchedLocation = NULL;
     size_t matchedPrefixLength = 0;
 
+    // Trouver la meilleure correspondance
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
 	{
-        if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength)
+		// check for a perfect match
+        if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength && (path[it->first.length()] == '/' || path[it->first.length()] == '\0'))
 		{
             matchedLocation = &(it->second);
             matchedPrefixLength = it->first.length();
         }
     }
 
+    // Si une correspondance est trouvée
     if (matchedLocation)
-	{
-        // Debugging to ensure the correct location is matched
+    {
         std::cout << "Matched location: " << matchedPrefixLength << ", uploadTo: " << matchedLocation->uploadTo << std::endl;
         return *matchedLocation;
     }
 
-    throw std::runtime_error("No matching location found for path: " + path);
+    // Retourner une configuration par défaut si aucune correspondance n’est trouvée
+    return _getDefaultLocation();
 }
 
-void Server::createSocket()
+/**
+ * @brief Crée une configuration par défaut pour les cas où aucun bloc `location` ne correspond.
+ */
+location_t Server::_getDefaultLocation() const
+{
+    location_t tmpLoc;
+    tmpLoc.autoindex = false;
+    tmpLoc.hasCGI = false;
+    tmpLoc.cgiPath = "";
+    tmpLoc.root = "/";
+    // tmpLoc.redirect_path = "",
+    // tmpLoc.methods.push_back(method);
+    // tmpLoc.redirect_err = "302";
+    // tmpLoc.cgiExtension = itMap->find("cgi_ext")->second;
+    // tmpLoc.tryFile = "";
+    // tmpLoc.uploadTo = "";
+    return tmpLoc;
+}
+
+
+  void Server::createSocket()
 {
 	if (!this->_socket)
 	{

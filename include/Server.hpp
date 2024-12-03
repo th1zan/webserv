@@ -53,13 +53,13 @@ class Server{
 			std::vector<location_t>				_tempLocationVector;
 			bool								          _isPrimary;
 			int									          _socket;
-			std::map<std::string, std::string>	_errorPages;
+      std::map<std::string, std::string>	_errorPages;
 
       bool								_checkPrimaryServer(std::vector<Server>& _serversVector);
 			long 								_getConvertedMaxSize(std::string& maxSizeStr);
 			void								_fillServerNameVector(std::string& serverNames);
 			void								_fillErrorPageMap();
-
+	    location_t          _getDefaultLocation() const;
 			// std::vector<Server>								_serversVector;
 			std::map<std::string, std::string>					_ServerConfigMap;
 

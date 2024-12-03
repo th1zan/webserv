@@ -92,3 +92,37 @@ void stringTrim(std::string &str) {
 bool startsWith(const std::string &str, const std::string &prefix) {
   return str.substr(0, prefix.size()) == prefix;
 }
+
+
+char back(std::string str)
+{
+    if (!str.size())
+        return '\0';
+    return str[str.size() - 1];
+}
+
+char front(std::string str)
+{
+    if (str.empty())
+        return '\0';
+    return str[0];
+}
+
+std::string getPythonPath(){
+    FILE* pipe = popen("which python3", "r");
+    if (!pipe) {
+        std::cerr << "Failed to find Python3." << std::endl;
+        return "";
+    }
+
+    char buffer[128];
+    std::string result = "";
+    while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+        result += buffer;
+    }
+
+    pclose(pipe); // Close the pipe
+    if (isspace(result[result.size() - 1]))
+        result = result.substr(0, result.size() - 1);
+    return result;
+}
