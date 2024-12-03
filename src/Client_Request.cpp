@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:28 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/12/01 00:07:08 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:38:28 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // bool Client::_checkAndGetHeaders(std::stringstream &ss)
 // bool Client::_checkAndGetPayload(std::stringstream &ss)
 // bool Client::isUrlValid(const std::string &url) const 
-
+// int Client::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 
 /**
  * @brief Handles the client's request by validating, routing, and processing it.
@@ -42,7 +42,7 @@ void Client::handleClientRequest()
     this->_lastRequest = std::time(NULL);
     
     // Log the start of request handling
-    std::cout << "[DEBUG] Start handling request for client on socket: " << _socket << std::endl;
+    //std::cout << "[DEBUG] Start handling request for client on socket: " << _socket << std::endl;
     // Validate the request format
     if (!_checkRequest())
     {
@@ -84,7 +84,7 @@ void Client::handleClientRequest()
     this->_sentRequest = false;
 
     // Log the successful processing of the request
-    std::cout << "[DEBUG] Successfully handled request for client on socket: " << _socket << std::endl;
+    // std::cout << "[DEBUG] Successfully handled request for client on socket: " << _socket << std::endl;
 }
 
 /**
@@ -365,61 +365,76 @@ bool Client::_checkAndGetPayload(std::stringstream &ss)
 }
 
 /**
- * @brief Matches the requested resource with server locations and updates root path if applicable.
+ * @brief Matches a resource path to a server's location block.
  * 
- * @details Performs the following operations:
- * - Finds the best-matching location block based on the resource path.
- * - Handles redirects if specified in the matched location.
- * - Checks if the method is allowed in the location.
- * - Updates the root directory if specified in the location.
+ * Searches for the best matching location block based on a longest-prefix match.
+ * Handles redirects, validates HTTP methods, and updates the root directory if applicable.
  * 
- * @param [in, out] root Reference to the root directory to be updated.
- * @param [in, out] resource Reference to the resource path.
- * @param [in] loopCount Counter to prevent infinite loops in redirects.
- * @return -1 if no matching location is found, 1 if a redirect is handled, 0 otherwise.
+ * @param root [in, out] Reference to the root directory path, updated if a new root is specified.
+ * @param resource [in, out] Reference to the requested resource path, may be modified for redirects.
+ * @param loopCount [in] Counter to prevent infinite redirects.
+ * 
+ * @return 
+ * - `0` if a location block is matched.
+ * - `1` if a redirect is handled.
+ * - `-1` if no location matches or an error occurs.
+ * 
+ * @details Sends error responses for invalid methods or unmatched locations. 
+ * Validates allowed methods and handles redirections where applicable.
  */
 int Client::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 {
     if (loopCount > MAX_LOOP_COUNT)
-        return -1; // Indicates a loop error
+        return -1;
 
     const std::map<std::string, location_t> &locations = _server.getLocations();
-    const location_t *matchedLocation = NULL;
+    std::map<std::string, location_t>::const_iterator matchedLocation = locations.end();
     size_t matchedPrefixLength = 0;
 
     // Find the best matching location
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
     {
-        if (resource.find(it->first) == 0 && it->first.length() > matchedPrefixLength)
+        if (resource.find(it->first) == 0 && it->first.size() > matchedPrefixLength)
         {
-            matchedLocation = &(it->second);
-            matchedPrefixLength = it->first.length();
+            matchedLocation = it;
+            matchedPrefixLength = it->first.size();
         }
     }
-    if (matchedLocation)
+
+    if (matchedLocation == locations.end())
+        return -1; // No matching location found
+
+    const location_t &loc = matchedLocation->second;
+
+    // Handle redirects
+    if (!loc.redirect_path.empty())
     {
-        // Handle redirects
-        if (!matchedLocation->redirect_path.empty())
+        sendRedirectResponse(ft_stoll(loc.redirect_err), loc.redirect_path);
+        return 1; // Redirect handled
+    }
+
+    // Check if the method is allowed
+    if (std::find(loc.methods.begin(), loc.methods.end(), _method) == loc.methods.end())
+    {
+        // Generate a list of allowed methods
+        std::string allowedMethods;
+        for (std::vector<std::string>::const_iterator it = loc.methods.begin(); it != loc.methods.end(); ++it)
         {
-            sendRedirectResponse(ft_stoll(matchedLocation->redirect_err), matchedLocation->redirect_path); // Redirect
-            return 1; // Redirect handled
+            if (!allowedMethods.empty())
+                allowedMethods += ", ";
+            allowedMethods += *it;
         }
-        // Check if the method is allowed
-        if (std::find(matchedLocation->methods.begin(), matchedLocation->methods.end(), _method) == matchedLocation->methods.end())
-            throw std::runtime_error("405 Method Not Allowed");
 
-        // Update the root if specified
-        if (!matchedLocation->root.empty())
-            root = matchedLocation->root;
+        // Send error response with allowed methods
+        std::string errorMessage = "405 Method Not Allowed. Allowed methods: " + allowedMethods;
+        sendErrorResponse(405, errorMessage);
+        std::cerr << "[ERROR] Method not allowed. Allowed methods: " << allowedMethods << std::endl;
+        return -1; // Return an error code
+    }
 
-        return 0; // Successfully matched a location
-    } //code added by tsanglar to debug the problem with a server bloc without location bloc. 
-    // else if (!_server.getRoot().empty()){ 
-    //
-    //   //if no location bloc, get the root directive of the server bloc
-    //   root = _server.getRoot();
-    //   return 0;
-    // }
-    return -1; // No matching location found
+    // Update the root if specified
+    if (!loc.root.empty())
+        root = loc.root;
+
+    return 0; // Successfully matched a location
 }
-
