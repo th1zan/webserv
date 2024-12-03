@@ -243,26 +243,48 @@ location_t Server::getLocationConfig(const std::string &path) const
     const location_t *matchedLocation = NULL;
     size_t matchedPrefixLength = 0;
 
+    // Trouver la meilleure correspondance
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
-	{
+    {
         if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength)
-		{
+        {
             matchedLocation = &(it->second);
             matchedPrefixLength = it->first.length();
         }
     }
 
+    // Si une correspondance est trouvée
     if (matchedLocation)
-	{
-        // Debugging to ensure the correct location is matched
+    {
         std::cout << "Matched location: " << matchedPrefixLength << ", uploadTo: " << matchedLocation->uploadTo << std::endl;
         return *matchedLocation;
     }
 
-    throw std::runtime_error("No matching location found for path: " + path);
+    // Retourner une configuration par défaut si aucune correspondance n’est trouvée
+    return _getDefaultLocation();
 }
 
-void Server::createSocket()
+/**
+ * @brief Crée une configuration par défaut pour les cas où aucun bloc `location` ne correspond.
+ */
+location_t Server::_getDefaultLocation() const
+{
+    location_t tmpLoc;
+    tmpLoc.autoindex = false;
+    tmpLoc.hasCGI = false;
+    tmpLoc.cgiPath = "";
+    tmpLoc.root = "/";
+    // tmpLoc.redirect_path = "",
+    // tmpLoc.methods.push_back(method);
+    // tmpLoc.redirect_err = "302";
+    // tmpLoc.cgiExtension = itMap->find("cgi_ext")->second;
+    // tmpLoc.tryFile = "";
+    // tmpLoc.uploadTo = "";
+    return tmpLoc;
+}
+
+
+  void Server::createSocket()
 {
 	if (!this->_socket)
 	{

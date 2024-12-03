@@ -57,13 +57,14 @@ void Client::handleClientRequest()
 
     // Validate the requested location or handle a redirect
 	int locationStatus = _checkLocation(root, resource, 0);
-    if (locationStatus == -1) // Location not found
-    {
-        sendErrorResponse(404, "Not Found: Invalid resource location");
-        std::cerr << "[ERROR] Resource location not found: " << resource << std::endl;
-        return;
-    }
-    else if (locationStatus == 1) // Redirect handled
+    //now we create a location bloc by default so we always find a location block.
+    // if (locationStatus == -1) // Location not found
+    // {
+    //     sendErrorResponse(404, "Not Found: Invalid resource location");
+    //     std::cerr << "[ERROR] Resource location not found: " << resource << std::endl;
+    //     return;
+    // }
+    if (locationStatus == 1) // Redirect handled
     {
         std::cout << "[DEBUG] Redirect handled for resource: " << resource << std::endl;
         return;
@@ -411,15 +412,17 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
         // Update the root if specified
         if (!matchedLocation->root.empty())
             root = matchedLocation->root;
-
+      
+     std::cout << "root : resource matched location " << root << " : " << resource << std::endl;
         return 0; // Successfully matched a location
     } //code added by tsanglar to debug the problem with a server bloc without location bloc. 
-    // else if (!_server.getRoot().empty()){ 
-    //
-    //   //if no location bloc, get the root directive of the server bloc
-    //   root = _server.getRoot();
-    //   return 0;
-    // }
-    return -1; // No matching location found
+    else{ 
+
+      //if no location bloc, a "by default" location bloc is created in 'getDefaultLocation' and used during the handling of request. 
+      return 0;
+    }
+
+    // don'nt need
+    // return -1; // No matching location found
 }
 
