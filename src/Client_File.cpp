@@ -58,40 +58,57 @@ void Client::handleGetRequest(const std::string& path)
     
     // Check if the path is a CGI script
     location_t locationConfig = _server.getLocationConfig(cleanPath);
+
+    // Check if the requested method is allowed in the location block
+    for (std::vector<std::string>::iterator it = locationConfig.methods.begin(); it != locationConfig.methods.end(); ++it)
+    {
+        if (*it == "GET")
+        {
+            // The "GET" method is allowed, exit the loop.
+            break;
+        }
+
+        // If we are at the last element and "GET" was not found, return an error.
+        if (it + 1 == locationConfig.methods.end()) // Use iterator arithmetic since vector supports it.
+        {
+            sendErrorResponse(405, "Method Not Allowed");
+            return;
+        }
+    }
     std::cout << "Debug: cleanPath: " << cleanPath << std::endl;
     std::cout << "Debug: CGI Path: " << locationConfig.cgiPath << std::endl;
     
     if (isCgiPath(cleanPath, locationConfig))
     {
-    // Validate and calculate pathInfo
-    // Calculate the script file name and path info
-    //std::string pathInfo = cleanPath.substr(locationConfig.cgiPath.length());
+        // Validate and calculate pathInfo
+        // Calculate the script file name and path info
+        //std::string pathInfo = cleanPath.substr(locationConfig.cgiPath.length());
 
-    std::string pathInfo;
-    if (cleanPath.find(locationConfig.cgiPath) == 0)
-        pathInfo = cleanPath.substr(locationConfig.cgiPath.length());
-    else
-        {
-            std::cerr << "Error: cleanPath does not start with cgiPath!" << std::endl;
-            pathInfo = cleanPath; // Fallback for debugging
-        }
-        //std::cout << "Debug: pathInfo: " << pathInfo << std::endl;
-        // Script file to be executed
-        std::string scriptFileName = this->_server.getRoot() + cleanPath;
-        //std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
-
-        // Python interpreter path
-        std::string scriptPath = getPythonPath(); // Get the Python interpreter path
-
-        // Execute CGI and capture output
-        std::string result = executeCgi(scriptPath, "GET", queryString, "", pathInfo, scriptFileName);
-
-        // Send the CGI output as the HTTP response
-        if (!result.empty())
-            sendCgiResponse(result);
+        std::string pathInfo;
+        if (cleanPath.find(locationConfig.cgiPath) == 0)
+            pathInfo = cleanPath.substr(locationConfig.cgiPath.length());
         else
-            sendErrorResponse(500, "Internal Server Error");
-        return;
+            {
+                std::cerr << "Error: cleanPath does not start with cgiPath!" << std::endl;
+                pathInfo = cleanPath; // Fallback for debugging
+            }
+            //std::cout << "Debug: pathInfo: " << pathInfo << std::endl;
+            // Script file to be executed
+            std::string scriptFileName = this->_server.getRoot() + cleanPath;
+            //std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
+
+            // Python interpreter path
+            std::string scriptPath = getPythonPath(); // Get the Python interpreter path
+
+            // Execute CGI and capture output
+            std::string result = executeCgi(scriptPath, "GET", queryString, "", pathInfo, scriptFileName);
+
+            // Send the CGI output as the HTTP response
+            if (!result.empty())
+                sendCgiResponse(result);
+            else
+                sendErrorResponse(500, "Internal Server Error");
+            return;
     }
     // autoindex
     // check if the path is a directory
@@ -195,6 +212,23 @@ void Client::handlePostRequest(const std::string &path)
     
     // Retrieve location configuration for this request
     location_t locationConfig = _server.getLocationConfig(cleanPath);
+
+    // Check if the requested method is allowed in the location block
+    for (std::vector<std::string>::iterator it = locationConfig.methods.begin(); it != locationConfig.methods.end(); ++it)
+    {
+        if (*it == "POST")
+        {
+            // The "POST" method is allowed, exit the loop.
+            break;
+        }
+
+        // If we are at the last element and "POST" was not found, return an error.
+        if (it + 1 == locationConfig.methods.end()) // Use iterator arithmetic since vector supports it.
+        {
+            sendErrorResponse(405, "Method Not Allowed");
+            return;
+        }
+    }
     // std::cout << "Debug: Location Config - CGI Path: " << locationConfig.cgiPath
     //           << ", Has CGI: " << locationConfig.hasCGI
     //           << ", CGI Extension: " << locationConfig.cgiExtension << std::endl;
@@ -237,8 +271,7 @@ void Client::handlePostRequest(const std::string &path)
         std::string scriptFileName = this->_server.getRoot() + cleanPath;
 
         // Python interpreter path
-        //std::string scriptPath = "/usr/bin/python3"; // Hardcoded for Python on linux
-        std::string scriptPath = "/usr/local/bin/python3"; // Hardcoded for Python for MacOS
+        std::string scriptPath = getPythonPath(); // Get the Python interpreter path
 
         // std::cout << "Debug: scriptPath: " << scriptPath << std::endl;
         // std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
@@ -407,12 +440,51 @@ void Client::uploadFile(const std::string &path)
  */
 void Client::handleDeleteRequest(const std::string &path)
 {
+   
     // Check if the request path starts with "/upload"
     std::string fullPath;
-    if (path.find("/upload") == 0)
-        fullPath = this->_server.getRoot() + "/upload" + path.substr(7); // Construct the path for files in the upload directory
-    else
+    if (path.find("/upload/") == 0) {
+        location_t locationConfig = _server.getLocationConfig(std::string("/upload"));
+        
+        // Check if the requested method is allowed in the location block
+        for (std::vector<std::string>::iterator it = locationConfig.methods.begin(); it != locationConfig.methods.end(); ++it)
+        {
+            if (*it == "DELETE")
+            {
+                // The "DELETE" method is allowed, exit the loop.
+                break;
+            }
+
+            // If we are at the last element and "DELETE" was not found, return an error.
+            if (it + 1 == locationConfig.methods.end()) // Use iterator arithmetic since vector supports it.
+            {
+                sendErrorResponse(405, "Method Not Allowed");
+                return;
+            }
+        }
+        fullPath = this->_server.getRoot() + "/upload/" + path.substr(8); // Construct the path for files in the upload directory
+    }
+    else {
+        location_t locationConfig = _server.getLocationConfig(std::string("/"));
+        
+        // Check if the requested method is allowed in the location block
+        for (std::vector<std::string>::iterator it = locationConfig.methods.begin(); it != locationConfig.methods.end(); ++it)
+        {
+            if (*it == "DELETE")
+            {
+                // The "DELETE" method is allowed, exit the loop.
+                break;
+            }
+
+            // If we are at the last element and "DELETE" was not found, return an error.
+            if (it + 1 == locationConfig.methods.end()) // Use iterator arithmetic since vector supports it.
+            {
+                sendErrorResponse(405, "Method Not Allowed");
+                return;
+            }
+        }
         fullPath = this->_server.getRoot() + path; // Construct the path for files in the root directory
+    }
 
     //std::cout << "Attempting to delete: " << fullPath << std::endl;
 

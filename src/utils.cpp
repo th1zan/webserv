@@ -120,5 +120,7 @@ std::string getPythonPath(){
     }
 
     pclose(pipe); // Close the pipe
+    if (isspace(result[result.size() - 1]))
+        result = result.substr(0, result.size() - 1);
     return result;
 }
