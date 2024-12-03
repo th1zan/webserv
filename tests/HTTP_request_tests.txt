@@ -54,8 +54,9 @@ KO without -H "Expect:
 # Valid DELETE request for existing file - OK File Deleted
 curl -v -X DELETE http://localhost:8080/upload/testfile.txt
 
-# Invalid DELETE request for nonexistent file
-curl -v -X DELETE http://localhost:8080/upload/nonexistentfile.txt - OK 404 Not Found
+# Invalid DELETE request for nonexistent file - OK 404 Not Found
+curl -v -X DELETE http://localhost:8080/upload/nonexistentfile.txt 
+
 
 # Invalid DELETE request to root (not allowed) -OK 403 Forbidden
 curl -v -X DELETE http://localhost:8080/

@@ -1,6 +1,9 @@
 #.DS-Store
 *.DS_Store
 
+#Files
+webserv
+
 # Folders
 ignore/
 docs/html
