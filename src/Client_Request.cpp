@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:28 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/12/03 16:38:28 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:14:57 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void Client::handleClientRequest()
         std::cerr << "[ERROR] Resource location not found: " << resource << std::endl;
         return;
     }
-    else if (locationStatus == 1) // Redirect handled
+    if (locationStatus == 1) // Redirect handled
     {
         std::cout << "[DEBUG] Redirect handled for resource: " << resource << std::endl;
         return;
@@ -106,7 +106,6 @@ bool Client::_checkRequest()
 
     if (!_checkFirstLine(ss) || !_checkAndGetHeaders(ss) || !_checkAndGetPayload(ss))
         return false;
-	// TODO - add chunked transfer encoding?
     return true;
 }
 
@@ -225,6 +224,7 @@ std::string Client::decodeUrl(const std::string &url) const
 }
 
 //TODO fix the bug when this command passes curl -v --http1.1 --header "" http://localhost:8080/ Host header should not be empty
+// correct command to test it was curl -v --http1.1 --header "Host:" http://localhost:8080/ the code was ok)
 /**
  * @brief Parses and validates the headers from the HTTP request.
  * 
@@ -246,10 +246,6 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
         stringTrim(line); // Trim whitespace around the line
         if (line == "\r" || line.empty())
             break; // End of headers
-
-        // //check if line starts with "Host:" 
-        // if (startsWith(line, "Host:"))
-        //     hostHeaderFound = true;
 
         // Find the colon for key-value separation
         size_t colon = line.find(':');
@@ -402,8 +398,13 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
     }
 
     if (matchedLocation == locations.end())
-        return -1; // No matching location found
-
+    {
+        std::map<std::string, location_t>::const_iterator defaultLocation = locations.find("/");
+        if (defaultLocation != locations.end())
+            matchedLocation = defaultLocation;
+        else
+            return -1; // No matching location found and no default "/" location
+    }
     const location_t &loc = matchedLocation->second;
 
     // Handle redirects
