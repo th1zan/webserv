@@ -21,15 +21,16 @@
  * CGI configurations.
  */
 typedef struct location_s {
-	std::string					root;
+	std::string			      		root;
 	std::vector<std::string>	methods;
-	std::string					redirect;
-	bool						autoindex;
-	std::string					tryFile;
-	bool						hasCGI;
-	std::string					cgiPath;
-	std::string					cgiExtension; 
-	std::string					uploadTo; 
+	std::string					      redirect_err;
+	std::string					      redirect_path;
+	bool						          autoindex;
+	std::string					      tryFile;
+	bool						          hasCGI;
+	std::string					      cgiPath;
+	std::string					      cgiExtension; 
+	std::string					      uploadTo; 
 } location_t;
 
 
@@ -43,22 +44,22 @@ typedef struct location_s {
 class Server{
 	private:
 			std::vector<std::string>			_serverNameVector;
-			std::string 						_port;
-			std::string 						_host;
-			std::string 						_root;
-			std::string 						_index;
-			long								_clientMaxBodySize;
-			std::map<std::string, std::string>	_errorPages;
-			std::string 						_errorResponse;
+			std::string 						      _port;
+			std::string 						      _host;
+			std::string 						      _root;
+			std::string 						      _index;
+			long								          _clientMaxBodySize;
+			std::string 						      _errorResponse;
 			std::vector<location_t>				_tempLocationVector;
-			bool								_isPrimary;
-			int									_socket;
+			bool								          _isPrimary;
+			int									          _socket;
+      std::map<std::string, std::string>	_errorPages;
 
-			bool								_checkPrimaryServer(std::vector<Server>& _serversVector);
+      bool								_checkPrimaryServer(std::vector<Server>& _serversVector);
 			long 								_getConvertedMaxSize(std::string& maxSizeStr);
 			void								_fillServerNameVector(std::string& serverNames);
 			void								_fillErrorPageMap();
-
+	    location_t          _getDefaultLocation() const;
 			// std::vector<Server>								_serversVector;
 			std::map<std::string, std::string>					_ServerConfigMap;
 

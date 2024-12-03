@@ -11,12 +11,8 @@
 /* ************************************************************************** */
 
 #include "cgi.hpp"
-#include <iostream>
-#include <sstream>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include <defines.hpp>
+#include <utils.hpp>
 
 CGI::CGI(const std::string &scriptPath, const std::string &method, 
          const std::string &queryString, const std::string &requestBody,
@@ -34,8 +30,8 @@ void CGI::setEnvironment()
     _environmentVars.push_back("QUERY_STRING=" + _queryString);
     std::cout << "Set QUERY_STRING: " << _queryString << std::endl;
 
-    _environmentVars.push_back("CONTENT_LENGTH=" + std::to_string(_requestBody.size()));
-    std::cout << "Set CONTENT_LENGTH: " << std::to_string(_requestBody.size()) << std::endl;
+    _environmentVars.push_back("CONTENT_LENGTH=" + to_string(_requestBody.size()));
+    std::cout << "Set CONTENT_LENGTH: " << to_string(_requestBody.size()) << std::endl;
 
     _environmentVars.push_back("CONTENT_TYPE=application/x-www-form-urlencoded");
     std::cout << "Set CONTENT_TYPE: application/x-www-form-urlencoded" << std::endl;

@@ -28,6 +28,9 @@
 #include <arpa/inet.h>
 #include <poll.h>
 #include <limits>
+#include <algorithm>
+#include <sys/wait.h>
+
 
 // Global variables
 extern bool	g_shutdown;

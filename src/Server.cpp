@@ -5,6 +5,7 @@
  */
 
 #include "Server.hpp"
+#include <sstream>
 
 /**
  * @brief Constructs a `Server` object with the parsed configuration parameters.
@@ -115,7 +116,7 @@ void Server::_fillErrorPageMap(){
  */
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	try {
-		long value = std::stoll(maxSizeStr);
+		long value = ft_stoll(maxSizeStr);
 		return value;
 	} catch (const std::invalid_argument& e) {
 		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION(maxSizeStr));
@@ -162,8 +163,26 @@ void Server::_getLocationStruct() {
 			}
 		}
 
-		if (itMap->find("return") != itMap->end())
-			tmpLoc.redirect = itMap->find("return")->second;
+    if (itMap->find("return") != itMap->end()) {
+      std::istringstream tmp(itMap->find("return")->second);
+      std::vector<std::string> tokens;
+      std::string word;
+
+      while (tmp >> word) {
+          tokens.push_back(word);
+      }
+      //the errors are handled during the parsing in '_checkReturn()'
+      if (tokens.size() == 2) {
+          tmpLoc.redirect_err = tokens[0];
+          tmpLoc.redirect_path = tokens[1];
+      }
+      else if (tokens.size() == 1) {
+          //by default 301
+          tmpLoc.redirect_err = "302";
+          tmpLoc.redirect_path = tokens[0];
+
+      }
+    }
 
 		if (itMap->find("autoindex") != itMap->end()) {
 			tmpLoc.autoindex = (itMap->find("autoindex")->second == "on");
@@ -183,6 +202,8 @@ void Server::_getLocationStruct() {
 			<< ", CGI Path: " << tmpLoc.cgiPath
 			<< ", CGI Extension: " << tmpLoc.cgiExtension << std::endl;
 		}
+		else
+			tmpLoc.hasCGI = false;
 
 		if (itMap->find("cgi_path") != itMap->end())
 			tmpLoc.cgiPath = itMap->find("cgi_path")->second;
@@ -203,16 +224,16 @@ void Server::_getLocationStruct() {
 }
 
 // ---> Getters ---------------------------------------------------------------
-bool Server::getIsPrimary(){return (this->_isPrimary);}
-const std::string&			Server::getHost() const{return this->_host;}
-const std::string&			Server::getPort() const{return this->_port;}
-int							Server::getSocket() const{return this->_socket;}
+bool                      Server::getIsPrimary(){return (this->_isPrimary);}
+const std::string&	      Server::getHost() const{return this->_host;}
+const std::string&	      Server::getPort() const{return this->_port;}
+int							          Server::getSocket() const{return this->_socket;}
 std::vector<std::string>	Server::getServerNameVector() const{return this->_serverNameVector;}
-const std::string&			Server::getRoot() const{return this->_root;}
-const std::string&			Server::getIndex() const{return this->_index;}
+size_t						        Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+const std::string&			  Server::getRoot() const{return this->_root;}
+const std::string&			  Server::getIndex() const{return this->_index;}
 std::map<std::string, std::string>			Server::getErrorPage() const{return this->_errorPages;}
-const std::string&			Server::getErrorResponse() const{return this->_errorResponse;}
-size_t						Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+const std::string&			                Server::getErrorResponse() const{return this->_errorResponse;}
 // locationMap const	&Server::getLocations() const{return this->_locations;}
 
 // Jannetta - added getter for location map
@@ -224,26 +245,49 @@ location_t Server::getLocationConfig(const std::string &path) const
     const location_t *matchedLocation = NULL;
     size_t matchedPrefixLength = 0;
 
+    // Trouver la meilleure correspondance
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
 	{
-        if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength)
+		// check for a perfect match
+        if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength && (path[it->first.length()] == '/' || path[it->first.length()] == '\0'))
 		{
             matchedLocation = &(it->second);
             matchedPrefixLength = it->first.length();
         }
     }
 
+    // Si une correspondance est trouvée
     if (matchedLocation)
-	{
-        // Debugging to ensure the correct location is matched
+    {
         std::cout << "Matched location: " << matchedPrefixLength << ", uploadTo: " << matchedLocation->uploadTo << std::endl;
         return *matchedLocation;
     }
 
-    throw std::runtime_error("No matching location found for path: " + path);
+    // Retourner une configuration par défaut si aucune correspondance n’est trouvée
+    return _getDefaultLocation();
 }
 
-void Server::createSocket()
+/**
+ * @brief Crée une configuration par défaut pour les cas où aucun bloc `location` ne correspond.
+ */
+location_t Server::_getDefaultLocation() const
+{
+    location_t tmpLoc;
+    tmpLoc.autoindex = false;
+    tmpLoc.hasCGI = false;
+    tmpLoc.cgiPath = "";
+    tmpLoc.root = "/";
+    // tmpLoc.redirect_path = "",
+    // tmpLoc.methods.push_back(method);
+    // tmpLoc.redirect_err = "302";
+    // tmpLoc.cgiExtension = itMap->find("cgi_ext")->second;
+    // tmpLoc.tryFile = "";
+    // tmpLoc.uploadTo = "";
+    return tmpLoc;
+}
+
+
+  void Server::createSocket()
 {
 	if (!this->_socket)
 	{
@@ -282,7 +326,7 @@ void Server::printServers() {
 			location_t tmploc = locIt->second;
 			std::cout << "  Location Name: " << locIt->first << std::endl;
 			std::cout << "  Location Root: " << tmploc.root << std::endl;
-			std::cout << "  Redirect: " << tmploc.redirect << std::endl;
+			std::cout << "  Redirect: " << tmploc.redirect_err << tmploc.redirect_path << std::endl;
 			std::cout << "  Autoindex: " << (tmploc.autoindex ? "Enabled" : "Disabled") << std::endl;
 			std::cout << "  Try File: " << tmploc.tryFile << std::endl;
 			std::cout << "  Has CGI: " << (tmploc.hasCGI ? "Yes" : "No") << std::endl;
@@ -318,7 +362,7 @@ void Server::printLocation(location_t loc) {
 		std::cout << "----- Server::printLocation() ----" << std::endl;
 			std::cout << std::endl;
 			std::cout << "  Location Root: " << loc.root << std::endl;
-			std::cout << "  Redirect: " << loc.redirect << std::endl;
+			std::cout << "  Redirect: " << loc.redirect_err << loc.redirect_path << std::endl;
 			std::cout << "  Autoindex: " << (loc.autoindex ? "On" : "Off") << std::endl;
 			std::cout << "  Try File: " << loc.tryFile << std::endl;
 			std::cout << "  Has CGI: " << (loc.hasCGI ? "Yes" : "No") << std::endl;
