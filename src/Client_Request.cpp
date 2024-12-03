@@ -69,6 +69,13 @@ void Client::handleClientRequest()
         std::cout << "[DEBUG] Redirect handled for resource: " << resource << std::endl;
         return;
     }
+    else if (locationStatus == -2) {
+        sendErrorResponse(405, "Method Not Allowed");
+        return;
+    }
+   /* else if (locationStatus == 2) {
+        sendResponse(200, "OK", )
+    }*/
     // Route the request based on the HTTP method
     if (_method == "GET")
         handleGetRequest(resource);
@@ -331,7 +338,7 @@ bool Client::_checkAndGetPayload(std::stringstream &ss)
     long contentLength = -1;
     try
     {
-        contentLength = std::stol(it->second);
+        contentLength = ft_stoll(it->second);
         if (contentLength < 0)
         {
             sendErrorResponse(400, "Bad Request: Invalid Content-Length");
@@ -388,6 +395,7 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
     const location_t *matchedLocation = NULL;
     size_t matchedPrefixLength = 0;
 
+
     // Find the best matching location
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
     {
@@ -407,7 +415,7 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
         }
         // Check if the method is allowed
         if (std::find(matchedLocation->methods.begin(), matchedLocation->methods.end(), _method) == matchedLocation->methods.end())
-            throw std::runtime_error("405 Method Not Allowed");
+            return -2;
 
         // Update the root if specified
         if (!matchedLocation->root.empty())

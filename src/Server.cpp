@@ -116,7 +116,7 @@ void Server::_fillErrorPageMap(){
  */
 long Server::_getConvertedMaxSize(std::string& maxSizeStr) {
 	try {
-		long value = std::stoll(maxSizeStr);
+		long value = ft_stoll(maxSizeStr);
 		return value;
 	} catch (const std::invalid_argument& e) {
 		throw std::runtime_error(ERR_MAX_SIZE_CONVERSION(maxSizeStr));
@@ -202,6 +202,8 @@ void Server::_getLocationStruct() {
 			<< ", CGI Path: " << tmpLoc.cgiPath
 			<< ", CGI Extension: " << tmpLoc.cgiExtension << std::endl;
 		}
+		else
+			tmpLoc.hasCGI = false;
 
 		if (itMap->find("cgi_path") != itMap->end())
 			tmpLoc.cgiPath = itMap->find("cgi_path")->second;
@@ -245,9 +247,10 @@ location_t Server::getLocationConfig(const std::string &path) const
 
     // Trouver la meilleure correspondance
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
-    {
-        if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength)
-        {
+	{
+		// check for a perfect match
+        if (path.find(it->first) == 0 && it->first.length() > matchedPrefixLength && (path[it->first.length()] == '/' || path[it->first.length()] == '\0'))
+		{
             matchedLocation = &(it->second);
             matchedPrefixLength = it->first.length();
         }

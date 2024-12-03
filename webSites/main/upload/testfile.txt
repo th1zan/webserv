@@ -1,1 +1,1 @@
-test test
+This is a simple plain text content.
