@@ -234,15 +234,14 @@ void Parser::_checkReturn(std::string &dirValue) {
   if (tokens.size() == 2) {
     redirect_err = tokens[0];
     redirect_path = tokens[1];
+    if (redirect_err != "301" && redirect_err != "302") {
+      throw std::runtime_error("Error in 'return' directive: the status code needs to be 301 or 302. ");
   } else if (tokens.size() == 1) {
     redirect_path = tokens[0];
-  } else {
-    std::cerr << "Error in 'return' directive: more than 2 arguments"
-              << std::endl;
+  } else if (tokens.size() < 2){
+      throw std::runtime_error("Error in 'return' directive: more than 2 arguments");
   }
   this->_checkPath(redirect_path, false);
-  if (this->_isNumber(redirect_err)) {
-    std::cerr << "Error in 'return' directive: not a number. " << std::endl;
   }
 }
 
