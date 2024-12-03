@@ -177,7 +177,10 @@ void Server::_getLocationStruct() {
           tmpLoc.redirect_path = tokens[1];
       }
       else if (tokens.size() == 1) {
+          //by default 301
+          tmpLoc.redirect_err = "302";
           tmpLoc.redirect_path = tokens[0];
+
       }
     }
 
