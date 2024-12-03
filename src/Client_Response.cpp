@@ -47,6 +47,7 @@ void Client::sendResponse(int statusCode, const std::string &statusMessage, cons
  */
 void Client::sendRedirectResponse(int statusCode, const std::string &location)
 {
+    std::cerr << "Ressource location found: " << statusCode << "  " << location << std::endl;
     std::ostringstream response;
     response << "HTTP/1.1 " << statusCode << " Found\r\n";
     response << "Location: " << location << "\r\n";
