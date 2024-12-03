@@ -295,75 +295,61 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss) {
   return true;
 }
 
-// TODO fix the bug when this command passes curl -v --http1.1 --header ""
-// http://localhost:8080/ Host header should not be empty
 /**
- * @brief Parses and validates the headers from the HTTP request.
+ * @brief Parses and validates the payload for POST requests.
  *
  * @details Validates the following:
- * - Presence of mandatory headers like Host.
- * - Content-Type for POST requests.
- * - Malformed headers.
+ * - Content-Length header is present and valid.
+ * - Payload size does not exceed the server's maximum allowed size.
+ * - Payload is completely received.
  *
  * @param [in] ss String stream containing the HTTP request.
- * @return true if the headers are valid, false otherwise.
+ * @return true if the payload is valid, false otherwise.
  */
-bool Client::_checkAndGetHeaders(std::stringstream &ss) {
-  std::string line;
-  bool hostHeaderFound = false;
+bool Client::_checkAndGetPayload(std::stringstream &ss) {
+  // Only applicable for POST requests
+  if (this->_method != "POST")
+    return true;
 
-  while (std::getline(ss, line)) {
-    stringTrim(line); // Trim whitespace around the line
-    if (line == "\r" || line.empty())
-      break; // End of headers
-
-    // //check if line starts with "Host:"
-    // if (startsWith(line, "Host:"))
-    //     hostHeaderFound = true;
-
-    // Find the colon for key-value separation
-    size_t colon = line.find(':');
-    if (colon == std::string::npos) {
-      sendErrorResponse(400, "Bad Request: Malformed Header");
-      return false;
-    }
-    // Extract key and value
-    std::string key = line.substr(0, colon);
-    std::string value = line.substr(colon + 1);
-    stringTrim(key);
-    stringTrim(value);
-    // Validate header key and value
-    if (key.empty() || value.empty()) {
-      sendErrorResponse(400, "Bad Request: Empty Header Key or Value");
-      return false;
-    }
-    // Store the header in the map
-    _headers[key] = value;
-    if (key == "Host") {
-      hostHeaderFound = true;
-      // Validate the Host header
-      if (value.empty()) {
-        sendErrorResponse(400, "Bad Request: Empty Host Header");
-        return false;
-      }
-    }
-  }
-  // Ensure Host header is present
-  if (!hostHeaderFound) {
-    std::cerr << "DEBUG: Host header is missing!"
-              << std::endl; // Debug remove later
-    sendErrorResponse(400, "Bad Request: Missing Host Header");
+  // Check if Content-Length header is present
+  std::map<std::string, std::string>::iterator it =
+      this->_headers.find("Content-Length");
+  if (it == this->_headers.end()) {
+    sendErrorResponse(411, "Length Required");
     return false;
   }
-  // Validate Content-Type (for POST requests - optional check, can be removed
-  // later)
-  if (_method == "POST") {
-    if (_headers.find("Content-Type") == _headers.end()) {
-      sendErrorResponse(400, "Bad Request: Missing Content-Type Header");
+
+  // Validate that Content-Length is a positive integer
+  long contentLength = -1;
+  try {
+    contentLength = ft_stoll(it->second);
+    if (contentLength < 0) {
+      sendErrorResponse(400, "Bad Request: Invalid Content-Length");
       return false;
     }
+  } catch (const std::exception &) {
+    sendErrorResponse(400, "Bad Request: Invalid Content-Length");
+    return false;
   }
-  return true;
+
+  // Check against max payload size
+  long maxPayloadSize = this->_server.getClientMaxBodySize();
+  if (contentLength > maxPayloadSize) {
+    sendErrorResponse(413, "Payload Too Large");
+    return false;
+  }
+
+  // Resize the payload container and read the content
+  this->_requestPayload.resize(contentLength);
+  ss.read(&this->_requestPayload[0], contentLength);
+  std::cout << "DEBUG: Populated _requestPayload: " << _requestPayload
+            << std::endl;
+  // Validate if the entire payload was read
+  if (ss.gcount() != contentLength) {
+    sendErrorResponse(400, "Bad Request: Incomplete Payload");
+    return false;
+  }
+  return true; // Payload is valid
 }
 
 /**
