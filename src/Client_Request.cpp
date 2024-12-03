@@ -401,7 +401,7 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
         // Handle redirects
         if (!matchedLocation->redirect_path.empty())
         {
-            sendRedirectResponse(ft_stoll(matchedLocation->redirect_err), matchedLocation->redirect_path); // Redirect
+            sendRedirectResponse(ft_stoll(matchedLocation->redirect_err), "index.html"); // Redirect
             return 1; // Redirect handled
         }
         // Check if the method is allowed
@@ -413,6 +413,13 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
             root = matchedLocation->root;
 
         return 0; // Successfully matched a location
-    }
+    } //code added by tsanglar to debug the problem with a server bloc without location bloc. 
+    // else if (!_server.getRoot().empty()){ 
+    //
+    //   //if no location bloc, get the root directive of the server bloc
+    //   root = _server.getRoot();
+    //   return 0;
+    // }
     return -1; // No matching location found
 }
+
