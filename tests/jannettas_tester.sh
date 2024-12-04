@@ -85,7 +85,8 @@ test_result $? "Invalid DELETE request to root returns 403"
 curl -s -o /dev/null -w "%{http_code}" -X UNKNOWN $SERVER/ | grep -q "501"
 test_result $? "Invalid HTTP method returns 501"
 
-curl -s -o /dev/null -w "%{http_code}" --http1.1 --header "" $SERVER/ | grep -q "400"
+# Test for Missing Host Header - fixed
+curl -s -o /dev/null -w "%{http_code}" --http1.1 --header "Host:" $SERVER/ | grep -q "400"
 test_result $? "Missing required headers return 400"
 
 curl -s -o /dev/null -w "%{http_code}" "$SERVER/invalid|char" | grep -q "400"

@@ -54,8 +54,9 @@ KO without -H "Expect:
 # Valid DELETE request for existing file - OK File Deleted
 curl -v -X DELETE http://localhost:8080/upload/testfile.txt
 
-# Invalid DELETE request for nonexistent file
-curl -v -X DELETE http://localhost:8080/upload/nonexistentfile.txt - OK 404 Not Found
+# Invalid DELETE request for nonexistent file - OK 404 Not Found
+curl -v -X DELETE http://localhost:8080/upload/nonexistentfile.txt 
+
 
 # Invalid DELETE request to root (not allowed) -OK 403 Forbidden
 curl -v -X DELETE http://localhost:8080/
@@ -257,12 +258,12 @@ File uploaded successfullyFile Deleted%
 
 works: - not anymore.. 
  curl -v -X POST http://localhost:8080/upload/subject.pdf \
--H "Content-Type: pdf" \
+-H "Content-Type: application/pdf" \
 --data-binary @en.subject_webserv.pdf -H "Expect:"
 
 doesnt work:
 curl -v -X POST http://localhost:8080/upload/subject.pdf \
--H "Content-Type: pdf" \      
+-H "Content-Type: application/pdf" \      
 --data-binary @en.subject_webserv.pdf
 
 Current output - need to fix?:
@@ -286,3 +287,11 @@ Hello
 0
 
 After entering 0 (end of chunks) and pressing Enter, press Ctrl+D to send EOF (End Of File) to curl.
+
+
+5\r\n
+Hello\r\n
+6\r\n
+World!\r\n
+0\r\n
+\r\n

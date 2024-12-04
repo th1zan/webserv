@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:28 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/12/01 00:07:08 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:40:04 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // bool Client::_checkAndGetHeaders(std::stringstream &ss)
 // bool Client::_checkAndGetPayload(std::stringstream &ss)
 // bool Client::isUrlValid(const std::string &url) const 
-
+// int Client::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 
 /**
  * @brief Handles the client's request by validating, routing, and processing it.
@@ -42,7 +42,7 @@ void Client::handleClientRequest()
     this->_lastRequest = std::time(NULL);
     
     // Log the start of request handling
-    std::cout << "[DEBUG] Start handling request for client on socket: " << _socket << std::endl;
+    //std::cout << "[DEBUG] Start handling request for client on socket: " << _socket << std::endl;
     // Validate the request format
     if (!_checkRequest())
     {
@@ -57,25 +57,17 @@ void Client::handleClientRequest()
 
     // Validate the requested location or handle a redirect
 	int locationStatus = _checkLocation(root, resource, 0);
-    //now we create a location bloc by default so we always find a location block.
-    // if (locationStatus == -1) // Location not found
-    // {
-    //     sendErrorResponse(404, "Not Found: Invalid resource location");
-    //     std::cerr << "[ERROR] Resource location not found: " << resource << std::endl;
-    //     return;
-    // }
+    if (locationStatus == -1) // Location not found
+    {
+        sendErrorResponse(404, "Not Found: Invalid resource location");
+        std::cerr << "[ERROR] Resource location not found: " << resource << std::endl;
+        return;
+    }
     if (locationStatus == 1) // Redirect handled
     {
         std::cout << "[DEBUG] Redirect handled for resource: " << resource << std::endl;
         return;
     }
-    else if (locationStatus == -2) {
-        sendErrorResponse(405, "Method Not Allowed");
-        return;
-    }
-   /* else if (locationStatus == 2) {
-        sendResponse(200, "OK", )
-    }*/
     // Route the request based on the HTTP method
     if (_method == "GET")
         handleGetRequest(resource);
@@ -92,7 +84,7 @@ void Client::handleClientRequest()
     this->_sentRequest = false;
 
     // Log the successful processing of the request
-    std::cout << "[DEBUG] Successfully handled request for client on socket: " << _socket << std::endl;
+    // std::cout << "[DEBUG] Successfully handled request for client on socket: " << _socket << std::endl;
 }
 
 /**
@@ -114,7 +106,6 @@ bool Client::_checkRequest()
 
     if (!_checkFirstLine(ss) || !_checkAndGetHeaders(ss) || !_checkAndGetPayload(ss))
         return false;
-	// TODO - add chunked transfer encoding?
     return true;
 }
 
@@ -225,14 +216,13 @@ std::string Client::decodeUrl(const std::string &url) const
             i += 2; // Skip the next two characters
         }
         else
-        {
             decoded += url[i];
-        }
     }
     return decoded;
 }
 
 //TODO fix the bug when this command passes curl -v --http1.1 --header "" http://localhost:8080/ Host header should not be empty
+// correct command to test it was curl -v --http1.1 --header "Host:" http://localhost:8080/ the code was ok)
 /**
  * @brief Parses and validates the headers from the HTTP request.
  * 
@@ -254,10 +244,6 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
         stringTrim(line); // Trim whitespace around the line
         if (line == "\r" || line.empty())
             break; // End of headers
-
-        // //check if line starts with "Host:" 
-        // if (startsWith(line, "Host:"))
-        //     hostHeaderFound = true;
 
         // Find the colon for key-value separation
         size_t colon = line.find(':');
@@ -289,6 +275,11 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
                 return false;
             }
         }
+        if (key == "Expect" && value == "100-continue")
+        {
+            std::cout << "[INFO] Received Expect: 100-continue" << std::endl;
+            sendResponse(100, "Continue", "");
+        }
     }
     // Ensure Host header is present
     if (!hostHeaderFound)
@@ -297,48 +288,174 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
         sendErrorResponse(400, "Bad Request: Missing Host Header");
         return false;
     }
-    //Validate Content-Type (for POST requests - optional check, can be removed later)
-    if (_method == "POST")
-    {
-        if (_headers.find("Content-Type") == _headers.end())
-        {
-            sendErrorResponse(400, "Bad Request: Missing Content-Type Header");
-            return false;
-        }
-    }
+    // //Validate Content-Type (for POST requests - optional check, can be removed later)
+    // if (_method == "POST")
+    // {
+    //     if (_headers.find("Content-Type") == _headers.end())
+    //     {
+    //         sendErrorResponse(400, "Bad Request: Missing Content-Type Header");
+    //         return false;
+    //     }
+    // }
     return true;
 }
 
-/**
- * @brief Parses and validates the payload for POST requests.
- * 
- * @details Validates the following:
- * - Content-Length header is present and valid.
- * - Payload size does not exceed the server's maximum allowed size.
- * - Payload is completely received.
- * 
- * @param [in] ss String stream containing the HTTP request.
- * @return true if the payload is valid, false otherwise.
- */
+// ///the original functional function WITHOUT CHUNKED
+// bool Client::_checkAndGetPayload(std::stringstream &ss)
+// {
+//     // Only applicable for POST requests
+//     if (this->_method != "POST")
+//         return true;
+
+//     // Check if Content-Length header is present
+//     std::map<std::string, std::string>::iterator it = this->_headers.find("Content-Length");
+//     if (it == this->_headers.end())
+//     {
+//         sendErrorResponse(411, "Length Required");
+//         return false;
+//     }
+
+//     // Validate that Content-Length is a positive integer
+//     long contentLength = -1;
+//     try
+//     {
+//         contentLength = std::stol(it->second);
+//         if (contentLength < 0)
+//         {
+//             sendErrorResponse(400, "Bad Request: Invalid Content-Length");
+//             return false;
+//         }
+//     }
+//     catch (const std::exception &)
+//     {
+//         sendErrorResponse(400, "Bad Request: Invalid Content-Length");
+//         return false;
+//     }
+
+//     // Check against max payload size
+//     long maxPayloadSize = this->_server.getClientMaxBodySize();
+//     if (contentLength > maxPayloadSize)
+//     {
+//         sendErrorResponse(413, "Payload Too Large");
+//         return false;
+//     }
+
+//     // Resize the payload container and read the content
+//     this->_requestPayload.resize(contentLength);
+//     ss.read(&this->_requestPayload[0], contentLength);
+//     std::cout << "DEBUG: Populated _requestPayload: " << _requestPayload << std::endl;
+//     std::cout << "[DEBUG] Expected Content-Length: " << contentLength << ", Received: " << ss.gcount() << std::endl;
+
+//     // Validate if the entire payload was read
+//     if (ss.gcount() != contentLength)
+//     {
+//         std::cerr << "[ERROR] Incomplete Payload: Expected " << contentLength << ", but received " << ss.gcount() << std::endl;
+//         sendErrorResponse(400, "Bad Request: Incomplete Payload");
+//         return false;
+//     }
+//     return true; // Payload is valid
+// }
+
+
+
+//Helper functions for chunked
+// /**
+//  * @brief Appends chunk data to the payload and updates the timestamp.
+//  * 
+//  * @param chunk The chunk data to append.
+//  */
+// void Client::appendChunk(const std::string& chunk)
+// {
+//     this->_requestPayload.append(chunk);
+//     this->_lastRequest = std::time(NULL);
+// }
+
+// older version that worked on Monday (supposedly)
+// bool Client::_checkAndGetPayload(std::stringstream &ss)
+// {
+//     if (this->_method != "POST")
+//         return true;
+
+//     // Check for Transfer-Encoding: chunked
+//     if (_headers.find("Transfer-Encoding") != _headers.end() && 
+//         _headers["Transfer-Encoding"] == "chunked")
+//     {
+//         _isChunked = true;
+//     }
+
+//     if (_isChunked)
+//     {
+//         return parseChunkedPayload(ss);
+//     }
+//     else
+//     {
+//         // Original logic for Content-Length based payloads
+//         auto it = _headers.find("Content-Length");
+//         if (it == _headers.end())
+//         {
+//             sendErrorResponse(411, "Length Required");
+//             return false;
+//         }
+
+//         long contentLength = std::stol(it->second);
+//         if (contentLength < 0)
+//         {
+//             sendErrorResponse(400, "Bad Request: Invalid Content-Length");
+//             return false;
+//         }
+
+//         // Read the content into _requestPayload
+//         _requestPayload.resize(contentLength);
+//         ss.read(&_requestPayload[0], contentLength);
+
+//         if (ss.gcount() != contentLength)
+//         {
+//             sendErrorResponse(400, "Bad Request: Incomplete Payload");
+//             return false;
+//         }
+
+//         return true;
+//     }
+// }
+
+// // doesnt seg fault but doesnt work correctly
 bool Client::_checkAndGetPayload(std::stringstream &ss)
 {
     // Only applicable for POST requests
     if (this->_method != "POST")
         return true;
 
-    // Check if Content-Length header is present
-    std::map<std::string, std::string>::iterator it = this->_headers.find("Content-Length");
-    if (it == this->_headers.end())
+    // Check for chunked Transfer-Encoding
+    std::map<std::string, std::string>::iterator it = _headers.find("Transfer-Encoding");
+    if (it != _headers.end() && it->second == "chunked")
+    {
+        // Process chunked payload
+        if (!parseChunkedPayload(ss))
+            return false;
+
+        // Verify if chunked request is complete
+        if (!isChunkComplete())
+        {
+            sendErrorResponse(400, "Bad Request: Incomplete Chunked Request");
+            return false;
+        }
+
+        return true; // Chunked payload processed successfully
+    }
+
+    // Otherwise, process Content-Length-based payload
+    it = _headers.find("Content-Length");
+    if (it == _headers.end())
     {
         sendErrorResponse(411, "Length Required");
         return false;
     }
 
-    // Validate that Content-Length is a positive integer
-    long contentLength = -1;
+    // Validate Content-Length
+    long contentLength;
     try
     {
-        contentLength = ft_stoll(it->second);
+        contentLength = std::stol(it->second);
         if (contentLength < 0)
         {
             sendErrorResponse(400, "Bad Request: Invalid Content-Length");
@@ -359,78 +476,165 @@ bool Client::_checkAndGetPayload(std::stringstream &ss)
         return false;
     }
 
-    // Resize the payload container and read the content
+    // Read the Content-Length payload
     this->_requestPayload.resize(contentLength);
     ss.read(&this->_requestPayload[0], contentLength);
+
+    // Log payload information
     std::cout << "DEBUG: Populated _requestPayload: " << _requestPayload << std::endl;
+    std::cout << "[DEBUG] Expected Content-Length: " << contentLength
+              << ", Received: " << ss.gcount() << std::endl;
+
     // Validate if the entire payload was read
     if (ss.gcount() != contentLength)
     {
+        std::cerr << "[ERROR] Incomplete Payload: Expected " << contentLength
+                  << ", but received " << ss.gcount() << std::endl;
         sendErrorResponse(400, "Bad Request: Incomplete Payload");
         return false;
     }
+
     return true; // Payload is valid
 }
 
+bool Client::parseChunkedPayload(std::stringstream &ss) {
+    std::string line;
+
+    while (std::getline(ss, line)) {
+        stringTrim(line); // Trim whitespace (including CRLF)
+
+        // Parse chunk size
+        long chunkSize = strtol(line.c_str(), NULL, 16);
+        std::cerr << "[DEBUG] Parsed chunk size: " << chunkSize << " from line: '" << line << "'" << std::endl;
+        if (chunkSize < 0) {
+            sendErrorResponse(400, "Bad Request: Invalid Chunk Size");
+            return false;
+        }
+
+        if (chunkSize == 0) { // End of chunked transfer
+            // Ensure final CRLF exists
+            std::getline(ss, line);
+            if (line != CURSOR_NEWLINE) {
+                std::cerr << "[ERROR] Missing final CRLF after chunked payload." << std::endl;
+                sendErrorResponse(400, "Bad Request: Missing Final CRLF");
+                return false;
+            }
+            break; // End of chunks
+        }
+
+        // Read chunk data
+        std::string chunkData(chunkSize, '\0');
+        ss.read(&chunkData[0], chunkSize);
+        std::cerr << "[DEBUG] Read chunk data: '" << chunkData << "'" << std::endl;
+        if (ss.gcount() != chunkSize) {
+            std::cerr << "[ERROR] Incomplete chunk. Expected " << chunkSize << " bytes, but got " << ss.gcount() << "." << std::endl;
+            sendErrorResponse(400, "Bad Request: Incomplete Chunk");
+            return false;
+        }
+
+        // Append chunk data to the payload
+        _requestPayload.append(chunkData);
+
+        // Consume trailing CRLF after chunk data
+        std::getline(ss, line);
+        if (line != CURSOR_NEWLINE) {
+            std::cerr << "[ERROR] Expected CRLF after chunk data, but got: '" << line << "'" << std::endl;
+            sendErrorResponse(400, "Bad Request: Malformed Chunk Data");
+            return false;
+        }
+    }
+
+    std::cerr << "[DEBUG] Final payload: " << _requestPayload << std::endl;
+    return true; // Successfully parsed
+}
+
+
 /**
- * @brief Matches the requested resource with server locations and updates root path if applicable.
+ * @brief Checks if the chunked request has been completed.
  * 
- * @details Performs the following operations:
- * - Finds the best-matching location block based on the resource path.
- * - Handles redirects if specified in the matched location.
- * - Checks if the method is allowed in the location.
- * - Updates the root directory if specified in the location.
+ * @return True if the end of the chunked request (`0\r\n\r\n`) has been received.
+ */
+bool Client::isChunkComplete() const
+{
+    return (this->_requestPayload.find("0\r\n\r\n") != std::string::npos);
+}
+
+
+/**
+ * @brief Matches a resource path to a server's location block.
  * 
- * @param [in, out] root Reference to the root directory to be updated.
- * @param [in, out] resource Reference to the resource path.
- * @param [in] loopCount Counter to prevent infinite loops in redirects.
- * @return -1 if no matching location is found, 1 if a redirect is handled, 0 otherwise.
+ * Searches for the best matching location block based on a longest-prefix match.
+ * Handles redirects, validates HTTP methods, and updates the root directory if applicable.
+ * 
+ * @param root [in, out] Reference to the root directory path, updated if a new root is specified.
+ * @param resource [in, out] Reference to the requested resource path, may be modified for redirects.
+ * @param loopCount [in] Counter to prevent infinite redirects.
+ * 
+ * @return 
+ * - `0` if a location block is matched.
+ * - `1` if a redirect is handled.
+ * - `-1` if no location matches or an error occurs.
+ * 
+ * @details Sends error responses for invalid methods or unmatched locations. 
+ * Validates allowed methods and handles redirections where applicable.
  */
 int Client::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 {
     if (loopCount > MAX_LOOP_COUNT)
-        return -1; // Indicates a loop error
+        return -1;
 
     const std::map<std::string, location_t> &locations = _server.getLocations();
-    const location_t *matchedLocation = NULL;
+    std::map<std::string, location_t>::const_iterator matchedLocation = locations.end();
     size_t matchedPrefixLength = 0;
-
 
     // Find the best matching location
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
     {
-        if (resource.find(it->first) == 0 && it->first.length() > matchedPrefixLength)
+        if (resource.find(it->first) == 0 && it->first.size() > matchedPrefixLength)
         {
-            matchedLocation = &(it->second);
-            matchedPrefixLength = it->first.length();
+            matchedLocation = it;
+            matchedPrefixLength = it->first.size();
         }
     }
-    if (matchedLocation)
+    if (matchedLocation == locations.end())
     {
-        // Handle redirects
-        if (!matchedLocation->redirect_path.empty())
-        {
-            sendRedirectResponse(ft_stoll(matchedLocation->redirect_err), matchedLocation->redirect_path); // Redirect
-            return 1; // Redirect handled
-        }
-        // Check if the method is allowed
-        if (std::find(matchedLocation->methods.begin(), matchedLocation->methods.end(), _method) == matchedLocation->methods.end())
-            return -2;
+        std::map<std::string, location_t>::const_iterator defaultLocation = locations.find("/");
+        if (defaultLocation != locations.end())
+            matchedLocation = defaultLocation;
+        else
+            return -1; // No matching location found and no default "/" location
+    }
+    const location_t &loc = matchedLocation->second;
 
-        // Update the root if specified
-        if (!matchedLocation->root.empty())
-            root = matchedLocation->root;
-      
-     std::cout << "root : resource matched location " << root << " : " << resource << std::endl;
-        return 0; // Successfully matched a location
-    } //code added by tsanglar to debug the problem with a server bloc without location bloc. 
-    else{ 
-
-      //if no location bloc, a "by default" location bloc is created in 'getDefaultLocation' and used during the handling of request. 
-      return 0;
+    // Handle redirects
+    if (!loc.redirect_path.empty())
+    {
+        sendRedirectResponse(ft_stoll(loc.redirect_err), loc.redirect_path);
+        return 1; // Redirect handled
     }
 
-    // don'nt need
-    // return -1; // No matching location found
-}
+    // Check if the method is allowed
+    if (std::find(loc.methods.begin(), loc.methods.end(), _method) == loc.methods.end())
+    {
+        // Generate a list of allowed methods
+        std::string allowedMethods;
+        for (std::vector<std::string>::const_iterator it = loc.methods.begin(); it != loc.methods.end(); ++it)
+        {
+            if (!allowedMethods.empty())
+                allowedMethods += ", ";
+            allowedMethods += *it;
+        }
 
+        // Send error response with allowed methods
+        std::string errorMessage = "Method Not Allowed. Allowed methods: " + allowedMethods;
+        sendErrorResponse(405, errorMessage);
+        std::cerr << "[ERROR] Method not allowed. Allowed methods: " << allowedMethods << std::endl;
+        return -1; // Return an error code
+    }
+
+    // Update the root if specified
+    if (!loc.root.empty())
+        root = loc.root;
+
+    return 0; // Successfully matched a location
+}

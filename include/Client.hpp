@@ -26,12 +26,15 @@ class Client
 		Server		_server; ///< The server associated with the client.
 		int			_socket; ///< The socket descriptor for the client connection.
 		bool		_sentRequest; ///< Indicates whether a request has been sent.
-		std::string	_request; ///< The raw request string from the client.
 		time_t		_lastRequest; ///< Timestamp of the last request.
+		std::string	_request; ///< The raw request string from the client.
 		std::string	_resourcePath; ///< Path to the resource (e.g., ../site/page).
 		std::string	_method; ///< The HTTP method (e.g., GET, POST, DELETE).
 		std::string	_requestPayload; ///< Payload of the request (body for POST)
+		//std::string _parsedPayload; ///< Parsed payload for chuncked POST requests
 		std::map<std::string, std::string>	_headers; ///< HTTP headers of the request.
+		bool		_isChunked; ///< Indicates if the request uses chunked transfer encoding.
+
 		
 	/** bool		validateHeaders(const std::string& method, const std::string& path, const std::string& version)
 		*/		
@@ -60,6 +63,12 @@ class Client
 		bool		_checkAndGetPayload(std::stringstream &ss);
 		int			_checkLocation(std::string &root, std::string &resource, size_t loopCount);
 		long		_parseContentLength(const std::string &contentLengthStr) const;
+		bool		parseChunkedPayload(std::stringstream &ss);
+		void		appendChunk(const std::string& chunk);
+		bool		isChunkTimeout() const;
+		bool		isChunkComplete() const;
+
+
 		Client();
 
 	public:
