@@ -13,7 +13,19 @@
 #include "Client.hpp"
 
 // *** Constructor and destructor 
-Client::Client(Server server, int socket) : _server(server), _socket(socket), _sentRequest(false), _lastRequest(std::time(NULL)){}
+//Client::Client(Server server, int socket) : _server(server), _socket(socket), _sentRequest(false), _lastRequest(std::time(NULL)){}
+Client::Client(Server server, int socket)
+    : _server(server),
+      _socket(socket),
+      _sentRequest(false),
+      _lastRequest(std::time(NULL)), // _lastRequest comes before _request
+      _request(""),
+      _resourcePath(""),
+      _method(""),
+      _requestPayload(""),
+      _headers(),
+      _isChunked(false) {}
+
 Client::~Client(){}
 
 // *** Getters and Setters
@@ -34,6 +46,11 @@ void	Client::appendRequest(char const *buffer, size_t size)
 {
 	this->_lastRequest = std::time(NULL);
 	this->_sentRequest = false;
+
+	// Debug log the raw buffer content
+    std::cerr << "[DEBUG] Raw buffer content: " << std::string(buffer, size) << std::endl;
+
+	// Append the buffer content to the request
 	this->_request.append(buffer, size);
 }
 

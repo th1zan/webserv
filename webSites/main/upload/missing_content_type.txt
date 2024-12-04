@@ -1,1 +1,0 @@
-Missing Content-Type header.
