@@ -67,7 +67,7 @@ class Client
 		void		appendChunk(const std::string& chunk);
 		bool		isChunkTimeout() const;
 		bool		isChunkComplete() const;
-
+		void		ensureDirectoryExists(const std::string &directory);
 
 		Client();
 
