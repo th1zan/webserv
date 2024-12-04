@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:28 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/12/04 00:02:28 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:32:52 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,9 +216,7 @@ std::string Client::decodeUrl(const std::string &url) const
             i += 2; // Skip the next two characters
         }
         else
-        {
             decoded += url[i];
-        }
     }
     return decoded;
 }
@@ -277,6 +275,11 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
                 return false;
             }
         }
+        if (key == "Expect" && value == "100-continue")
+        {
+            std::cout << "[INFO] Received Expect: 100-continue" << std::endl;
+            sendResponse(100, "Continue", "");
+        }
     }
     // Ensure Host header is present
     if (!hostHeaderFound)
@@ -285,15 +288,15 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
         sendErrorResponse(400, "Bad Request: Missing Host Header");
         return false;
     }
-    //Validate Content-Type (for POST requests - optional check, can be removed later)
-    if (_method == "POST")
-    {
-        if (_headers.find("Content-Type") == _headers.end())
-        {
-            sendErrorResponse(400, "Bad Request: Missing Content-Type Header");
-            return false;
-        }
-    }
+    // //Validate Content-Type (for POST requests - optional check, can be removed later)
+    // if (_method == "POST")
+    // {
+    //     if (_headers.find("Content-Type") == _headers.end())
+    //     {
+    //         sendErrorResponse(400, "Bad Request: Missing Content-Type Header");
+    //         return false;
+    //     }
+    // }
     return true;
 }
 
@@ -351,9 +354,12 @@ bool Client::_checkAndGetPayload(std::stringstream &ss)
     this->_requestPayload.resize(contentLength);
     ss.read(&this->_requestPayload[0], contentLength);
     std::cout << "DEBUG: Populated _requestPayload: " << _requestPayload << std::endl;
+    std::cout << "[DEBUG] Expected Content-Length: " << contentLength << ", Received: " << ss.gcount() << std::endl;
+
     // Validate if the entire payload was read
     if (ss.gcount() != contentLength)
     {
+        std::cerr << "[ERROR] Incomplete Payload: Expected " << contentLength << ", but received " << ss.gcount() << std::endl;
         sendErrorResponse(400, "Bad Request: Incomplete Payload");
         return false;
     }
@@ -396,7 +402,6 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
             matchedPrefixLength = it->first.size();
         }
     }
-
     if (matchedLocation == locations.end())
     {
         std::map<std::string, location_t>::const_iterator defaultLocation = locations.find("/");
@@ -427,7 +432,7 @@ int Client::_checkLocation(std::string &root, std::string &resource, size_t loop
         }
 
         // Send error response with allowed methods
-        std::string errorMessage = "405 Method Not Allowed. Allowed methods: " + allowedMethods;
+        std::string errorMessage = "Method Not Allowed. Allowed methods: " + allowedMethods;
         sendErrorResponse(405, errorMessage);
         std::cerr << "[ERROR] Method not allowed. Allowed methods: " << allowedMethods << std::endl;
         return -1; // Return an error code
