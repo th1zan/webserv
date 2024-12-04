@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:33:27 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/11/28 22:10:06 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/02 20:43:59 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 
 class CGI {
 private:
-    std::string _scriptPath;      ///< Full path to the CGI script
+    std::string _scriptPath;      ///< Path to Python interpreter 
     std::string _method;          ///< HTTP request method (e.g., GET, POST)
     std::string _queryString;     ///< Query string for GET requests
     std::string _requestBody;     ///< Request payload (POST body)
-    std::string _pathInfo;        ///< Additional path information
-    std::string _scriptFileName;  ///< Full script filename
+    std::string _pathInfo;        ///< Additional path information (everything after scriptname.py)
+    std::string _scriptFileName;  ///< Full path to script file (root + /cgi/*.py)
     std::vector<std::string> _environmentVars; ///< CGI environment variables
 
     void setEnvironment(); ///< Prepares CGI environment variables

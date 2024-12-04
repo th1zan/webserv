@@ -149,16 +149,36 @@ void Service::_readDataFromClient()
 	char	buffer[BUFFER_SIZE] = {0};
 
 	//the buffer is filled with the content passing to the listeningSocketFd then the content is "read" with recv()
-	int		bytes = recv(this->_tmpServiceInfo.listeningSocketFd, buffer, BUFFER_SIZE, 0);
-	
-	if (bytes > 0){
-		this->_clientVector.at(this->_tmpServiceInfo.clientID).appendRequest(buffer, bytes);
+	int		bytes;
+	while ((bytes = recv(this->_tmpServiceInfo.listeningSocketFd, buffer, BUFFER_SIZE, 0)) > 0)
+	{
+		// Append the received data to the client's request
+        this->_clientVector.at(this->_tmpServiceInfo.clientID).appendRequest(buffer, bytes);
 
+        // DEBUG: Log the received buffer and bytes read
+        std::cout << "[DEBUG] Received " << bytes << " bytes from client ID " 
+                  << this->_tmpServiceInfo.clientID << ": " << std::string(buffer, bytes) << std::endl;
+	}
+	if (bytes == 0) // Client disconnected
+    {
+        std::cerr << "[INFO] Client ID " << this->_tmpServiceInfo.clientID 
+                  << " disconnected." << std::endl;
+        this->_closeConnection(EMPTY_MSG);
+    }
+    else if (bytes < 0) // Error occurred during recv
+    {
+        std::cerr << "[ERROR] Failed to read data from client ID " 
+                  << this->_tmpServiceInfo.clientID 
+                  << " (errno: " << errno << ")." << std::endl;
+		if (errno == EAGAIN || errno == EWOULDBLOCK) {
+            std::cerr << "[DEBUG] Socket temporarily unavailable. Retrying..." << std::endl;
+            return; // Retry mechanism for non-blocking socket
+        }
+		std::cerr << "[ERROR] recv failed (errno: " << errno << ")." << std::endl;
+        this->_closeConnection(EMPTY_MSG);
+    }
 		// DEBUGG: read the request
 		std::cout << "in '_readDataFromClient:: buffer : " << buffer << std::endl;
-	}
-	else
-		this->_closeConnection(EMPTY_MSG);
 }
 
 /**
