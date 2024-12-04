@@ -63,8 +63,14 @@ void Service::_pollingManager() {
         this->_acceptConnection();
       } else // If CLIENT's socket, read data
       {
-        this->_readDataFromClient();
-      }
+        try{
+          this->_readDataFromClient();
+        }
+        catch(const std::runtime_error& e){
+           std::cerr << "Error occurred: " << e.what() << std::endl;
+           this->_closeConnection("Closing connection due to error.");
+        }
+       }
     } else if (this->_tmpServiceInfo.mode &
                POLLOUT) // Ready to send data (POLLOUT)
     {

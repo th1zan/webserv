@@ -33,7 +33,13 @@ void Client::sendResponse(int statusCode, const std::string &statusMessage, cons
     std::ostringstream response;
     response << "HTTP/1.1 " << statusCode << " " << statusMessage << "\r\n";
     response << "Content-Length: " << body.size() << "\r\n\r\n" << body;
-    send(_socket, response.str().c_str(), response.str().size(), 0);
+    //send(_socket, response.str().c_str(), response.str().size(), 0);
+
+    ssize_t bytesSent = send(_socket, response.str().c_str(), response.str().size(), 0);
+    if (bytesSent < 0) {
+        throw std::runtime_error("Send failed in sendRedirectResponse");
+    }
+
 }
 
 /**
@@ -52,7 +58,13 @@ void Client::sendRedirectResponse(int statusCode, const std::string &location)
     response << "HTTP/1.1 " << statusCode << " Found\r\n";
     response << "Location: " << location << "\r\n";
     response << "Content-Length: 0\r\n\r\n";
-    send(_socket, response.str().c_str(), response.str().size(), 0);
+    
+    //send(_socket, response.str().c_str(), response.str().size(), 0);
+
+    ssize_t bytesSent = send(_socket, response.str().c_str(), response.str().size(), 0);
+    if (bytesSent < 0) {
+        throw std::runtime_error("Send failed in sendRedirectResponse");
+    }
 }
 
 /**
@@ -161,5 +173,11 @@ void Client::sendCgiResponse(const std::string &cgiOutput)
     response << "Content-Length: " << body.size() << "\r\n\r\n";
     response << body;
 
-    send(_socket, response.str().c_str(), response.str().size(), 0);
+    //send(_socket, response.str().c_str(), response.str().size(), 0);
+   
+    ssize_t bytesSent = send(_socket, response.str().c_str(), response.str().size(), 0);
+    if (bytesSent < 0) {
+        throw std::runtime_error("Send failed in sendRedirectResponse");
+    }
+    
 }
