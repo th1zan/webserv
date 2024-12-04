@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:08:42 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/11/29 20:24:32 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:48:19 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,42 +337,137 @@ void Client::handlePostRequest(const std::string &path)
  * @param [in] path The upload path.
  * @param [in] boundary The boundary string used to separate parts in the multipart data.
  */
+// void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
+// {
+//     // Derive the upload directory and file path
+//     std::string uploadDirectory = _server.getRoot() + "/upload/";
+//     std::string fileName = path.substr(path.find_last_of('/') + 1); // Use the path to get the file name
+
+//     if (fileName.empty())
+//         fileName = "uploaded_file"; // Fallback to default name
+//     std::string filePath = uploadDirectory + fileName;
+
+//     size_t boundaryStart = _requestPayload.find("--" + boundary);
+//     if (boundaryStart == std::string::npos)
+//     {
+//         sendErrorResponse(400, "Invalid multipart body");
+//         return;
+//     }
+
+//     size_t contentStart = _requestPayload.find("\r\n\r\n", boundaryStart) + 4; // Skip to content
+//     size_t contentEnd = _requestPayload.find("\r\n--" + boundary, contentStart);
+//     if (contentStart == std::string::npos || contentEnd == std::string::npos)
+//     {
+//         sendErrorResponse(400, "Malformed multipart section");
+//         return;
+//     }
+//     std::string fileContent = _requestPayload.substr(contentStart, contentEnd - contentStart);
+    
+//     // Save file content
+//     std::ofstream outFile(filePath.c_str(), std::ios::binary);
+//     if (!outFile.is_open())
+//     {
+//         sendErrorResponse(500, "Internal Server Error: Unable to open file for writing");
+//         return;
+//     }
+//     outFile.write(fileContent.c_str(), fileContent.size());
+//     outFile.close();
+//     sendResponse(200, "OK", "Multipart file uploaded successfully");
+// }
+
 void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
 {
-    // Derive the upload directory and file path
+    (void)path;
+
+    // Derive the upload directory
     std::string uploadDirectory = _server.getRoot() + "/upload/";
-    std::string fileName = path.substr(path.find_last_of('/') + 1); // Use the path to get the file name
+    if (uploadDirectory.back() != '/')
+        uploadDirectory += "/";
 
-    if (fileName.empty())
-        fileName = "uploaded_file"; // Fallback to default name
-    std::string filePath = uploadDirectory + fileName;
+    std::string boundaryMarker = "--" + boundary;
+    std::string closingBoundary = boundaryMarker + "--";
 
-    size_t boundaryStart = _requestPayload.find("--" + boundary);
-    if (boundaryStart == std::string::npos)
+    size_t currentPos = 0;
+
+    // Check if the first boundary is correct
+    if (_requestPayload.find(boundaryMarker) != 0)
     {
-        sendErrorResponse(400, "Invalid multipart body");
+        sendErrorResponse(400, "Malformed multipart body: Missing or invalid initial boundary");
         return;
     }
 
-    size_t contentStart = _requestPayload.find("\r\n\r\n", boundaryStart) + 4; // Skip to content
-    size_t contentEnd = _requestPayload.find("\r\n--" + boundary, contentStart);
-    if (contentStart == std::string::npos || contentEnd == std::string::npos)
+    // Iterate over the payload to process all parts
+    while (true)
     {
-        sendErrorResponse(400, "Malformed multipart section");
-        return;
+        // Find the next boundary
+        size_t boundaryStart = _requestPayload.find(boundaryMarker, currentPos);
+        if (boundaryStart == std::string::npos)
+        {
+            sendErrorResponse(400, "Malformed multipart body: Missing boundary");
+            return;
+        }
+
+        // Check for closing boundary
+        if (_requestPayload.substr(boundaryStart, closingBoundary.size()) == closingBoundary)
+            break; // End of parts
+
+        size_t partStart = boundaryStart + boundaryMarker.size() + 2; // Skip boundary and \r\n
+        size_t boundaryEnd = _requestPayload.find(boundaryMarker, partStart);
+
+        if (boundaryEnd == std::string::npos)
+        {
+            sendErrorResponse(400, "Malformed multipart body: Incomplete part or missing boundary");
+            return;
+        }
+
+        // Extract the part content
+        std::string part = _requestPayload.substr(partStart, boundaryEnd - partStart);
+
+        // Extract headers and content
+        size_t headerEnd = part.find("\r\n\r\n");
+        if (headerEnd == std::string::npos)
+        {
+            sendErrorResponse(400, "Malformed multipart body: Missing headers");
+            return;
+        }
+
+        std::string headers = part.substr(0, headerEnd);
+        std::string content = part.substr(headerEnd + 4); // Skip \r\n\r\n
+
+        // Parse headers for filename
+        std::string filename;
+        size_t contentDispStart = headers.find("Content-Disposition: ");
+        if (contentDispStart != std::string::npos)
+        {
+            size_t filenameStart = headers.find("filename=\"", contentDispStart);
+            if (filenameStart != std::string::npos)
+            {
+                filenameStart += 10; // Skip 'filename="'
+                size_t filenameEnd = headers.find("\"", filenameStart);
+                filename = headers.substr(filenameStart, filenameEnd - filenameStart);
+            }
+        }
+
+        // Default filename if none provided
+        if (filename.empty())
+            filename = "uploaded_file";
+
+        // Save the file content
+        std::string filePath = uploadDirectory + filename;
+        std::ofstream outFile(filePath.c_str(), std::ios::binary);
+        if (!outFile.is_open())
+        {
+            sendErrorResponse(500, "Internal Server Error: Unable to open file for writing");
+            return;
+        }
+        outFile.write(content.c_str(), content.size());
+        outFile.close();
+
+        // Move to the next boundary
+        currentPos = boundaryEnd;
     }
-    std::string fileContent = _requestPayload.substr(contentStart, contentEnd - contentStart);
-    
-    // Save file content
-    std::ofstream outFile(filePath.c_str(), std::ios::binary);
-    if (!outFile.is_open())
-    {
-        sendErrorResponse(500, "Internal Server Error: Unable to open file for writing");
-        return;
-    }
-    outFile.write(fileContent.c_str(), fileContent.size());
-    outFile.close();
-    sendResponse(200, "OK", "Multipart file uploaded successfully");
+
+    sendResponse(200, "OK", "Multipart files uploaded successfully");
 }
 
 
