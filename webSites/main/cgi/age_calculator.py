@@ -24,7 +24,7 @@ else:
     # print()
     # exit()
 # Output the headers and HTML
-print("Content-type:text/html")
+# print("Content-type:text/html")
 print()
 print("<html>")
 print("<head>")
