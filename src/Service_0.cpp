@@ -25,9 +25,6 @@ Service::Service(int argc, char **argv) {
   Parser input(argc, argv);
 
   this->_serversVector = input.getServersVector();
-
-  // to make it simple at first, _nbPrimaryServers = 1
-  //  this->_nbPrimaryServers = 1;
   this->_nbPrimaryServers = this->_countPrimaryServers();
 }
 
@@ -86,11 +83,6 @@ void Service::printServiceInfo() {
             << std::endl;
   std::cout << "  AddrLen: " << _tmpServiceInfo.parameters.ai_addrlen
             << std::endl;
-  // std::cout << "  ai_addr.sa_family: " <<
-  // _tmpServiceInfo.parameters.ai_addr->sa_family << std::endl; std::cout << "
-  // ai_addr.sa_len: " << _tmpServiceInfo.parameters.ai_addr->sa_len <<
-  // std::endl; std::cout << "  Canonical name: " <<
-  // _tmpServiceInfo.parameters.ai_canonname << std::endl;
   std::cout << "  Flags: " << _tmpServiceInfo.parameters.ai_flags << std::endl;
   std::cout << "----- /END Service::printServiceInfo() ----" << std::endl;
   std::cout << std::endl;
