@@ -36,19 +36,14 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	this->_port = this->_ServerConfigMap[LISTEN];
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(_ServerConfigMap[MAX_SIZE]);
 	
-	//if any error_page directive, create one
-	// this->_errorResponse = this->_generateErrorResponse();
-
 	//initialisation
 	this->_socket = 0;
 	
 	//get location bloc parameters from to `tempLocationMapVector` to a vector of struct location_t 
-	if (!tempLocationMapVector.empty())
-	{
+	if (!tempLocationMapVector.empty()){
 		this->_getLocationStruct();
 	}
-  else
-  {
+  else{
     //if any location bloc, use it the default location bloc
     this->_LocationMap["/"] = _getDefaultLocation();
   }
@@ -239,9 +234,6 @@ const std::string&			  Server::getRoot() const{return this->_root;}
 const std::string&			  Server::getIndex() const{return this->_index;}
 std::map<std::string, std::string>			Server::getErrorPage() const{return this->_errorPages;}
 const std::string&			                Server::getErrorResponse() const{return this->_errorResponse;}
-// locationMap const	&Server::getLocations() const{return this->_locations;}
-
-// Jannetta - added getter for location map
 const std::map<std::string, location_t>& Server::getLocations() const{return this->_LocationMap;}
 
 location_t Server::getLocationConfig(const std::string &path) const
@@ -250,7 +242,7 @@ location_t Server::getLocationConfig(const std::string &path) const
     const location_t *matchedLocation = NULL;
     size_t matchedPrefixLength = 0;
 
-    // Trouver la meilleure correspondance
+    // find the better location match
     for (std::map<std::string, location_t>::const_iterator it = locations.begin(); it != locations.end(); ++it)
 	{
 		// check for a perfect match
@@ -260,20 +252,17 @@ location_t Server::getLocationConfig(const std::string &path) const
             matchedPrefixLength = it->first.length();
         }
     }
-
-    // Si une correspondance est trouvée
     if (matchedLocation)
     {
         std::cout << "Matched location: " << matchedPrefixLength << ", uploadTo: " << matchedLocation->uploadTo << std::endl;
         return *matchedLocation;
     }
-
     // Retourner une configuration par défaut si aucune correspondance n’est trouvée
     return _getDefaultLocation();
 }
 
 /**
- * @brief Crée une configuration par défaut pour les cas où aucun bloc `location` ne correspond.
+ * @brief create a default Location conf if any Location bloc is find in the configuration file
  */
 location_t Server::_getDefaultLocation() const
 {
@@ -282,12 +271,7 @@ location_t Server::_getDefaultLocation() const
     tmpLoc.hasCGI = false;
     tmpLoc.cgiPath = "";
     tmpLoc.root = "/";
-    // tmpLoc.redirect_path = "",
-    tmpLoc.methods.push_back("GET");
-    // tmpLoc.redirect_err = "302";
-    // tmpLoc.cgiExtension = itMap->find("cgi_ext")->second;
-    // tmpLoc.tryFile = "";
-    // tmpLoc.uploadTo = "";
+    tmpLoc.methods.push_back("GET"); 
     return tmpLoc;
 }
 
@@ -339,7 +323,6 @@ void Server::printServers() {
 			std::cout << "  CGI Extension: " << tmploc.cgiExtension << std::endl;
 			std::cout << "  Upload To: " << tmploc.uploadTo << std::endl;
 			
-			// Jannetta's DEBUG - to delete later
 			// Debug for location information
         	std::cout << "Location Name: " << locIt->first
                   << ", Has CGI: " << (tmploc.hasCGI ? "Yes" : "No")
