@@ -25,7 +25,7 @@ void Parser::_checkInputArg(int argc, char **argv){
 	size_t lastSlash;
 
 	lastSlash = this->_confFilePath.find_last_of("/");
-	if (lastSlash == std::string::npos) //aucun nom
+	if (lastSlash == std::string::npos) //any name
 		confFilename = this->_confFilePath;
 	else
 		confFilename = this->_confFilePath.substr(lastSlash + 1);
