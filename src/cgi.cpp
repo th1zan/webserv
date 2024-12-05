@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 19:26:05 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/11/29 17:30:21 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/04 22:53:08 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void CGI::setEnvironment()
     _environmentVars.push_back("CONTENT_LENGTH=" + to_string(_requestBody.size()));
     std::cout << "Set CONTENT_LENGTH: " << to_string(_requestBody.size()) << std::endl;
 
+    // if (_method == "POST" && !_requestBody.empty())
+    // {
+    //     std::string boundary = extractBoundary(_requestBody);
+    //     _environmentVars.push_back("CONTENT_TYPE=multipart/form-data");
+    //     std::cout << "Set CONTENT_TYPE: multipart/form-data" << std::endl;
+    // }
+    // else
     _environmentVars.push_back("CONTENT_TYPE=application/x-www-form-urlencoded");
     std::cout << "Set CONTENT_TYPE: application/x-www-form-urlencoded" << std::endl;
 
@@ -51,6 +58,28 @@ void CGI::setEnvironment()
     _environmentVars.push_back(""); // Null-terminate for execve
     std::cout << "Set Null-Terminator for environment variables" << std::endl;
 }
+
+// std::string extractBoundary(const std::string &requestBody)
+// {
+//     // Search for the boundary in the Content-Type header
+//     size_t boundaryStart = requestBody.find("boundary=");
+//     if (boundaryStart == std::string::npos)
+//     {
+//         std::cerr << "Boundary not found in Content-Type header." << std::endl;
+//         return "";
+//     }
+
+//     // Extract the boundary value
+//     boundaryStart += 9; // Move past "boundary="
+//     size_t boundaryEnd = requestBody.find("\r\n", boundaryStart);
+//     if (boundaryEnd == std::string::npos)
+//     {
+//         std::cerr << "Boundary end not found." << std::endl;
+//         return "";
+//     }
+
+//     return requestBody.substr(boundaryStart, boundaryEnd - boundaryStart);
+// }
 
 std::string CGI::execute()
 {

@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:28 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/12/04 18:40:04 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:20:50 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 // bool Client::_checkFirstLine(std::stringstream &ss)
 // bool Client::_checkAndGetHeaders(std::stringstream &ss)
 // bool Client::_checkAndGetPayload(std::stringstream &ss)
+// bool Client::parseChunkedPayload(std::stringstream &ss)
 // bool Client::isUrlValid(const std::string &url) const 
 // int Client::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 
@@ -41,9 +42,6 @@ void Client::handleClientRequest()
     this->_sentRequest = true;
     this->_lastRequest = std::time(NULL);
     
-    // Log the start of request handling
-    //std::cout << "[DEBUG] Start handling request for client on socket: " << _socket << std::endl;
-    // Validate the request format
     if (!_checkRequest())
     {
         sendErrorResponse(400, "Bad Request: Invalid request format");
@@ -82,9 +80,6 @@ void Client::handleClientRequest()
     this->_request.clear();
     this->_requestPayload.clear();
     this->_sentRequest = false;
-
-    // Log the successful processing of the request
-    // std::cout << "[DEBUG] Successfully handled request for client on socket: " << _socket << std::endl;
 }
 
 /**
@@ -139,11 +134,7 @@ bool Client::_checkFirstLine(std::stringstream &ss)
     _method = tokens[0];
     _resourcePath = tokens[1];
     std::string version = tokens[2];
-	// Log for debugging
-    // std::cout << "Parsed method: " << _method
-    //           << ", resource: " << _resourcePath
-    //           << ", version: " << version << std::endl;
-
+    
     // Validate the HTTP version
     if (version != "HTTP/1.1")
     {
@@ -221,8 +212,7 @@ std::string Client::decodeUrl(const std::string &url) const
     return decoded;
 }
 
-//TODO fix the bug when this command passes curl -v --http1.1 --header "" http://localhost:8080/ Host header should not be empty
-// correct command to test it was curl -v --http1.1 --header "Host:" http://localhost:8080/ the code was ok)
+
 /**
  * @brief Parses and validates the headers from the HTTP request.
  * 
@@ -288,275 +278,121 @@ bool Client::_checkAndGetHeaders(std::stringstream &ss)
         sendErrorResponse(400, "Bad Request: Missing Host Header");
         return false;
     }
-    // //Validate Content-Type (for POST requests - optional check, can be removed later)
-    // if (_method == "POST")
-    // {
-    //     if (_headers.find("Content-Type") == _headers.end())
-    //     {
-    //         sendErrorResponse(400, "Bad Request: Missing Content-Type Header");
-    //         return false;
-    //     }
-    // }
     return true;
 }
 
-// ///the original functional function WITHOUT CHUNKED
-// bool Client::_checkAndGetPayload(std::stringstream &ss)
-// {
-//     // Only applicable for POST requests
-//     if (this->_method != "POST")
-//         return true;
-
-//     // Check if Content-Length header is present
-//     std::map<std::string, std::string>::iterator it = this->_headers.find("Content-Length");
-//     if (it == this->_headers.end())
-//     {
-//         sendErrorResponse(411, "Length Required");
-//         return false;
-//     }
-
-//     // Validate that Content-Length is a positive integer
-//     long contentLength = -1;
-//     try
-//     {
-//         contentLength = std::stol(it->second);
-//         if (contentLength < 0)
-//         {
-//             sendErrorResponse(400, "Bad Request: Invalid Content-Length");
-//             return false;
-//         }
-//     }
-//     catch (const std::exception &)
-//     {
-//         sendErrorResponse(400, "Bad Request: Invalid Content-Length");
-//         return false;
-//     }
-
-//     // Check against max payload size
-//     long maxPayloadSize = this->_server.getClientMaxBodySize();
-//     if (contentLength > maxPayloadSize)
-//     {
-//         sendErrorResponse(413, "Payload Too Large");
-//         return false;
-//     }
-
-//     // Resize the payload container and read the content
-//     this->_requestPayload.resize(contentLength);
-//     ss.read(&this->_requestPayload[0], contentLength);
-//     std::cout << "DEBUG: Populated _requestPayload: " << _requestPayload << std::endl;
-//     std::cout << "[DEBUG] Expected Content-Length: " << contentLength << ", Received: " << ss.gcount() << std::endl;
-
-//     // Validate if the entire payload was read
-//     if (ss.gcount() != contentLength)
-//     {
-//         std::cerr << "[ERROR] Incomplete Payload: Expected " << contentLength << ", but received " << ss.gcount() << std::endl;
-//         sendErrorResponse(400, "Bad Request: Incomplete Payload");
-//         return false;
-//     }
-//     return true; // Payload is valid
-// }
-
-
-
-//Helper functions for chunked
-// /**
-//  * @brief Appends chunk data to the payload and updates the timestamp.
-//  * 
-//  * @param chunk The chunk data to append.
-//  */
-// void Client::appendChunk(const std::string& chunk)
-// {
-//     this->_requestPayload.append(chunk);
-//     this->_lastRequest = std::time(NULL);
-// }
-
-// older version that worked on Monday (supposedly)
-// bool Client::_checkAndGetPayload(std::stringstream &ss)
-// {
-//     if (this->_method != "POST")
-//         return true;
-
-//     // Check for Transfer-Encoding: chunked
-//     if (_headers.find("Transfer-Encoding") != _headers.end() && 
-//         _headers["Transfer-Encoding"] == "chunked")
-//     {
-//         _isChunked = true;
-//     }
-
-//     if (_isChunked)
-//     {
-//         return parseChunkedPayload(ss);
-//     }
-//     else
-//     {
-//         // Original logic for Content-Length based payloads
-//         auto it = _headers.find("Content-Length");
-//         if (it == _headers.end())
-//         {
-//             sendErrorResponse(411, "Length Required");
-//             return false;
-//         }
-
-//         long contentLength = std::stol(it->second);
-//         if (contentLength < 0)
-//         {
-//             sendErrorResponse(400, "Bad Request: Invalid Content-Length");
-//             return false;
-//         }
-
-//         // Read the content into _requestPayload
-//         _requestPayload.resize(contentLength);
-//         ss.read(&_requestPayload[0], contentLength);
-
-//         if (ss.gcount() != contentLength)
-//         {
-//             sendErrorResponse(400, "Bad Request: Incomplete Payload");
-//             return false;
-//         }
-
-//         return true;
-//     }
-// }
-
-// // doesnt seg fault but doesnt work correctly
+/**
+ * @brief Parses and validates the payload for POST requests.
+ * 
+ * @details Validates the payload based on the following:
+ * - Transfer-Encoding: chunked.
+ * - Content-Length header.
+ * 
+ * @param [in] ss String stream containing the HTTP request.
+ * @return true if the payload is valid, false otherwise.
+ */
 bool Client::_checkAndGetPayload(std::stringstream &ss)
 {
-    // Only applicable for POST requests
     if (this->_method != "POST")
         return true;
 
-    // Check for chunked Transfer-Encoding
+    // Check for Transfer-Encoding: chunked
     std::map<std::string, std::string>::iterator it = _headers.find("Transfer-Encoding");
     if (it != _headers.end() && it->second == "chunked")
     {
-        // Process chunked payload
-        if (!parseChunkedPayload(ss))
-            return false;
+        _isChunked = true;
+    }
 
-        // Verify if chunked request is complete
-        if (!isChunkComplete())
+    if (_isChunked)
+    {
+        return parseChunkedPayload(ss);
+    }
+    else
+    {
+        // Original logic for Content-Length based payloads
+        it = _headers.find("Content-Length");
+        if (it == _headers.end())
         {
-            sendErrorResponse(400, "Bad Request: Incomplete Chunked Request");
+            sendErrorResponse(411, "Length Required");
             return false;
         }
 
-        return true; // Chunked payload processed successfully
-    }
-
-    // Otherwise, process Content-Length-based payload
-    it = _headers.find("Content-Length");
-    if (it == _headers.end())
-    {
-        sendErrorResponse(411, "Length Required");
-        return false;
-    }
-
-    // Validate Content-Length
-    long contentLength;
-    try
-    {
-        contentLength = std::stol(it->second);
-        if (contentLength < 0)
+        long contentLength = -1;
+        try
+        {
+            contentLength = std::strtol(it->second.c_str(), NULL, 10);
+            if (contentLength < 0)
+            {
+                sendErrorResponse(400, "Bad Request: Invalid Content-Length");
+                return false;
+            }
+        }
+        catch (const std::exception &)
         {
             sendErrorResponse(400, "Bad Request: Invalid Content-Length");
             return false;
         }
+
+        // Read the content into _requestPayload
+        _requestPayload.resize(contentLength);
+        ss.read(&_requestPayload[0], contentLength);
+
+        if (ss.gcount() != contentLength)
+        {
+            sendErrorResponse(400, "Bad Request: Incomplete Payload");
+            return false;
+        }
+
+        return true;
     }
-    catch (const std::exception &)
-    {
-        sendErrorResponse(400, "Bad Request: Invalid Content-Length");
-        return false;
-    }
-
-    // Check against max payload size
-    long maxPayloadSize = this->_server.getClientMaxBodySize();
-    if (contentLength > maxPayloadSize)
-    {
-        sendErrorResponse(413, "Payload Too Large");
-        return false;
-    }
-
-    // Read the Content-Length payload
-    this->_requestPayload.resize(contentLength);
-    ss.read(&this->_requestPayload[0], contentLength);
-
-    // Log payload information
-    std::cout << "DEBUG: Populated _requestPayload: " << _requestPayload << std::endl;
-    std::cout << "[DEBUG] Expected Content-Length: " << contentLength
-              << ", Received: " << ss.gcount() << std::endl;
-
-    // Validate if the entire payload was read
-    if (ss.gcount() != contentLength)
-    {
-        std::cerr << "[ERROR] Incomplete Payload: Expected " << contentLength
-                  << ", but received " << ss.gcount() << std::endl;
-        sendErrorResponse(400, "Bad Request: Incomplete Payload");
-        return false;
-    }
-
-    return true; // Payload is valid
 }
 
-bool Client::parseChunkedPayload(std::stringstream &ss) {
+/**
+ * @brief Parses and validates the payload for chunked transfer encoding.
+ * 
+ * @details Reads and appends the chunked data to the request payload.
+ * 
+ * @param [in] ss String stream containing the HTTP request.
+ * @return true if the payload is valid, false otherwise.
+ */
+bool Client::parseChunkedPayload(std::stringstream &ss)
+{
     std::string line;
+    while (std::getline(ss, line))
+    {
+        // Strip CRLF
+        stringTrim(line);
 
-    while (std::getline(ss, line)) {
-        stringTrim(line); // Trim whitespace (including CRLF)
-
-        // Parse chunk size
+        // Read chunk size (in hex)
         long chunkSize = strtol(line.c_str(), NULL, 16);
-        std::cerr << "[DEBUG] Parsed chunk size: " << chunkSize << " from line: '" << line << "'" << std::endl;
-        if (chunkSize < 0) {
+        if (chunkSize < 0)
+        {
             sendErrorResponse(400, "Bad Request: Invalid Chunk Size");
             return false;
         }
 
-        if (chunkSize == 0) { // End of chunked transfer
-            // Ensure final CRLF exists
-            std::getline(ss, line);
-            if (line != CURSOR_NEWLINE) {
-                std::cerr << "[ERROR] Missing final CRLF after chunked payload." << std::endl;
-                sendErrorResponse(400, "Bad Request: Missing Final CRLF");
-                return false;
-            }
-            break; // End of chunks
+        if (chunkSize == 0) // End of chunks
+        {
+            std::getline(ss, line); // Consume trailing CRLF
+            break;
         }
 
         // Read chunk data
-        std::string chunkData(chunkSize, '\0');
-        ss.read(&chunkData[0], chunkSize);
-        std::cerr << "[DEBUG] Read chunk data: '" << chunkData << "'" << std::endl;
-        if (ss.gcount() != chunkSize) {
-            std::cerr << "[ERROR] Incomplete chunk. Expected " << chunkSize << " bytes, but got " << ss.gcount() << "." << std::endl;
+        char *buffer = new char[chunkSize];
+        ss.read(buffer, chunkSize);
+        if (ss.gcount() != chunkSize)
+        {
+            delete[] buffer;
             sendErrorResponse(400, "Bad Request: Incomplete Chunk");
             return false;
         }
 
-        // Append chunk data to the payload
-        _requestPayload.append(chunkData);
+        _requestPayload.append(buffer, chunkSize);
+        delete[] buffer;
 
-        // Consume trailing CRLF after chunk data
-        std::getline(ss, line);
-        if (line != CURSOR_NEWLINE) {
-            std::cerr << "[ERROR] Expected CRLF after chunk data, but got: '" << line << "'" << std::endl;
-            sendErrorResponse(400, "Bad Request: Malformed Chunk Data");
-            return false;
-        }
+        std::getline(ss, line); // Consume trailing CRLF after chunk
     }
-
-    std::cerr << "[DEBUG] Final payload: " << _requestPayload << std::endl;
-    return true; // Successfully parsed
-}
-
-
-/**
- * @brief Checks if the chunked request has been completed.
- * 
- * @return True if the end of the chunked request (`0\r\n\r\n`) has been received.
- */
-bool Client::isChunkComplete() const
-{
-    return (this->_requestPayload.find("0\r\n\r\n") != std::string::npos);
+    return true;
 }
 
 

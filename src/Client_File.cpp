@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:08:42 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/12/04 20:48:19 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:31:09 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ void Client::handleGetRequest(const std::string& path)
     size_t queryPos = path.find('?');
     std::string cleanPath = (queryPos != std::string::npos) ? path.substr(0, queryPos) : path;
     std::string queryString = (queryPos != std::string::npos) ? path.substr(queryPos + 1) : "";
-     // Debug the extracted clean path and query string
-    std::cout << "Debug: Full path: " << path << std::endl;
-    std::cout << "Debug: Clean path: " << cleanPath << std::endl;
-    std::cout << "Debug: Query string: " << queryString << std::endl;
+    
+    
+    // Debug the extracted clean path and query string
+    // std::cout << "Debug: Full path: " << path << std::endl;
+    // std::cout << "Debug: Clean path: " << cleanPath << std::endl;
+    // std::cout << "Debug: Query string: " << queryString << std::endl;
+
 
     // Construct the full file path
     std::string filePath = this->_server.getRoot() + cleanPath;
@@ -58,15 +61,23 @@ void Client::handleGetRequest(const std::string& path)
     
     // Check if the path is a CGI script
     location_t locationConfig = _server.getLocationConfig(cleanPath);
-
+    // Check for the try_file directive
+    if (!locationConfig.tryFile.empty())
+    {
+        std::string tryFilePath = this->_server.getRoot() + cleanPath + "/" + locationConfig.tryFile;
+        if (fileExists(tryFilePath))
+            filePath = tryFilePath; // Serve the try_file if it exists
+        else
+        {
+            sendErrorResponse(404, "Not Found");
+            return;
+        }
+    }
     // Check if the requested method is allowed in the location block
     for (std::vector<std::string>::iterator it = locationConfig.methods.begin(); it != locationConfig.methods.end(); ++it)
     {
-        if (*it == "GET")
-        {
-            // The "GET" method is allowed, exit the loop.
+        if (*it == "GET") // The "GET" method is allowed, exit the loop.
             break;
-        }
 
         // If we are at the last element and "GET" was not found, return an error.
         if (it + 1 == locationConfig.methods.end()) // Use iterator arithmetic since vector supports it.
@@ -216,11 +227,8 @@ void Client::handlePostRequest(const std::string &path)
     // Check if the requested method is allowed in the location block
     for (std::vector<std::string>::iterator it = locationConfig.methods.begin(); it != locationConfig.methods.end(); ++it)
     {
-        if (*it == "POST")
-        {
-            // The "POST" method is allowed, exit the loop.
+        if (*it == "POST") // The "POST" method is allowed, exit the loop.
             break;
-        }
 
         // If we are at the last element and "POST" was not found, return an error.
         if (it + 1 == locationConfig.methods.end()) // Use iterator arithmetic since vector supports it.
@@ -229,23 +237,15 @@ void Client::handlePostRequest(const std::string &path)
             return;
         }
     }
-    // std::cout << "Debug: Location Config - CGI Path: " << locationConfig.cgiPath
-    //           << ", Has CGI: " << locationConfig.hasCGI
-    //           << ", CGI Extension: " << locationConfig.cgiExtension << std::endl;
 
     // Validate Content-Type header
     std::map<std::string, std::string>::iterator it = _headers.find("Content-Type");
 
     std::string contentType = (it != _headers.end()) ? it->second : "text/plain";
     stringTrim(contentType);
-
-    // std::cout << "Normalized Content-Type: " << contentType << std::endl;
     
     if (isCgiPath(cleanPath, locationConfig))
     {
-        // std::cout << "Debug: cleanPath: " << cleanPath << std::endl;
-        // std::cout << "Debug: CGI Path: " << locationConfig.cgiPath << std::endl;
-
         // Determine PATH_INFO
         std::string pathInfo;
         if (cleanPath.find(locationConfig.cgiPath) == 0)
@@ -272,23 +272,13 @@ void Client::handlePostRequest(const std::string &path)
 
         // Python interpreter path
         std::string scriptPath = getPythonPath(); // Get the Python interpreter path
-
-        // std::cout << "Debug: scriptPath: " << scriptPath << std::endl;
-        // std::cout << "Debug: scriptFileName: " << scriptFileName << std::endl;
-
-        // executeCgi(scriptPath, "POST", queryString, _requestPayload, pathInfo, scriptFileName);
         std::string result = executeCgi(scriptPath, "POST", queryString, _requestPayload, pathInfo, scriptFileName);
-        //std::cout << "Debug: CGI Result: " << result << std::endl;
         if (!result.empty())
             sendCgiResponse(result);
         else
             sendErrorResponse(500, "Internal Server Error");
         return;
     }
-    // else
-    // {
-    //     std::cout << "Debug: Not a CGI script. Proceeding with standard POST handling." << std::endl; // Debugging
-    // }
     // Handle file uploads if allowed
     if (!locationConfig.uploadTo.empty())
     {
@@ -310,70 +300,16 @@ void Client::handlePostRequest(const std::string &path)
             std::string boundary = contentType.substr(boundaryPos + 9); // Extract boundary
             handleMultipartFormData(path, boundary); // Handle multipart parsing
         }
-        else {
+        else
+        {
             sendErrorResponse(415, "Unsupported Media Type for file upload");
             return;
         }
     }
-
-    // // Handle other supported Content-Types (e.g., JSON, plain text, etc.)
-    // if (contentType == "application/json" || contentType == "application/x-www-form-urlencoded")
-    // {
-    //     // Process JSON or form data (e.g., store in database, etc.)
-    //     std::cout << "Processing JSON or form data" << std::endl;
-    //     sendResponse(200, "OK", "POST processed successfully");
-    //     return;
-    // }
-    // Unsupported Content-Type
     else
         sendErrorResponse(415, "Unsupported Media Type");
 }
 
-/**
- * @brief Handles multipart form data uploads from POST requests.
- * 
- * @details Parses the request payload, extracts file content, and saves it to the specified location.
- * 
- * @param [in] path The upload path.
- * @param [in] boundary The boundary string used to separate parts in the multipart data.
- */
-// void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
-// {
-//     // Derive the upload directory and file path
-//     std::string uploadDirectory = _server.getRoot() + "/upload/";
-//     std::string fileName = path.substr(path.find_last_of('/') + 1); // Use the path to get the file name
-
-//     if (fileName.empty())
-//         fileName = "uploaded_file"; // Fallback to default name
-//     std::string filePath = uploadDirectory + fileName;
-
-//     size_t boundaryStart = _requestPayload.find("--" + boundary);
-//     if (boundaryStart == std::string::npos)
-//     {
-//         sendErrorResponse(400, "Invalid multipart body");
-//         return;
-//     }
-
-//     size_t contentStart = _requestPayload.find("\r\n\r\n", boundaryStart) + 4; // Skip to content
-//     size_t contentEnd = _requestPayload.find("\r\n--" + boundary, contentStart);
-//     if (contentStart == std::string::npos || contentEnd == std::string::npos)
-//     {
-//         sendErrorResponse(400, "Malformed multipart section");
-//         return;
-//     }
-//     std::string fileContent = _requestPayload.substr(contentStart, contentEnd - contentStart);
-    
-//     // Save file content
-//     std::ofstream outFile(filePath.c_str(), std::ios::binary);
-//     if (!outFile.is_open())
-//     {
-//         sendErrorResponse(500, "Internal Server Error: Unable to open file for writing");
-//         return;
-//     }
-//     outFile.write(fileContent.c_str(), fileContent.size());
-//     outFile.close();
-//     sendResponse(200, "OK", "Multipart file uploaded successfully");
-// }
 
 void Client::handleMultipartFormData(const std::string &path, const std::string &boundary)
 {
@@ -538,7 +474,8 @@ void Client::handleDeleteRequest(const std::string &path)
    
     // Check if the request path starts with "/upload"
     std::string fullPath;
-    if (path.find("/upload/") == 0) {
+    if (path.find("/upload/") == 0)
+    {
         location_t locationConfig = _server.getLocationConfig(std::string("/upload"));
         
         // Check if the requested method is allowed in the location block
@@ -559,7 +496,8 @@ void Client::handleDeleteRequest(const std::string &path)
         }
         fullPath = this->_server.getRoot() + "/upload/" + path.substr(8); // Construct the path for files in the upload directory
     }
-    else {
+    else
+    {
         location_t locationConfig = _server.getLocationConfig(std::string("/"));
         
         // Check if the requested method is allowed in the location block

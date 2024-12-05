@@ -31,13 +31,10 @@ class Client
 		std::string	_resourcePath; ///< Path to the resource (e.g., ../site/page).
 		std::string	_method; ///< The HTTP method (e.g., GET, POST, DELETE).
 		std::string	_requestPayload; ///< Payload of the request (body for POST)
-		//std::string _parsedPayload; ///< Parsed payload for chuncked POST requests
 		std::map<std::string, std::string>	_headers; ///< HTTP headers of the request.
 		bool		_isChunked; ///< Indicates if the request uses chunked transfer encoding.
 
-		
-	/** bool		validateHeaders(const std::string& method, const std::string& path, const std::string& version)
-		*/		
+			
 		void		handleGetRequest(const std::string& path); ///< Handles GET requests.
 		void		handlePostRequest(const std::string& path); ///< Handles POST requests.
 		void		handleDeleteRequest(const std::string& path); ///< Handles DELETE requests.
@@ -52,7 +49,6 @@ class Client
 		bool		isCgiPath(const std::string& filePath, const location_t& locationConfig) const; ///< Checks if a file is a CGI script
 		bool		fileExists(const std::string& path); ///< used for DELETE requests
 		void		uploadFile(const std::string &path); ///< Handles file uploads
-		//void		executeCgi(const std::string& cgiPath, const std::string& filePath, const std::string &method, const std::string &queryString, const std::string &body, const std::string &pathInfo, const std::string &pathTranslated); ///< Executes CGI scripts
 		std::string	executeCgi(const std::string &cgiPath, const std::string &method, const std::string &queryString, 
 								const std::string &body, const std::string &pathInfo, const std::string &scriptFileName);
 		bool		isUrlValid(const std::string &url) const; ///< Checks if a URL chars are valid
@@ -64,10 +60,7 @@ class Client
 		int			_checkLocation(std::string &root, std::string &resource, size_t loopCount);
 		long		_parseContentLength(const std::string &contentLengthStr) const;
 		bool		parseChunkedPayload(std::stringstream &ss);
-		void		appendChunk(const std::string& chunk);
-		bool		isChunkTimeout() const;
 		bool		isChunkComplete() const;
-		void		ensureDirectoryExists(const std::string &directory);
 
 		Client();
 
@@ -78,8 +71,7 @@ class Client
 		void		appendRequest(char const *buffer, size_t size);
 		bool		isTimeout() const;
 		bool		clientIsReadyToReceive() const;
-		// void		sendResponseToClient();
-		void		handleClientRequest(); //Janneta's function
+		void		handleClientRequest();
 
 		//getters and setters
 		const std::string& 	getRequest() const;
