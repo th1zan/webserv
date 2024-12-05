@@ -66,8 +66,7 @@ void	Parser::_checkDirectiveValue(){
 	//then check other directive
 	for (std::map<std::string, std::string>::iterator it = _tempServerConfigMap.begin(); it != _tempServerConfigMap.end(); ++it) {
 		if (it->second == SERVER) {
-			//_checkServer should chekc the closing parenthesis, but it's already done before
-			// this->_checkServer();
+			//_checkServer should check the closing parenthesis, but it's already done before
 			continue;
 		}
 		else if (it->first == LISTEN) {
@@ -108,12 +107,12 @@ void Parser::_checkRoot(std::string& dirValue) {
 	this->_delEndSemiColon(dirValue);
 	this->_checkPath(dirValue, true);
 }
+
 /**
  * The function `_checkListen` validates if a given string represents a valid port number within
  * the range of 0 to 65535.
  * 
  */
-
 void Parser::_checkListen(std::string& dirValue) {
 		// delete ending ';' if necessary to get a cleaner string later
 		this->_delEndSemiColon(dirValue);
@@ -216,6 +215,7 @@ void Parser::_checkIndex(std::string& dirValue) {
 	}
 	close(fd);
 }
+
 /**
  * The function `_checkMaxSize` in C++ parses a string representing a size value with optional units
  * (K, M, G) and checks if it is within a specified range.
@@ -334,16 +334,9 @@ void Parser::_checkErrorP(std::string& dirValue) {
 	// Extract all values into a vector
 	std::vector<std::string> values;
 	while (iss >> tmpErrorP) {
-		//DEBUG
-		// std::cout << "in : _checkErrorP():: tmpErrorP: " << tmpErrorP << std::endl;
 		values.push_back(tmpErrorP);
 	}
 	
-	//DEBUG : normally this condition is not necessary, to delete before production
-	if (values.empty()) {
-	throw std::runtime_error("Error: No values provided");
-	}
-
 	// Check all values except the last one
 	for (size_t i = 0; i < values.size() - 1; ++i) {
 		if (!this->_isNumber(values[i])) {
