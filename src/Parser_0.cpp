@@ -74,8 +74,7 @@ void Parser::_parseFile() {
     while (iss >> word)
       wordsVect.push_back(word);
 
-    // Analyze token's wordsVect to define token's category and push it to
-    // _tokensList
+    // Analyze token's wordsVect to define token's category and push it to _tokensList
     Token tmpToken;
 
     if (wordsVect.empty()) {
