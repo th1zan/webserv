@@ -42,7 +42,7 @@ else:
     result_message = "Invalid input! Please enter your weight and height."
 
 # Output the headers and HTML
-print("Content-type:text/html")
+# print("Content-type:text/html")
 print()
 print("<html>")
 print("<head>")

@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:33:27 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/12/02 20:43:59 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/05 00:54:04 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ private:
     std::vector<std::string> _environmentVars; ///< CGI environment variables
 
     void setEnvironment(); ///< Prepares CGI environment variables
+    //std::string extractBoundary(const std::string &requestBody); ///< Extracts the boundary string from a multipart/form-data request
+
 
 public:
-    // CGI(const std::string &scriptPath, const std::string &method, const std::string &queryString, 
-    //     const std::string &body, const std::string &pathInfo, const std::string &pathTranslated);
-	public:
+
     CGI(const std::string &scriptPath, const std::string &method, 
         const std::string &queryString, const std::string &requestBody,
         const std::string &pathInfo, const std::string &scriptFileName);

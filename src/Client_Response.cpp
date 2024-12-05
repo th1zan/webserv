@@ -6,7 +6,7 @@
 /*   By: zsoltani <zsoltani@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:09:12 by zsoltani          #+#    #+#             */
-/*   Updated: 2024/11/30 22:54:03 by zsoltani         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:32:58 by zsoltani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,6 @@ void Client::sendRedirectResponse(int statusCode, const std::string &location)
  * @param [in] statusCode The HTTP status code indicating the error (e.g., 404, 500).
  * @param [in] statusMessage The HTTP status message describing the error.
  */
-
-// TODO: Add custom error pages - 400, 403, 404, 405, 411, 413, 415, 500, 501
-// log error message?
-// maybe make a map for all those error codes to avoid so many if else
 void Client::sendErrorResponse(int statusCode, const std::string &statusMessage)
 {
     std::string customErrorPagePath;
