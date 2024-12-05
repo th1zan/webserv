@@ -47,6 +47,11 @@ Server::Server(std::vector<Server>&	_serversVector, std::map<std::string, std::s
 	{
 		this->_getLocationStruct();
 	}
+  else
+  {
+    //if any location bloc, use it the default location bloc
+    this->_LocationMap["/"] = _getDefaultLocation();
+  }
 
 	//check if there is other instance of server with the same `_host` `_port`
 	this->_isPrimary = this->_checkPrimaryServer(_serversVector);
@@ -278,7 +283,7 @@ location_t Server::_getDefaultLocation() const
     tmpLoc.cgiPath = "";
     tmpLoc.root = "/";
     // tmpLoc.redirect_path = "",
-    // tmpLoc.methods.push_back(method);
+    tmpLoc.methods.push_back("GET");
     // tmpLoc.redirect_err = "302";
     // tmpLoc.cgiExtension = itMap->find("cgi_ext")->second;
     // tmpLoc.tryFile = "";
