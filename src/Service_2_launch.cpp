@@ -15,6 +15,8 @@
  * until a shutdown signal is received.
  */
 void Service::launch() {
+  printInfo(LAUNCH_MSG, BLUE);
+
   while (g_shutdown == false) {
     // init the list (table) of polling sockets
     this->_initPollingVector();
@@ -142,8 +144,7 @@ void Service::_acceptConnection() {
   // fctnl() can set socket to non-blocking
   fcntl(this->_tmpServiceInfo.connectionSocketFd, F_SETFL, O_NONBLOCK);
 
-  // push a new (instance of) Client "linked" to the server (with the serverID
-  // and the socket fd) in the Client vector
+  // push a new (instance of) Client "linked" to the server (with the serverID and the socket fd) in the Client vector
   this->_clientVector.push_back(
       Client(this->_serversVector.at(this->_tmpServiceInfo.serverID),
              this->_tmpServiceInfo.connectionSocketFd));
@@ -166,10 +167,6 @@ void Service::_readDataFromClient() {
 	{
 		// Append the received data to the client's request
         this->_clientVector.at(this->_tmpServiceInfo.clientID).appendRequest(buffer, bytes);
-
-        // DEBUG: Log the received buffer and bytes read
-        std::cout << "[DEBUG] Received " << bytes << " bytes from client ID " 
-                  << this->_tmpServiceInfo.clientID << ": " << std::string(buffer, bytes) << std::endl;
 	}
 	if (bytes == 0) // Client disconnected
     {
@@ -183,7 +180,6 @@ void Service::_readDataFromClient() {
                   << this->_tmpServiceInfo.clientID 
                   << " (errno: " << errno << ")." << std::endl;
 		if (errno == EAGAIN || errno == EWOULDBLOCK) {
-            std::cerr << "[DEBUG] Socket temporarily unavailable. Retrying..." << std::endl;
             return; // Retry mechanism for non-blocking socket
         }
 		std::cerr << "[ERROR] recv failed (errno: " << errno << ")." << std::endl;
@@ -225,8 +221,7 @@ void Service::_sendDataToClient() {
     return;
   }
 
-  // check if the client is ready to receive datas from server (=has finish to
-  // send)
+  // check if the client is ready to receive datas from server (=has finish to send)
   if (!this->_clientVector.at(this->_tmpServiceInfo.clientID)
            .clientIsReadyToReceive())
     return;
@@ -235,7 +230,6 @@ void Service::_sendDataToClient() {
   this->_checkRequestedServer();
 
   // send
-  //  this->_clientVector.at(this->_tmpServiceInfo.clientID).sendResponseToClient();
   this->_clientVector.at(this->_tmpServiceInfo.clientID).handleClientRequest();
 
   this->_closeConnection(EMPTY_MSG);
@@ -292,12 +286,8 @@ void Service::_checkRequestedServer() {
   Server defaultServer =
       this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
 
-  // Find if the requested host from the HTTP request corresponds to one of the
-  // server's names
+  // Find if the requested host from the HTTP request corresponds to one of the server's names
   std::vector<std::string> serverNames = defaultServer.getServerNameVector();
-  // DEBUG
-  std::cout << "in _checkRequestedServer:: defaultServer.serverNames: ";
-  printVector(serverNames);
   if (std::find(serverNames.begin(), serverNames.end(), requestedHost) !=
       serverNames.end()) {
     return; // Already using the correct server, exit
@@ -308,9 +298,6 @@ void Service::_checkRequestedServer() {
   std::vector<Server>::iterator itServer = this->_serversVector.begin();
   for (; itServer != this->_serversVector.end(); ++itServer) {
     Server tmp = *itServer;
-    // DEBUG
-    std::cout << "in _checkRequestedServer::change defaultServer.serverNames: ";
-    printVector(serverNames);
     // Store the server names in a local variable
     std::vector<std::string> serverNames = tmp.getServerNameVector();
 
