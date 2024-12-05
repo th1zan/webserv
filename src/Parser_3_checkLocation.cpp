@@ -29,8 +29,7 @@ void Parser::_checkLocDirName() {
        itVec != this->_tempLocationMapVector.end(); itVec++) {
     _tempLocationConfigMap = *itVec;
 
-    // No need to control LOCATION parameter and any mandatory parameters for
-    // location
+    // No need to control LOCATION parameter and any mandatory parameters for location
     //  std::string const mandatoryParam[] = {LOCATION};
 
     // forbiden = Location parameter
@@ -150,10 +149,6 @@ void Parser::_checkLocation(std::string &dirValue) {
                                dirValue[dirValue.size() - 1] == '{')) {
     dirValue.erase(dirValue.size() - 1);
   }
-
-  // if (dirValue.empty() || dirValue[0] != '/') {
-  // 	throw std::runtime_error(ERR_LOCATION(dirValue));
-  // }
 }
 
 /**
@@ -333,11 +328,10 @@ void Parser::_checkCgiP(std::string &dirValue,
 
     // Get info
     if (stat(filePath.c_str(), &fileInfo) == 0) {
-      // check if the file is regular (not a directory and not a link/alias) AND
-      // executable
+      // check if the file is regular (not a directory and not a link/alias) AND executable
       if ((fileInfo.st_mode & S_IFREG) && (fileInfo.st_mode & S_IXUSR)) {
         locMap[HAS_CGI] =
-            "true"; // Modification directement dans locationConfigMap
+            "true"; // modification of the string in locationConfigMap()
         break;
       }
     } else {
@@ -360,10 +354,7 @@ void Parser::_checkCgiE(std::string &dirValue) {
   // Delete ending ';' if necessary to get a cleaner string later
   this->_delEndSemiColon(dirValue);
 
-  // list of supported extension (created in a dedicated function
-  // 'getSupportedExtensions')
-  //  const std::set<std::string> supportedExtensions = {".cgi", ".pl", ".py",
-  //  ".sh", ".php"}; //initilisation list not possible in CPP98
+  // list of supported extension (created in a dedicated function 'getSupportedExtensions')
   const std::set<std::string> &supportedExtensions = getSupportedExtensions();
 
   // check if there is a '.'
@@ -387,72 +378,3 @@ std::set<std::string> Parser::getSupportedExtensions() {
   return extensions;
 }
 
-/*******************************************/
-// Following functions are probably not needed
-//- isValidUrl
-//- urlExists
-/*******************************************/
-
-/*
-bool isValidUrl(const std::string& url) {
-        // Check if the URL starts with "http://" or "https://"
-        if (url.substr(0, 7) != "http://" && url.substr(0, 8) != "https://") {
-                return false;
-        }
-
-        size_t pos = url.find("://");
-        if (pos == std::string::npos) {
-                return false; // "://" not found
-        }
-
-        // Check for a valid domain (simplified, allows letters, digits, dots,
-and hyphens) size_t start = pos + 3; // Move past "://" size_t end =
-url.find('/', start); if (end == std::string::npos) { end = url.length(); // No
-path found, use end of string
-        }
-
-        std::string domain = url.substr(start, end - start);
-        for (size_t i = 0; i < domain.length(); ++i) {
-                char c = domain[i];
-                if (!std::isalnum(c) && c != '.' && c != '-') {
-                        return false; // Invalid character in domain
-                }
-        }
-
-        // Check if an optional port is present
-        size_t port_pos = domain.find(':');
-        if (port_pos != std::string::npos) {
-                std::string port = domain.substr(port_pos + 1);
-                for (size_t i = 0; i < port.length(); ++i) {
-                        if (!std::isdigit(port[i])) {
-                                return false; // Port contains non-digit
-characters
-                        }
-                }
-        }
-
-        return true; // URL is valid
-}
-
-#include <curl/curl.h>
-bool urlExists(const std::string& url) {
-        CURL* curl = curl_easy_init();
-        if (!curl) return false;
-
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_NOBODY, 1L); // don't need the body of
-the response curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L); // Timeout 10 sec
-
-        // delete request
-        CURLcode res = curl_easy_perform(curl);
-
-        // check the answer
-        long responseCode;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
-
-        curl_easy_cleanup(curl);
-
-        // check if answer is 200 (OK)
-        return (res == CURLE_OK && responseCode == 200);
-}
-*/
