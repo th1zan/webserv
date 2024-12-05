@@ -66,7 +66,7 @@ extern bool	g_shutdown;
 #define POLLNVAL_MSG					"Connection closed. Error: POLLNVAL"
 #define CLOSE_MSG						"Connection closed"
 #define TIMEOUT_MSG						"Connection closed. Timeout"
-
+#define SETUP_MSG					  "Setting up servers..."
 // Parser check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
 #define ERR_FILE_CONF(confFile)			"'"+ confFile + "' is a invalid file\n\tFile must have a name and must be .conf"
