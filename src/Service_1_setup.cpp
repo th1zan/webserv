@@ -33,7 +33,7 @@
  */
 void Service::setup()
 {
-	// printInfo(SETUP_MSG, BLUE);
+	printInfo(SETUP_MSG, BLUE);
 	
 	std::vector<Server>::iterator server = this->_serversVector.begin();
 	for(; server != this->_serversVector.end(); server++)
