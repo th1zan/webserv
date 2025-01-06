@@ -6,6 +6,7 @@
 #include <csignal>
 #include <string>
 #include <cstring>
+#include <cstdlib>
 #include <iomanip>
 #include <ctime>
 #include <exception>
@@ -13,7 +14,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <regex>
+//#include <regex>
 #include <fcntl.h>
 #include <stdexcept>
 #include <cctype>
@@ -26,6 +27,10 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <poll.h>
+#include <limits>
+#include <algorithm>
+#include <sys/wait.h>
+
 
 // Global variables
 extern bool	g_shutdown;
@@ -61,7 +66,7 @@ extern bool	g_shutdown;
 #define POLLNVAL_MSG					"Connection closed. Error: POLLNVAL"
 #define CLOSE_MSG						"Connection closed"
 #define TIMEOUT_MSG						"Connection closed. Timeout"
-
+#define SETUP_MSG					  "Setting up servers..."
 // Parser check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
 #define ERR_FILE_CONF(confFile)			"'"+ confFile + "' is a invalid file\n\tFile must have a name and must be .conf"
@@ -101,6 +106,10 @@ extern bool	g_shutdown;
 #define ERR_ERR_CGI_DOT(extension)				"Extension '" + extension + "' must start with a point (.)" 
 #define ERR_ERR_CGI_EXT(extension)				"Unsupported CGI extension: '" + extension + "'" 
 
+// Maximum Limits
+#define MAX_LOOP_COUNT 10  // Define the maximum allowed loop iterations for location checks
+#define MAX_URI_LENGTH 2048 // adjust as needed
+
 //Setup Error
 #define ERR_SOCKET(server)						"failed to create network socket for server " + server
 
@@ -119,8 +128,8 @@ extern bool	g_shutdown;
 
 // Server parameters
 #define SERVER		"server"
-#define LISTEN		"listen"
-#define	HOST		"host"
+#define LISTEN		"listen_port"
+#define	HOST		"listen_host"
 #define INDEX		"index"
 #define MAX_SIZE	"client_max_body_size"
 #define SERVER_N	"server_name"
@@ -136,5 +145,6 @@ extern bool	g_shutdown;
 #define UPLOAD		"upload_to"
 #define CGI_P		"cgi_path"
 #define CGI_E		"cgi_ext"
+#define HAS_CGI		"hasCgi"
 
 #endif

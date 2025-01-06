@@ -7,68 +7,82 @@
 
 
 /**
- * @brief This function loop on the tokens and if the token's type is :
- * -  TK_SERVER then it gets the server's parameters from the next token and put them in a temporay Server instance.
- * -  TK_LOCATION then it gets the locations's parameters from the next token and put them in a temporay Location map.
- * 
- * At the end instantiate a server with the temp Server and temp Location map.
+ * The function `_checkInputArg` checks the input arguments, sets the configuration file path, extracts
+ * the configuration file name, and verifies the file extension.
  * 
  */
-void Parser::_getConfigFromTokens(){
-	//DEBUG
-	// std::cout << "in :: '_getConfigFromTokens': " << std::endl;
+void Parser::_checkInputArg(int argc, char **argv){
+	//1.check argument
+	if (argc > 2)
+		throw std::runtime_error(ERR_ARG);
+	else if (argc == 2)
+		this->_confFilePath = argv[1];
+	else
+		this->_confFilePath = DEFAULT_CONF;
 
-	this->_nbLine++;
-	//We are afer a SERVER token so in a server bloc. Now we seeks TOKEN or LOCATION
-	for (;this->_nbLine< this->_tokensVector.size(); this->_nbLine++) {
-		
-		//DEBUG
-		// std::cout << "[BEGIN] print _nbline: " << this->_nbLine 
-		// << ", .type: " << _tokensVector[this->_nbLine].type
-		// << ", .value: " << _tokensVector[this->_nbLine].value
-		// << std::endl;
-		
-		if (this->_tokensVector[this->_nbLine].type == TK_TOKEN)
-		{
-			//DEBUG
-			// std::cout << "[GO TO] TOKEN" << std::endl;
+	//2.get configuration file name
+	std::string confFilename;
+	size_t lastSlash;
 
-			this->_getServerParam();
-		}
-		else if (this->_tokensVector[this->_nbLine].type == TK_LOCATION)
-		{
-			//DEBUG
-			// std::cout << "[GO TO] LOCATION" << std::endl;
-
-			this->_getLocationParam();
-
-			//add the _tempServerConfigMap.LocationMap to _tempLocationMapVector
-			this->_tempLocationMapVector.push_back(this->_tempLocationConfigMap);
-			
-			
-			//DEBUG
-			// std::cout << "new _tempLocationConfigMap:" << std::endl;
-			// printMap(_tempLocationConfigMap);
-
-
-			this->_tempLocationConfigMap.clear();
-		}
-		else if (this->_tokensVector[this->_nbLine].type == TK_SERVER){
-			//DEBUG
-			// std::cout << "[RETURN] END SERVER BLOC" << std::endl;
-			return;//end of server bloc
-		}
-		
-		//DEBUG
-		// std::cout << "[END] print _nbline: " << this->_nbLine 
-		// << ", .type: " << _tokensVector[this->_nbLine].type
-		// << ", .value: " << _tokensVector[this->_nbLine].value
-		// << std::endl;
-	}
+	lastSlash = this->_confFilePath.find_last_of("/");
+	if (lastSlash == std::string::npos) //any name
+		confFilename = this->_confFilePath;
+	else
+		confFilename = this->_confFilePath.substr(lastSlash + 1);
 	
+	//3.check extension
+	std::string extension;
+	size_t lastDot;
+	lastDot = confFilename.find_last_of(".");
+	if (lastDot != std::string::npos)
+		extension = confFilename.substr(lastDot + 1);
+	else
+		extension = "";
+	if(extension != "conf")
+		throw std::runtime_error(ERR_FILE_CONF(confFilename));
 	
 }
 
+/**
+ * @brief The function `_getConfigFromTokens` parses tokens to extract server and location configurations.
+ * 
+ * This function loop on the tokens and if the token's type is :
+ * - `TK_SERVER` then it gets the server's parameters from the next token and put them in a temporay Server instance.
+ * - `TK_LOCATION` then it gets the locations's parameters from the next token and put them in a temporay Location map.
+ * 
+ * @return The `Parser::_getConfigFromTokens()` function returns when it encounters a `TK_SERVER`
+ * token, indicating the end of the server block.
+ */
+void Parser::_getConfigFromTokens(){
+	//next line after a Server Token
+	this->_nbLine++;
+
+	//We are afer a SERVER token so in a server bloc. Now we seeks TOKEN or LOCATION
+	for (;this->_nbLine< this->_tokensVector.size(); this->_nbLine++) {
+		if (this->_tokensVector[this->_nbLine].type == TK_TOKEN)
+		{
+				this->_getServerParam();
+		}
+		else if (this->_tokensVector[this->_nbLine].type == TK_LOCATION)
+		{
+			this->_getLocationParam();
+			this->_tempLocationMapVector.push_back(this->_tempLocationConfigMap);
+			this->_tempLocationConfigMap.clear();
+		}
+		else if (this->_tokensVector[this->_nbLine].type == TK_SERVER)
+		{
+			return;//end of server bloc
+		}
+	}
+}
+
+/**
+ * The function `_getServerParam` parses tokens to extract server parameters until encountering a
+ * closing bracket or a location token.
+ * 
+ * @return when it reaches the end of the Server block, indicated by encountering a close bracket or a
+ * location token.
+ */
 void Parser::_getServerParam(){
 	for (;this->_nbLine< this->_tokensVector.size(); this->_nbLine++) {
 				
@@ -76,32 +90,50 @@ void Parser::_getServerParam(){
 			|| this->_tokensVector[this->_nbLine].type == TK_LOCATION)
 		{
 				this->_nbLine = this->_nbLine-1;
-				return;//end of Server bloc
+				return;
 		}
-
 		//put the parameters in a map . 
 		this->_getParamFromToken(TK_SERVER);
 	}
 }
 
+/**
+ * The function `_getLocationParam` iterates through tokens until a closing bracket is found,
+ * extracting parameters of type `TK_LOCATION` into a map.
+ */
 void Parser::_getLocationParam(){
 	for (;this->_nbLine< this->_tokensVector.size(); ++this->_nbLine) {
 			
 		if (this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET)
-			break;//end of Location bloc
-
+			break;
 		//put the parameters in a map
 		this->_getParamFromToken(TK_LOCATION);
 	}
 
 }
 
+/**
+ * The function `_delEndSemiColon` removes the last character (semicolon) from a given string if it is
+ * present.
+ * 
+ * @param s The parameter `s` is a reference to a `std::string` object.
+ */
 void Parser::_delEndSemiColon(std::string& s){
 	// delete last character (;)
-	if (!s.empty() && s.back() == ';')
-			s.pop_back();
+	if (!s.empty() && s[s.size() - 1] == ';')
+			s.erase(s.size() - 1);
 }
 
+/**
+ * The function checks if a given string consists only of numerical digits.
+ */
+bool Parser::_isNumber(const std::string& str) {
+		for (std::string::const_iterator it = str.begin(); it != str.end(); ++it) {
+			if (!std::isdigit(*it))
+				return false;
+		}
+		return true;
+}
 
 /**
  * @brief Extracts and processes a parameter (= directive) from the current token, store it in a temporary map
@@ -123,11 +155,7 @@ void Parser::_delEndSemiColon(std::string& s){
  *    `_tempLocationConfigMap` (for TK_LOCATION).
  * 6. Clears `dirName` and `dirValue` to prepare for the next invocation.
  */
-
 void Parser::_getParamFromToken(int enumToken){
-	
-	//DEBUG
-	// std::cout << "in :: '_getParamFromToken'::" << std::endl;
 
 	if (this->_tokensVector[this->_nbLine].type == TK_EMPTY
 	|| this->_tokensVector[this->_nbLine].type == TK_CLOSE_BRACKET
@@ -135,15 +163,6 @@ void Parser::_getParamFromToken(int enumToken){
 		return;
 
 	std::string line = this->_tokensVector[this->_nbLine].value;
-	 //DEBUG
-	// std::cout << "print _nbline: " << this->_nbLine 
-	// << ", enumToken: " << enumToken
-	// << ", _tokensVector[this->_nbLine].type: " << _tokensVector[this->_nbLine].type
-	// << ", _tokensVector[this->_nbLine].value: " << _tokensVector[this->_nbLine].value
-	// << std::endl;
-
-
-
 	std::istringstream iss(line);
 	std::string dirName, dirValue;
 	
@@ -151,16 +170,12 @@ void Parser::_getParamFromToken(int enumToken){
 
 	//get first and second word (of each line) as a directives' name and value
 	iss >> dirName;
-	// iss >> dirValue;
 
 	//go through the spaces
 	while (iss.peek() == ' ')
 		iss.get();
 	// get the rest of the line (the value)
 	std::getline(iss, dirValue);
-
-	//DEBUG
-	// std::cout << "in: '_getParamFromToken': dirName= '" << dirName << "', dirValue= '" << dirValue << "'" <<std::endl;
 
 	//check each directives'name
 	if (dirName != ALLOW_M && dirName != AUTOID && dirName != CGI_E && dirName != CGI_P &&
@@ -171,14 +186,16 @@ void Parser::_getParamFromToken(int enumToken){
 		throw std::runtime_error(ERR_INVALID_KEY(line));
 	}
 
+	/*
+		map each token in a _tempServerConfigMap or a _tempLocationConfigMap
 
-	//No more checks here.	
-
-	//DEBUG
-	// std::cout << "in: '_getParamFromToken':: enumToken: " << enumToken << ", dirName= '"<< dirName << "', dirValue= '" << dirValue << "'" <<std::endl;
-
-	//map each token in a _tempServerConfigMap or a _tempLocationConfigMap
-	if (enumToken == TK_SERVER)
+		The ERROR_P case is special because we could parse multiple times the directive for each kind of error.
+		So we give it a unique "map's key" to not delete it after each occurence.
+	*/
+	
+	if (enumToken == TK_SERVER && dirName == ERROR_P)
+		this->_tempServerConfigMap[dirName + dirValue] = dirValue; 
+	else if (enumToken == TK_SERVER)
 		this->_tempServerConfigMap[dirName] = dirValue;
 	else if (enumToken == TK_LOCATION){
 		this->_tempLocationConfigMap[dirName] = dirValue;
@@ -187,35 +204,3 @@ void Parser::_getParamFromToken(int enumToken){
 	dirValue.clear();
 }
 
-
-void Parser::_checkInputArg(int argc, char **argv){
-	//1.check argument
-	if (argc > 2)
-		throw std::runtime_error(ERR_ARG);
-	else if (argc == 2)
-		this->_confFilePath = argv[1];
-	else
-		this->_confFilePath = DEFAULT_CONF;
-
-	//2.get configuration file name
-	std::string confFilename;
-	size_t lastSlash;
-
-	lastSlash = this->_confFilePath.find_last_of("/");
-	if (lastSlash == std::string::npos) //aucun nom
-		confFilename = this->_confFilePath;
-	else
-		confFilename = this->_confFilePath.substr(lastSlash + 1);
-	
-	//3.check extension
-	std::string extension;
-	size_t lastDot;
-	lastDot = confFilename.find_last_of(".");
-	if (lastDot != std::string::npos)
-		extension = confFilename.substr(lastDot + 1);
-	else
-		extension = "";
-	if(extension != "conf")
-		throw std::runtime_error(ERR_FILE_CONF(confFilename));
-	
-}

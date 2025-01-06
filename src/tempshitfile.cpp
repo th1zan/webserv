@@ -1,70 +1,69 @@
-void Client::handleClientRequest()
+void Service::_checkRequestedServer()
 {
-	std::istringstream requestStream(this->_request);
-	std::string method, path, version;
-	requestStream >> method >> path >> version;
+    // 1. Get the client's request (to know who is the requested server)
+    std::string request = this->_clientVector.at(this->_tmpServiceInfo.clientID).getRequest();
+    std::string requestedHost;
+    size_t pos;
 
-	// Identifier le bloc location correspondant
-	Location selectedLocation = this->_server.findMatchingLocation(path);
+    // 2. Get the "host key" in the request
+    if ((pos = request.find(REQUEST_HOST)) != std::string::npos)
+    {
+        // 3. Get the server name in the "host key"
+        requestedHost = request.substr(pos + std::strlen(REQUEST_HOST));
+        if ((pos = requestedHost.find(CURSOR_NEWLINE)) != std::string::npos)
+            requestedHost = requestedHost.substr(0, pos);
+    }
+    else
+    {
+        // If REQUEST_HOST is not found, exit the function
+        return;
+    }
 
-	// Vérifier si la méthode est autorisée dans cette location
-	if (!selectedLocation.isMethodAllowed(method)) {
-		const char* methodNotAllowedResponse = "HTTP/1.1 405 Method Not Allowed\r\nContent-Length: 23\r\n\r\n405 Method Not Allowed";
-		send(this->_socket, methodNotAllowedResponse, strlen(methodNotAllowedResponse), 0);
-		return;
-	}
+    // Remove port number from the server name
+    if ((pos = requestedHost.find(":")) != std::string::npos)
+        requestedHost = requestedHost.substr(0, pos);
 
-	// Vérification pour les requêtes GET, POST et DELETE
-	if (method == "GET") {
-		// Construire le chemin du fichier
-		std::string filePath = this->_server.getRoot() + path;
+    // Get the server associated with the client by default
+    Server defaultServer = this->_clientVector.at(this->_tmpServiceInfo.clientID).getServer();
 
-		// Si "try_file" est spécifié et que le fichier n'existe pas, essaie de charger ce fichier à la place
-		if (selectedLocation.hasTryFile() && !std::ifstream(filePath)) {
-			filePath = this->_server.getRoot() + selectedLocation.getTryFile();
-		}
+    // DEBUG
+    std::vector<std::string> serverNames = defaultServer.getServerNameVector();
+    if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
+        // DEBUG
+        std::cout << "in '_checkRequestedServer':: VALID client's default host: '"
+                  << requestedHost << "' is found in default server's names." << std::endl;
+        return; // Already using the correct server, exit
+    } else {
+        std::cout << "Requested host '" << requestedHost << "' not found in default server's names." << std::endl;
+    }
 
-		// Autoindex
-		if (selectedLocation.isAutoIndexEnabled() && path == "/") {
-			// Gérer l'affichage de l'autoindex ici
-			// Par exemple : génère une liste de fichiers et de répertoires
-		}
+    // DEBUG
+    std::cout << "in '_checkRequestedServer':: UPDATE the client's server: " << requestedHost << std::endl;
 
-		// Envoie du fichier si trouvé
-		std::ifstream file(filePath);
-		if (file.is_open()) {
-			std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-			std::ostringstream response;
-			response << "HTTP/1.1 200 OK\r\n";
-			response << "Content-Length: " << fileContents.size() << "\r\n";
-			response << "\r\n";
-			response << fileContents;
-			send(this->_socket, response.str().c_str(), response.str().size(), 0);
-		} else {
-			const char* notFoundResponse = "HTTP/1.1 404 Not Found\r\nContent-Length: 13\r\n\r\n404 Not Found";
-			send(this->_socket, notFoundResponse, strlen(notFoundResponse), 0);
-		}
-	} else if (method == "POST") {
-		// Gérer l'upload de fichiers dans la location spécifiée
-		if (selectedLocation.hasUploadPath()) {
-			// Gérer le téléchargement vers l'emplacement `upload_to`
-		} else {
-			const char* postResponse = "HTTP/1.1 200 OK\r\nContent-Length: 7\r\n\r\nPOST OK";
-			send(this->_socket, postResponse, strlen(postResponse), 0);
-		}
-	} else if (method == "DELETE") {
-		// Supprimer un fichier selon le chemin donné
-		std::string filePath = this->_server.getRoot() + path;
-		if (std::remove(filePath.c_str()) == 0) {
-			const char* deleteResponse = "HTTP/1.1 200 OK\r\nContent-Length: 12\r\n\r\nFile Deleted";
-			send(this->_socket, deleteResponse, strlen(deleteResponse), 0);
-		} else {
-			const char* notFoundResponse = "HTTP/1.1 404 Not Found\r\nContent-Length: 13\r\n\r\n404 Not Found";
-			send(this->_socket, notFoundResponse, strlen(notFoundResponse), 0);
-		}
-	} else {
-		// Méthode non implémentée
-		const char* notImplementedResponse = "HTTP/1.1 501 Not Implemented\r\nContent-Length: 19\r\n\r\n501 Not Implemented";
-		send(this->_socket, notImplementedResponse, strlen(notImplementedResponse), 0);
-	}
+    // Loop on each server in the `_serversVector`
+    std::vector<Server>::iterator itServer = this->_serversVector.begin();
+    for (; itServer != this->_serversVector.end(); ++itServer) {
+        Server tmp = *itServer;
+
+        // Store the server names in a local variable
+        std::vector<std::string> serverNames = tmp.getServerNameVector();
+
+        // DEBUG
+        std::cout << "Checking server current server names: ";
+        for (std::vector<std::string>::const_iterator nameIt = serverNames.begin();
+             nameIt != serverNames.end(); ++nameIt) {
+            std::cout << "'" << *nameIt << "' ";
+        }
+        std::cout << std::endl;
+
+        if (std::find(serverNames.begin(), serverNames.end(), requestedHost) != serverNames.end()) {
+            _clientVector.at(_tmpServiceInfo.clientID).changeServer(*itServer);
+
+            // DEBUG
+            std::cout << "FOUND a matching server for the requested host: '" << requestedHost << "'" << std::endl;
+            return;
+        }
+    }
+    // DEBUG
+    std::cout << "No matching server found for the requested host: '" << requestedHost << "'" << std::endl;
 }
